@@ -1,3 +1,4 @@
+import { heroui } from '@heroui/theme';
 import type { Config } from 'tailwindcss';
 
 const config = {
@@ -6,6 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './node_modules/@heroui/theme/dist/components/(button|ripple|spinner).js',
   ],
   prefix: '',
   theme: {
@@ -73,8 +75,14 @@ const config = {
       },
     },
   },
-  // Add plugins on styles/globals.css
-  // plugins: [require("tailwindcss-animate"), require("tailwindcss-motion")],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('tailwindcss-motion'),
+    require('@tailwindcss/container-queries'),
+    require('@tailwindcss/typography'),
+    require('tailwind-corner-smoothing'),
+    heroui(),
+  ],
 } satisfies Config;
 
 export default config;

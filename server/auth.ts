@@ -1,15 +1,14 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { CustomPgDrizzleAdapter } from '@/server/db/adapter';
 import {
-  getServerSession,
   type DefaultSession,
   type NextAuthOptions,
-} from "next-auth";
-import type { Adapter } from "next-auth/adapters";
-import DiscordProvider from "next-auth/providers/discord";
+  getServerSession,
+} from 'next-auth';
+import type { Adapter } from 'next-auth/adapters';
+import GoogleProvider from 'next-auth/providers/google';
 
-import { env } from "@/env";
-import { db } from "@/server/db";
-import { createTable } from "@/server/db/schema";
+import { env } from '@/env';
+import { db } from '@/server/db';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -17,13 +16,13 @@ import { createTable } from "@/server/db/schema";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   // interface User {
@@ -39,30 +38,73 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, user, newSession, trigger }) => ({
       ...session,
       user: {
+        ...user,
         ...session.user,
         id: user.id,
       },
     }),
   },
-  adapter: DrizzleAdapter(db, createTable) as Adapter,
+  session: { strategy: 'database' },
+  adapter: CustomPgDrizzleAdapter(db) as Adapter,
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
+  // session: { strategy: 'jwt' },
+  // callbacks: {
+  //   async jwt({ token, trigger, session, user, account, profile }) {
+  //     if (trigger === 'update' && session) return { ...token, ...session.user };
+
+  //     return { ...token, ...user };
+  //   },
+  //   async session({ session, token }) {
+  //     session.user = token;
+  //     return session;
+  //   },
+  // },
+  // providers: [
+  //   GoogleProvider({
+  //     clientId: env.GOOGLE_CLIENT_ID,
+  //     clientSecret: env.GOOGLE_CLIENT_SECRET,
+  //     // biome-ignore lint/suspicious/useAwait: <explanation>
+  //     profile: async (profile: GoogleProfile) => {
+  //       const { isSJCET: SJCET, data } = getDataFromMail(profile.email);
+
+  //       return {
+  //         id: profile.sub,
+  //         name: profile.name,
+  //         email: profile.email,
+  //         image: profile.picture,
+  //         email_verified: profile.email_verified,
+  //         // emailVerified: profile.email_verified,
+  //         role: 'USER',
+  //         asthraPass: false,
+  //         transactionId: '',
+  //         asthraCredit: 0,
+  //         number: null,
+  //         ...(SJCET && data
+  //           ? data
+  //           : {
+  //               department: 'NA',
+  //               year: 'NA',
+  //               college: SJCET ? 'SJCET' : 'NA',
+  //             }),
+  //       };
+  //     },
+  //   }),
+  // ],
+  theme: {
+    colorScheme: 'light',
+    buttonText: 'white',
+    brandColor: 'black',
+    logo: '/assets/logo_with_text.svg',
+  },
+  secret: env.NEXTAUTH_SECRET,
 };
 
 /**
