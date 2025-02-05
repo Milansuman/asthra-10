@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={'dark font-sans'}>
-        <div className="fixed top-0 left-0 h-screen w-screen">
+        <div className="fixed top-0 left-0 z-[-1] h-screen w-screen bg-background">
           <video
             src={'/glass.mp4'}
             autoPlay={true}

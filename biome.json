@@ -8,6 +8,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "suspicious": {
+        "noConsole": "off"
+      },
       "nursery": {
         "useSortedClasses": {
           "level": "warn",

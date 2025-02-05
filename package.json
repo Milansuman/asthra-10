@@ -41,7 +41,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "drizzle-orm": "^0.36.4",
+    "drizzle-orm": "^0.38.0",
     "drizzle-zod": "^0.7.0",
     "framer-motion": "^12.0.6",
     "heroui-cli": "^1.0.0",
