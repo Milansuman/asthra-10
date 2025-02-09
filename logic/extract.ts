@@ -128,17 +128,17 @@ export const getDataFromMail = (mail: string) => {
   return { SJCET: false, data: null };
 };
 
-console.log(
-  getDataFromMail('abcdxyz2025@ai.sjcetpalai.ac.in'),
-  getDataFromMail('abcdxyz2025.es@sjcetpalai.ac.in'),
-  getDataFromMail('abcd1234.xyz@sjcetpalai.ac.in'),
-  getDataFromMail('abcd.xyz@sjcetpalai.ac.in'),
-  getDataFromMail('abcd.xyz@mbcet.ac.in')
-);
-console.log(
-  getDataFromMailOld('abcdxyz2025@ai.sjcetpalai.ac.in'),
-  getDataFromMailOld('abcdxyz2025.es@sjcetpalai.ac.in'),
-  getDataFromMailOld('abcd1234.xyz@sjcetpalai.ac.in'),
-  getDataFromMailOld('abcd.xyz@sjcetpalai.ac.in'),
-  getDataFromMailOld('abcd.xyz@mbcet.ac.in')
-);
+// console.log(
+//   getDataFromMail('abcdxyz2025@ai.sjcetpalai.ac.in'),
+//   getDataFromMail('abcdxyz2025.es@sjcetpalai.ac.in'),
+//   getDataFromMail('abcd1234.xyz@sjcetpalai.ac.in'),
+//   getDataFromMail('abcd.xyz@sjcetpalai.ac.in'),
+//   getDataFromMail('abcd.xyz@mbcet.ac.in')
+// );
+// console.log(
+//   getDataFromMailOld('abcdxyz2025@ai.sjcetpalai.ac.in'),
+//   getDataFromMailOld('abcdxyz2025.es@sjcetpalai.ac.in'),
+//   getDataFromMailOld('abcd1234.xyz@sjcetpalai.ac.in'),
+//   getDataFromMailOld('abcd.xyz@sjcetpalai.ac.in'),
+//   getDataFromMailOld('abcd.xyz@mbcet.ac.in')
+// );

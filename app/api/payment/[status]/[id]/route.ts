@@ -12,7 +12,4 @@ async function Handler(
   );
 }
 
-export default {
-  POST: Handler,
-  GET: Handler,
-};
+export { Handler as GET, Handler as POST };
