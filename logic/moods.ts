@@ -16,10 +16,18 @@ export const extractInput = (input: z.infer<typeof eventAccessZod>) => {
   return eventAccessAfterLastDate.parse(input);
 };
 
+/**
+ *
+ * @returns true if editable
+ */
 export const allowEditing = () => {
   return Date.now() < AsthraLastEditDay.getTime();
 };
 
+/**
+ *
+ * @returns true if asthra has not started yet
+ */
 export const asthraNotStarted = () => {
   return Date.now() < AsthraStartsAt.getTime();
 };

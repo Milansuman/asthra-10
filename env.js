@@ -30,6 +30,9 @@ export const env = createEnv({
 
     HDFC_VERIFY_TXN: z.string(),
     VERIFY_PAYMENT_SJCET: z.string(),
+
+    UPSTASH_REDIS_URL: z.string().url(),
+    UPSTASH_REDIS_TOKEN: z.string(),
   },
 
   shared: {
@@ -74,6 +77,9 @@ export const env = createEnv({
     VERIFY_PAYMENT_SJCET: process.env.VERIFY_PAYMENT_SJCET,
     NEXT_PUBLIC_WEBSITE_URL: process.env.NEXT_PUBLIC_WEBSITE_URL,
     NEXT_PUBLIC_PAYMENT_GATEWAY: process.env.NEXT_PUBLIC_PAYMENT_GATEWAY,
+
+    UPSTASH_REDIS_URL: process.env.UPSTASH_REDIS_URL,
+    UPSTASH_REDIS_TOKEN: process.env.UPSTASH_REDIS_TOKEN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

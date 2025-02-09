@@ -27,23 +27,19 @@ import {
 import type { AdapterAccount } from 'next-auth/adapters';
 
 export const roleEnum = pgEnum('role', [
-  'USER',
   ...(Object.keys(allRoles) as AllRoles[]),
-]);
+] as [string]);
 export const departmentEnum = pgEnum('department', [
-  'NA',
   ...(Object.keys(allDepartments) as AllDepartments[]), // ai, cs, eee, mca, etc
-]);
+] as [string]);
 
 export const yearEnum = pgEnum('year', [
-  'NA',
   ...(Object.keys(allYears) as AllYears[]), // 2021, 2022, ...2027
-]);
+] as [string]);
 
 export const endTimeEnum = pgEnum('endTime', [
-  'NA',
   ...(Object.keys(endTime) as EndTime[]), // 2021, 2022, ...2027
-]);
+] as [string]);
 
 export const statusEnum = pgEnum('status', ['initiated', 'success', 'failed']);
 export const eventStatusEnum = pgEnum('eventStatusEnum', [
@@ -83,9 +79,11 @@ export const transactionsTable = pgTable(
       .notNull()
       .references(() => user.id),
 
-    eventId: uuid()
-      .notNull()
-      .references(() => eventsTable.id),
+    // eventId: uuid()
+    //   .notNull()
+    //   .references(() => eventsTable.id),
+
+    eventId: varchar({ length: 256 }).notNull(),
     eventName: varchar({ length: 256 }).notNull(),
 
     remark: text(),
