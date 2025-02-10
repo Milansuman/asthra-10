@@ -1,10 +1,11 @@
 import '@/styles/globals.css';
+import type { Metadata } from 'next';
+import { manifestData } from './manifest';
 import { Providers } from './providers';
 
-export const metadata = {
-  title: 'Asthra 9.0',
-  description:
-    "Asthra - The national level technical fest of St. Joseph's College of Engineering and Technology, Palai, framed with a vision to explore the possibilities of tomorrow.",
+export const metadata: Metadata = {
+  ...manifestData,
+  title: manifestData.name,
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 };
 

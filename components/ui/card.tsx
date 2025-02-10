@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { Glow } from './glow';
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -16,6 +17,23 @@ const Card = React.forwardRef<
   />
 ));
 Card.displayName = 'Card';
+
+const GlowCard = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { color?: string }
+>(({ className, color, ...props }, ref) => (
+  <Glow color={color} className="rounded-3xl">
+    <div
+      ref={ref}
+      className={cn(
+        'rounded-3xl border border-white/50 text-card-foreground backdrop-blur-xl',
+        className
+      )}
+      {...props}
+    />
+  </Glow>
+));
+GlowCard.displayName = 'GlowCard';
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
@@ -78,6 +96,7 @@ CardFooter.displayName = 'CardFooter';
 
 export {
   Card,
+  GlowCard,
   CardHeader,
   CardFooter,
   CardTitle,
