@@ -1,12 +1,18 @@
+import type { AllRoles } from '@/logic';
 import {
   eventsTable,
+  roleEnum,
   transactionsTable,
   user,
   userRegisteredEventTable,
 } from '@/server/db/schema';
 import { createSelectSchema } from 'drizzle-zod';
 import type { User } from 'next-auth';
-import { z } from 'zod';
+import { type ZodEnum, z } from 'zod';
+
+const roleEnumZod = createSelectSchema(roleEnum) as unknown as ZodEnum<
+  [AllRoles]
+>;
 
 export const eventZod = createSelectSchema(eventsTable);
 export const eventAccessZod = eventZod
@@ -48,15 +54,23 @@ export const eventAccessAfterLastDate = eventAccessZod.omit({
 
 export type EventType = z.infer<typeof eventZod>['eventType'];
 
-export const userZod = createSelectSchema(user);
+export const userZod = createSelectSchema(user)
+  .omit({
+    role: true,
+  })
+  .merge(
+    z.object({
+      role: roleEnumZod,
+    })
+  );
 export const userAccessZod = userZod.omit({
   createdAt: true,
   id: true,
   emailVerified: true,
   email: true,
+  role: true,
   updatedAt: true,
   transactionId: true,
-  role: true,
   asthraPass: true,
   image: true,
 });

@@ -1,4 +1,4 @@
-import { createTRPCRouter } from '@/server/api/trpc';
+import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc';
 import { asthraRouter } from './routers/asthraRouter';
 import { cronRouter } from './routers/cron';
 import { dashboardRouter } from './routers/dashboard';
@@ -28,3 +28,5 @@ export const appRouter = createTRPCRouter({
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+
+export const createCaller = createCallerFactory(appRouter);

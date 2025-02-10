@@ -26,20 +26,21 @@ import {
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccount } from 'next-auth/adapters';
 
-export const roleEnum = pgEnum('role', [
-  ...(Object.keys(allRoles) as AllRoles[]),
-] as [string]);
+export const roleEnum = pgEnum('role', [...Object.keys(allRoles)] as [
+  string,
+  AllRoles,
+]);
 export const departmentEnum = pgEnum('department', [
-  ...(Object.keys(allDepartments) as AllDepartments[]), // ai, cs, eee, mca, etc
-] as [string]);
+  ...Object.keys(allDepartments), // ai, cs, eee, mca, etc
+] as [string, AllDepartments]);
 
 export const yearEnum = pgEnum('year', [
-  ...(Object.keys(allYears) as AllYears[]), // 2021, 2022, ...2027
-] as [string]);
+  ...Object.keys(allYears), // 2021, 2022, ...2027
+] as [string, AllYears]);
 
 export const endTimeEnum = pgEnum('endTime', [
-  ...(Object.keys(endTime) as EndTime[]), // 2021, 2022, ...2027
-] as [string]);
+  ...Object.keys(endTime), // 2021, 2022, ...2027
+] as [string, EndTime]);
 
 export const statusEnum = pgEnum('status', ['initiated', 'success', 'failed']);
 export const eventStatusEnum = pgEnum('eventStatusEnum', [

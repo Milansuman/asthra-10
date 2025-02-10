@@ -65,11 +65,11 @@ export const asthraRouter = createTRPCRouter({
       const newData = paymentClientSide.parse({ ...data, hash });
 
       await tx.insert(transactionsTable).values({
-        eventId: ASTHRA.id as string,
+        eventId: ASTHRA.id,
         eventName: ASTHRA.name,
         id: transactionId,
-        userId: user.id,
-        userName: user.name ?? 'NA',
+        userId: userData.id,
+        userName: userData?.name ?? 'NA',
         status: 'initiated',
         amount: ASTHRA.amount,
         remark: `Initiated Asthra Pass on ${new Date().toLocaleString()}`,

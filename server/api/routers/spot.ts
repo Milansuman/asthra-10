@@ -76,9 +76,9 @@ export const spotRegister = createTRPCRouter({
           .values({
             id: transactionId,
             eventId: input.eventId,
-            userId: user.id,
+            userId: userData.id,
             eventName: event.name ?? 'Unknown Workshop/Competiton Name',
-            userName: user.name ?? 'NA',
+            userName: userData.name ?? 'NA',
             amount: event.amount,
             hash: input.spotReciptId ?? transactionId,
             remark: `Spot ${isAsthraPass ? 'ASTHRA PASS' : ''} registraion on ${new Date().toLocaleString()}`,
@@ -86,7 +86,7 @@ export const spotRegister = createTRPCRouter({
           })
           .returning();
 
-        if (event.id === ASTHRA.id && user.asthraPass) {
+        if (event.id === ASTHRA.id && userData.asthraPass) {
           throw getTrpcError('ALREADY_PURCHASED');
         }
 
