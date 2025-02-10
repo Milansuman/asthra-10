@@ -5,7 +5,7 @@ import { RedisClient } from './redis';
 const defauldExpire = 1 * 3600;
 const isCaching = !asthraNotStarted(); // cache only if asthra has started
 
-export const cache = {
+const cacheUtils = {
   async get<T>(key: string) {
     return await triedAsync(RedisClient.get<T>(key));
   },
@@ -17,7 +17,7 @@ export const cache = {
   },
 };
 
-export const cacheFunc = async <T>(
+const cacheFunc = async <T>(
   key: string,
   func: () => Promise<T>,
   expires?: number
@@ -26,7 +26,7 @@ export const cacheFunc = async <T>(
     return await triedAsync(func());
   }
 
-  const cached = await cache.get<T>(key);
+  const cached = await cacheUtils.get<T>(key);
   if (cached.isSuccess && cached.data) {
     return cached;
   }
@@ -34,8 +34,13 @@ export const cacheFunc = async <T>(
   const called = await triedAsync(func());
 
   if (called.isSuccess) {
-    cache.set(key, JSON.stringify(called.data), expires);
+    cacheUtils.set(key, JSON.stringify(called.data), expires);
   }
 
   return called;
+};
+
+export const cache = {
+  ...cacheUtils,
+  run: cacheFunc,
 };

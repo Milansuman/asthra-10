@@ -14,6 +14,7 @@ import superjson from 'superjson';
 import { ZodError } from 'zod';
 
 import { allowEditing } from '@/logic/moods';
+import { cache } from '@/server/cache';
 import { db } from '@/server/db';
 import { getTrpcError } from '../db/utils';
 
@@ -34,6 +35,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
 
   return {
     db,
+    cache,
     session,
     ...opts,
   };
@@ -102,6 +104,20 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session?.user) {
     throw getTrpcError('NOT_LOGGED_IN');
   }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+      role: ctx.session.user.role,
+    },
+  });
+});
+
+export const userOnlyProcedure = t.procedure.use(({ ctx, next }) => {
+  if (!ctx.session?.user) {
+    throw getTrpcError('NOT_LOGGED_IN');
+  }
+
   return next({
     ctx: {
       // infers the `session` as non-nullable
