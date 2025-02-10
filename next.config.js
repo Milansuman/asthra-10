@@ -9,7 +9,7 @@ await import('./env.js');
 /** @type {import("next").NextConfig} */
 const config = {
   experimental: {
-    typedRoutes: true,
+    // typedRoutes: true,
     reactCompiler: true,
     serverActions: {
       allowedOrigins: ['secure.payu.in', '*.payu.in'],
