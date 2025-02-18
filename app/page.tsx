@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import LoginButton from './_components/login';
 
 export default function Page() {
   return (
@@ -15,7 +16,8 @@ export default function Page() {
           <img src="/asthra.svg" alt="asthra logo" />
         </CardContent>
         <CardFooter className="flex justify-center">
-          <CardTitle>Coming Soon...</CardTitle>
+          {/* <CardTitle>Coming Soon...</CardTitle> */}
+          <LoginButton />
         </CardFooter>
       </Card>
     </div>
