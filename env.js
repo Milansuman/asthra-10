@@ -24,6 +24,25 @@ export const env = createEnv({
     ),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
+
+    NM_EMAIL: z.string(),
+    NM_PASS: z.string(),
+
+    HDFC_VERIFY_TXN: z.string(),
+    VERIFY_PAYMENT_SJCET: z.string(),
+
+    UPSTASH_REDIS_URL: z.string().url(),
+    UPSTASH_REDIS_TOKEN: z.string(),
+  },
+
+  shared: {
+    NEXT_PUBLIC_PAYMENT_GATEWAY: z.string(),
+    NEXT_PUBLIC_HDFC_KEY: z.string(),
+    NEXT_PUBLIC_HDFC_SALT: z.string(),
+    NEXT_PUBLIC_WEBSITE_URL: z.preprocess(
+      (str) => process.env.VERCEL_URL ?? str,
+      process.env.VERCEL ? z.string() : z.string().url()
+    ),
   },
 
   /**
@@ -44,8 +63,23 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+
+    NM_EMAIL: process.env.NM_EMAIL,
+    NM_PASS: process.env.NM_PASS,
+
+    NEXT_PUBLIC_HDFC_KEY: process.env.NEXT_PUBLIC_HDFC_KEY,
+    NEXT_PUBLIC_HDFC_SALT: process.env.NEXT_PUBLIC_HDFC_SALT,
+    HDFC_VERIFY_TXN: process.env.HDFC_VERIFY_TXN,
+
+    VERIFY_PAYMENT_SJCET: process.env.VERIFY_PAYMENT_SJCET,
+    NEXT_PUBLIC_WEBSITE_URL: process.env.NEXT_PUBLIC_WEBSITE_URL,
+    NEXT_PUBLIC_PAYMENT_GATEWAY: process.env.NEXT_PUBLIC_PAYMENT_GATEWAY,
+
+    UPSTASH_REDIS_URL: process.env.UPSTASH_REDIS_URL,
+    UPSTASH_REDIS_TOKEN: process.env.UPSTASH_REDIS_TOKEN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
