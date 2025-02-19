@@ -35,9 +35,8 @@ interface AsthraCardPreviewProps {
 
 interface PurchaseCardPreviewProps {
   data: Partial<z.infer<typeof eventZod>>;
-  features: string[];
   onView: () => void;
-  onBuy: () => void; 
+  onBuy: () => void;
 }
 
 export const AsthraCard: FC<AsthraCardProps> = ({ data }) => (
@@ -134,8 +133,8 @@ export const AddNewCard: React.FC = () => (
   <Card className="m-2">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="h-full w-full flex flex-col justify-center m-auto">
-          <p className="text-[5rem] leading-20 w-fit mx-auto">+</p>
+        <CardContent className="m-auto flex h-full w-full flex-col justify-center">
+          <p className="mx-auto w-fit text-[5rem] leading-20">+</p>
           <p className="w-fit mx-auto">Add new</p>
         </CardContent>
       </AlertDialogTrigger>
@@ -154,42 +153,53 @@ export const AddNewCard: React.FC = () => (
   </Card>
 );
 
-
-
-export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({ data, features, onView, onBuy }) => (
-  <Card className="m-2 max-w-sm bg-white  rounded-lg shadow-lg">
+export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
+  data,
+  onView,
+  onBuy,
+}) => (
+  <Card className="max-w-sm rounded-none bg-white shadow-lg">
     <CardHeader>
-      <CardTitle className="text-2xl font-semibold text-black">
+      <CardTitle className="font-semibold text-2xl text-black">
         {data.name}
       </CardTitle>
-      <CardDescription className="text-neutral-700">{data.description}</CardDescription>
+      <CardDescription className="text-neutral-700">
+        {data.description}
+      </CardDescription>
     </CardHeader>
     <CardContent className="flex flex-col items-center space-y-6">
       <Image
-        src="/asthra glass.png"
+        src={data.poster ?? '/asthra glass.png'}
         alt="Asthra Logo"
         width={300}
         height={200}
         className="my-4"
       />
-      <ul className="space-y-2 w-full text-black list-disc">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-center gap-2">
-            <span className="text-sm">{feature}</span>
-          </li>
-        ))}
+      <ul className="w-full list-disc space-y-2 pl-5 text-black">
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">{data.eventType}</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">Even cost : {data.amount}</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">Event Venue: {data.venue}</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">Only {data.regLimit} seats</span>
+        </li>
       </ul>
     </CardContent>
-    <CardFooter className="flex gap-4 justify-between">
+    <CardFooter className="flex justify-between gap-4">
       <Button
         variant="outline"
-        className="flex-1 rounded-lg bg-button-secondary text-button-primary border-2 border-gray-300 "
+        className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-button-primary"
         onClick={onView}
       >
-        View
+        <span>View</span>
       </Button>
       <Button
-        className="flex-1 rounded-lg bg-button-primary hover:bg-blue-700"
+        className="flex-1 rounded-lg bg-button-primary font-bold text-white hover:bg-blue-700"
         onClick={onBuy}
       >
         Buy Ticket

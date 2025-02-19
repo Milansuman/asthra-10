@@ -24,9 +24,9 @@ export const PurchaseCardCard: FC<PurchaseCardProps> = ({
   description,
   features,
 }) => (
-  <Card className="m-2 max-w-sm  bg-white rounded-lg shadow-lg">
+  <Card className="ambit m-2 max-w-sm bg-white shadow-lg rounded-none">
     <CardHeader>
-      <CardTitle className="text-2xl font-semibold text-black">
+      <CardTitle className="-mb-2 font-semibold text-3xl text-black">
         {title}
       </CardTitle>
       <CardDescription className="text-neutral-700">
@@ -42,23 +42,22 @@ export const PurchaseCardCard: FC<PurchaseCardProps> = ({
         className="my-4"
       />
       {features.length > 0 && (
-        <ul className="w-full list-disc pl-5 space-y-2 text-black">
+        <ul className="w-full list-disc space-y-2 pl-5 text-black">
           {features.map((feature, index) => (
-            <li key={index} className="flex list-item items-center gap-2">
+            <li key={index} className="list-item items-center gap-2">
               <span className="text-sm">{feature}</span>
             </li>
           ))}
         </ul>
       )}
     </CardContent>
-    <CardFooter className="flex gap-4 justify-between">
+    <CardFooter className="flex justify-between gap-4">
       <Button
         variant="outline"
         className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-button-primary"
         onClick={() => console.log('clicked view')}
       >
         <span>View</span>
-        <span className="h-3 w-3 rounded-full border-2 border-button-primary" />
       </Button>
       <Button
         className="flex-1 rounded-lg bg-button-primary font-bold text-white hover:bg-blue-700"
