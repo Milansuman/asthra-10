@@ -107,6 +107,12 @@ const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
   );
 };
 
+interface PurchaseCardPreviewProps {
+  data: Partial<z.infer<typeof eventZod>>;
+  onView: () => void;
+  onBuy: () => void;
+}
+
 export const AsthraCard: FC<AsthraCardProps> = ({ data }) => (
   <Card className="m-2 flex flex-col">
     <CardHeader className="p-0">
@@ -201,8 +207,8 @@ export const AddNewCard: React.FC = () => (
   <Card className="m-2">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="h-full w-full flex flex-col justify-center m-auto">
-          <p className="text-[5rem] leading-20 w-fit mx-auto">+</p>
+        <CardContent className="m-auto flex h-full w-full flex-col justify-center">
+          <p className="mx-auto w-fit text-[5rem] leading-20">+</p>
           <p className="w-fit mx-auto">Add new</p>
         </CardContent>
       </AlertDialogTrigger>
@@ -218,5 +224,64 @@ export const AddNewCard: React.FC = () => (
         </Card>
       </AlertDialogContent>
     </AlertDialog>
+  </Card>
+);
+
+export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
+  data,
+  onView,
+  onBuy,
+}) => (
+  <Card className="ambit max-w-sm rounded-none bg-white shadow-lg">
+    <CardHeader>
+      <CardTitle className="font-semibold text-2xl text-black">
+        {data.name}
+      </CardTitle>
+      <CardDescription className="text-neutral-700">
+        {data.description}
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex flex-col items-center space-y-6">
+      <Image
+        src={data.poster ?? '/asthra glass.png'}
+        alt="Asthra Logo"
+        width={300}
+        height={200}
+        className="my-4"
+      />
+      <ul className="w-full list-disc space-y-2 pl-5 text-black">
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">{data.eventType}</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">Just ₹{data.amount} per head</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">Event Venue: {data.venue}</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">
+            Limited Spots: Only {data.regLimit} seats available!
+          </span>
+        </li>
+      </ul>
+    </CardContent>
+    <CardFooter className="flex justify-between gap-4">
+      <Button
+        variant="outline"
+        className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-button-primary"
+        onClick={onView}
+      >
+        <span>View</span>
+      </Button>
+      <Button
+        className="flex-1 rounded-lg bg-button-primary font-bold text-white hover:bg-blue-700"
+        onClick={onBuy}
+      >
+        {data.eventType === 'ASTHRA_PASS' && 'Buy Ticket'}
+        {data.eventType === 'WORKSHOP' && `Purchase for ₹${data.amount}`}
+        {data.eventType === 'ASTHRA_PASS_EVENT' && 'Buy Asthra Pass First'}
+      </Button>
+    </CardFooter>
   </Card>
 );

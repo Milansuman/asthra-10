@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import Footer from '@/components/madeup/footer';
 import { PointerWrapper } from '@/components/magicui/pointer';
 import type { Metadata } from 'next';
 import { manifestData } from './manifest';
@@ -28,7 +29,10 @@ export default function RootLayout({
           />
         </div> */}
         <PointerWrapper>
-          <Providers>{children}</Providers>
+          <Providers>
+            {children}
+            <Footer />
+          </Providers>
         </PointerWrapper>
       </body>
     </html>
