@@ -34,7 +34,7 @@ interface AsthraCardPreviewProps {
 }
 
 export const AsthraCard: FC<AsthraCardProps> = ({ data }) => (
-  <Card className="m-2 flex flex-col">
+  <Card className="m-2 flex flex-col text-black">
     <CardHeader className="p-0">
       {z.string().safeParse(data.poster).success && (
         <Image
@@ -57,8 +57,8 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data }) => (
             Edit
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="sm:max-w-[900px] p-0 border-none">
-          <Card className="p-5">
+        <AlertDialogContent className="sm:max-w-[900px] p-0 border-none bg-white text-black">
+          <Card className="p-5 text-black">
             <h3 className="cal">Edit Event</h3>
             <p>
               Keyboard accessible, Use up & down arrows to control counts &
@@ -71,7 +71,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data }) => (
           </Card>
         </AlertDialogContent>
       </AlertDialog>
-      <Button link={`/uploads/${data.id}`} className="flex-1 rounded-s">
+      <Button link={`/dashboard/upload/${data.id}`} className="flex-1 rounded-s">
         Change poster
       </Button>
     </CardFooter>
@@ -124,16 +124,16 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
 );
 
 export const AddNewCard: React.FC = () => (
-  <Card className="m-2">
+  <Card className="m-2 aspect-square">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="h-full w-full flex flex-col justify-center m-auto">
+        <CardContent className="h-full w-full flex flex-col justify-center m-auto text-black cursor-pointer border-neutral-700 border rounded-xl">
           <p className="text-[5rem] leading-20 w-fit mx-auto">+</p>
           <p className="w-fit mx-auto">Add new</p>
         </CardContent>
       </AlertDialogTrigger>
       <AlertDialogContent className="sm:max-w-[900px] p-0 border-none">
-        <Card className="p-5">
+        <Card className="p-5 text-black bg-neutral-100">
           <h3 className="cal">Create Event</h3>
           <p>
             Keyboard accessible, Use up & down arrows to control counts & dates

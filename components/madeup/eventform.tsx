@@ -139,6 +139,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    console.log(data)
     id !== undefined
       ? await updateEvent({ ...data, id })
       : await createEvent(data);
@@ -248,7 +249,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
           control={form.control}
           name="poster"
           render={({ field }) => (
-            <FormItem hidden>
+            <FormItem>
               <FormLabel>Poster Image Link</FormLabel>
               <FormControl>
                 <Input
@@ -265,7 +266,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
               </FormControl>
               <FormMessage />
               <Button
-                link={'/uploads'}
+                link={'/dashboard/upload'}
                 className="rounded-s gap-3 w-full h-12 mt-2"
                 variant={'secondary'}
               >
@@ -425,23 +426,16 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
             <FormItem>
               <FormLabel>Start Time</FormLabel>
               <FormControl>
-                <TimePicker
-                  onChange={(e) => {
-                    console.log(e);
-                    field.onChange({ target: { value: e } });
-                  }}
-                  value={field.value}
-                >
-                  <TimePickerSegment segment={'days'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'months'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'years'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'hours'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'minutes'} />
-                </TimePicker>
+                <Input type='datetime-local' defaultValue={field.value.toLocaleString()} onChange={(event) => {
+                  const datetime = event.target.valueAsDate;
+                  console.log(datetime)
+                  field.onChange({
+                    ...event,
+                    target: {
+                      value: datetime
+                    }
+                  })
+                }}/>
               </FormControl>
               <FormDescription>
                 Default is {AsthraStartsAt.toLocaleString()}

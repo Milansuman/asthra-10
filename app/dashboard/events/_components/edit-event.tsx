@@ -17,22 +17,21 @@ type Props = {
 export function EventEditPage({ data, departments }: Props) {
   const [filter, setFilter] = useState(departments[0]);
   return (
-    <div className=" mx-auto py-28">
+    <div className="flex flex-col gap-5 p-10">
       {/* <TabSwitcher
         keys={departments as string[]}
         filter={filter!}
         setFilter={setFilter}
         className="mx-auto"
       /> */}
-      <div className="mx-auto">
-        <div className="py-10 grid lg:grid-cols-5 grid-cols-1 md:grid-cols-3 gap-5 p-4">
-          <AddNewCard />
-          {data
-            .filter((e) => e.department === filter)
-            .map((e) => (
-              <AsthraCard key={e.id} data={e} />
-            ))}
-        </div>
+      <h4>Edit Events</h4>
+      <div className="flex flex-row gap-3">
+        <AddNewCard/>
+        {
+          data.map(event => (
+            <AsthraCard key={event.id} data={event}/>
+          ))
+        }
       </div>
     </div>
   );
