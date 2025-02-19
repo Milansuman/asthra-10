@@ -33,6 +33,13 @@ interface AsthraCardPreviewProps {
   data: Partial<z.infer<typeof eventZod>>;
 }
 
+interface PurchaseCardPreviewProps {
+  data: Partial<z.infer<typeof eventZod>>;
+  features: string[];
+  onView: () => void;
+  onBuy: () => void; 
+}
+
 export const AsthraCard: FC<AsthraCardProps> = ({ data }) => (
   <Card className="m-2 flex flex-col">
     <CardHeader className="p-0">
@@ -144,5 +151,49 @@ export const AddNewCard: React.FC = () => (
         </Card>
       </AlertDialogContent>
     </AlertDialog>
+  </Card>
+);
+
+
+
+export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({ data, features, onView, onBuy }) => (
+  <Card className="m-2 max-w-sm bg-white  rounded-lg shadow-lg">
+    <CardHeader>
+      <CardTitle className="text-2xl font-semibold text-black">
+        {data.name}
+      </CardTitle>
+      <CardDescription className="text-neutral-700">{data.description}</CardDescription>
+    </CardHeader>
+    <CardContent className="flex flex-col items-center space-y-6">
+      <Image
+        src="/asthra glass.png"
+        alt="Asthra Logo"
+        width={300}
+        height={200}
+        className="my-4"
+      />
+      <ul className="space-y-2 w-full text-black list-disc">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-center gap-2">
+            <span className="text-sm">{feature}</span>
+          </li>
+        ))}
+      </ul>
+    </CardContent>
+    <CardFooter className="flex gap-4 justify-between">
+      <Button
+        variant="outline"
+        className="flex-1 rounded-lg bg-button-secondary text-button-primary border-2 border-gray-300 "
+        onClick={onView}
+      >
+        View
+      </Button>
+      <Button
+        className="flex-1 rounded-lg bg-button-primary hover:bg-blue-700"
+        onClick={onBuy}
+      >
+        Buy Ticket
+      </Button>
+    </CardFooter>
   </Card>
 );
