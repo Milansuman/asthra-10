@@ -158,7 +158,7 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
   onView,
   onBuy,
 }) => (
-  <Card className="max-w-sm rounded-none bg-white shadow-lg">
+  <Card className="ambit max-w-sm rounded-none bg-white shadow-lg">
     <CardHeader>
       <CardTitle className="font-semibold text-2xl text-black">
         {data.name}
@@ -180,13 +180,15 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
           <span className="text-sm">{data.eventType}</span>
         </li>
         <li className="list-item items-center gap-2">
-          <span className="text-sm">Even cost : {data.amount}</span>
+          <span className="text-sm">Just ₹{data.amount} per head</span>
         </li>
         <li className="list-item items-center gap-2">
           <span className="text-sm">Event Venue: {data.venue}</span>
         </li>
         <li className="list-item items-center gap-2">
-          <span className="text-sm">Only {data.regLimit} seats</span>
+          <span className="text-sm">
+            Limited Spots: Only {data.regLimit} seats available!
+          </span>
         </li>
       </ul>
     </CardContent>
@@ -202,7 +204,9 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
         className="flex-1 rounded-lg bg-button-primary font-bold text-white hover:bg-blue-700"
         onClick={onBuy}
       >
-        Buy Ticket
+        {data.eventType === 'ASTHRA_PASS' && 'Buy Ticket'}
+        {data.eventType === 'WORKSHOP' && `Purchase for ₹${data.amount}`}
+        {data.eventType === 'ASTHRA_PASS_EVENT' && 'Buy Asthra Pass First'}
       </Button>
     </CardFooter>
   </Card>
