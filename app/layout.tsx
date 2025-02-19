@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={'dark font-sans'}>
-        <div className="fixed top-0 left-0 z-[-1] h-screen w-screen bg-background">
+        {/* <div className="fixed top-0 left-0 z-[-1] h-screen w-screen bg-background">
           <video
             src={'/glass.mp4'}
             autoPlay={true}
@@ -25,7 +25,7 @@ export default function RootLayout({
             muted={true}
             className="h-full w-full object-cover"
           />
-        </div>
+        </div> */}
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -1,29 +1,26 @@
-import {
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  GlowCard,
-} from '@/components/ui/card';
-import { GlowArea } from '@/components/ui/glow';
-import LoginButton from './_components/login';
+import { SplineViewer } from "@/components/madeup/spline-viewer";
 
 export default function Page() {
   return (
-    <GlowArea
-      size={430}
-      className="container flex h-screen items-center justify-center"
-    >
-      <GlowCard color="#FFD700">
-        <CardHeader> </CardHeader>
-        <CardContent>
-          <img src="/asthra.svg" alt="asthra logo" />
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          {/* <CardTitle>Coming Soon...</CardTitle> */}
-          <LoginButton />
-        </CardFooter>
-      </GlowCard>
-    </GlowArea>
+    <main className="flex h-screen w-screen relative overflow-y-auto">
+      <SplineViewer url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode" className="fixed w-screen h-screen -z-10"/>
+      <section className="flex flex-col w-screen h-screen">
+        <div className="flex flex-row h-1/3">
+          <div className="border border-neutral-300 w-2/3 h-full flex font-bold items-center justify-center text-2xl">
+            Making things pop since 2015
+          </div>
+          <div className="border border-neutral-300 backdrop-blur-xl h-full w-1/3 flex">
+
+          </div>
+        </div>
+        <div className="flex flex-row h-1/3">
+          <div className="border border-neutral-300 w-2/3 h-full flex">
+          </div>
+          <div className="border border-neutral-300 backdrop-blur-xl h-full w-1/3 flex">
+
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
