@@ -116,3 +116,7 @@ p {
 blockquote {
   @apply mt-6 border-l-2 pl-6 italic;
 }
+
+.spline-watermark{
+  display: none !important;
+}
