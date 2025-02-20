@@ -1,22 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { CheckCircle, Home, XCircleIcon } from 'lucide-react';
 import { type z } from 'zod';
 
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 // import { CursorContainer } from './cursor';
 
-import { api } from "trpc/react"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -28,7 +26,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-
 import {
     Table,
     TableBody,
@@ -39,12 +36,13 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import { ScrollArea } from '../ui/scroll-area';
 import { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
+import RotatingText from '../ui/rotatingText';
+import Plusbox from './box';
 import EventCard from './event-card';
 import Dock, { DockItemData } from './Dock';
-import RotatingText from '../ui/rotatingText';
+import { Select, SelectItem } from '@heroui/react';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -69,7 +67,7 @@ export function EventPage({
 }: Props) {
     const [filter, setFilter] = useState(eventStatus === 'cancel' ? 'CANCELLED' : filterCategory);
     const [department, setDepartment] = useState(filterDepartment);
-
+    const [value, setValue] = useState(0)
     const handleSelect = (dep: string) => {
         setDepartment(dep);
     };
@@ -166,78 +164,46 @@ export function EventPage({
     return (
         <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 relative ">
             <div className='p-3 w-full gap-3 flex justify-center items-center'>
-                <p className='p-0 m-0 text-3xl'>Asthra</p>
-                <RotatingText
-                    texts={['Events', 'Workshops', 'Games']}
-                    mainClassName="px-2 sm:px-2 text-4xl items-center md:px-5 font-bold flex glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
-                    staggerFrom={"last"}
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "-120%" }}
-                    staggerDuration={0.025}
-                    splitLevelClassName="overflow-hidden pt-2"
-                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                    rotationInterval={2000}
-                />
+                <p className='p-0 m-0 text-6xl font-semibold'>Asthra</p>
+                <Plusbox className='relative p-2 border  border-white/20'>
+                    <RotatingText
+                        texts={['Events', 'Workshops', 'Games']}
+                        mainClassName="px-2 sm:px-2 text-6xl drop-shadow-md text-white items-center md:px-5 font-bold flex glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
+                        staggerFrom={"last"}
+                        initial={{ y: "100%" }}
+                        animate={{ y: 0 }}
+                        exit={{ y: "-120%" }}
+                        staggerDuration={0.025}
+                        splitLevelClassName="overflow-hidden pt-2"
+                        transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                        rotationInterval={2000}
+                    />
+                </Plusbox>
+            </div>
+            <div className="w-full flex gap-2 justify-center">
+                <Select
+                    className="max-w-xs outline-none border-0"
+                    placeholder="Select an Dept"
+                    variant="faded"
+                >
+                    {departments.map((animal, index) => (
+                        <SelectItem className=' glass' key={index}>{animal}</SelectItem>
+                    ))}
+                </Select>
             </div>
             <Dock items={Items} />
-            {/* <div className="w-full flex flex-row gap-2 justify-center absolute bottom-0 left-0 right-0">
-                <Select onValueChange={(value) => handleSelect(value)} defaultValue={filterDepartment}>
-                    <SelectTrigger className="w-40 text-center rounded-full">
-                        <SelectValue placeholder="All" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
-                        {Object.entries(allDepartments)
-                            .filter(([key, _]) => key !== 'es')
-                            .map(([dep, full]) => (
-                                <SelectItem key={dep} value={dep}>
-                                    {full}
-                                </SelectItem>
-                            ))}
-                    </SelectContent>
-                </Select>
-                <div className="max-w-2/3 h-full rounded-full flex flex-row gap-2  border border-neutral-600 overflow-auto scrollbar-none">
-                    {categories.map((category) => (
-                        <div key={category + '.div'} className="flex p-2" onClick={() => handleFilter(category)}>
-                            <motion.div
-                                key={category}
-                                initial={false}
-                                animate={{
-                                    color: filter === category ? '#111111' : '#ffffff',
-                                }}
-                                className="relative py-2 px-6"
-                            >
-                                {filter === category && (
-                                    <motion.div
-                                        layoutId="pill_event"
-                                        style={{ borderRadius: 500 }}
-                                        transition={{
-                                            duration: 0.75,
-                                            type: 'tween',
-                                            ease: [0.76, 0, 0.24, 1],
-                                            delay: 0.2,
-                                        }}
-                                        className="absolute inset-0 bg-neutral-50"
-                                    />
-                                )}
-                                <span className="relative whitespace-nowrap">{category.replaceAll('_', ' ')}</span>
-                            </motion.div>
-                        </div>
-                    ))}
-                </div>
-            </div> */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
                 {events
-                    .filter(
-                        (event: Event) =>
-                            ((isDepartment(event) && isEventType(event)) || isGeneralEvent(event) || isSpotEvent(event) || isCancelled(event)) &&
-                            isEventStatus(event) &&
-                            !isUploaded(event),
-                    )
+                    // .filter(
+                    //     (event: Event) =>
+                    //         ((isDepartment(event) && isEventType(event)) || isGeneralEvent(event) || isSpotEvent(event) || isCancelled(event)) &&
+                    //         isEventStatus(event) &&
+                    //         !isUploaded(event),
+                    // )
                     .map((event) => (
-                        <motion.div layout key={event.id} className="w-full">
-                            {dashboard ? <EventCard data={event} /> : <Link href={'/events/' + event.id}><EventCard data={event} /></Link>}
+                        <motion.div key={event.id} className="w-full">
+                            <Link href={'/events/' + event.id}><EventCard data={event} /></Link>
                         </motion.div>
                     ))}
             </div>
