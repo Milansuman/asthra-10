@@ -117,7 +117,7 @@ export default async function Page({ searchParams }: { searchParams?: { [key in 
               className="fixed w-screen h-screen -z-10"
             /> */}
       <EventPage
-        events={events}
+        events={demoEvents}
         categories={categories}
         departments={departments}
         // events={approvedEvents}

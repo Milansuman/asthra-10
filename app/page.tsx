@@ -1,11 +1,11 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
-import { SplineViewer } from '@/components/madeup/spline-viewer';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
+import { SplineViewer } from '@/components/madeup/spline-viewer';
 import Image from 'next/image';
 
 export default function Page() {
   return (
-    <main className="z-10">
+    <main className="z-10 relative">
       <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
         <div className="col-span-1 flex items-center border border-neutral-300 p-8 md:col-span-2">
           <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
@@ -23,7 +23,7 @@ tomorrow"
             />
           </p>
         </div>
-        <div className="relative col-span-1 flex items-center justify-center border border-neutral-300 bg-slate-400/50 p-4 backdrop-blur-xl">
+        <div className="relative col-span-1 flex items-center justify-center border-l-[0.02rem] border-b-[0.02rem] border-neutral-300/60 bg-black/10 p-4 backdrop-blur-md">
           {/* <Orb
             hoverIntensity={0.5}
             rotateOnHover={true}
@@ -39,7 +39,7 @@ tomorrow"
           />
         </div>
 
-        <div className="col-span-1 flex items-center border border-neutral-300 bg-slate-400/50 p-8 backdrop-blur-xl md:col-span-2">
+        <div className="col-span-1 flex items-center border border-neutral-300 border-neutral-300/60 bg-black/20 p-8 backdrop-blur-xl md:col-span-2">
           <p className="ambit text-balance px-4 text-left font-extralight text-lg md:text-xl lg:text-2xl">
             <DecryptedText
               text="ASTHRA, the national-level technical fest of St. Joseph's College of

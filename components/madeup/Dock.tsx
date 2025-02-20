@@ -17,6 +17,7 @@ import React, {
     useRef,
     useState,
 } from "react";
+import Plusbox from "./box";
 
 export type DockItemData = {
     icon: React.ReactNode;
@@ -68,25 +69,26 @@ export default function Dock({
     const height = useSpring(heightRow, spring);
 
     return (
-
-        <motion.div
-            // onMouseMove={({ pageX }) => {
-            //     isHovered.set(1);
-            //     mouseX.set(pageX);
-            // }}
-            // onMouseLeave={() => {
-            //     isHovered.set(0);
-            //     mouseX.set(Infinity);
-            // }}
-            className={`${className} fixed z-[999] glass  bottom-2 left-1/2 -translate-x-1/2 flex items-end w-max gap-4  py-0 px-3`}
-            role="toolbar"
-            aria-label="Application dock"
-        >
-            {items.map((item, index) => (
-                <div key={index} className="hover:scale-105 transition-all cursor-pointer">
-                    <p className="text-2xl m-0 px-3 py-3 ">{item.label}</p>
-                </div>
-            ))}
-        </motion.div>
+        <Plusbox className="fixed z-[999] bottom-[30px] left-1/2 -translate-x-1/2 p-2 border border-white/[0.2]">
+            <motion.div
+                // onMouseMove={({ pageX }) => {
+                //     isHovered.set(1);
+                //     mouseX.set(pageX);
+                // }}
+                // onMouseLeave={() => {
+                //     isHovered.set(0);
+                //     mouseX.set(Infinity);
+                // }}
+                className={`${className}  glass   flex items-end w-max gap-4  py-0 px-3`}
+                role="toolbar"
+                aria-label="Application dock"
+            >
+                {items.map((item, index) => (
+                    <div key={index} className="hover:scale-105 transition-all cursor-pointer">
+                        <p className="text-2xl m-0 px-3 py-3 ">{item.label}</p>
+                    </div>
+                ))}
+            </motion.div>
+        </Plusbox>
     );
 }

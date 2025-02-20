@@ -22,7 +22,7 @@ export default function RootLayout({
         <div className="fixed top-0 left-0 h-screen w-screen">
           <SplineViewer
             url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
-            className="relative h-full w-full bg-blue-600"
+            className="relative h-full w-full bg-[#7ab1e1]"
           />
           {/* <video
             src={'/glass.mp4'}
