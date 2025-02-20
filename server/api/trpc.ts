@@ -13,6 +13,7 @@ import { getServerSession } from 'next-auth';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
 
+import { isValidUserDetails } from '@/lib/validator';
 import { allowEditing } from '@/logic/moods';
 import { cache } from '@/server/cache';
 import { db } from '@/server/db';
@@ -108,20 +109,26 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
+      user: ctx.session.user,
       role: ctx.session.user.role,
     },
   });
 });
 
-export const userOnlyProcedure = t.procedure.use(({ ctx, next }) => {
+export const validUserOnlyProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session?.user) {
     throw getTrpcError('NOT_LOGGED_IN');
+  }
+
+  if (!isValidUserDetails(ctx.session.user)) {
+    throw getTrpcError('USER_DETAILS_INCOMPLETE');
   }
 
   return next({
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
+      user: ctx.session.user,
       role: ctx.session.user.role,
     },
   });
@@ -130,6 +137,10 @@ export const userOnlyProcedure = t.procedure.use(({ ctx, next }) => {
 export const managementProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session?.user) {
     throw getTrpcError('NOT_LOGGED_IN');
+  }
+
+  if (!isValidUserDetails(ctx.session.user)) {
+    throw getTrpcError('USER_DETAILS_INCOMPLETE');
   }
 
   const role = ctx.session.user.role;
@@ -142,6 +153,7 @@ export const managementProcedure = t.procedure.use(({ ctx, next }) => {
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
+      user: ctx.session.user,
       role,
     },
   });
@@ -152,9 +164,17 @@ export const coordinatorProcedure = t.procedure.use(({ ctx, next }) => {
     throw getTrpcError('NOT_LOGGED_IN');
   }
 
+  if (!isValidUserDetails(ctx.session.user)) {
+    throw getTrpcError('USER_DETAILS_INCOMPLETE');
+  }
+
   const role = ctx.session.user.role;
 
-  if (role !== 'MANAGEMENT' && role !== 'STUDENT_COORDINATOR') {
+  if (
+    role !== 'MANAGEMENT' &&
+    role !== 'STUDENT_COORDINATOR' &&
+    role !== 'FACULTY_COORDINATOR'
+  ) {
     throw getTrpcError('NOT_AUTHORIZED');
   }
 
@@ -162,6 +182,7 @@ export const coordinatorProcedure = t.procedure.use(({ ctx, next }) => {
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
+      user: ctx.session.user,
       role,
     },
   });
@@ -170,6 +191,10 @@ export const coordinatorProcedure = t.procedure.use(({ ctx, next }) => {
 export const frontDeskProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session?.user) {
     throw getTrpcError('NOT_LOGGED_IN');
+  }
+
+  if (!isValidUserDetails(ctx.session.user)) {
+    throw getTrpcError('USER_DETAILS_INCOMPLETE');
   }
 
   const role = ctx.session.user.role;
@@ -186,6 +211,7 @@ export const frontDeskProcedure = t.procedure.use(({ ctx, next }) => {
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
+      user: ctx.session.user,
       role,
     },
   });
@@ -194,6 +220,10 @@ export const frontDeskProcedure = t.procedure.use(({ ctx, next }) => {
 export const eventsManageProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session?.user) {
     throw getTrpcError('NOT_LOGGED_IN');
+  }
+
+  if (!isValidUserDetails(ctx.session.user)) {
+    throw getTrpcError('USER_DETAILS_INCOMPLETE');
   }
 
   const role = ctx.session.user.role;
@@ -214,6 +244,7 @@ export const eventsManageProcedure = t.procedure.use(({ ctx, next }) => {
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
+      user: ctx.session.user,
       role,
     },
   });

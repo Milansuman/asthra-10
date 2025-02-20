@@ -3,7 +3,7 @@ import { asthraRouter } from './routers/asthraRouter';
 import { cronRouter } from './routers/cron';
 import { dashboardRouter } from './routers/dashboard';
 import { eventRouter } from './routers/eventRoute';
-import { generatePassRouter } from './routers/generatePassRoutes';
+import { generateMailRouter } from './routers/mailRoute';
 import { spotRegister } from './routers/spot';
 import { transactionRouter } from './routers/transaction';
 import { userRouter } from './routers/userRoute';
@@ -19,7 +19,7 @@ export const appRouter = createTRPCRouter({
   event: eventRouter,
   asthra: asthraRouter,
   transaction: transactionRouter,
-  pass: generatePassRouter,
+  mail: generateMailRouter,
   verify: verifyRouter,
   dashboard: dashboardRouter,
   cron: cronRouter,

@@ -3,24 +3,17 @@ import { verifyAsthraPayment } from '@/logic/payment';
 import { eq, or } from 'drizzle-orm';
 import { v4 } from 'uuid';
 
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { createTRPCRouter, managementProcedure } from '@/server/api/trpc';
 import {
   eventsTable,
   transactionsTable,
   user,
   userRegisteredEventTable,
 } from '@/server/db/schema';
-import { Increment, getTrpcError } from '@/server/db/utils';
+import { Increment } from '@/server/db/utils';
 
 export const cronRouter = createTRPCRouter({
-  runCron: protectedProcedure.mutation(async ({ ctx }) => {
-    if (
-      ctx.session.user.role !== 'ADMIN' &&
-      ctx.session.user.role !== 'MANAGEMENT'
-    ) {
-      getTrpcError('NOT_AUTHORIZED');
-    }
-
+  runCron: managementProcedure.mutation(async ({ ctx }) => {
     return await ctx.db.transaction(async (tx) => {
       const transactionList = await tx.query.transactionsTable.findMany({
         where: eq(transactionsTable.status, 'initiated'),
@@ -43,7 +36,7 @@ export const cronRouter = createTRPCRouter({
       console.log('success', success);
       console.log('failed', failed);
 
-      const notdone =
+      const failedCron =
         failed.length !== 0
           ? await tx
               .update(transactionsTable)
@@ -55,7 +48,7 @@ export const cronRouter = createTRPCRouter({
               .returning()
           : [];
 
-      const done =
+      const successCron =
         success.length !== 0
           ? await tx
               .update(transactionsTable)
@@ -72,21 +65,21 @@ export const cronRouter = createTRPCRouter({
         userId: string;
       }[] = [];
 
-      console.log('done', done);
-      console.log('notdone', notdone);
+      console.log('done', successCron);
+      console.log('notdone', failedCron);
 
-      const registerData = done.map((x) => {
-        if (x.eventId === ASTHRA.id) {
+      const registerData = successCron.map((eachTask) => {
+        if (eachTask.eventId === ASTHRA.id) {
           asthraIncluding.push({
-            userId: x.userId,
-            transactionId: x.id,
+            userId: eachTask.userId,
+            transactionId: eachTask.id,
           } as const);
         }
 
         return {
-          eventId: x.eventId,
-          transactionId: x.id,
-          userId: x.userId ?? '',
+          eventId: eachTask.eventId,
+          transactionId: eachTask.id,
+          userId: eachTask.userId ?? '',
           registrationId: v4(),
           remark: `Cron Success on ${new Date().toLocaleString()}`,
           status: 'registered' as const,
@@ -95,14 +88,14 @@ export const cronRouter = createTRPCRouter({
 
       if (asthraIncluding.length) {
         await Promise.all(
-          asthraIncluding.map(async (x) => {
+          asthraIncluding.map(async (asthraTask) => {
             await tx
               .update(user)
               .set({
                 asthraPass: true,
-                transactionId: x.transactionId,
+                transactionId: asthraTask.transactionId,
               })
-              .where(eq(user.id, x.userId));
+              .where(eq(user.id, asthraTask.userId));
           })
         );
       }
@@ -116,7 +109,7 @@ export const cronRouter = createTRPCRouter({
           .where(or(...registerData.map((x) => eq(eventsTable.id, x.eventId))));
       }
 
-      return { success: done, failed: notdone, asthraIncluding };
+      return { success: successCron, failed: failedCron, asthraIncluding };
     });
   }),
 });
