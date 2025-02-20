@@ -24,7 +24,8 @@ export default function RootLayout({
             url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
             className="relative h-full w-full bg-blue-600"
           />
-          {/* <video
+        </div>
+        {/* <video
             src={'/glass.mp4'}
             autoPlay={true}
             loop={true}

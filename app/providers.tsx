@@ -7,9 +7,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <TRPCReactProvider>
       <TailwindIndicator />
-      <PointerWrapper>
-        <HeroUIProvider>{children}</HeroUIProvider>
-      </PointerWrapper>
+      {/* <PointerWrapper> */}
+      <HeroUIProvider>{children}</HeroUIProvider>
+      {/* </PointerWrapper> */}
     </TRPCReactProvider>
   );
 }
