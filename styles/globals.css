@@ -80,6 +80,10 @@
   font-family: 'Cal Sans', sans-serif;
 }
 
+.ambit {
+  font-family: 'Ambit', sans-serif;
+}
+
 .europa {
   font-family: 'EuropaGroteskSH', sans-serif;
   /* @apply tracking-wide; */
@@ -115,4 +119,12 @@ p {
 
 blockquote {
   @apply mt-6 border-l-2 pl-6 italic;
+}
+
+@font-face {
+  font-family: 'Ambit';
+  src: url('/fonts/ambit/Ambit-Regular.woff2') format('woff2'),
+    url('/fonts/ambit/Ambit-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
