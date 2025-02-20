@@ -5,9 +5,11 @@ import {
   getServerSession,
 } from 'next-auth';
 import type { Adapter } from 'next-auth/adapters';
-import GoogleProvider from 'next-auth/providers/google';
+import GoogleProvider, { type GoogleProfile } from 'next-auth/providers/google';
 
 import { env } from '@/env';
+import type { UserZodType } from '@/lib/validator';
+import { getDataFromMail } from '@/logic/extract';
 import { db } from '@/server/db';
 
 /**
@@ -21,8 +23,9 @@ declare module 'next-auth' {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
-    } & DefaultSession['user'];
+      // role: UserZodType['role'];
+    } & DefaultSession['user'] &
+      UserZodType;
   }
 
   // interface User {
@@ -53,6 +56,32 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+
+      // biome-ignore lint/suspicious/useAwait: <explanation>
+      profile: async (profile: GoogleProfile) => {
+        const { SJCET, data } = getDataFromMail(profile.email);
+
+        return {
+          id: profile.sub,
+          email: profile.email,
+          image: profile.picture,
+          email_verified: profile.email_verified,
+          // emailVerified: profile.email_verified,
+          role: 'USER',
+          asthraPass: false,
+          transactionId: null,
+          asthraCredit: 0,
+          number: null,
+          ...(SJCET && data
+            ? data
+            : {
+                department: 'NA',
+                year: 'NA',
+                college: SJCET ? 'SJCET' : 'NA',
+              }),
+          name: profile.name ?? data?.name ?? null,
+        };
+      },
     }),
   ],
   // session: { strategy: 'jwt' },

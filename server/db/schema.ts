@@ -1,7 +1,21 @@
-import { relations, sql } from 'drizzle-orm';
 import {
+  type AllDepartments,
+  type AllRoles,
+  type AllYears,
+  AsthraStartsAt,
+  type College,
+  type EndTime,
+  allDepartments,
+  allRoles,
+  allYears,
+  endTime,
+} from '@/logic';
+import { type InferSelectModel, relations, sql } from 'drizzle-orm';
+import {
+  boolean,
   index,
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   text,
@@ -12,19 +26,163 @@ import {
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccount } from 'next-auth/adapters';
 
+export const roleEnum = pgEnum('role', [...Object.keys(allRoles)] as [
+  string,
+  AllRoles,
+]);
+export const departmentEnum = pgEnum('department', [
+  ...Object.keys(allDepartments), // ai, cs, eee, mca, etc
+] as [string, AllDepartments]);
+
+export const yearEnum = pgEnum('year', [
+  ...Object.keys(allYears), // 2021, 2022, ...2027
+] as [string, AllYears]);
+
+export const endTimeEnum = pgEnum('endTime', [
+  ...Object.keys(endTime), // 2021, 2022, ...2027
+] as [string, EndTime]);
+
+export const statusEnum = pgEnum('status', ['initiated', 'success', 'failed']);
+export const eventStatusEnum = pgEnum('eventStatusEnum', [
+  'uploaded',
+  'approved',
+  'cancel',
+]);
+export const attendeeStatusEnum = pgEnum('attendeeStatusEnum', [
+  'registered', // registered but not attended
+  'attended',
+]);
+
+export const registrationType = pgEnum('registrationType', [
+  'online', // registered but not attended\
+  'spot',
+  'both',
+]);
+
+export const eventTypeEnum = pgEnum('eventTypeEnum', [
+  'ASTHRA_PASS', // asthra is only one event
+  'ASTHRA_PASS_EVENT',
+  'WORKSHOP',
+  'COMPETITION',
+]);
+
+export const transactionsTable = pgTable(
+  'transactions',
+  {
+    id: uuid().defaultRandom().primaryKey(),
+    amount: integer().default(0).notNull(),
+    status: statusEnum('status').default('initiated').notNull(),
+
+    hash: varchar({ length: 256 }).unique(),
+
+    userName: varchar({ length: 255 }).notNull(),
+    userId: uuid()
+      .notNull()
+      .references(() => user.id),
+
+    // eventId: uuid()
+    //   .notNull()
+    //   .references(() => eventsTable.id),
+
+    eventId: varchar({ length: 256 }).notNull(),
+    eventName: varchar({ length: 256 }).notNull(),
+
+    remark: text(),
+  },
+  (transaction) => ({
+    userIdIndex: index().on(transaction.userId),
+    eventIdIndex: index().on(transaction.eventId),
+  })
+);
+
+export const userRegisteredEventTable = pgTable('userRegisteredEvent', {
+  registrationId: uuid().defaultRandom().primaryKey(),
+  userId: uuid()
+    .notNull()
+    .references(() => user.id),
+  eventId: uuid()
+    .notNull()
+    .references(() => eventsTable.id),
+  transactionId: uuid()
+    .notNull()
+    .references(() => transactionsTable.id),
+  remark: text(),
+  status: attendeeStatusEnum('status').default('registered'),
+});
+
+export const referalsTable = pgTable('reference', {
+  id: uuid().defaultRandom().primaryKey(),
+  referralCode: text('referralCode').notNull(),
+  transactionId: text('transactionId').notNull(),
+  status: boolean('status').default(false).notNull(),
+});
+
+export type ReferalListType = InferSelectModel<typeof referalsTable>;
+
+export const eventsTable = pgTable(
+  'event',
+  {
+    id: uuid().defaultRandom().primaryKey(),
+
+    name: varchar({ length: 256 }),
+    description: text(), // anything bla bla bla
+    secret: text(), // anything bla bla bla
+    poster: varchar({ length: 255 }).notNull().default('/assets/poster.jpg'),
+
+    createdAt: timestamp().default(sql`CURRENT_TIMESTAMP`).notNull(),
+    updatedAt: timestamp(),
+
+    createdById: uuid()
+      .notNull()
+      .references(() => user.id),
+    department: departmentEnum().default('NA').notNull(),
+
+    venue: text(), // ROOM 303, BLOCK SPB, 2nd FLOOR
+    dateTimeStarts: timestamp().notNull().default(AsthraStartsAt),
+    dateTimeEnd: endTimeEnum().default('ALL DAY').notNull(),
+    eventStatus: eventStatusEnum().default('uploaded').notNull(),
+
+    eventType: eventTypeEnum().default('ASTHRA_PASS_EVENT').notNull(),
+    amount: integer().default(0).notNull(),
+
+    registrationType: registrationType().default('both').notNull(),
+    regLimit: integer().default(Number.POSITIVE_INFINITY).notNull(),
+    regCount: integer().default(0).notNull(),
+  },
+  (event) => ({
+    createdByIdIndex: index().on(event.createdById),
+  })
+);
+
+export type EventListType = InferSelectModel<typeof eventsTable>;
+
+// export type UserListTypeOmit = InferSelectModel<typeof users>;
+
+export type UserListType = InferSelectModel<typeof user>;
+
 export const user = pgTable(
   'user',
   {
     id: uuid().defaultRandom().primaryKey(),
 
-    name: varchar('name', { length: 255 }),
-    email: varchar('email', { length: 255 }).notNull(),
-    image: varchar('image', { length: 255 }),
+    name: varchar({ length: 255 }),
+    email: varchar({ length: 255 }).notNull(),
+    image: varchar({ length: 255 }),
+    number: text(),
+
+    role: roleEnum().default('USER').notNull(),
+    department: departmentEnum().default('NA').notNull(),
+    year: yearEnum().default('NA').notNull(),
+    college: text().$type<College>().default('NA'),
+
+    asthraCredit: integer().default(0).notNull(),
+    asthraPass: boolean().default(false).notNull(),
+    transactionId: text('asthraPassTransactionId'),
 
     // phone: varchar({ length: 256 }).unique(),
     // type: userTypeEnum().default('unknown').notNull(),
 
-    emailVerified: timestamp('emailVerified', {
+    emailVerified: timestamp({
       mode: 'date',
     }).default(sql`CURRENT_TIMESTAMP`),
     createdAt: timestamp().default(sql`CURRENT_TIMESTAMP`).notNull(),
@@ -34,7 +192,7 @@ export const user = pgTable(
       .notNull(),
   },
   (table) => ({
-    clientEmailIndex: uniqueIndex().on(table.email),
+    emailIndex: uniqueIndex().on(table.email),
   })
 );
 

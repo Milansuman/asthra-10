@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "EuropaGroteskSH";
+    src:
+        local("EuropaGroteskSH"),
+        url("/assets/EuropaGroteskSH-Ex.otf") format("opentype")
+}
+
+.md a {
+    color: aquamarine;
+}
+
+.md {
+    font-family: EuropaGroteskSH, sans-serif;
+}
