@@ -135,10 +135,7 @@ export const eventRouter = createTRPCRouter({
         return await ctx.db
           .delete(eventsTable)
           .where(
-            and(
-              eq(eventsTable.id, input.id),
-              eq(eventsTable.department, ctx.session.user.department)
-            )
+            eq(eventsTable.id, input.id)
           )
           .returning({ deletedId: eventsTable.id });
       }
