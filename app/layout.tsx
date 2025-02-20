@@ -18,28 +18,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={'dark ambit font-sans relative'}>
+      <body className={'dark ambit relative font-sans'}>
         <div className="fixed top-0 left-0 h-screen w-screen">
           <SplineViewer
             url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
             className="relative h-full w-full bg-[#7ab1e1]"
           />
-        </div>
-        {/* <video
+          {/* <video
             src={'/glass.mp4'}
             autoPlay={true}
             loop={true}
             muted={true}
             className="h-full w-full object-cover"
-          />
-        </div> */}
-        {/* <PointerWrapper> */}
+          />*/}
+        </div>
         <Providers>
           {children}
           <Footer />
         </Providers>
-        {/* </PointerWrapper> */}
-
       </body>
     </html>
   );

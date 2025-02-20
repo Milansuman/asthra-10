@@ -13,15 +13,12 @@ import { useEffect, useRef } from 'react';
 type GL = Renderer['gl'];
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-function debounce<T extends (...args: any[]) => void>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout;
+function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
+  let timeout: number;
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   return function (this: any, ...args: Parameters<T>) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
+    window.clearTimeout(timeout);
+    timeout = window.setTimeout(() => func.apply(this, args), wait);
   };
 }
 
@@ -54,9 +51,8 @@ function createTextTexture(
 ): { texture: Texture; width: number; height: number } {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
-  if (!context) {
-    throw new Error('Could not get 2d context');
-  }
+  // biome-ignore lint/style/useBlockStatements: <explanation>
+  if (!context) throw new Error('Could not get 2d context');
 
   context.font = font;
   const metrics = context.measureText(text);
@@ -451,11 +447,11 @@ class App {
   viewport!: { width: number; height: number };
   raf = 0;
 
-  boundOnResize: () => void;
-  boundOnWheel: () => void;
-  boundOnTouchDown: (e: globalThis.MouseEvent | globalThis.TouchEvent) => void;
-  boundOnTouchMove: (e: globalThis.MouseEvent | globalThis.TouchEvent) => void;
-  boundOnTouchUp: () => void;
+  boundOnResize!: () => void;
+  boundOnWheel!: () => void;
+  boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
+  boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
+  boundOnTouchUp!: () => void;
 
   isDown = false;
   start = 0;
@@ -482,12 +478,6 @@ class App {
     this.createMedias(items, bend, textColor, borderRadius, font);
     this.update();
     this.addEventListeners();
-
-    this.boundOnResize = this.onResize.bind(this);
-    this.boundOnWheel = this.onWheel.bind(this);
-    this.boundOnTouchDown = this.onTouchDown.bind(this);
-    this.boundOnTouchMove = this.onTouchMove.bind(this);
-    this.boundOnTouchUp = this.onTouchUp.bind(this);
   }
 
   createRenderer() {
@@ -539,7 +529,7 @@ class App {
         text: 'Waterfall',
       },
       {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
         image: `https://picsum.photos/seed/4/800/600?grayscale`,
         text: 'Strawberries',
       },
@@ -607,17 +597,18 @@ class App {
     });
   }
 
-  onTouchDown(e: globalThis.MouseEvent | globalThis.TouchEvent): void {
+  onTouchDown(e: MouseEvent | TouchEvent) {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
-    this.start = 'touches' in e ? (e.touches[0]?.clientX ?? 0) : e.clientX;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    this.start = 'touches' in e ? (e.touches[0] as Touch).clientX : (e as MouseEvent).clientX;
   }
 
-  onTouchMove(e: globalThis.MouseEvent | globalThis.TouchEvent): void {
-    if (!this.isDown) {
-      return;
-    }
-    const x = 'touches' in e ? (e.touches[0]?.clientX ?? 0) : e.clientX;
+  onTouchMove(e: MouseEvent | TouchEvent) {
+    // biome-ignore lint/style/useBlockStatements: <explanation>
+    if (!this.isDown) return;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const x = 'touches' in e ? (e.touches[0] as Touch).clientX : (e as MouseEvent).clientX;
     const distance = (this.start - x) * 0.05;
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
@@ -633,7 +624,6 @@ class App {
   }
 
   onCheck() {
-    // biome-ignore lint/style/useBlockStatements: <explanation>
     if (!this.medias || !this.medias[0]) return;
     const width = this.medias[0].width;
     const itemIndex = Math.round(Math.abs(this.scroll.target) / width);
@@ -670,16 +660,20 @@ class App {
     );
     const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
     if (this.medias) {
-      for (const media of this.medias) {
-        media.update(this.scroll, direction);
-      }
+      // biome-ignore lint/complexity/noForEach: <explanation>
+      this.medias.forEach((media) => media.update(this.scroll, direction));
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
     this.raf = window.requestAnimationFrame(this.update.bind(this));
   }
 
-  addEventListeners(): void {
+  addEventListeners() {
+    this.boundOnResize = this.onResize.bind(this);
+    this.boundOnWheel = this.onWheel.bind(this);
+    this.boundOnTouchDown = this.onTouchDown.bind(this);
+    this.boundOnTouchMove = this.onTouchMove.bind(this);
+    this.boundOnTouchUp = this.onTouchUp.bind(this);
     window.addEventListener('resize', this.boundOnResize);
     window.addEventListener('mousewheel', this.boundOnWheel);
     window.addEventListener('wheel', this.boundOnWheel);
@@ -747,7 +741,7 @@ export default function CircularGallery({
 
   return (
     <div
-      className="h-full w-full cursor-grab overflow-hidden active:cursor-grabbing"
+      className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing"
       ref={containerRef}
     />
   );

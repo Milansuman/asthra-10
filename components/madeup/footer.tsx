@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50">
+    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50 relative">
       <div className="min-h-[95vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 divide-dashed  ">
         <div className="col-span-1 sm:col-span-2 border-white/50 border-b p-4 sm:p-6 lg:p-8 flex items-center justify-center font-bold ">
           <h2 className="text-3xl sm:text-4xl md:text-6xl tracking-wide font-bold">

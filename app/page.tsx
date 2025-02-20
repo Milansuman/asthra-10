@@ -1,11 +1,11 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
-import { SplineViewer } from '@/components/madeup/spline-viewer';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
+import { SplineViewer } from '@/components/madeup/spline-viewer';
 import Image from 'next/image';
 
 export default function Page() {
   return (
-    <main className="z-10">
+    <main className="z-10 relative">
       <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
         <div className="col-span-1 flex items-center border border-neutral-300 p-8 md:col-span-2">
           <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
