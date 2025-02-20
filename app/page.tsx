@@ -1,4 +1,5 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
+import { SplineViewer } from '@/components/madeup/spline-viewer';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
 import Image from 'next/image';
 

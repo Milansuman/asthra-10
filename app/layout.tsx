@@ -30,12 +30,23 @@ export default function RootLayout({
             loop={true}
             muted={true}
             className="h-full w-full object-cover"
+<<<<<<< HEAD
+          />
+        </div> */}
+        {/* <PointerWrapper> */}
+          <Providers>
+            {children}
+            <Footer />
+          </Providers>
+        {/* </PointerWrapper> */}
+=======
           /> */}
         </div>
         <Providers>
           {children}
           <Footer />
         </Providers>
+>>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
       </body>
     </html>
   );

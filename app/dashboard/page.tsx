@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 async function DashboardPage() {
   const dashData = await api.dashboard.allManagementCounts();
-  console.log(dashData);
+  // console.log(dashData);
   return (
     <>
       <Dashboard data={dashData} />

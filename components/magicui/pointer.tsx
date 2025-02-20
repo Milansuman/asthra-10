@@ -1,9 +1,15 @@
 'use client';
 
+<<<<<<< HEAD
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useMotionValue, MotionValue } from "motion/react";
+import React, { useEffect, useRef, useState } from "react";
+=======
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion, useMotionValue } from 'motion/react';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
+>>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
 
 /**
  * @property {React.ReactNode} children - The child elements to be wrapped
@@ -87,10 +93,15 @@ export function PointerWrapper({
  * @property {MotionValue<number>} y - The y-coordinate position of the pointer
  */
 interface PointerProps {
+<<<<<<< HEAD
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+=======
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   x: any;
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   y: any;
+>>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
 }
 
 /**
