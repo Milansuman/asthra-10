@@ -16,16 +16,14 @@ import {
 } from '@/components/ui/card';
 import UploadImage from '../../_components/upload-media';
 
-const Home = async ({ params }: { params: Promise<{ id: string }> }) => {
+const UploadEdit = ({ id }: { id: string }) => {
   const [url, setUrl] = useState<string | undefined>(undefined);
   const [copy, setCopy] = useState<boolean>(false);
   const { mutateAsync: uploadMedia, isPending: payLoading } =
     api.event.uploadEventImage.useMutation();
 
-  const { id } = await params;
-
   return (
-    <div className="conatiner flex justify-center items-center min-h-[70vh] cal">
+    <div className="conatiner flex justify-center items-center min-h-[70vh] cal h-screen">
       <Card className="flex flex-col gap-10">
         {url && (
           <CardHeader>
@@ -78,4 +76,4 @@ const Home = async ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default Home;
+export default UploadEdit;
