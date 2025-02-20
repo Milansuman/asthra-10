@@ -3,7 +3,12 @@ import { and, eq } from 'drizzle-orm';
 import { v4 } from 'uuid';
 import * as z from 'zod';
 
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import {
+  createTRPCRouter,
+  frontDeskProcedure,
+  managementProcedure,
+  protectedProcedure,
+} from '@/server/api/trpc';
 import {
   eventsTable,
   transactionsTable,
@@ -16,17 +21,13 @@ import { userZod } from '@/lib/validator';
 import { verifyAsthraPayment } from '@/logic/payment';
 
 export const verifyRouter = createTRPCRouter({
-  registeredEvents: protectedProcedure
+  registeredEvents: frontDeskProcedure
     .input(
       z.object({
         userRegisteredId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      if (ctx.session.user.role !== 'DESK') {
-        throw getTrpcError('NOT_AUTHORIZED');
-      }
-
       return await ctx.db.transaction(async (tx) => {
         const registeredEventList = await tx
           .update(userRegisteredEventTable)
@@ -70,17 +71,13 @@ export const verifyRouter = createTRPCRouter({
       });
     }),
 
-  forceSuccess: protectedProcedure
+  forceSuccess: managementProcedure
     .input(
       userZod.pick({
         email: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
-      if (ctx.session.user.role !== 'ADMIN') {
-        throw getTrpcError('NOT_AUTHORIZED');
-      }
-
       return await ctx.db.transaction(async (tx) => {
         const userData = await tx.query.user.findFirst({
           where: eq(user.email, input.email),

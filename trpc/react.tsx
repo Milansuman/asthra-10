@@ -1,14 +1,31 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { loggerLink, unstable_httpBatchStreamLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import SuperJSON from 'superjson';
 
 import type { AppRouter } from '@/server/api/root';
+import { TRPCError } from '@trpc/server';
 
-const createQueryClient = () => new QueryClient();
+const createQueryClient = () =>
+  new QueryClient({
+    queryCache: new QueryCache({
+      onError: (error) => {
+        if (error instanceof TRPCError) {
+          toast.error(error.code, {
+            description: error.message,
+          });
+        }
+      },
+    }),
+  });
 
 let clientQueryClientSingleton: QueryClient | undefined;
 const getQueryClient = () => {

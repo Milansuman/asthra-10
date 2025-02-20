@@ -1,9 +1,9 @@
 import { ASTHRA } from '@/logic';
 import { and, eq } from 'drizzle-orm';
-import { v4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import * as z from 'zod';
 
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { createTRPCRouter, frontDeskProcedure } from '@/server/api/trpc';
 import {
   eventsTable,
   transactionsTable,
@@ -13,7 +13,7 @@ import {
 import { getTrpcError } from '@/server/db/utils';
 
 export const spotRegister = createTRPCRouter({
-  registerEventOffline: protectedProcedure
+  registerEventOffline: frontDeskProcedure
     .input(
       z.object({
         userEmail: z.string(),
@@ -22,14 +22,6 @@ export const spotRegister = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      if (
-        ctx.session.user.role !== 'DESK' &&
-        ctx.session.user.role !== 'MANAGEMENT' &&
-        ctx.session.user.role !== 'STUDENT_COORDINATOR'
-      ) {
-        throw getTrpcError('NOT_AUTHORIZED');
-      }
-
       return await ctx.db.transaction(async (tx) => {
         const userData = await tx.query.user.findFirst({
           where: eq(user.email, input.userEmail),
@@ -69,7 +61,11 @@ export const spotRegister = createTRPCRouter({
 
         const isAsthraPass = event.id === ASTHRA.id;
 
-        const transactionId = v4();
+        if (isAsthraPass && userData.asthraPass) {
+          throw getTrpcError('ALREADY_PURCHASED');
+        }
+
+        const transactionId = uuid();
 
         const transaction = await tx
           .insert(transactionsTable)
@@ -85,10 +81,6 @@ export const spotRegister = createTRPCRouter({
             status: 'initiated',
           })
           .returning();
-
-        if (event.id === ASTHRA.id && userData.asthraPass) {
-          throw getTrpcError('ALREADY_PURCHASED');
-        }
 
         return {
           transaction,

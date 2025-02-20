@@ -6,7 +6,11 @@ import type { z } from 'zod';
 
 import { env } from '@/env';
 
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import {
+  createTRPCRouter,
+  managementProcedure,
+  validUserOnlyProcedure,
+} from '@/server/api/trpc';
 import {
   eventsTable,
   transactionsTable,
@@ -15,71 +19,63 @@ import {
 } from '@/server/db/schema';
 import { Increment, getTrpcError } from '@/server/db/utils';
 
-import { isValidUserDetails, transactionsZod } from '@/lib/validator';
+import { transactionsZod } from '@/lib/validator';
 import { paymentClientSide, type paymentZod } from '@/lib/validator/payment';
 
 export const asthraRouter = createTRPCRouter({
-  createAsthraPass: protectedProcedure.mutation(async ({ ctx }) => {
-    if (ctx.session.user.role === 'MANAGEMENT') {
-      await ctx.db.insert(eventsTable).values({
-        createdById: ctx.session.user.id,
-        ...ASTHRA,
-      });
+  createAsthraPass: managementProcedure.mutation(async ({ ctx }) => {
+    await ctx.db.insert(eventsTable).values({
+      createdById: ctx.session.user.id,
+      ...ASTHRA,
+    });
 
-      console.log('ASTHRA PASS CREATED');
-    } else {
-      throw getTrpcError('NOT_AUTHORIZED');
-    }
+    console.log('ASTHRA PASS CREATED');
   }),
-  initiatePurchaseAsthraPass: protectedProcedure.mutation(async ({ ctx }) => {
-    return await ctx.db.transaction(async (tx) => {
-      const userData = await tx.query.user.findFirst({
-        where: eq(user.id, ctx.session.user.id),
-      });
+  initiatePurchaseAsthraPass: validUserOnlyProcedure.mutation(
+    async ({ ctx }) => {
+      const userData = ctx.session.user;
 
-      if (!userData || !isValidUserDetails(userData)) {
-        throw getTrpcError('USER_DETAILS_INCOMPLETE');
-      }
-
-      if (user.asthraPass) {
+      if (userData.asthraPass) {
         throw getTrpcError('ALREADY_PURCHASED');
       }
 
-      const transactionId = uuid();
+      return await ctx.db.transaction(async (tx) => {
+        const transactionId = uuid();
 
-      const data: z.infer<typeof paymentZod> = {
-        amount: ASTHRA.amount,
-        email: userData.email ?? 'NA',
-        firstname: userData.name ?? 'NA',
-        phone: Number.parseInt(userData.number ?? '000'),
-        productinfo: ASTHRA.id,
-        txnid: transactionId,
-        furl: `${env.NEXTAUTH_URL}/payment/failed/${transactionId}`,
-        surl: `${env.NEXTAUTH_URL}/payment/asthra/success/${transactionId}`,
-        salt: env.NEXT_PUBLIC_HDFC_SALT,
-        key: env.NEXT_PUBLIC_HDFC_KEY,
-      };
+        const data: z.infer<typeof paymentZod> = {
+          amount: ASTHRA.amount,
+          email: userData.email ?? 'NA',
+          firstname: userData.name ?? 'NA',
+          phone: Number.parseInt(userData.number ?? '000'),
+          productinfo: ASTHRA.id,
+          txnid: transactionId,
+          furl: `${env.NEXTAUTH_URL}/payment/failed/${transactionId}`,
+          surl: `${env.NEXTAUTH_URL}/payment/asthra/success/${transactionId}`,
+          salt: env.NEXT_PUBLIC_HDFC_SALT,
+          key: env.NEXT_PUBLIC_HDFC_KEY,
+        };
 
-      const hash = generateHash(data);
+        const hash = generateHash(data);
 
-      const newData = paymentClientSide.parse({ ...data, hash });
+        const newData = paymentClientSide.parse({ ...data, hash });
 
-      await tx.insert(transactionsTable).values({
-        eventId: ASTHRA.id,
-        eventName: ASTHRA.name,
-        id: transactionId,
-        userId: userData.id,
-        userName: userData?.name ?? 'NA',
-        status: 'initiated',
-        amount: ASTHRA.amount,
-        remark: `Initiated Asthra Pass on ${new Date().toLocaleString()}`,
+        await tx.insert(transactionsTable).values({
+          eventId: ASTHRA.id,
+          eventName: ASTHRA.name,
+          id: transactionId,
+          userId: userData.id,
+          userName: userData?.name ?? 'NA',
+          status: 'initiated',
+          amount: ASTHRA.amount,
+          remark: `Initiated Asthra Pass on ${new Date().toLocaleString()}`,
+        });
+
+        return newData;
       });
+    }
+  ),
 
-      return newData;
-    });
-  }),
-
-  successPurchaseAsthraPass: protectedProcedure
+  successPurchaseAsthraPass: validUserOnlyProcedure
     .input(
       transactionsZod.pick({
         id: true,
@@ -118,9 +114,7 @@ export const asthraRouter = createTRPCRouter({
               asthraCredit: ASTHRA.credit,
               transactionId: currentTransation[0].id,
             })
-            .where(
-              and(eq(user.id, ctx.session.user.id), eq(user.asthraPass, false))
-            )
+            .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)))
             .returning();
 
           await tx
@@ -136,7 +130,7 @@ export const asthraRouter = createTRPCRouter({
               registrationId: uuid(),
               eventId: currentTransation[0].eventId,
               transactionId: currentTransation[0].id,
-              userId: ctx.session.user.id,
+              userId: ctx.user.id,
               remark: `Success on ${new Date().toLocaleString()}`,
             })
             .returning();
@@ -146,15 +140,7 @@ export const asthraRouter = createTRPCRouter({
       });
     }),
 
-  getMyAsthraPass: protectedProcedure.query(async ({ ctx }) => {
-    const asthraUser = await ctx.db.query.user.findFirst({
-      where: eq(user.id, ctx.session.user.id),
-    });
-
-    if (!asthraUser) {
-      throw getTrpcError('USER_NOT_FOUND');
-    }
-
-    return asthraUser;
+  getMyAsthraPass: validUserOnlyProcedure.query(({ ctx }) => {
+    return ctx.user;
   }),
 });

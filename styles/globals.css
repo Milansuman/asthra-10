@@ -75,7 +75,7 @@
   }
 
   body {
-    @apply text-foreground;
+    @apply text-black;
   }
   .glass{
     @apply bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20;
@@ -137,4 +137,35 @@ blockquote {
     url('/fonts/ambit/Ambit-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+}
+
+.mdxeditor{
+  border-radius: 5px;
+  border: 1px solid #444444;
+  padding: 5px;
+}
+
+.mdxeditor-toolbar{
+  display: flex;
+  flex-direction: row;
+  background-color: #efefef;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+  & *{
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.mdxeditor-root-contenteditable{
+  outline: none;
+
+  & *{
+    outline: none;
+  }
+
+  & *>h1{
+    font-size: 20px;
+  }
 }
