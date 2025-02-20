@@ -1,6 +1,4 @@
 'use client'
-import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -8,7 +6,9 @@ import {
 	CardDescription,
 	CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { eventZod } from "@/lib/validator";
+import { AnimatePresence, motion } from "motion/react";
 import React from "react";
 import { z } from "zod";
 
@@ -31,18 +31,6 @@ const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
 			<Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
 			<Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
 			<Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
-
-			<AnimatePresence>
-				{hovered && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						className="h-full w-full absolute inset-0"
-					>
-						<h3>{data.name}</h3>
-					</motion.div>
-				)}
-			</AnimatePresence>
 
 			<div className="relative z-20 glass ambit">
 				<div className="text-white p-4 text-xl flex flex-col justify-end opacity-0 group-hover/canvas-card:opacity-100 absolute left-0 top-0 right-0 bottom-0 z-10    font-bold group-hover/canvas-card:text-white group-hover/canvas-card:-translate-y-2 transition duration-200">

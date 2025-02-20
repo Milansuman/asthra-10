@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { CheckCircle, Home, XCircleIcon } from 'lucide-react';
@@ -16,7 +16,6 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 // import { CursorContainer } from './cursor';
 
-import { api } from "trpc/react"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -28,6 +27,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { api } from "trpc/react"
 
 import {
     Table,
@@ -39,12 +39,12 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import { ScrollArea } from '../ui/scroll-area';
 import { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
-import EventCard from './event-card';
-import Dock, { DockItemData } from './Dock';
 import RotatingText from '../ui/rotatingText';
+import { ScrollArea } from '../ui/scroll-area';
+import Dock, { DockItemData } from './Dock';
+import EventCard from './event-card';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -237,7 +237,7 @@ export function EventPage({
                     )
                     .map((event) => (
                         <motion.div layout key={event.id} className="w-full">
-                            {dashboard ? <EventCard data={event} /> : <Link href={'/events/' + event.id}><EventCard data={event} /></Link>}
+                            <Link href={'/events/' + event.id}><EventCard data={event} /></Link>
                         </motion.div>
                     ))}
             </div>

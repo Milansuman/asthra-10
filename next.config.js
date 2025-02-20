@@ -36,7 +36,9 @@ const config = {
 };
 
 // @ts-ignore
-export default next(config, {
-  auto: true,
-  mute: true,
-});
+// export default next(config, {
+//   auto: true,
+//   mute: true,
+// });
+
+export default config;
