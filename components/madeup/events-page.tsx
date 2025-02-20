@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { CheckCircle, Home, XCircleIcon } from 'lucide-react';
@@ -16,7 +16,6 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 // import { CursorContainer } from './cursor';
 
-import { api } from "trpc/react"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -28,6 +27,11 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+<<<<<<< HEAD
+=======
+import { api } from "trpc/react"
+
+>>>>>>> 840a70dce9ade38fc5fa52af04ae450c40f6af02
 import {
     Table,
     TableBody,
@@ -38,11 +42,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import { ScrollArea } from '../ui/scroll-area';
 import { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
-import EventCard from './event-card';
-import Dock, { DockItemData } from './Dock';
 import RotatingText from '../ui/rotatingText';
 import Plusbox from './box';
 
