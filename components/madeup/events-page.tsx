@@ -45,6 +45,7 @@ import { allDepartments } from '@/logic';
 import EventCard from './event-card';
 import Dock, { DockItemData } from './Dock';
 import RotatingText from '../ui/rotatingText';
+import Plusbox from './box';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -227,17 +228,17 @@ export function EventPage({
                     ))}
                 </div>
             </div> */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
                 {events
-                    .filter(
-                        (event: Event) =>
-                            ((isDepartment(event) && isEventType(event)) || isGeneralEvent(event) || isSpotEvent(event) || isCancelled(event)) &&
-                            isEventStatus(event) &&
-                            !isUploaded(event),
-                    )
+                    // .filter(
+                    //     (event: Event) =>
+                    //         ((isDepartment(event) && isEventType(event)) || isGeneralEvent(event) || isSpotEvent(event) || isCancelled(event)) &&
+                    //         isEventStatus(event) &&
+                    //         !isUploaded(event),
+                    // )
                     .map((event) => (
-                        <motion.div layout key={event.id} className="w-full">
-                            {dashboard ? <EventCard data={event} /> : <Link href={'/events/' + event.id}><EventCard data={event} /></Link>}
+                        <motion.div key={event.id} className="w-full">
+                            <Link href={'/events/' + event.id}><EventCard data={event} /></Link>
                         </motion.div>
                     ))}
             </div>
