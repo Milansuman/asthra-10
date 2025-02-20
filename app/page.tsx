@@ -1,4 +1,5 @@
 import { SplineViewer } from '@/components/madeup/spline-viewer';
+import LoginButton from './_components/login';
 
 export default function Page() {
   return (

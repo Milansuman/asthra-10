@@ -28,12 +28,12 @@ export default function RootLayout({
             className="h-full w-full object-cover"
           />
         </div> */}
-        <PointerWrapper>
+        {/* <PointerWrapper> */}
           <Providers>
             {children}
             <Footer />
           </Providers>
-        </PointerWrapper>
+        {/* </PointerWrapper> */}
       </body>
     </html>
   );

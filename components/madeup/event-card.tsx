@@ -1,3 +1,6 @@
+'use client'
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -16,74 +19,78 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
+	const [hovered, setHovered] = React.useState(false);
+
 	return (
-		<Card className="ambit w-full max-w-2xl bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 p-6 text-white">
-			<div className="flex flex-col space-y-3">
-				{/* Header and Credits Section */}
-				<div className="flex justify-between items-start">
-					<div className="flex-1 pr-4">
-						<CardTitle className="text-4xl mb-3">{data.name}</CardTitle>
-						{data.description && (
-							<CardDescription className="text-xl text-white">
-								{data.description}
-							</CardDescription>
-						)}
-					</div>
-					{credits && (
-						<div className="bg-white text-blue-600 px-4 py-2 rounded-lg flex-shrink-0">
-							<span className="ambit">{credits}</span>
-						</div>
-					)}
-				</div>
+		<div
+			onMouseEnter={() => setHovered(true)}
+			onMouseLeave={() => setHovered(false)}
+			className="border  group/canvas-card flex items-center justify-center dark:border-white/[0.2]  max-w-sm w-full mx-auto p-2 h-[30rem] relative"
+		>
+			<Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
+			<Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
+			<Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
+			<Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
 
-				{/* Card with logo and bullet points */}
-				<div className="flex mt-4">
-					<Card className="bg-white w-52 h-64 flex justify-center items-center rounded-md overflow-hidden flex-shrink-0">
-						<CardContent className="flex flex-col justify-center items-center p-0 w-full h-full">
-							<img
-								src={data.poster}
-								alt="Event logo"
-								className="w-full h-full object-cover"
-							/>
-						</CardContent>
-					</Card>
-
-					<div className="ml-8 flex items-center">
-						<ul className="list-disc space-y-1 pl-6">
-							<li className="list-item text-xl">
-								<span className="ambit">Amount:</span>
-								{data.amount}
-							</li>
-							<li className="list-item text-xl">
-								<span className="ambit">Venue:</span>
-								{data.venue}
-							</li>
-							<li className="list-item text-xl">
-								<span className="ambit">Event Type:</span>
-								{data.eventType}
-							</li>
-							<li className="list-item text-xl">
-								<span className="ambit">Only {data.regLimit} seats!</span>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-				{/* Footer */}
-				<div className="flex justify-between items-center mt-4">
-					{footerNote && <p className="text-xl">{footerNote}</p>}
-					<Button
-						variant="outline"
-						className="bg-white text-blue-500 border-2 border-gray-300 px-6 py-6 text-xl rounded-lg"
+			<AnimatePresence>
+				{hovered && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						className="h-full w-full absolute inset-0"
 					>
-						{data.eventType === "ASTHRA_PASS" && "Buy Ticket"}
-						{data.eventType === "WORKSHOP" && `Purchase for ₹${data.amount}`}
-						{data.eventType === "ASTHRA_PASS_EVENT" && "Buy Asthra Pass First"}
-					</Button>
+						<h3>{data.name}</h3>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
+			<div className="relative z-20 glass ambit">
+				<div className="text-white p-4 text-xl flex flex-col justify-end opacity-0 group-hover/canvas-card:opacity-100 absolute left-0 top-0 right-0 bottom-0 z-10    font-bold group-hover/canvas-card:text-white group-hover/canvas-card:-translate-y-2 transition duration-200">
+					<h5 className="text-4xl">{data.name}</h5>
+					<p className="text-sm font-thin">{data.description}</p>
+				</div>
+				<div className="text-center  group-hover/canvas-card:scale-105 group-hover/canvas-card:blur-sm group-hover/canvas-card:brightness-75 transition duration-200 w-full  mx-auto flex items-center justify-center">
+					<img src="/assets/Ref2.webp" alt="Sjcet event" className="w-full" />
 				</div>
 			</div>
-		</Card>
+		</div>
+	);
+};
+const AceternityIcon = () => {
+	return (
+		<svg
+			width="66"
+			height="65"
+			viewBox="0 0 66 65"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className="h-10 w-10 text-black dark:text-white group-hover/canvas-card:text-white "
+		>
+			<path
+				d="M8 8.05571C8 8.05571 54.9009 18.1782 57.8687 30.062C60.8365 41.9458 9.05432 57.4696 9.05432 57.4696"
+				stroke="currentColor"
+				strokeWidth="15"
+				strokeMiterlimit="3.86874"
+				strokeLinecap="round"
+				style={{ mixBlendMode: "darken" }}
+			/>
+		</svg>
 	);
 };
 
+export const Icon = ({ className, ...rest }: any) => {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			strokeWidth="1.5"
+			stroke="currentColor"
+			className={className}
+			{...rest}
+		>
+			<path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
+		</svg>
+	);
+};
 export default EventCard;
