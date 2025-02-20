@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import Footer from '@/components/madeup/footer';
-import { PointerWrapper } from '@/components/magicui/pointer';
+import { SplineViewer } from '@/components/madeup/spline-viewer';
 import type { Metadata } from 'next';
 import { manifestData } from './manifest';
 import { Providers } from './providers';
@@ -18,14 +18,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={'dark font-sans'}>
-        {/* <div className="fixed top-0 left-0 h-screen w-screen">
-          <video
+      <body className={'dark ambit font-sans relative'}>
+        <div className="fixed top-0 left-0 h-screen w-screen">
+          <SplineViewer
+            url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
+            className="relative h-full w-full bg-blue-600"
+          />
+          {/* <video
             src={'/glass.mp4'}
             autoPlay={true}
             loop={true}
             muted={true}
             className="h-full w-full object-cover"
+<<<<<<< HEAD
           />
         </div> */}
         {/* <PointerWrapper> */}
@@ -34,6 +39,14 @@ export default function RootLayout({
             <Footer />
           </Providers>
         {/* </PointerWrapper> */}
+=======
+          /> */}
+        </div>
+        <Providers>
+          {children}
+          <Footer />
+        </Providers>
+>>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
       </body>
     </html>
   );

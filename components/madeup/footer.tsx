@@ -3,10 +3,8 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="ambit w-full bg-[#0A0A19] font-[350] text-white">
-      {/* Top Section */}
+    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50">
       <div className="min-h-[95vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 divide-dashed  ">
-        {/* Header Row */}
         <div className="col-span-1 sm:col-span-2 border-white/50 border-b p-4 sm:p-6 lg:p-8 flex items-center justify-center font-bold ">
           <h2 className="text-3xl sm:text-4xl md:text-6xl tracking-wide font-bold">
             Asthra 9.0
@@ -30,7 +28,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Content Row */}
         <div className="col-span-1 sm:col-span-2 lg:col-span-3 border-white/50 lg:border-r p-4 sm:p-6 lg:p-8 border-b">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6 lg:gap-8">
             <div className="flex flex-row md:flex-col  gap-4">
@@ -138,7 +135,6 @@ export default function Footer() {
           </div>
         </div> */}
 
-        {/* College Logo */}
         <div className="md:col-span-2 p-4 sm:p-6 lg:p-8 flex justify-center items-center">
           <Image
             src="/sjcet.svg"
@@ -149,7 +145,6 @@ export default function Footer() {
           />
         </div>
 
-        {/* Social Links */}
         <div className="p-4 sm:p-6 lg:p-8 flex flex-col items-center md:mt-6">
           <h4 className="text-lg sm:text-xl md:text-3xl mb-4 sm:mb-6">
             Community
@@ -187,7 +182,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Copyright */}
       <div className="border-t border-gray-800">
         <p className="text-xs sm:text-sm text-gray-400 text-center sm:text-right p-4 sm:p-6 lg:p-8">
           @2025 ASTHRA 9.0, All Rights Reserved

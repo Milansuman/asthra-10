@@ -1,8 +1,15 @@
-"use client";
+'use client';
 
+<<<<<<< HEAD
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useMotionValue, MotionValue } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
+=======
+import { cn } from '@/lib/utils';
+import { AnimatePresence, motion, useMotionValue } from 'motion/react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
+>>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
 
 /**
  * @property {React.ReactNode} children - The child elements to be wrapped
@@ -41,10 +48,10 @@ export function PointerWrapper({
     updateRect();
 
     // Update rect on window resize
-    window.addEventListener("resize", updateRect);
+    window.addEventListener('resize', updateRect);
 
     return () => {
-      window.removeEventListener("resize", updateRect);
+      window.removeEventListener('resize', updateRect);
     };
   }, []);
 
@@ -69,7 +76,7 @@ export function PointerWrapper({
   return (
     <div
       ref={ref}
-      className={cn("relative cursor-none", className)}
+      className={cn('relative cursor-none', className)}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
@@ -86,8 +93,15 @@ export function PointerWrapper({
  * @property {MotionValue<number>} y - The y-coordinate position of the pointer
  */
 interface PointerProps {
+<<<<<<< HEAD
   x: MotionValue<number>;
   y: MotionValue<number>;
+=======
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  x: any;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  y: any;
+>>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
 }
 
 /**
@@ -119,6 +133,7 @@ function Pointer({ x, y }: PointerProps) {
         opacity: 0,
       }}
     >
+      {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
       <svg
         width="37"
         height="37"
@@ -126,13 +141,26 @@ function Pointer({ x, y }: PointerProps) {
         className="translate-x-[-18.5px] translate-y-[-18.5px] rotate-[0deg]"
       >
         <defs>
-          <linearGradient id="cursorGradient" x1="1.84011" y1="-3.15993" x2="53.1388" y2="48.1388">
+          <linearGradient
+            id="cursorGradient"
+            x1="1.84011"
+            y1="-3.15993"
+            x2="53.1388"
+            y2="48.1388"
+          >
             <stop offset="0%" stopColor="#9EF1FD" />
             <stop offset="100%" stopColor="#1FC9FF" />
           </linearGradient>
-          <filter id="cursorShadow" x="0.42" y="0.79" width="73" height="72.33" filterUnits="userSpaceOnUse">
-            <feDropShadow dx="0" dy="4" stdDeviation="2" floodOpacity="0.25"/>
-            <feDropShadow dx="0" dy="4" stdDeviation="2" floodOpacity="0.1"/>
+          <filter
+            id="cursorShadow"
+            x="0.42"
+            y="0.79"
+            width="73"
+            height="72.33"
+            filterUnits="userSpaceOnUse"
+          >
+            <feDropShadow dx="0" dy="4" stdDeviation="2" floodOpacity="0.25" />
+            <feDropShadow dx="0" dy="4" stdDeviation="2" floodOpacity="0.1" />
           </filter>
         </defs>
         <path
