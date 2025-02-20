@@ -1,124 +1,140 @@
-<<<<<<< HEAD
+import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
-import LoginButton from './_components/login';
-=======
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
 import Image from 'next/image';
->>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
 
 export default function Page() {
   return (
     <main className="z-10">
-      <section className="flex h-screen w-screen flex-col">
-        <div className="flex h-1/3 flex-row flex-wrap">
-          <div className="flex h-full w-full items-center justify-center border border-neutral-300 font-bold text-2xl md:w-2/3">
-            <p className="ambit px-4 text-center font-thin text-3xl md:text-5xl">
-              {/* Making things pop since 2015 */}
-              <DecryptedText
-                text="Making things pop since 2015"
-                speed={100}
-                maxIterations={20}
-                characters="ABCD1234!?"
-                className="revealed"
-                parentClassName="all-letters"
-                encryptedClassName="encrypted"
-                animateOn="view"
-              />
-            </p>
-          </div>
-          <div className="z-10 flex h-full w-full items-center justify-center border border-neutral-300 bg-slate-400/50 backdrop-blur-xl md:w-1/3">
-            {/* <Orb
-              hoverIntensity={0.5}
-              rotateOnHover={true}
-              hue={2}
-              forceHoverState={false}
-            /> */}
-            <Image
-              src="/asthra2.svg"
-              alt="logo"
-              width={100}
-              height={100}
-              className="absolute w-1/4 md:w-3/4"
+      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
+        <div className="col-span-1 flex items-center border border-neutral-300 p-8 md:col-span-2">
+          <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
+            <DecryptedText
+              text="Envisioned to explore
+the possibilities of
+tomorrow"
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
             />
-          </div>
+          </p>
         </div>
-        <div className="flex h-1/3 flex-row flex-wrap">
-          <div className="flex h-full w-full border border-neutral-300 bg-slate-400/50 backdrop-blur-xl md:w-2/3" />
-          <div className="flex h-full w-full border border-neutral-300 md:w-1/3" />
+        <div className="relative col-span-1 flex items-center justify-center border border-neutral-300 bg-slate-400/50 p-4 backdrop-blur-xl">
+          {/* <Orb
+            hoverIntensity={0.5}
+            rotateOnHover={true}
+            hue={2}
+            forceHoverState={false}
+          /> */}
+          <Image
+            src="/asthra2.svg"
+            alt="logo"
+            width={100}
+            height={100}
+            className="w-3/4 md:w-2/3 lg:w-1/2"
+          />
         </div>
-        <div className="flex h-1/3 w-full items-center justify-center px-4">
-          <p className="ambit text-center font-thin text-3xl md:text-5xl">
+
+        <div className="col-span-1 flex items-center border border-neutral-300 bg-slate-400/50 p-8 backdrop-blur-xl md:col-span-2">
+          <p className="ambit text-balance px-4 text-left font-extralight text-lg md:text-xl lg:text-2xl">
+            <DecryptedText
+              text="ASTHRA, the national-level technical fest of St. Joseph's College of
+              Engineering and Technology, Palai, is a premier inter-college event
+              in Kerala. With 5,000+ annual visitors, it features professional
+              shows, competitions, lectures, and workshops, offering an immersive
+              experience for all participants."
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
+            />
+          </p>
+        </div>
+        <div className="col-span-1 border border-neutral-300" />
+
+        <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
+          <p className="ambit text-center font-thin text-2xl md:text-3xl lg:text-5xl">
             "Culture shouldn't exist only for those who can afford it"
           </p>
         </div>
       </section>
 
-      <section className="flex h-screen w-screen flex-col md:hidden">
-        <div className="flex h-1/3 flex-row flex-wrap">
-          <div className="flex h-full w-full items-center justify-center border border-neutral-300 font-bold">
-            <p className="ambit px-4 text-center font-thin text-3xl">
-              <DecryptedText
-                text="Making things pop since 2015"
-                speed={100}
-                maxIterations={20}
-                characters="ABCD1234!?"
-                className="revealed"
-                parentClassName="all-letters"
-                encryptedClassName="encrypted"
-                animateOn="view"
-              />
-            </p>
-          </div>
+      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 p-8 md:col-span-2">
+          <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
+            VISION
+          </p>
+          <p className="ambit max-w-2xl px-4 text-center font-thin text-md md:text-xl lg:text-2xl">
+            <DecryptedText
+              text="Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society."
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
+            />
+          </p>
         </div>
-        <div className="flex h-1/3 flex-row flex-wrap">
-          <div className="flex h-full w-full items-center justify-center border border-neutral-300 bg-slate-400/50 backdrop-blur-xl">
-            <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl">
-              <li>40 events</li>
-              <li>10 workshops</li>
-              <li>2 hackathons</li>
-            </ul>
-          </div>
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 p-8 md:col-span-1">
+          <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
+            MISSION
+          </p>
+          <p className="ambit px-4 text-center font-thin text-md md:text-md">
+            <DecryptedText
+              text="To maintain a conducive infrastructure and learning environment for world class education.
+To nurture a team of dedicated, competent and research oriented faculty.
+To develop students with moral & ethical values, for their successful career by offering variety of programmes and services."
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
+            />
+          </p>
         </div>
-        <div className="flex h-1/3 w-full items-center justify-center px-4">
-          <p className="ambit text-center font-thin text-3xl">
-            "Culture shouldn't exist only for those who can afford it"
+
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 md:col-span-2" />
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 bg-slate-400/50 p-8 p-8 backdrop-blur-xl md:col-span-1">
+          <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl md:text-2xl">
+            <li>40 events</li>
+            <li>10 workshops</li>
+            <li>2 hackathons</li>
+          </ul>
+        </div>
+        <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
+          <p className="ambit text-left font-thin text-xl md:w-3/4 md:text-3xl">
+            SJCET Palai, managed by the Syro-Malabar Catholic Diocese of Pala,
+            is an AICTE-approved private college in Kerala, offering engineering
+            and management programs.
           </p>
         </div>
       </section>
 
-      <section className="hidden h-screen w-screen flex-col md:flex">
-        <div className="flex h-1/3 flex-row flex-wrap">
-          <div className="flex h-full w-full items-center justify-center border border-neutral-300 font-bold text-2xl md:w-2/3">
-            <p className="ambit px-4 text-center font-thin text-3xl md:text-5xl">
-              {/* Making things pop since 2015 */}
-              <DecryptedText
-                text="Making things pop since 2015"
-                speed={100}
-                maxIterations={20}
-                characters="ABCD1234!?"
-                className="revealed"
-                parentClassName="all-letters"
-                encryptedClassName="encrypted"
-                animateOn="view"
-              />
-            </p>
-          </div>
-          <div className="flex h-full w-full items-center justify-center border border-neutral-300 md:w-1/3" />
+      <section className="grid min-h-screen grid-cols-1 gap-8">
+        <div className="relative h-[600px]">
+          <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} />
         </div>
-        <div className="flex h-1/3 flex-row flex-wrap">
-          <div className="flex h-full w-full border border-neutral-300 md:w-2/3" />
-          <div className="flex h-full w-full items-center justify-center border border-neutral-300 bg-slate-400/50 backdrop-blur-xl md:w-1/3">
-            <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl md:text-2xl">
-              <li>40 events</li>
-              <li>10 workshops</li>
-              <li>2 hackathons</li>
-            </ul>
-          </div>
-        </div>
-        <div className="flex h-1/3 w-full items-center justify-center px-4">
-          <p className="ambit text-center font-thin text-3xl md:text-5xl">
-            "Culture shouldn't exist only for those who can afford it"
+        <div className="flex flex-col items-center justify-center p-8">
+          <p className="ambit mb-6 text-center font-thin text-2xl md:text-3xl">
+            What are you waiting for ?
           </p>
+          <button
+            type="button"
+            className="ambit rounded-md bg-neutral-300/50 px-10 py-2 font-thin text-xl backdrop-blur-xl transition-colors hover:bg-neutral-400/50"
+          >
+            Register Now
+          </button>
         </div>
       </section>
     </main>
