@@ -1,12 +1,15 @@
 import { eventRouteRules, extractInput } from '@/logic/moods';
 import { and, eq } from 'drizzle-orm';
-import { v4 as uuidv4, v4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 
 import {
+  coordinatorProcedure,
   createTRPCRouter,
+  eventsManageProcedure,
   protectedProcedure,
   publicProcedure,
+  validUserOnlyProcedure,
 } from '@/server/api/trpc';
 import {
   eventsTable,
@@ -21,16 +24,15 @@ export const eventRouter = createTRPCRouter({
   /**
    * user with role `USER` can't create events
    */
-  createEvent: protectedProcedure
+  createEvent: eventsManageProcedure
     .input(eventEditAccessZod.optional())
     .mutation(async ({ ctx, input }) => {
-      eventRouteRules(ctx.session.user.role);
+      eventRouteRules(ctx.role);
 
       await ctx.db.insert(eventsTable).values({
-        department: ctx.session.user.department ?? 'NA',
-        createdById: ctx.session.user.id,
+        department: ctx.user.department ?? 'NA',
+        createdById: ctx.user.id,
         ...input,
-        id: uuidv4(),
       });
     }),
 
@@ -45,14 +47,14 @@ export const eventRouter = createTRPCRouter({
    *
    * `AsthraStartsAt`
    */
-  updateEvent: protectedProcedure
+  updateEvent: eventsManageProcedure
     .input(eventEditAccessZod.merge(z.object({ id: z.string() })))
     .mutation(async ({ ctx, input }) => {
       const newInput = extractInput(input);
 
-      eventRouteRules(ctx.session.user.role);
+      eventRouteRules(ctx.user.role);
 
-      if (ctx.session.user.role === 'MANAGEMENT') {
+      if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db
           .update(eventsTable)
           .set({
@@ -69,7 +71,7 @@ export const eventRouter = createTRPCRouter({
         .where(
           and(
             eq(eventsTable.id, input.id),
-            eq(eventsTable.department, ctx.session.user.department)
+            eq(eventsTable.department, ctx.user.department)
           )
         );
     }),
@@ -85,7 +87,7 @@ export const eventRouter = createTRPCRouter({
    *
    * `AsthraStartsAt`
    */
-  uploadEventImage: protectedProcedure
+  uploadEventImage: eventsManageProcedure
     .input(
       eventZod.pick({
         poster: true,
@@ -93,9 +95,9 @@ export const eventRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      eventRouteRules(ctx.session.user.role);
+      eventRouteRules(ctx.user.role);
 
-      if (ctx.session.user.role === 'MANAGEMENT') {
+      if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db
           .update(eventsTable)
           .set({
@@ -113,7 +115,7 @@ export const eventRouter = createTRPCRouter({
         .where(
           and(
             eq(eventsTable.id, input.id),
-            eq(eventsTable.department, ctx.session.user.department)
+            eq(eventsTable.department, ctx.user.department)
           )
         )
         .returning();
@@ -122,20 +124,23 @@ export const eventRouter = createTRPCRouter({
   /**
    * only the user with role MANAGEMENT can delete events
    */
-  deleteEvent: protectedProcedure
+  deleteEvent: eventsManageProcedure
     .input(
       eventZod.pick({
         id: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
-      eventRouteRules(ctx.session.user.role);
+      eventRouteRules(ctx.user.role);
 
-      if (ctx.session.user.role === 'MANAGEMENT') {
+      if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db
           .delete(eventsTable)
           .where(
-            eq(eventsTable.id, input.id)
+            and(
+              eq(eventsTable.id, input.id),
+              eq(eventsTable.department, ctx.user.department)
+            )
           )
           .returning({ deletedId: eventsTable.id });
       }
@@ -163,30 +168,19 @@ export const eventRouter = createTRPCRouter({
       });
     }),
 
-  getRoleSpecific: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.transaction(async (tx) => {
-      const userData = await tx.query.user.findFirst({
-        where: eq(user.id, ctx.session.user.id),
-      });
-
-      if (!userData) {
-        throw getTrpcError('NOT_AUTHORIZED');
-      }
-
-      if (userData.role === 'MANAGEMENT') {
-        return await tx.query.eventsTable.findMany();
-      }
-      if (userData.department === 'NA') {
-        return [];
-      }
-
-      return await tx.query.eventsTable.findMany({
-        where: eq(eventsTable.department, user.department ?? 'NA'),
-      });
+  getRoleSpecific: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.role === 'MANAGEMENT') {
+      return await ctx.db.query.eventsTable.findMany();
+    }
+    if (ctx.user.department === 'NA') {
+      return [];
+    }
+    return ctx.db.query.eventsTable.findMany({
+      where: eq(eventsTable.department, user.department ?? 'NA'),
     });
   }),
 
-  getParticipants: protectedProcedure
+  getParticipants: coordinatorProcedure
     .input(
       eventZod.pick({
         id: true,
@@ -212,7 +206,7 @@ export const eventRouter = createTRPCRouter({
   /**
    * Register non price events
    */
-  registerEvent: protectedProcedure
+  registerEvent: validUserOnlyProcedure
     .input(eventZod.pick({ id: true }))
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (tx) => {
@@ -227,14 +221,7 @@ export const eventRouter = createTRPCRouter({
           throw getTrpcError('WRONG_PARAMETERS');
         }
 
-        const userData = await tx.query.user.findFirst({
-          where: eq(user.id, ctx.session.user.id),
-        });
-
-        if (!userData) {
-          throw getTrpcError('NOT_AUTHORIZED');
-        }
-        if (!userData.asthraPass || !userData.transactionId) {
+        if (!ctx.user.asthraPass || !ctx.user.transactionId) {
           throw getTrpcError('NEED_ASTHRA_PASS');
         }
 
@@ -242,7 +229,7 @@ export const eventRouter = createTRPCRouter({
           await tx.query.userRegisteredEventTable.findFirst({
             where: and(
               eq(userRegisteredEventTable.eventId, input.id),
-              eq(userRegisteredEventTable.userId, userData.id)
+              eq(userRegisteredEventTable.userId, ctx.user.id)
             ),
           });
 
@@ -254,15 +241,15 @@ export const eventRouter = createTRPCRouter({
           throw getTrpcError('REGISTRATION_LIMIT_EXCEDED');
         }
 
-        if (eventData.amount > userData.asthraCredit) {
+        if (eventData.amount > ctx.user.asthraCredit) {
           throw getTrpcError('YOUR_ASTHRA_CREDIT_EXECEDED');
         }
 
         await tx.insert(userRegisteredEventTable).values({
-          registrationId: v4(),
+          registrationId: uuid(),
           eventId: input.id,
-          userId: userData.id,
-          transactionId: userData.transactionId ?? v4(),
+          userId: ctx.user.id,
+          transactionId: ctx.user.transactionId ?? uuid(),
           remark: `Registered on ${new Date().toLocaleString()}`,
         });
 
@@ -271,7 +258,7 @@ export const eventRouter = createTRPCRouter({
           .set({
             asthraCredit: Decrement(user.asthraCredit, eventData.amount),
           })
-          .where(eq(user.id, userData.id));
+          .where(eq(user.id, ctx.user.id));
 
         const updatedEventData = await tx
           .update(eventsTable)
@@ -283,7 +270,7 @@ export const eventRouter = createTRPCRouter({
 
         return {
           event: updatedEventData[0],
-          transactionId: userData.transactionId,
+          transactionId: ctx.user.transactionId,
           status: 'success',
         };
       });

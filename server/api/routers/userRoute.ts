@@ -11,47 +11,31 @@ import {
 } from '@/lib/validator';
 
 import { sendMail } from '@/lib/sendMail';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
+import {
+  coordinatorProcedure,
+  createTRPCRouter,
+  frontDeskProcedure,
+  managementProcedure,
+  protectedProcedure,
+  publicProcedure,
+  validUserOnlyProcedure,
+} from '../trpc';
 
 export const userRouter = createTRPCRouter({
   /**
-   * user with role USER & STUDENT_COORDINATOR can't access other user list
+   * user with role USER can't access other user list
    */
-  getUserList: publicProcedure.query(async ({ ctx }) => {
-    if (
-      ctx.session?.user.role !== 'USER' &&
-      ctx.session?.user.role !== 'STUDENT_COORDINATOR'
-    ) {
-      return await ctx.db.query.user.findMany();
-    }
+  getUserList: frontDeskProcedure.query(async ({ ctx }) => {
+    return await ctx.db.query.user.findMany();
   }),
 
   /**
    * user with role USER can't access other user
    */
-  getUser: protectedProcedure
+  getUser: frontDeskProcedure
     .input(z.object({ id: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
-      if (
-        ctx.session.user.role !== 'USER' &&
-        ctx.session.user.role !== 'STUDENT_COORDINATOR'
-      ) {
-        return await ctx.db.select().from(user).where(eq(user.id, input.id));
-      }
-    }),
-
-  sentWelcomeMailUser: publicProcedure
-    .input(
-      userCreateMailZod.pick({
-        data: true,
-      })
-    )
-    .query(async ({ input }) => {
-      const { personName, toMail } = input.data;
-      await sendMail({
-        templateName: 'invitation',
-        data: { toMail, personName },
-      });
+      return await ctx.db.select().from(user).where(eq(user.id, input.id));
     }),
 
   /**
@@ -69,7 +53,7 @@ export const userRouter = createTRPCRouter({
         .returning();
     }),
 
-  removeAttendance: protectedProcedure
+  removeAttendance: coordinatorProcedure
     .input(
       z.object({
         userId: z.string().min(1),
@@ -90,7 +74,7 @@ export const userRouter = createTRPCRouter({
         );
     }),
 
-  addAttendance: protectedProcedure
+  addAttendance: coordinatorProcedure
     .input(
       z.object({
         userId: z.string().min(1),
@@ -114,7 +98,7 @@ export const userRouter = createTRPCRouter({
   /**
    * only the user with role MANAGEMENT can delete user
    */
-  deleteUser: protectedProcedure
+  deleteUser: managementProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       if (ctx.session.user.role === 'MANAGEMENT') {
@@ -134,7 +118,7 @@ export const userRouter = createTRPCRouter({
     });
   }),
 
-  getRegisteredEventList: protectedProcedure.query(async ({ ctx }) => {
+  getRegisteredEventList: validUserOnlyProcedure.query(async ({ ctx }) => {
     return await ctx.db.transaction(async (trx) => {
       return await trx.query.userRegisteredEventTable.findMany({
         where: eq(userRegisteredEventTable.userId, ctx.session.user.id),
@@ -142,7 +126,7 @@ export const userRouter = createTRPCRouter({
     });
   }),
 
-  getRegisterationId: protectedProcedure
+  getRegisterationId: validUserOnlyProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (trx) => {
@@ -152,11 +136,7 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  getUserDataValidity: protectedProcedure.query(async ({ ctx }) => {
-    const data = await ctx.db.query.user.findFirst({
-      where: eq(user.id, ctx.session.user.id),
-    });
-
-    return data ? isValidUserDetails(data) : false;
+  getUserDataValidity: protectedProcedure.query(({ ctx }) => {
+    return ctx.user ? isValidUserDetails(ctx.user) : false;
   }),
 });

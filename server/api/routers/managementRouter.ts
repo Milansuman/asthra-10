@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { coordinatorProcedure, createTRPCRouter } from '@/server/api/trpc';
 import {
   transactionsTable,
   user,
@@ -10,7 +10,7 @@ import {
 import { verifyPassZod } from '@/lib/validator';
 
 export const managementRouter = createTRPCRouter({
-  verifyAsthraPass: protectedProcedure
+  verifyAsthraPass: coordinatorProcedure
     .input(verifyPassZod)
     .query(({ ctx, input }) => {
       return ctx.db.query.user.findFirst({
@@ -18,7 +18,7 @@ export const managementRouter = createTRPCRouter({
       });
     }),
 
-  verifyEventPass: protectedProcedure
+  verifyEventPass: coordinatorProcedure
     .input(verifyPassZod)
     .query(async ({ ctx, input }) => {
       const validTransaction = await ctx.db.query.transactionsTable.findFirst({
