@@ -1,4 +1,6 @@
 import '@/styles/globals.css';
+import Footer from '@/components/madeup/footer';
+import { PointerWrapper } from '@/components/magicui/pointer';
 import type { Metadata } from 'next';
 import { manifestData } from './manifest';
 import { Providers } from './providers';
@@ -17,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={'dark font-sans'}>
-        {/* <div className="fixed top-0 left-0 z-[-1] h-screen w-screen bg-background">
+        {/* <div className="fixed top-0 left-0 h-screen w-screen">
           <video
             src={'/glass.mp4'}
             autoPlay={true}
@@ -26,7 +28,12 @@ export default function RootLayout({
             className="h-full w-full object-cover"
           />
         </div> */}
-        <Providers>{children}</Providers>
+        <PointerWrapper>
+          <Providers>
+            {children}
+            <Footer />
+          </Providers>
+        </PointerWrapper>
       </body>
     </html>
   );

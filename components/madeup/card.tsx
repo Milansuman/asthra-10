@@ -32,6 +32,86 @@ interface AsthraCardProps {
 interface AsthraCardPreviewProps {
   data: Partial<z.infer<typeof eventZod>>;
 }
+interface EventCardProps {
+	data: z.infer<typeof eventZod>;
+	credits?: string;
+	footerNote?: string;
+}
+
+const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
+  return (
+    <Card className="ambit w-full max-w-2xl bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 p-6 text-white">
+      <div className="flex flex-col space-y-3">
+
+        <div className="flex justify-between items-start">
+          <div className="flex-1 pr-4">
+            <CardTitle className="text-4xl mb-3">{data.name}</CardTitle>
+            {data.description && (
+              <CardDescription className="text-xl text-white">
+                {data.description}
+              </CardDescription>
+            )}
+          </div>
+          {credits && (
+            <div className="bg-white text-blue-600 px-4 py-2 rounded-lg flex-shrink-0">
+              <span className="ambit">{credits}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex mt-4">
+          <Card className="bg-white w-52 h-64 flex justify-center items-center rounded-md overflow-hidden flex-shrink-0">
+            <CardContent className="flex flex-col justify-center items-center p-0 w-full h-full">
+              <img
+                src={data.poster}
+                alt="Event logo"
+                className="w-full h-full object-cover"
+              />
+            </CardContent>
+          </Card>
+
+          <div className="ml-8 flex items-center">
+            <ul className="list-disc space-y-1 pl-6">
+              <li className="list-item text-xl">
+                <span className="ambit">Amount:</span>
+                {data.amount}
+              </li>
+              <li className="list-item text-xl">
+                <span className="ambit">Venue:</span>
+                {data.venue}
+              </li>
+              <li className="list-item text-xl">
+                <span className="ambit">Event Type:</span>
+                {data.eventType}
+              </li>
+              <li className="list-item text-xl">
+                <span className="ambit">Only {data.regLimit} seats!</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center mt-4">
+          {footerNote && <p className="text-xl">{footerNote}</p>}
+          <Button
+            variant="outline"
+            className="bg-white text-blue-500 border-2 border-gray-300 px-6 py-6 text-xl rounded-lg"
+          >
+            {data.eventType === "ASTHRA_PASS" && "Buy Ticket"}
+            {data.eventType === "WORKSHOP" && `Purchase for ₹${data.amount}`}
+            {data.eventType === "ASTHRA_PASS_EVENT" && "Buy Asthra Pass First"}
+          </Button>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+interface PurchaseCardPreviewProps {
+  data: Partial<z.infer<typeof eventZod>>;
+  onView: () => void;
+  onBuy: () => void;
+}
 
 export const AsthraCard: FC<AsthraCardProps> = ({ data }) => (
   <Card className="m-2 flex flex-col text-black">
@@ -127,8 +207,8 @@ export const AddNewCard: React.FC = () => (
   <Card className="m-2 aspect-square">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="h-full w-full flex flex-col justify-center m-auto text-black cursor-pointer border-neutral-700 border rounded-xl">
-          <p className="text-[5rem] leading-20 w-fit mx-auto">+</p>
+        <CardContent className="m-auto flex h-full w-full flex-col justify-center">
+          <p className="mx-auto w-fit text-[5rem] leading-20">+</p>
           <p className="w-fit mx-auto">Add new</p>
         </CardContent>
       </AlertDialogTrigger>
@@ -144,5 +224,64 @@ export const AddNewCard: React.FC = () => (
         </Card>
       </AlertDialogContent>
     </AlertDialog>
+  </Card>
+);
+
+export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
+  data,
+  onView,
+  onBuy,
+}) => (
+  <Card className="ambit max-w-sm rounded-none bg-white shadow-lg">
+    <CardHeader>
+      <CardTitle className="font-semibold text-2xl text-black">
+        {data.name}
+      </CardTitle>
+      <CardDescription className="text-neutral-700">
+        {data.description}
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex flex-col items-center space-y-6">
+      <Image
+        src={data.poster ?? '/asthra glass.png'}
+        alt="Asthra Logo"
+        width={300}
+        height={200}
+        className="my-4"
+      />
+      <ul className="w-full list-disc space-y-2 pl-5 text-black">
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">{data.eventType}</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">Just ₹{data.amount} per head</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">Event Venue: {data.venue}</span>
+        </li>
+        <li className="list-item items-center gap-2">
+          <span className="text-sm">
+            Limited Spots: Only {data.regLimit} seats available!
+          </span>
+        </li>
+      </ul>
+    </CardContent>
+    <CardFooter className="flex justify-between gap-4">
+      <Button
+        variant="outline"
+        className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-button-primary"
+        onClick={onView}
+      >
+        <span>View</span>
+      </Button>
+      <Button
+        className="flex-1 rounded-lg bg-button-primary font-bold text-white hover:bg-blue-700"
+        onClick={onBuy}
+      >
+        {data.eventType === 'ASTHRA_PASS' && 'Buy Ticket'}
+        {data.eventType === 'WORKSHOP' && `Purchase for ₹${data.amount}`}
+        {data.eventType === 'ASTHRA_PASS_EVENT' && 'Buy Asthra Pass First'}
+      </Button>
+    </CardFooter>
   </Card>
 );
