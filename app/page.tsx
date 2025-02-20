@@ -1,22 +1,140 @@
-// import { SplineViewer } from '@/components/madeup/spline-viewer';
+import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
+import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
+import { SplineViewer } from '@/components/madeup/spline-viewer';
+import Image from 'next/image';
 
 export default function Page() {
   return (
-    <main className="flex h-screen w-screen relative overflow-y-auto">
-      {/* <SplineViewer
-        url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
-        className="fixed w-screen h-screen -z-10"
-      /> */}
-      <section className="flex flex-col w-screen h-screen">
-        <div className="flex flex-row h-1/3">
-          <div className="border border-neutral-300 w-2/3 h-full flex font-bold items-center justify-center text-2xl">
-            Making things pop since 2015
-          </div>
-          <div className="border border-neutral-300 backdrop-blur-xl h-full w-1/3 flex"></div>
+    <main className="z-10 relative">
+      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
+        <div className="col-span-1 flex items-center border border-neutral-300 p-8 md:col-span-2">
+          <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
+            <DecryptedText
+              text="Envisioned to explore
+the possibilities of
+tomorrow"
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
+            />
+          </p>
         </div>
-        <div className="flex flex-row h-1/3">
-          <div className="border border-neutral-300 w-2/3 h-full flex"></div>
-          <div className="border border-neutral-300 backdrop-blur-xl h-full w-1/3 flex"></div>
+        <div className="relative col-span-1 flex items-center justify-center border-l-[0.02rem] border-b-[0.02rem] border-neutral-300/60 bg-black/10 p-4 backdrop-blur-md">
+          {/* <Orb
+            hoverIntensity={0.5}
+            rotateOnHover={true}
+            hue={2}
+            forceHoverState={false}
+          /> */}
+          <Image
+            src="/asthra2.svg"
+            alt="logo"
+            width={100}
+            height={100}
+            className="w-3/4 md:w-2/3 lg:w-1/2"
+          />
+        </div>
+
+        <div className="col-span-1 flex items-center border border-neutral-300 border-neutral-300/60 bg-black/20 p-8 backdrop-blur-xl md:col-span-2">
+          <p className="ambit text-balance px-4 text-left font-extralight text-lg md:text-xl lg:text-2xl">
+            <DecryptedText
+              text="ASTHRA, the national-level technical fest of St. Joseph's College of
+              Engineering and Technology, Palai, is a premier inter-college event
+              in Kerala. With 5,000+ annual visitors, it features professional
+              shows, competitions, lectures, and workshops, offering an immersive
+              experience for all participants."
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
+            />
+          </p>
+        </div>
+        <div className="col-span-1 border border-neutral-300" />
+
+        <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
+          <p className="ambit text-center font-thin text-2xl md:text-3xl lg:text-5xl">
+            "Culture shouldn't exist only for those who can afford it"
+          </p>
+        </div>
+      </section>
+
+      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 p-8 md:col-span-2">
+          <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
+            VISION
+          </p>
+          <p className="ambit max-w-2xl px-4 text-center font-thin text-md md:text-xl lg:text-2xl">
+            <DecryptedText
+              text="Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society."
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
+            />
+          </p>
+        </div>
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 p-8 md:col-span-1">
+          <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
+            MISSION
+          </p>
+          <p className="ambit px-4 text-center font-thin text-md md:text-md">
+            <DecryptedText
+              text="To maintain a conducive infrastructure and learning environment for world class education.
+To nurture a team of dedicated, competent and research oriented faculty.
+To develop students with moral & ethical values, for their successful career by offering variety of programmes and services."
+              speed={100}
+              maxIterations={20}
+              characters="ABCD1234!?"
+              className="revealed"
+              parentClassName="all-letters"
+              encryptedClassName="encrypted"
+              animateOn="view"
+            />
+          </p>
+        </div>
+
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 md:col-span-2" />
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 bg-slate-400/50 p-8 p-8 backdrop-blur-xl md:col-span-1">
+          <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl md:text-2xl">
+            <li>40 events</li>
+            <li>10 workshops</li>
+            <li>2 hackathons</li>
+          </ul>
+        </div>
+        <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
+          <p className="ambit text-left font-thin text-xl md:w-3/4 md:text-3xl">
+            SJCET Palai, managed by the Syro-Malabar Catholic Diocese of Pala,
+            is an AICTE-approved private college in Kerala, offering engineering
+            and management programs.
+          </p>
+        </div>
+      </section>
+
+      <section className="grid min-h-screen grid-cols-1 gap-8">
+        <div className="relative h-[600px]">
+          <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} />
+        </div>
+        <div className="flex flex-col items-center justify-center p-8">
+          <p className="ambit mb-6 text-center font-thin text-2xl md:text-3xl">
+            What are you waiting for ?
+          </p>
+          <button
+            type="button"
+            className="ambit rounded-md bg-neutral-300/50 px-10 py-2 font-thin text-xl backdrop-blur-xl transition-colors hover:bg-neutral-400/50"
+          >
+            Register Now
+          </button>
         </div>
       </section>
     </main>

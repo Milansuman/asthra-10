@@ -77,6 +77,9 @@
   body {
     @apply text-black;
   }
+  .glass{
+    @apply bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20;
+  }
 }
 
 .cal {
