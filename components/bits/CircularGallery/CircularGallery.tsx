@@ -515,63 +515,33 @@ class App {
     const defaultItems = [
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/1/800/600?grayscale`,
-        text: 'Bridge',
+        image: `/assets/Ref1.webp`,
+        text: 'IOT 101',
       },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/2/800/600?grayscale`,
-        text: 'Desk Setup',
+        image: `/assets/Ref2.webp`,
+        text: 'WORKSHOP',
       },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/3/800/600?grayscale`,
+        image: `/assets/Ref3.webp`,
         text: 'Waterfall',
       },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/4/800/600?grayscale`,
+        image: `/assets/Ref5.webp`,
         text: 'Strawberries',
       },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/5/800/600?grayscale`,
+        image: `/assets/Ref6.webp`,
         text: 'Deep Diving',
       },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/16/800/600?grayscale`,
-        text: 'Train Track',
-      },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/17/800/600?grayscale`,
+        image: `/assets/Ref8.webp`,
         text: 'Santorini',
-      },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/8/800/600?grayscale`,
-        text: 'Blurry Lights',
-      },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/9/800/600?grayscale`,
-        text: 'New York',
-      },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/10/800/600?grayscale`,
-        text: 'Good Boy',
-      },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/21/800/600?grayscale`,
-        text: 'Coastline',
-      },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `https://picsum.photos/seed/12/800/600?grayscale`,
-        text: 'Palm Trees',
       },
     ];
     // biome-ignore lint/complexity/useOptionalChain: <explanation>

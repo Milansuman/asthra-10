@@ -9,7 +9,6 @@ import { CheckCircle, Home, XCircleIcon } from 'lucide-react';
 import { type z } from 'zod';
 
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
@@ -27,11 +26,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-<<<<<<< HEAD
-=======
-import { api } from "trpc/react"
-
->>>>>>> 840a70dce9ade38fc5fa52af04ae450c40f6af02
 import {
     Table,
     TableBody,
@@ -46,6 +40,9 @@ import { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
 import RotatingText from '../ui/rotatingText';
 import Plusbox from './box';
+import EventCard from './event-card';
+import Dock, { DockItemData } from './Dock';
+import { Select, SelectItem } from '@heroui/react';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -70,7 +67,7 @@ export function EventPage({
 }: Props) {
     const [filter, setFilter] = useState(eventStatus === 'cancel' ? 'CANCELLED' : filterCategory);
     const [department, setDepartment] = useState(filterDepartment);
-
+    const [value, setValue] = useState(0)
     const handleSelect = (dep: string) => {
         setDepartment(dep);
     };
@@ -183,8 +180,16 @@ export function EventPage({
                     />
                 </Plusbox>
             </div>
-            <div className="w-full flex flex-row gap-2 justify-center">
-
+            <div className="w-full flex gap-2 justify-center">
+                <Select
+                    className="max-w-xs outline-none border-0"
+                    placeholder="Select an Dept"
+                    variant="faded"
+                >
+                    {departments.map((animal, index) => (
+                        <SelectItem className=' glass' key={index}>{animal}</SelectItem>
+                    ))}
+                </Select>
             </div>
             <Dock items={Items} />
 
