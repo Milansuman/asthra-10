@@ -44,6 +44,7 @@ import { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
 import EventCard from './event-card';
 import Dock, { DockItemData } from './Dock';
+import RotatingText from '../ui/rotatingText';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -145,19 +146,40 @@ export function EventPage({
     const Items: DockItemData[] = [
         {
             icon: <Home />,
-            label: <h2>Asthra Pass</h2>,
+            label: "Home",
             onClick: () => { },
             className: ''
         },
         {
             icon: <Home />,
-            label: <h2>Asthra Pass</h2>,
+            label: "WorkShops",
+            onClick: () => { },
+            className: ''
+        },
+        {
+            icon: <Home />,
+            label: "Asthra Pass",
             onClick: () => { },
             className: ''
         }
     ]
     return (
-        <div className="w-full min-h-screen bg-blue-700 p-2 flex flex-col gap-4 relative ">
+        <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 relative ">
+            <div className='p-3 w-full gap-3 flex justify-center items-center'>
+                <p className='p-0 m-0 text-3xl'>Asthra</p>
+                <RotatingText
+                    texts={['Events', 'Workshops', 'Games']}
+                    mainClassName="px-2 sm:px-2 text-4xl items-center md:px-5 font-bold flex glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+                    staggerFrom={"last"}
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "-120%" }}
+                    staggerDuration={0.025}
+                    splitLevelClassName="overflow-hidden pt-2"
+                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                    rotationInterval={2000}
+                />
+            </div>
             <Dock items={Items} />
             {/* <div className="w-full flex flex-row gap-2 justify-center absolute bottom-0 left-0 right-0">
                 <Select onValueChange={(value) => handleSelect(value)} defaultValue={filterDepartment}>

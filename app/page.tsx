@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { SplineViewer } from '@/components/madeup/spline-viewer';
-import LoginButton from './_components/login';
-=======
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
 import Image from 'next/image';
->>>>>>> 8966e9a8bf9e742f54f736d67317c579e202862f
 
 export default function Page() {
   return (

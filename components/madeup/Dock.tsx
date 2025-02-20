@@ -68,30 +68,25 @@ export default function Dock({
     const height = useSpring(heightRow, spring);
 
     return (
+
         <motion.div
-            style={{ height, scrollbarWidth: "none" }}
-            className="mx-2 flex max-w-full items-center"
+            // onMouseMove={({ pageX }) => {
+            //     isHovered.set(1);
+            //     mouseX.set(pageX);
+            // }}
+            // onMouseLeave={() => {
+            //     isHovered.set(0);
+            //     mouseX.set(Infinity);
+            // }}
+            className={`${className} fixed z-[999] glass  bottom-2 left-1/2 -translate-x-1/2 flex items-end w-max gap-4  py-0 px-3`}
+            role="toolbar"
+            aria-label="Application dock"
         >
-            <motion.div
-                // onMouseMove={({ pageX }) => {
-                //     isHovered.set(1);
-                //     mouseX.set(pageX);
-                // }}
-                // onMouseLeave={() => {
-                //     isHovered.set(0);
-                //     mouseX.set(Infinity);
-                // }}
-                className={`${className} absolute bottom-2 left-1/2 transform -translate-x-1/2 flex items-end w-fit gap-4 rounded-md border-white/40 border-2 pb-2 px-4`}
-                style={{ height: panelHeight }}
-                role="toolbar"
-                aria-label="Application dock"
-            >
-                {items.map((item, index) => (
-                    <div key={index} className="">
-                        <p className="text-[10px]">{item.label}</p>
-                    </div>
-                ))}
-            </motion.div>
+            {items.map((item, index) => (
+                <div key={index} className="hover:scale-105 transition-all cursor-pointer">
+                    <p className="text-2xl m-0 px-3 py-3 ">{item.label}</p>
+                </div>
+            ))}
         </motion.div>
     );
 }
