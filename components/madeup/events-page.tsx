@@ -1,48 +1,20 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { CheckCircle, Home, XCircleIcon } from 'lucide-react';
-import { type z } from 'zod';
+import { Home } from 'lucide-react';
+import type { z } from 'zod';
 
 
-
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
-// import { CursorContainer } from './cursor';
-
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-
-import { eventZod } from '@/lib/validator';
+import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
+import { Select, SelectItem } from '@heroui/react';
 import RotatingText from '../ui/rotatingText';
+import Dock, { type DockItemData } from './Dock';
 import Plusbox from './box';
 import EventCard from './event-card';
-import Dock, { DockItemData } from './Dock';
-import { Select, SelectItem } from '@heroui/react';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -58,7 +30,7 @@ type Props = {
 
 export function EventPage({
     categories,
-    departments,
+    departments = Object.values(allDepartments),
     events,
     filterDepartment = 'all',
     filterCategory = 'ALL',
@@ -80,65 +52,49 @@ export function EventPage({
     const isDepartment = (event: Event) => {
         if ((department === 'all' || event.department === department) && event.eventStatus !== 'cancel') {
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     };
 
     const isEventType = (event: Event) => {
         if ((filter === 'ALL' || event.eventType === filter) && event.eventStatus !== 'cancel') {
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     };
 
     const isGeneralEvent = (event: Event) => {
         if (event.department === 'NA' && filter === 'GENERAL' && event.registrationType !== 'spot' && event.eventStatus !== 'cancel') {
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     };
 
     const isSpotEvent = (event: Event) => {
         if (event.registrationType === 'spot' && filter === 'INFORMAL' && event.department === 'NA' && event.eventStatus !== 'cancel') {
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     };
 
     const isEventStatus = (event: Event) => {
         if (eventStatus === 'all' || event.eventStatus === eventStatus) {
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     };
 
     const isCancelled = (event: Event) => {
         if (filter === 'CANCELLED' && event.eventStatus === 'cancel') {
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     };
 
     const isUploaded = (event: Event) => {
         if (event.eventStatus === 'uploaded') {
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     };
 
     const isSoldOut = (event: Event) => {
         if (event.regCount >= event.regLimit) {
-            return true
-        } else {
-            return false
-        }
+            return true;
+        } return false;
     }
 
     const Items: DockItemData[] = [
@@ -168,7 +124,7 @@ export function EventPage({
                 <Plusbox className='relative p-2 border  border-white/20'>
                     <RotatingText
                         texts={['Events', 'Workshops', 'Games']}
-                        mainClassName="px-2 sm:px-2 text-6xl drop-shadow-md text-white items-center md:px-5 font-bold flex glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
+                        mainClassName="px-2 sm:px-2 text-6xl text-white items-center md:px-5 font-bold flex bg-glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
                         staggerFrom={"last"}
                         initial={{ y: "100%" }}
                         animate={{ y: 0 }}
@@ -182,18 +138,18 @@ export function EventPage({
             </div>
             <div className="w-full flex gap-2 justify-center">
                 <Select
-                    className="max-w-xs outline-none border-0"
+
+                    className="max-w-xs outline-none text-black"
                     placeholder="Select an Dept"
                     variant="faded"
                 >
                     {departments.map((animal, index) => (
-                        <SelectItem className=' glass' key={index}>{animal}</SelectItem>
+                        <SelectItem className='bg-glass mt-2' key={index}>{animal}</SelectItem>
                     ))}
                 </Select>
             </div>
-            <Dock items={Items} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center mt-8">
                 {events
                     // .filter(
                     //     (event: Event) =>
@@ -202,11 +158,12 @@ export function EventPage({
                     //         !isUploaded(event),
                     // )
                     .map((event) => (
-                        <motion.div key={event.id} className="w-full">
-                            <Link href={'/events/' + event.id}><EventCard data={event} /></Link>
+                        <motion.div key={event.id} className="w-full bg-glass">
+                            <Link href={`/events/${event.id}`}><EventCard data={event} /></Link>
                         </motion.div>
                     ))}
             </div>
+            <Dock items={Items} />
         </div>
     );
 }

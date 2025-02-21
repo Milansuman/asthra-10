@@ -25,7 +25,7 @@ const config = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-        button:{
+        button: {
           primary: 'hsl(var(--button-primary))',
           secondary: 'hsl(var(--button-secondary))',
         },
