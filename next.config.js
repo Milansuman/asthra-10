@@ -17,7 +17,6 @@ const config = {
   },
   images: {
     formats: ['image/avif', 'image/webp'],
-    domains: ['res.cloudinary.com'],
     remotePatterns: [
       {
         protocol: 'https',
