@@ -323,7 +323,7 @@ export default ProfileClient;
 const sampleUser: userSchema = {
     email: 'rajatsandeepsen2025@ai.sjcetpalai.ac.in',
     name: 'Rajat Sandeep Sen',
-    image: '/profileplaceholder.png',
+    image: '/profileplaceholder.webp',
     id: '1234567890',
     college: 'SJCET',
     department: 'AD',
