@@ -77,21 +77,23 @@
   body {
     @apply text-foreground;
   }
-  .glass{
+  .glass {
     @apply bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20;
   }
 }
 
 .cal {
-  font-family: 'Cal Sans', sans-serif;
+  font-family: "Cal Sans", sans-serif;
 }
 
 .ambit {
-  font-family: 'Ambit', sans-serif;
+  font-family: "Ambit", sans-serif;
 }
-
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 .europa {
-  font-family: 'EuropaGroteskSH', sans-serif;
+  font-family: "EuropaGroteskSH", sans-serif;
   /* @apply tracking-wide; */
 }
 
@@ -132,9 +134,9 @@ blockquote {
 }
 
 @font-face {
-  font-family: 'Ambit';
-  src: url('/fonts/ambit/Ambit-Regular.woff2') format('woff2'),
-    url('/fonts/ambit/Ambit-Regular.woff') format('woff');
+  font-family: "Ambit";
+  src: url("/fonts/ambit/Ambit-Regular.woff2") format("woff2"),
+    url("/fonts/ambit/Ambit-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }

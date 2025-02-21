@@ -2,6 +2,8 @@
 import { EventPage } from '@/components/madeup/events-page';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
 import { eventZod } from '@/lib/validator';
+import { allDepartments } from '@/logic';
+import { departmentEnum } from '@/server/db/schema';
 import { Button } from '@heroui/button';
 import Link from 'next/link';
 import { z } from 'zod';
@@ -33,7 +35,7 @@ export default async function Page({ searchParams }: { searchParams?: { [key in 
       name: 'Event 1',
       description: 'Description for Event 1',
       secret: 'Secret 1',
-      poster: 'https://tricera.cubes.host/v1/storage/buckets/nk25-site-cdn/files/67b34203003942c5a5af/view?project=nakshatra-25&project=nakshatra-25&mode=admin',
+      poster: '/assets/Ref2.webp',
       createdAt: new Date('2025-02-20T00:00:00.000Z'),
       updatedAt: null,
       createdById: 'user-1',
@@ -53,7 +55,7 @@ export default async function Page({ searchParams }: { searchParams?: { [key in 
       name: 'Event 2',
       description: 'Description for Event 2',
       secret: 'Secret 2',
-      poster: 'https://tricera.cubes.host/v1/storage/buckets/nk25-site-cdn/files/67b34203003942c5a5af/view?project=nakshatra-25&project=nakshatra-25&mode=admin',
+      poster: '/assets/Ref1.webp',
       createdAt: new Date('2025-02-21T00:00:00.000Z'),
       updatedAt: null,
       createdById: 'user-2',
@@ -94,14 +96,15 @@ export default async function Page({ searchParams }: { searchParams?: { [key in 
   const approvedEvents = events.filter((event) => event.eventStatus === 'approved');
   // const cancel = events.filter((event) => event.eventStatus === "cancel")
 
+  // const departments = allDepartments;
   const departments = [...new Set(events.map((event) => event.department))];
   const filterDepartment = searchParams?.department as string;
   const eventStatus = searchParams?.status as string;
   const eventCategory = searchParams?.category as string;
   ;
-  if (departments.includes('NA') && events.filter((event) => event.registrationType === 'spot').length > 0) {
-    additionalCategories.push('INFORMAL');
-  }
+  // if (departments.includes('NA') && events.filter((event) => event.registrationType === 'spot').length > 0) {
+  //   additionalCategories.push('INFORMAL');
+  // }
 
   if (events.filter((event) => event.eventStatus === 'cancel').length > 0) {
     additionalCategories.push('CANCELLED');
