@@ -152,6 +152,8 @@ export const EventConfirmationZod = z.object({
 });
 
 export type UserZodType = z.infer<typeof userZod>;
+export type EventZodType = z.infer<typeof eventZod>;
+export type TransactionZodType = z.infer<typeof transactionsZod>;
 
 export type EntireZodType = {
   user: UserZodType;

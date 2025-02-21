@@ -11,9 +11,6 @@ const config = {
   experimental: {
     // typedRoutes: true,
     reactCompiler: true,
-    serverActions: {
-      allowedOrigins: ['secure.payu.in', '*.payu.in'],
-    },
   },
   images: {
     formats: ['image/avif', 'image/webp'],

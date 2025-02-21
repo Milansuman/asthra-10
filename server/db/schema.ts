@@ -73,24 +73,24 @@ export const transactionsTable = pgTable(
     amount: integer().default(0).notNull(),
     status: statusEnum('status').default('initiated').notNull(),
 
-    hash: varchar({ length: 256 }).unique(),
+    orderId: varchar({ length: 256 }).unique().notNull(),
 
     userName: varchar({ length: 255 }).notNull(),
     userId: uuid()
       .notNull()
       .references(() => user.id),
 
-    // eventId: uuid()
-    //   .notNull()
-    //   .references(() => eventsTable.id),
+    eventId: uuid()
+      .notNull()
+      .references(() => eventsTable.id),
 
-    eventId: varchar({ length: 256 }).notNull(),
     eventName: varchar({ length: 256 }).notNull(),
 
     remark: text(),
   },
   (transaction) => ({
     userIdIndex: index().on(transaction.userId),
+    orderIdIndex: index().on(transaction.orderId),
     eventIdIndex: index().on(transaction.eventId),
   })
 );

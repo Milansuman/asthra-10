@@ -44,6 +44,10 @@ export const errorList = {
     message: 'Transaction not found or not initilized yet',
     code: 'NOT_FOUND',
   },
+  PAYMENT_INITIALISATION_FAILED: {
+    message: 'Payment initialisation failed',
+    code: 'BAD_GATEWAY',
+  },
   PAYMENT_VERIFICATION_FAILED: {
     message: 'Payment verification failed',
     code: 'NOT_FOUND',

@@ -1,127 +1,127 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { env } from '@/env';
+import { defaultRazorpayOptions } from '@/logic';
 import { api } from '@/trpc/react';
-import Link from 'next/link';
-import {} from 'razorpay';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-const id = 'order_Py0l8cGksW039A';
-const amount = '100';
+// ?eventId=""
+export default function Home() {
+  return (
+    <Suspense>
+      <Page />
+    </Suspense>
+  );
+}
 
-const processPayment = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  const orderId = 'order_Py0l8cGksW039A';
-  try {
-    const paymentObject = new window.Razorpay({
-      key: env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      amount: Number.parseFloat(amount) * 100,
-      currency: 'INR',
-      name: 'Payment', //busniess name
-      description: 'Payment',
-      order_id: orderId,
-      handler: (response) => {
-        const data = {
-          orderCreationId: orderId,
-          razorpayPaymentId: response.razorpay_payment_id,
-          razorpayOrderId: response.razorpay_order_id,
-          razorpaySignature: response.razorpay_signature,
-        };
+function Page() {
+  const searchParams = useSearchParams();
+  const eventId = searchParams.get('eventId');
 
-        console.log(data);
-      },
-      theme: {
-        color: '#3399cc',
-      },
-    });
-    paymentObject.on('payment.failed', (response) => {
-      console.log(response);
-      // @ts-ignore
-      alert(response?.error?.description);
-    });
-    paymentObject.open();
-  } catch (error) {
-    console.error(error);
+  return <>{eventId && <PreCheckOut eventId={eventId} />}</>;
+}
+
+function PreCheckOut({ eventId }: { eventId: string }) {
+  const {
+    data: transaction,
+    error,
+    isLoading,
+  } = api.transaction.initiatePurchase.useQuery(
+    {
+      eventId,
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      refetchInterval: false,
+      refetchIntervalInBackground: false,
+      staleTime: Number.POSITIVE_INFINITY,
+    }
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-};
 
-// {
-//   amount: 100, amount_due;
-//   : 100,
-//   amount_paid: 0,
-//   attempts: 0,
-//   created_at: 1740064647,
-//   currency: 'INR',
-//   entity: 'order',
-//   id: 'order_Py0l8cGksW039A',
-//   notes: [],
-//   offer_id: null,
-//   receipt: 'rcp1',
-//   status: 'created'
-// }
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
-const Home = () => {
-  // const { data } = api.payment.order.useQuery(
-  //   {
-  //     amount: 100,
-  //     id: '693633a8-0a1a-4763-9c61-af91b5e11296',
-  //   },
-  //   {
-  //     refetchOnWindowFocus: false,
-  //     refetchOnReconnect: false,
-  //     refetchOnMount: false,
-  //     refetchInterval: false,
-  //     refetchIntervalInBackground: false,
-  //     trpc: {},
-  //     staleTime: Number.POSITIVE_INFINITY,
-  //   }
-  // );
-
-  console.log('order_Py0l8cGksW039A');
+  if (!transaction) {
+    return <div>No data</div>;
+  }
 
   return (
-    <section className="container h-screen flex flex-col justify-center items-center gap-10 text-black">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight">
-        Checkout
-      </h1>
-      <Card className="max-w-[25rem] space-y-8">
-        <CardHeader>
-          <CardTitle className="my-4">Continue</CardTitle>
-          <CardDescription>
-            By clicking on pay you'll purchase your plan subscription of Rs
-            10/month
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={processPayment}>
-            <Button className="w-full" type="submit">
-              Pay
-              {/* {loading ? '...loading' : 'Pay'} */}
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter className="flex">
-          <p className="text-sm text-muted-foreground underline underline-offset-4">
-            Please read the
-            <Link href="/REFUND_POLICY_SJCET.pdf">
-              Privacy Policy, Refund Policy
-            </Link>
-            and
-            <Link href="/Mandatory_policy_sjcet.pdf">Mandatory Policy</Link>
-            before proceeding
-          </p>
-        </CardFooter>
-      </Card>
-    </section>
+    <CheckOut
+      transactionId={transaction.id}
+      orderId={transaction.orderId}
+      amount={transaction.amount}
+    />
   );
-};
+}
 
-export default Home;
+function CheckOut({
+  transactionId,
+  orderId,
+  amount,
+}: {
+  transactionId: string;
+  orderId: string;
+  amount: number;
+}) {
+  const { data: successData, mutateAsync: successFunction } =
+    api.transaction.successPurchase.useMutation();
+  const { data: failedData, mutateAsync: failedFunction } =
+    api.transaction.failedPurchase.useMutation();
+
+  const processPayment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const paymentObject = new window.Razorpay({
+        ...defaultRazorpayOptions,
+
+        amount: amount * 100,
+        order_id: orderId,
+
+        handler: (response) => {
+          console.log(response);
+          successFunction({
+            id: transactionId,
+            orderId: orderId,
+            orderCreationId: orderId,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpaySignature: response.razorpay_signature,
+          });
+        },
+      });
+      paymentObject.on('payment.failed', (response) => {
+        console.log(response);
+        // @ts-ignore
+        console.log(response?.error?.description);
+        failedFunction({
+          id: transactionId,
+        });
+      });
+      paymentObject.open();
+    } catch (error) {
+      console.error(error);
+      failedFunction({
+        id: transactionId,
+      });
+    }
+  };
+
+  return (
+    <>
+      {JSON.stringify(successData)}
+      {JSON.stringify(failedData)}
+
+      <form onSubmit={processPayment}>
+        <Button type="submit">Pay</Button>
+      </form>
+      <Button type="button">Pay at Front Desk</Button>
+    </>
+  );
+}

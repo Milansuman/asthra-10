@@ -1,4 +1,6 @@
+import { env } from '@/env';
 import type { EntireZodType } from '@/lib/validator';
+import { z } from 'zod';
 
 export const allRoles = {
   USER: true,
@@ -126,7 +128,8 @@ export const AsthraLastEditDay = new Date(1740810540000);
  */
 
 export const ASTHRA = {
-  id: 'ASTHRAPASS',
+  // dont change this ID (else it will break the system)
+  id: '11111111-2222-3333-4444-555555555555',
   credit: 400,
   amount: 200,
   department: 'NA',
@@ -151,3 +154,13 @@ export const ASTHRA = {
 > & {
   credit: number;
 };
+
+export const defaultRazorpayOptions = {
+  key: env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+  name: 'ASTHRA SJCET PALAI',
+  description: 'Payment at ASTHRA Tech Fest',
+  currency: 'INR',
+  theme: {
+    color: '#3399cc',
+  },
+} as const;

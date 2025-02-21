@@ -76,7 +76,7 @@ export const spotRegister = createTRPCRouter({
             eventName: event.name ?? 'Unknown Workshop/Competiton Name',
             userName: userData.name ?? 'NA',
             amount: event.amount,
-            hash: input.spotReciptId ?? transactionId,
+            orderId: input.spotReciptId ?? transactionId,
             remark: `Spot ${isAsthraPass ? 'ASTHRA PASS' : ''} registraion on ${new Date().toLocaleString()}`,
             status: 'initiated',
           })

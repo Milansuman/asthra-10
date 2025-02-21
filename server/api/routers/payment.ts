@@ -1,36 +1,9 @@
-import crypto from 'node:crypto';
-import { env } from '@/env';
 import { triedAsync } from '@/lib/utils';
 import { eventZod } from '@/lib/validator';
+import { createOrder, generatedSignature } from '@/logic/payment';
 import { getTrpcError } from '@/server/db/utils';
-import Razorpay from 'razorpay';
 import { z } from 'zod';
-import {
-  createTRPCRouter,
-  publicProcedure,
-  validUserOnlyProcedure,
-} from '../trpc';
-
-const generatedSignature = (
-  razorpayOrderId: string,
-  razorpayPaymentId: string
-) => {
-  const keySecret = env.RAZORPAY_KEY_SECRET;
-
-  const sig = crypto
-    .createHmac('sha256', keySecret)
-    .update(`${razorpayOrderId}|${razorpayPaymentId}`)
-    .digest('hex');
-
-  return sig;
-};
-
-const razorpay = new Razorpay({
-  key_id: env.RAZORPAY_KEY_ID,
-  key_secret: env.RAZORPAY_KEY_SECRET,
-});
-
-type Options = Parameters<typeof razorpay.orders.create>[0];
+import { createTRPCRouter, publicProcedure } from '../trpc';
 
 export const paymentRouter = createTRPCRouter({
   order: publicProcedure
@@ -41,17 +14,7 @@ export const paymentRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const options: Options = {
-        amount: input.amount,
-        currency: 'INR',
-        receipt: 'rcp1',
-      };
-
-      const {
-        data: order,
-        isSuccess,
-        error,
-      } = await triedAsync(razorpay.orders.create(options));
+      const { data: order, isSuccess, error } = await createOrder(input.amount);
 
       if (!isSuccess) {
         console.warn(error);
@@ -71,20 +34,16 @@ export const paymentRouter = createTRPCRouter({
         razorpaySignature: z.string(),
       })
     )
-    .mutation(
-      ({
-        input: { orderCreationId, razorpayPaymentId, razorpaySignature },
-      }) => {
-        const signature = generatedSignature(
-          orderCreationId,
-          razorpayPaymentId
-        );
+    .mutation(({ input }) => {
+      const { orderCreationId, razorpayPaymentId, razorpaySignature } = input;
+      console.log('Verifing', input);
 
-        if (signature !== razorpaySignature) {
-          throw getTrpcError('PAYMENT_VERIFICATION_FAILED');
-        }
+      const signature = generatedSignature(orderCreationId, razorpayPaymentId);
 
-        return true;
+      if (signature !== razorpaySignature) {
+        throw getTrpcError('PAYMENT_VERIFICATION_FAILED');
       }
-    ),
+
+      return true;
+    }),
 });
