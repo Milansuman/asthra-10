@@ -84,6 +84,8 @@ export const userCreateMailZod = z.object({
   data: z.object({
     toMail: z.string(),
     personName: z.string(),
+    message: z.string().optional(),
+    subject: z.string().optional(),
   }),
 });
 

@@ -1,21 +1,16 @@
 'use client'
 
 import {
+    type MotionValue,
+    type SpringOptions,
     motion,
-    MotionValue,
     useMotionValue,
     useSpring,
-    useTransform,
-    type SpringOptions,
-    AnimatePresence,
+    useTransform
 } from "motion/react";
-import React, {
-    Children,
-    cloneElement,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
+import type React from "react";
+import {
+    useMemo
 } from "react";
 import Plusbox from "./box";
 
@@ -58,7 +53,7 @@ export default function Dock({
     dockHeight = 256,
     baseItemSize = 50,
 }: DockProps) {
-    const mouseX = useMotionValue(Infinity);
+    const mouseX = useMotionValue(Number.POSITIVE_INFINITY);
     const isHovered = useMotionValue(0);
 
     const maxHeight = useMemo(
@@ -79,7 +74,7 @@ export default function Dock({
                 //     isHovered.set(0);
                 //     mouseX.set(Infinity);
                 // }}
-                className={`${className}  glass   flex items-end w-max gap-4  py-0 px-3`}
+                className={`${className} bg-glass text-glass-foreground flex items-end w-max gap-4  py-0 px-3`}
                 role="toolbar"
                 aria-label="Application dock"
             >

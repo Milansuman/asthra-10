@@ -1,10 +1,12 @@
-// 'use client'
+'use client'
+
 import { EventPage } from '@/components/madeup/events-page';
-import { SplineViewer } from '@/components/madeup/spline-viewer';
-import { eventZod } from '@/lib/validator';
+import type { eventZod } from '@/lib/validator';
 import { Button } from '@heroui/button';
 import Link from 'next/link';
-import { z } from 'zod';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+import type { z } from 'zod';
 
 export interface Main {
   userId: number;
@@ -13,20 +15,22 @@ export interface Main {
   body: string;
 }
 
-export const dynamic = 'force-dynamic';
+export default function Home() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+    <Suspense>
+      <Page />
+    </Suspense>
+  )
+}
 
-type FilterQueries = {
-  department: string;
-  status: string;
-  category: string;
-};
+function Page() {
+  const searchParams = useSearchParams()
 
-// export default function Page({ searchParams, }: {
-//   searchParams?: { [key in keyof FilterQueries]: string | string[] | undefined };
-// }) {
-export default async function Page({ searchParams }: { searchParams?: { [key in keyof FilterQueries]: string | string[] | undefined } }) {
+  const category = searchParams.get('category')
+  const department = searchParams.get('department')
+  const status = searchParams.get('status')
 
-  // const events = await api.event.getLatest.query();
   const demoEvents: z.infer<typeof eventZod>[] = [
     {
       id: '1',
@@ -95,9 +99,9 @@ export default async function Page({ searchParams }: { searchParams?: { [key in 
   // const cancel = events.filter((event) => event.eventStatus === "cancel")
 
   const departments = [...new Set(events.map((event) => event.department))];
-  const filterDepartment = searchParams?.department as string;
-  const eventStatus = searchParams?.status as string;
-  const eventCategory = searchParams?.category as string;
+  const filterDepartment = department as string;
+  const eventStatus = status as string;
+  const eventCategory = category as string;
   ;
   if (departments.includes('NA') && events.filter((event) => event.registrationType === 'spot').length > 0) {
     additionalCategories.push('INFORMAL');
@@ -112,10 +116,6 @@ export default async function Page({ searchParams }: { searchParams?: { [key in 
   );
   return (
     <>
-      {/* <SplineViewer
-              url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
-              className="fixed w-screen h-screen -z-10"
-            /> */}
       <EventPage
         events={demoEvents}
         categories={categories}
