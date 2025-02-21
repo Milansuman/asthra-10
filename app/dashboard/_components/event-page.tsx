@@ -153,12 +153,12 @@ export function EventPage({
 
   return (
     <div className="w-full min-h-screen mt-24 p-2 flex flex-col gap-4">
-      <div className="w-full flex flex-row gap-2 justify-center">
+      <div className="w-full flex flex-row gap-2 justify-center z-10 items-center">
         <Select
           onValueChange={(value) => handleSelect(value)}
           defaultValue={filterDepartment}
         >
-          <SelectTrigger className="w-40 text-center rounded-full">
+          <SelectTrigger className="w-40 text-center rounded-full text-white border-neutral-50 backdrop-blur-lg">
             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
@@ -172,7 +172,7 @@ export function EventPage({
               ))}
           </SelectContent>
         </Select>
-        <div className="max-w-2/3 h-full rounded-full flex flex-row gap-2 bg-black border border-neutral-600 overflow-auto scrollbar-none">
+        <div className="max-w-2/3 h-full rounded-full flex flex-row gap-2 bg-neutral-900/10 backdrop-blur-lg border border-neutral-100 overflow-auto scrollbar-none">
           {categories.map((category) => (
             <div
               key={category + '.div'}
@@ -255,13 +255,13 @@ function EventCard({
   ) => {
     status
       ? addAttendance({
-          userId: userId,
-          eventId: eventId,
-        })
+        userId: userId,
+        eventId: eventId,
+      })
       : removeAttendance({
-          userId: userId,
-          eventId: eventId,
-        });
+        userId: userId,
+        eventId: eventId,
+      });
   };
 
   return (
@@ -305,7 +305,7 @@ function EventCard({
                       Participants
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="w-full">
+                  <AlertDialogContent className="w-full bg-white">
                     <AlertDialogHeader>
                       <AlertDialogTitle>
                         Participants for {event.name}
