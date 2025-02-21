@@ -24,7 +24,7 @@ export function EventEditPage({ data, departments }: Props) {
 
   const onDelete = (id: string) => {
     setLocalData(prevData => prevData.filter(event => event.id !== id))
-    deleteEventMutation.mutate({id})
+    deleteEventMutation.mutate({ id })
   }
 
   const onChangeEvent = () => {
@@ -32,9 +32,9 @@ export function EventEditPage({ data, departments }: Props) {
     console.log(data)
     setLocalData(latestEventsQuery.data ?? []);
   }
-  
+
   return (
-    <div className="flex flex-col gap-5 p-10 h-screen">
+    <div className="flex flex-col gap-5 p-10 h-screen bg-white">
       {/* <TabSwitcher
         keys={departments as string[]}
         filter={filter!}
@@ -43,10 +43,10 @@ export function EventEditPage({ data, departments }: Props) {
       /> */}
       <h4>Edit Events</h4>
       <div className="flex flex-row gap-3 flex-wrap">
-        <AddNewCard onChangeEvent={onChangeEvent}/>
+        <AddNewCard onChangeEvent={onChangeEvent} />
         {
           localData.map(event => (
-            <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent}/>
+            <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
           ))
         }
       </div>

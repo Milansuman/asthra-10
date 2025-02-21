@@ -41,14 +41,14 @@ interface AsthraCardPreviewProps {
   data: Partial<z.infer<typeof eventZod>>;
 }
 interface EventCardProps {
-	data: z.infer<typeof eventZod>;
-	credits?: string;
-	footerNote?: string;
+  data: z.infer<typeof eventZod>;
+  credits?: string;
+  footerNote?: string;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
+export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
   return (
-    <Card className="ambit w-full max-w-2xl bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 p-6 text-white">
+    <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-white">
       <div className="flex flex-col space-y-3">
 
         <div className="flex justify-between items-start">

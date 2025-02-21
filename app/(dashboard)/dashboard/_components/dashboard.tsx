@@ -42,7 +42,7 @@ const Dashboard = ({ data }: Props) => {
   const [selectedDept, setSelectedDept] =
     React.useState<keyof Department>('cs');
   return (
-    <div className="flex-col md:flex pt-20">
+    <div className="flex-col md:flex pt-20 text-white h-screen">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
@@ -75,7 +75,7 @@ const Dashboard = ({ data }: Props) => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{}</div>
+                    <div className="text-2xl font-bold">{ }</div>
                     <p className="text-xs text-muted-foreground">
                       Passes are Sold
                     </p>
@@ -99,7 +99,7 @@ const Dashboard = ({ data }: Props) => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{}</div>
+                    <div className="text-2xl font-bold">{ }</div>
                     <p className="text-xs text-muted-foreground">
                       Passes are Sold
                     </p>
@@ -123,7 +123,7 @@ const Dashboard = ({ data }: Props) => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{}</div>
+                    <div className="text-2xl font-bold">{ }</div>
                     <p className="text-xs text-muted-foreground">
                       Passes are Sold
                     </p>
@@ -159,7 +159,7 @@ const Dashboard = ({ data }: Props) => {
                   <CardTitle>Total Asthra Pass</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{}</div>
+                  <div className="text-2xl font-bold">{ }</div>
                 </CardContent>
               </Card>
               <Card>
@@ -167,7 +167,7 @@ const Dashboard = ({ data }: Props) => {
                   <CardTitle>Total Workshop Pass</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{}</div>
+                  <div className="text-2xl font-bold">{ }</div>
                 </CardContent>
               </Card>
               <Card>
@@ -175,7 +175,7 @@ const Dashboard = ({ data }: Props) => {
                   <CardTitle>Total Competition Pass</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{}</div>
+                  <div className="text-2xl font-bold">{ }</div>
                 </CardContent>
               </Card>
             </div>

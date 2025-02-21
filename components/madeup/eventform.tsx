@@ -53,6 +53,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { RichEditor } from './editor';
 
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
@@ -91,6 +92,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
   id,
   onChangeEvent
 }) => {
+  console.log(data);
   const { mutateAsync: createEvent, isPending } =
     api.event.createEvent.useMutation({
       onSuccess: () => {
@@ -209,12 +211,14 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea
-                  className="h-[100px]"
-                  placeholder="Enter description"
-                  {...field}
-                  value={field.value ?? ''}
-                />
+                <RichEditor content={field.value} onUpdate={(e) => {
+                  field.onChange({
+                    ...e,
+                    target: {
+                      value: e.data
+                    }
+                  })
+                }}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -228,12 +232,14 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Secret Description</FormLabel>
               <FormControl>
-                <Textarea
-                  className="h-[100px]"
-                  placeholder="Enter secret"
-                  {...field}
-                  value={field.value ?? undefined}
-                />
+                <RichEditor content={field.value ?? ""} onUpdate={(e) => {
+                  field.onChange({
+                    ...e,
+                    target: {
+                      value: e.data
+                    }
+                  })
+                }}/>
               </FormControl>
               <FormDescription>
                 Sent your secret message to registered users through email
@@ -429,7 +435,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Start Time</FormLabel>
               <FormControl>
-                <Input type='datetime-local' defaultValue={field.value.toLocaleString()} onChange={(event) => {
+                <Input type='datetime-local' defaultValue={field.value.toISOString().slice(0, -2)} onChange={(event) => {
                   const datetime = event.target.valueAsDate;
                   console.log(datetime)
                   field.onChange({
