@@ -22,10 +22,10 @@ export default async function ProfilePage() {
 
 
 
-    // if (!session) {
-    //     redirect('/');
+    if (!session) {
+        redirect('/');
 
-    // }
+    }
 
     return <ProfileClient session={session} user={sampleUser} />;
 }
