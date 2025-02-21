@@ -6,7 +6,11 @@ import * as z from 'zod';
 
 import { env } from '@/env';
 
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  validUserOnlyProcedure,
+} from '@/server/api/trpc';
 import {
   eventsTable,
   referalsTable,
@@ -20,8 +24,7 @@ import { eventZod, isValidUserDetails, transactionsZod } from '@/lib/validator';
 import { paymentClientSide, type paymentZod } from '@/lib/validator/payment';
 
 export const transactionRouter = createTRPCRouter({
-  initiatePurchase: protectedProcedure
-
+  initiatePurchase: validUserOnlyProcedure
     .input(
       z.object({
         id: eventZod.shape.id,
@@ -31,16 +34,9 @@ export const transactionRouter = createTRPCRouter({
 
     .mutation(async ({ ctx, input }) => {
       const isAsthra = input.id === ASTHRA.id;
+      const userData = ctx.user;
 
       return await ctx.db.transaction(async (tx) => {
-        const userData = await tx.query.user.findFirst({
-          where: eq(user.id, ctx.session.user.id),
-        });
-
-        if (!userData || !isValidUserDetails(userData)) {
-          throw getTrpcError('USER_DETAILS_INCOMPLETE');
-        }
-
         if (isAsthra && userData.asthraPass) {
           throw getTrpcError('ALREADY_PURCHASED');
         }
@@ -143,7 +139,7 @@ export const transactionRouter = createTRPCRouter({
       });
     }),
 
-  successPurchase: protectedProcedure
+  successPurchase: validUserOnlyProcedure
     .input(
       transactionsZod.pick({
         id: true,
@@ -210,7 +206,7 @@ export const transactionRouter = createTRPCRouter({
           registrationId: v4(),
           eventId: currentTransation.eventId,
           transactionId: currentTransation.id,
-          userId: ctx.session.user.id,
+          userId: ctx.user.id,
           remark: `Success on ${new Date().toLocaleString()}`,
         });
 
@@ -249,7 +245,7 @@ export const transactionRouter = createTRPCRouter({
             and(
               eq(transactionsTable.id, input.id),
               eq(transactionsTable.status, 'initiated'),
-              eq(transactionsTable.userId, ctx.session.user.id)
+              eq(transactionsTable.userId, ctx.user.id)
             )
           )
           .returning();
@@ -271,12 +267,12 @@ export const transactionRouter = createTRPCRouter({
       });
     }),
 
-  getAllTransactions: protectedProcedure.query(async ({ ctx }) => {
+  getAllTransactions: validUserOnlyProcedure.query(async ({ ctx }) => {
     return await ctx.db.transaction(async (tx) => {
       const transations = await tx
         .select()
         .from(transactionsTable)
-        .where(eq(transactionsTable.userId, ctx.session.user.id));
+        .where(eq(transactionsTable.userId, ctx.user.id));
 
       if (transations.length === 0) {
         throw getTrpcError('TRANSACTION_NOT_FOUND');
