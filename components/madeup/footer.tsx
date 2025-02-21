@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50 relative">
+    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50 relative mt-40">
       <div className="min-h-[95vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 divide-dashed  ">
         <div className="col-span-1 sm:col-span-2 border-white/50 border-b p-4 sm:p-6 lg:p-8 flex items-center justify-center font-bold ">
           <h2 className="text-3xl sm:text-4xl md:text-6xl tracking-wide font-bold">
@@ -20,7 +20,7 @@ export default function Footer() {
             className="object-contain sm:w-[250px] md:w-[300px]"
           />
         </div>
-        <div className="p-4 sm:p-6 lg:p-8 border-b border-white/50 ">
+        <div className="p-4 sm:p-6 flex items-center lg:p-8 border-b border-white/50 ">
           <div className="text-center sm:text-right">
             <span className="text-xl sm:text-2xl md:text-3xl">
               Envisioned to explore the possibilities of tomorrow
@@ -37,16 +37,16 @@ export default function Footer() {
                 </h3>
                 <div className="space-y-2 sm:space-y-3 text-[#6E72A0]">
                   <p className="text-sm sm:text-base md:text-xl">
-                    Rajat Sandeep +91 98461 01882
+                    Mr. Allen Sanjai (S8 EEE)
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Someone 919191919191
+                    Mr. Basil Babu (S8 ME-B)
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Someone 919191919191
+                    Ms. Shabeeha K P (S8 CSE-A)
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Someone 919191919191
+                    Ms. Sona Binu (S8 CSE-A)
                   </p>
                 </div>
               </div>
@@ -56,10 +56,10 @@ export default function Footer() {
                 </h3>
                 <div className="space-y-2 sm:space-y-3 text-[#6E72A0]">
                   <p className="text-sm sm:text-base md:text-xl">
-                    Sarju S +91 94472 33663
+                    Dr. Binoy Baby - Staff Coordinato, Asthra 9.0
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Someone 919191919191
+                    Dr. Arun P - Staff Coordinator, Asthra 9.0
                   </p>
                 </div>
               </div>
@@ -77,7 +77,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="hidden lg:block lg:col-span-1 row-span-2">
+        <div className="hidden lg:block items-center lg:col-span-1 row-span-2">
           <div className="h-full grid grid-rows-3">
             <div className="border-b border-white/50 p-8">
               <div className="text-right">
@@ -86,10 +86,10 @@ export default function Footer() {
                 </span>
               </div>
             </div>
-            <div className="border-b border-white/50 p-8">
+            <div className="border-b flex items-center border-white/50 p-8">
               <div className="text-right">
-                <span className="text-xl sm:text-2xl md:text-3xl">
-                  NATIONAL LEVEL TECHNICAL FEST 2025
+                <span className="text-xl m-0 p-0 sm:text-2xl md:text-3xl">
+                  National Level Technical Fest 2025
                 </span>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function Footer() {
 
       <div className="border-t border-gray-800">
         <p className="text-xs sm:text-sm text-gray-400 text-center sm:text-right p-4 sm:p-6 lg:p-8">
-          @2025 ASTHRA 9.0, All Rights Reserved
+          &copy; 2025 ASTHRA 9.0, All Rights Reserved
         </p>
       </div>
     </footer>
