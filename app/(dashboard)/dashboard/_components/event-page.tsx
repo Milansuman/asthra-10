@@ -152,7 +152,7 @@ export function EventPage({
   };
 
   return (
-    <div className="w-full min-h-screen mt-24 p-2 flex flex-col gap-4">
+    <div className="w-full min-h-screen p-2 flex flex-col gap-4">
       <div className="w-full flex flex-row gap-2 justify-center z-10 items-center">
         <Select
           onValueChange={(value) => handleSelect(value)}

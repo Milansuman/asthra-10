@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={'dark ambit relative font-sans'}>
+      <body className={'dark ambit relative font-sans bg-neutral-800'}>
         <Providers>
           {children}
         </Providers>
