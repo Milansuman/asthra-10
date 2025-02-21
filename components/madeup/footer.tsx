@@ -1,26 +1,29 @@
-import { Facebook, Github, Instagram, Youtube } from 'lucide-react';
-import Image from 'next/image';
+import { Facebook, Github, Instagram, Youtube } from "lucide-react"
+import Image from "next/image"
+import Plusbox from "./box"
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50 relative mt-40">
+    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50 relative">
       <div className="min-h-[95vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 divide-dashed  ">
         <div className="col-span-1 sm:col-span-2 border-white/50 border-b p-4 sm:p-6 lg:p-8 flex items-center justify-center font-bold ">
           <h2 className="text-3xl sm:text-4xl md:text-6xl tracking-wide font-bold">
             Asthra 9.0
           </h2>
         </div>
-
-        <div className="flex items-center justify-center border-b border-white/50  p-4 sm:border-x">
+        <Plusbox className="relative p-2 border-x border-b border-white/20 border-dashed flex items-center justify-center md:col-start-3 md:row-start-1">
           <Image
             src="/asthra glass.png"
             alt="Asthra Logo"
             width={200}
             height={80}
-            className="object-contain sm:w-[250px] md:w-[300px]"
+            className="object-contain w-[150px] sm:w-[200px] md:w-[250px] lg:w-[300px]"
           />
+        </Plusbox>
+        <div className="col-span-1 sm:col-span-2 md:col-start-4 md:row-start-1 border-b border-white/50 flex items-center justify-center p-4">
+          <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">Register Now</span>
         </div>
-        <div className="p-4 sm:p-6 flex items-center lg:p-8 border-b border-white/50 ">
+        <div className="p-4 sm:p-6 lg:p-8 border-b border-white/50 ">
           <div className="text-center sm:text-right">
             <span className="text-xl sm:text-2xl md:text-3xl">
               Envisioned to explore the possibilities of tomorrow
@@ -37,16 +40,16 @@ export default function Footer() {
                 </h3>
                 <div className="space-y-2 sm:space-y-3 text-[#6E72A0]">
                   <p className="text-sm sm:text-base md:text-xl">
-                    Mr. Allen Sanjai (S8 EEE)
+                    Rajat Sandeep +91 98461 01882
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Mr. Basil Babu (S8 ME-B)
+                    Someone 919191919191
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Ms. Shabeeha K P (S8 CSE-A)
+                    Someone 919191919191
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Ms. Sona Binu (S8 CSE-A)
+                    Someone 919191919191
                   </p>
                 </div>
               </div>
@@ -56,10 +59,10 @@ export default function Footer() {
                 </h3>
                 <div className="space-y-2 sm:space-y-3 text-[#6E72A0]">
                   <p className="text-sm sm:text-base md:text-xl">
-                    Dr. Binoy Baby - Staff Coordinato, Asthra 9.0
+                    Sarju S +91 94472 33663
                   </p>
                   <p className="text-sm sm:text-base md:text-xl">
-                    Dr. Arun P - Staff Coordinator, Asthra 9.0
+                    Someone 919191919191
                   </p>
                 </div>
               </div>
@@ -77,7 +80,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="hidden lg:block items-center lg:col-span-1 row-span-2">
+        <div className="hidden lg:block lg:col-span-1 row-span-2">
           <div className="h-full grid grid-rows-3">
             <div className="border-b border-white/50 p-8">
               <div className="text-right">
@@ -86,70 +89,50 @@ export default function Footer() {
                 </span>
               </div>
             </div>
-            <div className="border-b flex items-center border-white/50 p-8">
+            <div className="border-b border-white/50 p-8">
               <div className="text-right">
-                <span className="text-xl m-0 p-0 sm:text-2xl md:text-3xl">
-                  National Level Technical Fest 2025
+                <span className="text-xl sm:text-2xl md:text-3xl">
+                  NATIONAL LEVEL TECHNICAL FEST 2025
                 </span>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Bottom Row - Menu Links */}
-        {/* <div className="col-span-1 sm:col-span-2 lg:col-span-2 p-4 sm:p-6 lg:p-8 border-t border-white/50">
-          <div className="grid grid-cols-3 sm:grid-cols-3 gap-6 sm:gap-8">
-            <div>
-              <h4 className="text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6">
-                Menu
-              </h4>
-              <ul className="space-y-2 sm:space-y-3 text-gray-400">
-                <li>About Us</li>
-                <li>Events</li>
-                <li>Schedule</li>
-                <li>Contact</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6">
-                Menu
-              </h4>
-              <ul className="space-y-2 sm:space-y-3 text-gray-400">
-                <li>Register</li>
-                <li>Sponsors</li>
-                <li>Gallery</li>
-                <li>FAQ</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6">
-                Menu
-              </h4>
-              <ul className="space-y-2 sm:space-y-3 text-gray-400">
-                <li>Terms</li>
-                <li>Privacy</li>
-                <li>Support</li>
-                <li>Blog</li>
-              </ul>
+        </Plusbox>
+        <Plusbox className="relative p-4 border-b border-l border-dashed border-white/50 flex items-center justify-center md:col-start-4 md:row-start-3">
+          <div>
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4">Faculty Coordinators</h3>
+            <div className="space-y-2 text-[#6E72A0]">
+              <p className="text-xs sm:text-sm md:text-base lg:text-xl">Dr. Binoy Baby +91 94478 75050</p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-xl">Dr. Arun. P +91 98958 52842</p>
             </div>
           </div>
-        </div> */}
-
-        <div className="md:col-span-2 p-4 sm:p-6 lg:p-8 flex justify-center items-center">
+        </Plusbox>
+        <div className="col-span-1 sm:col-span-2 md:col-start-1 md:col-span-2 md:row-start-2 md:row-span-3 flex flex-col items-center justify-around p-4">
+          <div className="flex flex-col items-center justify-center mb-6">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4">Vision</h3>
+            <p className="text-xs sm:text-sm md:text-base lg:text-xl text-[#6E72A0] w-full sm:w-3/4">
+              Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society.
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4">Mission</h3>
+            <p className="text-xs sm:text-sm md:text-base lg:text-xl text-[#6E72A0] w-full sm:w-3/4">
+              To maintain a conducive infrastructure and learning environment for world class education. To nurture a team of dedicated, competent and research oriented faculty. To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
+            </p>
+          </div>
+        </div>
+        <Plusbox className="relative p-4 border-y border-l border-r border-b-0 border-dashed border-white/50 flex items-center justify-center md:col-start-3 md:row-start-4">
           <Image
             src="/sjcet.svg"
             alt="St. Joseph's College Logo"
             width={150}
             height={75}
-            className="object-cover sm:w-[180px] md:w-[300px]"
+            className="object-cover w-[120px] sm:w-[150px] md:w-[200px] lg:w-[300px]"
           />
-        </div>
-
-        <div className="p-4 sm:p-6 lg:p-8 flex flex-col items-center md:mt-6">
-          <h4 className="text-lg sm:text-xl md:text-3xl mb-4 sm:mb-6">
-            Community
-          </h4>
-          <div className="flex gap-4 justify-center">
+        </Plusbox>
+        <div className="col-span-1 md:col-start-4 md:row-start-4 p-4 flex flex-col justify-between items-center">
+          <h4 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4">Community</h4>
+          <div className="flex gap-4 justify-center mb-4">
             <a
               href="https://www.facebook.com/asthra.sjcet/"
               className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
@@ -179,14 +162,15 @@ export default function Footer() {
               <Github className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
           </div>
+          <p className="text-xs sm:text-sm text-gray-400 text-center">@2025 ASTHRA 9.0, All Rights Reserved</p>
         </div>
       </div>
 
       <div className="border-t border-gray-800">
         <p className="text-xs sm:text-sm text-gray-400 text-center sm:text-right p-4 sm:p-6 lg:p-8">
-          &copy; 2025 ASTHRA 9.0, All Rights Reserved
+          @2025 ASTHRA 9.0, All Rights Reserved
         </p>
       </div>
     </footer>
-  );
+  )
 }

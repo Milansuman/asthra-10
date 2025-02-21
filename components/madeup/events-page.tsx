@@ -1,48 +1,21 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { CheckCircle, Home, XCircleIcon } from 'lucide-react';
-import { type z } from 'zod';
+import { Home } from 'lucide-react';
+import type { z } from 'zod';
 
 
-
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
-// import { CursorContainer } from './cursor';
-
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-
-import { eventZod } from '@/lib/validator';
+import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
+import { Select, SelectItem } from '@heroui/react';
 import { Select, SelectItem } from '@heroui/react';
 import RotatingText from '../ui/rotatingText';
 import Dock, { DockItemData } from './Dock';
 import Plusbox from './box';
-import EventCard, { Icon } from './event-card';
+import EventCard from './event-card';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -58,7 +31,7 @@ type Props = {
 
 export function EventPage({
     categories,
-    departments,
+    departments = Object.values(allDepartments),
     events,
     filterDepartment = 'all',
     filterCategory = 'ALL',
@@ -80,58 +53,65 @@ export function EventPage({
     const isDepartment = (event: Event) => {
         if ((department === 'all' || event.department === department) && event.eventStatus !== 'cancel') {
             return true;
+        } else {
+            return false;
         }
-        return false;
     };
 
     const isEventType = (event: Event) => {
         if ((filter === 'ALL' || event.eventType === filter) && event.eventStatus !== 'cancel') {
             return true;
+        } else {
+            return false;
         }
-        return false;
     };
 
     const isGeneralEvent = (event: Event) => {
         if (event.department === 'NA' && filter === 'GENERAL' && event.registrationType !== 'spot' && event.eventStatus !== 'cancel') {
             return true;
+        } else {
+            return false;
         }
-        return false;
     };
 
     const isSpotEvent = (event: Event) => {
         if (event.registrationType === 'spot' && filter === 'INFORMAL' && event.department === 'NA' && event.eventStatus !== 'cancel') {
             return true;
+        } else {
+            return false;
         }
-        return false;
     };
 
     const isEventStatus = (event: Event) => {
         if (eventStatus === 'all' || event.eventStatus === eventStatus) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     };
 
     const isCancelled = (event: Event) => {
         if (filter === 'CANCELLED' && event.eventStatus === 'cancel') {
             return true;
+        } else {
+            return false;
         }
-        return false;
     };
 
     const isUploaded = (event: Event) => {
         if (event.eventStatus === 'uploaded') {
             return true;
+        } else {
+            return false;
         }
-        return false;
-
     };
 
     const isSoldOut = (event: Event) => {
         if (event.regCount >= event.regLimit) {
             return true
+        } else {
+            return false
         }
-        return false
     }
 
     const Items: DockItemData[] = [
@@ -173,8 +153,8 @@ export function EventPage({
                     <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
                     <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
                     <RotatingText
-                        texts={['Events', 'Workshops', 'Games', 'Competitions']}
-                        mainClassName=" px-2 sm:px-2 text-6xl drop-shadow-md text-white items-center md:px-5 font-bold flex glass text-black  py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
+                        texts={['Events', 'Workshops', 'Games']}
+                        mainClassName="px-2 sm:px-2 text-6xl drop-shadow-md text-white items-center md:px-5 font-bold flex glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
                         staggerFrom={"last"}
                         initial={{ y: "100%" }}
                         animate={{ y: 0 }}
@@ -190,22 +170,17 @@ export function EventPage({
             </div>
             <div className="w-full flex gap-2 py-4 justify-center">
                 <Select
-                    className="max-w-xs outline-none border-0 justify-between bg-white/10 backdrop-blur-md rounded-lg p-2 text-white"
-                    placeholder="Select a Dept"
+                    className="max-w-xs outline-none border-0"
+                    placeholder="Select an Dept"
+                    variant="faded"
                 >
                     {departments.map((animal, index) => (
-                        <SelectItem
-                            className="bg-zinc-700 mt-1 bg-white/10 backdrop-blur-md rounded-lg p-2 text-white"
-                            key={index}
-                        >
-                            {Object.getOwnPropertyDescriptor(allDepartments, animal.toLowerCase())?.value ?? 'Select any Dept'}
-                        </SelectItem>
+                        <SelectItem className=' glass' key={index}>{animal}</SelectItem>
                     ))}
                 </Select>
             </div>
-            <Dock items={Items} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center mt-8">
                 {events
                     // .filter(
                     //     (event: Event) =>
@@ -215,10 +190,11 @@ export function EventPage({
                     // )
                     .map((event) => (
                         <motion.div key={event.id} className="w-full">
-                            <Link href={`/events/${event.id}`}><EventCard data={event} /></Link>
+                            <Link href={'/events/' + event.id}><EventCard data={event} /></Link>
                         </motion.div>
                     ))}
             </div>
+            <Dock items={Items} />
         </div>
     );
 }
