@@ -1,5 +1,6 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
+import { FAQ } from '@/components/madeup/faq';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -138,6 +139,7 @@ To develop students with moral & ethical values, for their successful career by 
           </Button>
         </div>
       </section>
+      <FAQ />
     </main>
   );
 }
