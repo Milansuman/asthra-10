@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { Home } from 'lucide-react';
 import type { z } from 'zod';
 
 
@@ -12,7 +11,7 @@ import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
 import { Select, SelectItem } from '@heroui/react';
 import RotatingText from '../ui/rotatingText';
-import Dock, { DockItemData } from './Dock';
+import Dock, { type DockItemData } from './Dock';
 import Plusbox from './box';
 import EventCard, { Icon } from './event-card';
 
@@ -116,7 +115,7 @@ export function EventPage({
     const Items: DockItemData[] = [
         {
             icon: <Home />,
-            label: "All",
+            label: "Home",
             onClick: () => { },
             className: ''
         },
@@ -130,12 +129,6 @@ export function EventPage({
             icon: <Home />,
             label: "Asthra Pass",
             onClick: () => { },
-            className: ''
-        },
-        {
-            icon: <Home />,
-            label: "Events",
-            onClick: () => { }, // to be implemented
             className: ''
         }
     ]
@@ -193,7 +186,6 @@ export function EventPage({
                         </motion.div>
                     ))}
             </div>
-            <Dock items={Items} />
         </div>
     );
 }

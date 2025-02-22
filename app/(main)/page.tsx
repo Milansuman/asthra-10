@@ -1,7 +1,7 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
 import CircularGalleryMade from '@/components/bits/CircularGallery/CircularGalleryMade';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
-import { SplineViewer } from '@/components/madeup/spline-viewer';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 export default function Page() {
@@ -131,12 +131,12 @@ To develop students with moral & ethical values, for their successful career by 
           <p className="ambit mb-6 text-center font-thin text-2xl md:text-3xl">
             What are you waiting for ?
           </p>
-          <button
-            type="button"
-            className="ambit rounded-md bg-neutral-300/50 px-10 py-2 font-thin text-xl backdrop-blur-xl transition-colors hover:bg-neutral-400/50"
+          <Button
+            className='ambit rounded-lg px-10 py-6 font-thin text-xl'
+            variant="glass"
           >
-            Register Now
-          </button>
+            Mark your calendar on March 6,7 2025
+          </Button>
         </div>
       </section>
     </main>
