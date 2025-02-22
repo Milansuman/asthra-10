@@ -1,6 +1,5 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
-import { SplineViewer } from '@/components/madeup/spline-viewer';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
@@ -134,7 +133,7 @@ To develop students with moral & ethical values, for their successful career by 
             className='ambit rounded-lg px-10 py-6 font-thin text-xl'
             variant="glass"
           >
-            Register Now
+            Mark your calendar on March 6,7 2025
           </Button>
         </div>
       </section>
