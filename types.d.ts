@@ -37,4 +37,24 @@ declare global {
   interface Window {
     Razorpay: typeof Razorpay;
   }
+
+  namespace JSX {
+    interface IntrinsicElements {
+      meshLineGeometry: any;
+
+      meshLineMaterial: any;
+    }
+  }
+}
+
+export {};
+
+declare module '*.glb';
+
+declare module '*.png';
+
+declare module 'meshline' {
+  export const MeshLineGeometry: any;
+
+  export const MeshLineMaterial: any;
 }

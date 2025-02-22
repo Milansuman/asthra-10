@@ -20,17 +20,15 @@ import {
 
 import {
   AlertDialog,
-  AlertDialogContent,
-  AlertDialogTrigger,
   AlertDialogAction,
-  AlertDialogCancel
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogTrigger
 } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import Link from 'next/link';
 
 import { Trash2 } from 'lucide-react';
 
-import { api } from '@/trpc/react';
 
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
@@ -123,68 +121,69 @@ interface PurchaseCardPreviewProps {
 
 export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent }) => {
   return (
-  <Card className="m-2 flex flex-col text-black aspect-square max-w-80">
-    <CardHeader className="p-0">
-      {z.string().safeParse(data.poster).success && (
-        <Image
-          className="h-[150px] w-full object-cover object-left-top rounded-[10px]"
-          height="600"
-          width="600"
-          src={data.poster}
-          alt={`${data.name} poster asthra 8`}
-        />
-      )}
-    </CardHeader>
-    <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-    <CardDescription className="line-clamp-6 mb-2">
-      {data.description}
-    </CardDescription>
-    <CardFooter className="flex gap-[10px] p-0 mt-[20px] mt-auto">
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="secondary" className="flex-1 rounded-s">
-            Edit
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent className="sm:max-w-[900px] p-0 border-none bg-white text-black">
-          <Card className="p-5 text-black">
-            <h3 className="cal">Edit Event</h3>
-            <p>
-              Keyboard accessible, Use up & down arrows to control counts &
-              dates
-            </p>
+    <Card className="m-2 flex flex-col text-black aspect-square max-w-80">
+      <CardHeader className="p-0">
+        {z.string().safeParse(data.poster).success && (
+          <Image
+            className="h-[150px] w-full object-cover object-left-top rounded-[10px]"
+            height="600"
+            width="600"
+            src={data.poster}
+            alt={`${data.name} poster asthra 8`}
+          />
+        )}
+      </CardHeader>
+      <CardTitle className="mt-[20px]">{data.name}</CardTitle>
+      <CardDescription className="line-clamp-6 mb-2">
+        {data.description}
+      </CardDescription>
+      <CardFooter className="flex gap-[10px] p-0 mt-[20px] mt-auto">
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="secondary" className="flex-1 rounded-s">
+              Edit
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="sm:max-w-[900px] p-0 border-none bg-white text-black">
+            <Card className="p-5 text-black">
+              <h3 className="cal">Edit Event</h3>
+              <p>
+                Keyboard accessible, Use up & down arrows to control counts &
+                dates
+              </p>
 
-            <ScrollArea className="h-[80vh]">
-              <EventForm data={data as EventEdit} id={data.id} onChangeEvent={onChangeEvent} />
-            </ScrollArea>
-          </Card>
-        </AlertDialogContent>
-      </AlertDialog>
-      <Button link={`/dashboard/upload?id=${data.id}`} className="flex-1 rounded-s">
-        Change poster
-      </Button>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="destructive">
-            <Trash2 size={20}/>
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-white text-black">
-          <h3 className="text-lg font-semibold">Confirm Deletion</h3>
-          <p>Are you sure you want to delete this event? This action cannot be undone.</p>
-          <div className="flex justify-end gap-4 mt-4">
-            <AlertDialogCancel asChild>
-              <Button variant="outline">Cancel</Button>
-            </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button variant="destructive" className='bg-red-950 hover:bg-red-900 text-white' onClick={() => onDelete(data.id)}>Delete</Button>
-            </AlertDialogAction>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
-    </CardFooter>
-  </Card>
-)};
+              <ScrollArea className="h-[80vh]">
+                <EventForm data={data as EventEdit} id={data.id} onChangeEvent={onChangeEvent} />
+              </ScrollArea>
+            </Card>
+          </AlertDialogContent>
+        </AlertDialog>
+        <Button link={`/dashboard/upload?id=${data.id}`} className="flex-1 rounded-s">
+          Change poster
+        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">
+              <Trash2 size={20} />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-white text-black">
+            <h3 className="text-lg font-semibold">Confirm Deletion</h3>
+            <p>Are you sure you want to delete this event? This action cannot be undone.</p>
+            <div className="flex justify-end gap-4 mt-4">
+              <AlertDialogCancel asChild>
+                <Button variant="outline">Cancel</Button>
+              </AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Button variant="destructive" className='bg-red-950 hover:bg-red-900 text-white' onClick={() => onDelete(data.id)}>Delete</Button>
+              </AlertDialogAction>
+            </div>
+          </AlertDialogContent>
+        </AlertDialog>
+      </CardFooter>
+    </Card>
+  )
+};
 export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
   data,
 }) => (
@@ -231,7 +230,7 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
   </div>
 );
 
-export const AddNewCard: React.FC<{onChangeEvent: () => void}> = ({onChangeEvent}) => (
+export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEvent }) => (
   <Card className="m-2  w-52 aspect-square rounded-none border border-neutral-700">
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -247,7 +246,7 @@ export const AddNewCard: React.FC<{onChangeEvent: () => void}> = ({onChangeEvent
             Keyboard accessible, Use up & down arrows to control counts & dates
           </p>
           <ScrollArea className="h-[80vh] rounded-none">
-            <EventForm data={null} onChangeEvent={onChangeEvent}/>
+            <EventForm data={null} onChangeEvent={onChangeEvent} />
           </ScrollArea>
         </Card>
       </AlertDialogContent>

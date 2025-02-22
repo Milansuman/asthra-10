@@ -1,15 +1,26 @@
-import '@/styles/globals.css';
 import Footer from '@/components/madeup/footer';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
-import type { Metadata } from 'next';
-import { manifestData } from './manifest';
-import { Providers } from './providers';
+import Dock, { type DockItemData } from '@/components/madeup/Dock';
+import { GlowArea } from '@/components/ui/glow';
 
-export const metadata: Metadata = {
-  ...manifestData,
-  title: manifestData.name,
-  icons: [{ rel: 'icon', url: '/favicon.ico' }],
-};
+const Items: DockItemData[] = [
+  {
+    link: "/",
+    label: "Home",
+  },
+  {
+    link: "/events",
+    label: "Workshops & Events",
+  },
+  {
+    link: "/asthra",
+    label: "Asthra Pass",
+  },
+  {
+    link: "/profile",
+    label: "Profile",
+  }
+]
 
 export default function RootLayout({
   children,
@@ -17,26 +28,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={'text-white ambit relative font-sans'}>
-        <div className="fixed top-0 left-0 h-screen w-screen">
-          <SplineViewer
-            url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
-            className="relative h-full w-full bg-[#7ab1e1]"
-          />
-          {/* <video
+    <>
+      <div className="fixed top-0 left-0 h-screen w-screen">
+        {/* <video
             src={'/glass.mp4'}
             autoPlay={true}
             loop={true}
             muted={true}
             className="h-full w-full object-cover"
           />*/}
-        </div>
-        <Providers>
-          {children}
-          <Footer />
-        </Providers>
-      </body>
-    </html>
+        <SplineViewer
+          url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
+          className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#7ab1e1]"
+        />
+      </div>
+      <GlowArea>
+      {children}
+      <Dock items={Items} />
+      <Footer />
+      </GlowArea>
+    </>
   );
 }

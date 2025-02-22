@@ -4,17 +4,17 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { Home } from 'lucide-react';
 import type { z } from 'zod';
 
 
 import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
-import { Select, SelectItem } from '@heroui/react';
 import RotatingText from '../ui/rotatingText';
-import Dock, { type DockItemData } from './Dock';
+
 import Plusbox from './box';
 import EventCard from './event-card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import Image from 'next/image';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -97,33 +97,13 @@ export function EventPage({
         } return false;
     }
 
-    const Items: DockItemData[] = [
-        {
-            icon: <Home />,
-            label: "Home",
-            onClick: () => { },
-            className: ''
-        },
-        {
-            icon: <Home />,
-            label: "WorkShops",
-            onClick: () => { },
-            className: ''
-        },
-        {
-            icon: <Home />,
-            label: "Asthra Pass",
-            onClick: () => { },
-            className: ''
-        }
-    ]
     return (
-        <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 relative ">
-            <div className='p-3 w-full gap-3 flex justify-center items-center'>
-                <p className='p-0 m-0 text-6xl font-semibold'>Asthra</p>
+        <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 ">
+            <div className='mt-20 w-full gap-3 flex flex-col justify-center items-center'>
+                <img src='/asthra.svg' className='w-64' />
                 <Plusbox className='relative p-2 border  border-white/20'>
                     <RotatingText
-                        texts={['Events', 'Workshops', 'Games']}
+                        texts={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]}
                         mainClassName="px-2 sm:px-2 text-6xl text-white items-center md:px-5 font-bold flex bg-glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
                         staggerFrom={"last"}
                         initial={{ y: "100%" }}
@@ -137,19 +117,19 @@ export function EventPage({
                 </Plusbox>
             </div>
             <div className="w-full flex gap-2 justify-center">
-                <Select
-
-                    className="max-w-xs outline-none text-black"
-                    placeholder="Select an Dept"
-                    variant="faded"
-                >
-                    {departments.map((animal, index) => (
-                        <SelectItem className='bg-glass mt-2' key={index}>{animal}</SelectItem>
-                    ))}
+                <Select>
+                    <SelectTrigger className="w-[380px]">
+                        <SelectValue placeholder="Department" />
+                    </SelectTrigger>
+                    <SelectContent className="w-[380px]">
+                        {departments.map((d, index) => (
+                            <SelectItem value={d} key={index}>{d}</SelectItem>
+                        ))}
+                    </SelectContent>
                 </Select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-center mt-8 px-4">
                 {events
                     // .filter(
                     //     (event: Event) =>
@@ -158,12 +138,13 @@ export function EventPage({
                     //         !isUploaded(event),
                     // )
                     .map((event) => (
-                        <motion.div key={event.id} className="w-full bg-glass">
-                            <Link href={`/events/${event.id}`}><EventCard data={event} /></Link>
+                        <motion.div key={event.id}>
+                            {/* <Link href={`/events/${event.id}`}> */}
+                            <EventCard data={event} />
+                            {/* </Link> */}
                         </motion.div>
                     ))}
             </div>
-            <Dock items={Items} />
         </div>
     );
 }
