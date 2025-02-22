@@ -13,11 +13,13 @@ import {
     useMemo
 } from "react";
 import Plusbox from "./box";
+import Link from "next/link";
 
 export type DockItemData = {
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     label: React.ReactNode;
-    onClick: () => void;
+    link?: string;
+    onClick?: () => void;
     className?: string;
 };
 
@@ -64,7 +66,7 @@ export default function Dock({
     const height = useSpring(heightRow, spring);
 
     return (
-        <Plusbox className="fixed z-[999] bottom-[30px] left-1/2 -translate-x-1/2 p-2 border border-white/[0.2]">
+        <Plusbox className="fixed z-40 bottom-[6px] right-[6px] p-1 border border-white/[0.2]">
             <motion.div
                 // onMouseMove={({ pageX }) => {
                 //     isHovered.set(1);
@@ -78,11 +80,17 @@ export default function Dock({
                 role="toolbar"
                 aria-label="Application dock"
             >
-                {items.map((item, index) => (
-                    <div key={index} className="hover:scale-105 transition-all cursor-pointer">
-                        <p className="text-2xl m-0 px-3 py-3 ">{item.label}</p>
-                    </div>
-                ))}
+                {items.map((item, index) => {
+                    const Wrapper = item.link ? Link : "div";
+                    const props = item.link ? { href: item.link } : { onClick: item.onClick };
+                    return (
+                        <Wrapper {...(props as any)} key={index}>
+                            <div key={index} className="hover:scale-105 transition-all cursor-pointer">
+                                <p className="text-xl m-0 px-3 py-3 ">{item.label}</p>
+                            </div>
+                        </Wrapper>
+                    )
+                })}
             </motion.div>
         </Plusbox>
     );

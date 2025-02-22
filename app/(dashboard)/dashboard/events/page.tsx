@@ -1,6 +1,12 @@
-import Link from 'next/link';
+'use client';
 
-import { api } from '@/trpc/server';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useState, useEffect } from 'react';
+
+import { api } from '@/trpc/react';
+import { eventZod } from '@/lib/validator';
+import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { EventPage } from '../_components/event-page';
@@ -20,25 +26,34 @@ type FilterQueries = {
   category: string;
 };
 
-// export default function Page({ searchParams, }: {
-//   searchParams?: { [key in keyof FilterQueries]: string | string[] | undefined };
-// }) {
-export default async function Page({
-  searchParams: sParams,
-}: {
-  searchParams: Promise<{
-    [key: string]: string | string[] | FilterQueries | undefined;
-  }>;
-}) {
-  // we can use this for filtering the events eg: /events?asthraEvents=true
-  // console.log(searchParams?.asthraEvents)
+type Event = z.infer<typeof eventZod>;
+export default function Page() {
 
-  const events = await api.event.getLatest();
-  const searchParams = await sParams;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EventContent />
+    </Suspense>
+  );
+}
 
-  // console.log(events)
+function EventContent() {
+  const searchParams = useSearchParams();
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const eventsQuery = api.event.getLatest.useQuery()
 
-  // need ui for this
+  useEffect(() => {
+    (async () => {
+      const { data } = await eventsQuery.refetch();
+      setEvents((data ?? []) as unknown[] as Event[]);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   if (events.length === 0) {
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center">
@@ -51,17 +66,16 @@ export default async function Page({
     );
   }
 
-  const additionalCategories = ['GENERAL'];
+  const additionalCategories: string[] = ['GENERAL'];
 
   const approvedEvents = events.filter(
     (event) => event.eventStatus === 'approved'
   );
-  // const cancel = events.filter((event) => event.eventStatus === "cancel")
 
-  const departments = [...new Set(events.map((event) => event.department))];
-  const filterDepartment = searchParams?.department as string;
-  const eventStatus = searchParams?.status as string;
-  const eventCategory = searchParams?.category as string;
+  const departments: string[] = [...new Set(events.map((event) => event.department))];
+  const filterDepartment = searchParams.get('department') || 'all';
+  const eventStatus = searchParams.get('status') || 'all';
+  const eventCategory = searchParams.get('category') || 'ALL';
 
   if (
     departments.includes('NA') &&
@@ -74,20 +88,21 @@ export default async function Page({
     additionalCategories.push('CANCELLED');
   }
 
-  const categories = ['ALL'].concat(
+  const categories: string[] = ['ALL'].concat(
     [...new Set(events.map((event) => event.eventType as string))]
       .concat(additionalCategories)
       .filter((et) => et !== 'ASTHRA_PASS')
   );
+
   return (
     <>
       <EventPage
         categories={categories}
         departments={departments}
         events={approvedEvents}
-        filterDepartment={filterDepartment ?? 'all'}
-        eventStatus={eventStatus ?? 'all'}
-        filterCategory={eventCategory ?? 'ALL'}
+        filterDepartment={filterDepartment}
+        eventStatus={eventStatus}
+        filterCategory={eventCategory}
         dashboard={true}
       />
     </>

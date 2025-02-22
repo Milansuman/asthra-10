@@ -1,7 +1,6 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
 import { FAQ } from '@/components/madeup/faq';
-import { SplineViewer } from '@/components/madeup/spline-viewer';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
@@ -59,7 +58,7 @@ tomorrow"
             />
           </p>
         </div>
-        <div className="col-span-1 border border-neutral-300" />
+        <div className="col-span-1 border border-neutral-300 hidden md:block" />
 
         <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
           <p className="ambit text-center font-thin text-2xl md:text-3xl lg:text-5xl">
@@ -135,7 +134,7 @@ To develop students with moral & ethical values, for their successful career by 
             className='ambit rounded-lg px-10 py-6 font-thin text-xl'
             variant="glass"
           >
-            Register Now
+            Mark your calendar on March 6,7 2025
           </Button>
         </div>
       </section>
