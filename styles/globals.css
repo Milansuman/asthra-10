@@ -70,6 +70,10 @@
   .text-glass-foreground {
     @apply text-white;
   }
+
+  .border-glass {
+    @apply border-white border-opacity-60;
+  }
 }
 
 .cal {
@@ -78,6 +82,7 @@
 
 .ambit {
   font-family: 'Ambit', sans-serif;
+  text-shadow: 1px 1px 30px #44444480;
 }
 
 .europa {

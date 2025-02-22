@@ -1,52 +1,61 @@
-"use client"
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import type { FAQItem } from "@/lib/types";
+
+interface FAQItem {
+    title: string;
+    content: string;
+}
+type FAQItems = FAQItem[];
+
 
 export const faqItems: FAQItem[] = [
     {
-        title: 'How this work?',
-        content: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
+        title: 'How to register?',
+        content: "Registration hasn't been started yet, but you can login with your Google account.",
     },
     {
-        title: 'Are there any additional fee?',
-        content: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
+        title: 'Are events free?',
+        content: 'Asthra Events are free to enter if you have ASTHRA PASS. But Workshops and competitions may have a seperate fee.',
     },
     {
-        title: 'How can I get the app?',
-        content: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
+        title: 'How to get ASTHRA PASS?',
+        content: 'Login, fill your profile, and purchase the ASTHRA PASS.',
     },
     {
-        title: 'What features do you offer and other not?',
-        content: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
+        title: 'Is college bus facility available?',
+        content: 'No, but you can book a cab or use public transport.',
     },
+    {
+        title: 'Can i purchase tickets at the venue?',
+        content: 'Yes, you can. But it is recommended to purchase online to avoid long queues. Also some events may have limited seats.',
+    },
+    {
+        title: 'What are the payment methods?',
+        content: 'You can pay using UPI, Debit/Credit cards, and Netbanking.',
+    }
 ];
 
 export function FAQ() {
     return (
-        <div className="w-full max-w-6xl mx-auto p-8 my-8 backdrop-blur-md bg-white/60 rounded-2xl border border-white/20">
+        <div className="w-full max-w-6xl mx-auto p-8 my-8 bg-glass rounded-2xl border border-glass">
             <div className="flex flex-col md:flex-row gap-12 items-start">
                 {/* Left Section */}
                 <div className="flex-1 space-y-4">
-                    <h2 className="text-4xl font-bold text-black">
+                    <h2 className="text-4xl font-bold ">
                         Any questions?<br />
                         We got you.
                     </h2>
-                    <p className="text-gray-800 max-w-md">
+                    <p className="max-w-md">
                         lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
                     </p>
-                    {/* <a href="/" className="text-purple-600 hover:text-purple-700 inline-flex items-center">
-                        More FAQs →
-                    </a> */}
                 </div>
 
                 {/* Right Section */}
                 <div className="flex-1">
-                    <Accordion type="single" collapsible className="space-y-4">
+                    <Accordion type="single" collapsible className="space-y-4 ambit">
                         {faqItems.map((faq, index) => (
                             <AccordionItem key={index} value={`item-${index}`}>
-                                <AccordionTrigger>{faq.title}</AccordionTrigger>
-                                <AccordionContent>{faq.content}</AccordionContent>
+                                <AccordionTrigger className="ambit">{faq.title}</AccordionTrigger>
+                                <AccordionContent className="ambit">{faq.content}</AccordionContent>
                             </AccordionItem>
                         ))}
                     </Accordion>
