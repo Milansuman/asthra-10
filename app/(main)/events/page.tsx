@@ -31,51 +31,36 @@ function Page() {
   const department = searchParams.get('department')
   const status = searchParams.get('status')
 
-  const demoEvents: z.infer<typeof eventZod>[] = [
-    {
-      id: '1',
-      name: 'Event 1',
-      description: 'Description for Event 1',
-      secret: 'Secret 1',
-      poster: 'https://tricera.cubes.host/v1/storage/buckets/nk25-site-cdn/files/67b34203003942c5a5af/view?project=nakshatra-25&project=nakshatra-25&mode=admin',
-      createdAt: new Date('2025-02-20T00:00:00.000Z'),
-      updatedAt: null,
-      createdById: 'user-1',
-      department: 'NA',
-      venue: 'Venue 1',
-      dateTimeStarts: new Date('2025-03-06T03:30:00.000Z'),
-      dateTimeEnd: 'ALL DAY',
-      eventStatus: 'uploaded',
-      eventType: 'ASTHRA_PASS_EVENT',
-      amount: 0,
-      registrationType: 'both',
-      regLimit: 10,
-      regCount: 0,
-    },
-    {
-      id: '2',
-      name: 'Event 2',
-      description: 'Description for Event 2',
-      secret: 'Secret 2',
-      poster: 'https://tricera.cubes.host/v1/storage/buckets/nk25-site-cdn/files/67b34203003942c5a5af/view?project=nakshatra-25&project=nakshatra-25&mode=admin',
-      createdAt: new Date('2025-02-21T00:00:00.000Z'),
-      updatedAt: null,
-      createdById: 'user-2',
-      department: 'CS',
-      venue: 'Venue 2',
-      dateTimeStarts: new Date('2025-03-07T03:30:00.000Z'),
-      dateTimeEnd: 'ALL DAY',
-      eventStatus: 'approved',
-      eventType: 'WORKSHOP',
-      amount: 100,
-      registrationType: 'online',
-      regLimit: 50,
-      regCount: 10,
-    },
-    // Add more events as needed
-  ];
+  const demoEvent: z.infer<typeof eventZod> = {
+    id: '1',
+    name: 'Comming Soon',
+    description: 'Comming Soon',
+    secret: 'Secret 1',
+    poster: '/public/assets/Ref1.webp',
+    createdAt: new Date('2025-02-20T00:00:00.000Z'),
+    updatedAt: null,
+    createdById: 'user-1',
+    department: 'NA',
+    venue: 'Venue 1',
+    dateTimeStarts: new Date('2025-03-06T03:30:00.000Z'),
+    dateTimeEnd: 'ALL DAY',
+    eventStatus: 'uploaded',
+    eventType: 'ASTHRA_PASS_EVENT',
+    amount: 0,
+    registrationType: 'both',
+    regLimit: 10,
+    regCount: 0,
+  }
+
   // const events = await api.event.getLatest.query();
-  const events = demoEvents
+  const events = [
+    "/assets/Ref1.webp",
+    "/assets/Ref2.webp",
+    "/assets/Ref3.webp",
+    "/assets/Ref4.webp",
+    "/assets/Ref5.webp",
+    "/assets/Ref6.webp",
+  ].map((poster, index) => ({ ...demoEvent, id: index.toString(), poster }))
   // console.log(events)
 
 
@@ -117,7 +102,7 @@ function Page() {
   return (
     <>
       <EventPage
-        events={demoEvents}
+        events={events}
         categories={categories}
         departments={departments}
         // events={approvedEvents}
