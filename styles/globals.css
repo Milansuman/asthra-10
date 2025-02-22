@@ -65,6 +65,10 @@
   .text-glass-foreground {
     @apply text-white;
   }
+
+  .border-glass {
+    @apply border-white border-opacity-60;
+  }
 }
 
 .cal {
@@ -72,10 +76,8 @@
 }
 
 .ambit {
-  font-family: "Ambit", sans-serif;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+  font-family: 'Ambit', sans-serif;
+  text-shadow: 1px 1px 30px #44444480;
 }
 .europa {
   font-family: "EuropaGroteskSH", sans-serif;
@@ -119,9 +121,9 @@ blockquote {
 }
 
 @font-face {
-  font-family: "Ambit";
-  src: url("/fonts/ambit/Ambit-Regular.woff2") format("woff2"),
-    url("/fonts/ambit/Ambit-Regular.woff") format("woff");
+  font-family: 'Ambit';
+  src: url('/fonts/ambit/Ambit-Regular.woff2') format('woff2'),
+    url('/fonts/ambit/Ambit-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

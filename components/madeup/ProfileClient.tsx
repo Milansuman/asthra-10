@@ -1,11 +1,11 @@
 "use client";
 
 import type { userZod } from '@/lib/validator';
-import { Button } from '@heroui/button';
 import { Session } from 'next-auth';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import type { z } from 'zod';
+import { Button } from '../ui/button';
 
 type userSchema = Partial<z.infer<typeof userZod>>;
 
@@ -44,71 +44,61 @@ function MainProfileContent({
                 <p className="text-2xl sm:text-3xl md:text-4xl font-bold">{sampleUser.name}</p>
                 <p className="text-lg sm:text-xl md:text-2xl break-words">{sampleUser.email}</p>
                 <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
-                    <div className="bg-white/80 rounded-md px-3 py-1 sm:px-4 sm:py-2 border-2 border-border">
-                        <p className="text-button-primary font-bold text-sm sm:text-base">
-                            College: {sampleUser.college}
-                        </p>
-                    </div>
-                    <div className="bg-white/80 rounded-md px-3 py-1 sm:px-4 sm:py-2 border-2 border-border">
-                        <p className="text-button-primary font-bold text-sm sm:text-base">
-                            Department: {sampleUser.department}
-                        </p>
-                    </div>
+                    <Button variant={"glass"} size={"sm"}>
+
+                        College: {sampleUser.college}
+                    </Button>
+                    <Button variant={"glass"} size={"sm"}>
+                        Department: {sampleUser.department}
+                    </Button>
                 </div>
             </div>
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                 <Button
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-white border-2 border-border text-button-primary font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    variant="glass"
+                    size="glass"
                 >
                     400 Credits Remaining
                 </Button>
                 <Button
-                    onPress={onEditProfile}
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-white border-2 border-border text-button-primary font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    onClick={onEditProfile}
+                    variant="glass"
+                    size="glass"
                 >
                     Edit Profile
                 </Button>
                 <Button
-                    onPress={onViewPass}
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-white border-2 border-border text-button-primary font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    onClick={onViewPass}
+                    variant="glass"
+                    size="glass"
                 >
                     View Pass
                 </Button>
                 <Button
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-button-primary text-white font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    variant="glass"
+                    size="glass"
                 >
                     Asthra Pass Unlocked
                 </Button>
                 <Button
-                    onPress={onViewRegisteredEvents}
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-button-primary text-white font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    onClick={onViewRegisteredEvents}
+                    variant="glass"
+                    size="glass"
                 >
                     View Registered Events
                 </Button>
                 <Button
-                    onPress={onShowTransactions}
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-white border-2 border-border text-button-primary font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    onClick={onShowTransactions}
+                    variant="glass"
+                    size="glass"
                 >
                     Show Transactions
                 </Button>
                 <Button
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-white border-2 border-border text-button-primary font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    variant="glass"
+                    size="glass"
                 >
                     My Events
                 </Button>
@@ -117,16 +107,14 @@ function MainProfileContent({
             {/* Bottom Buttons */}
             <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                 <Button
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-white border-2 border-border text-button-primary font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    variant="glass"
+                    size="glass"
                 >
                     Generate Certificate
                 </Button>
                 <Button
-                    variant="light"
-                    size="lg"
-                    className="flex items-center justify-center bg-danger text-white font-bold text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                    variant="glass"
+                    size="glass"
                 >
                     Logout
                 </Button>
@@ -140,10 +128,9 @@ function EditProfileForm({ onBack }: { onBack: () => void }) {
     return (
         <div className="w-full">
             <Button
-                onPress={onBack}
-                variant="light"
-                size="sm"
-                className="mb-4 text-white bg-transparent border-none hover:bg-white/10 text-xl"
+                onClick={onBack}
+                variant="glass"
+                size="glass"
             >
                 &larr;{" "} Back
             </Button>
@@ -178,9 +165,8 @@ function EditProfileForm({ onBack }: { onBack: () => void }) {
                     className="p-2 rounded-md bg-white/80 text-black border-2 border-border"
                 />
                 <Button
-                    variant="light"
-                    size="lg"
-                    className="bg-button-primary text-white font-bold"
+                    variant="glass"
+                    size="glass"
                 >
                     Save
                 </Button>
@@ -194,10 +180,9 @@ function RegisteredEventsList({ onBack }: { onBack: () => void }) {
     return (
         <div className="w-full">
             <Button
-                onPress={onBack}
-                variant="light"
-                size="sm"
-                className="mb-4 text-white bg-transparent border-none hover:bg-white/10 text-xl"
+                onClick={onBack}
+                variant="glass"
+                size="glass"
             >
                 &larr;{" "} Back
             </Button>
@@ -219,10 +204,9 @@ function TransactionsList({ onBack }: { onBack: () => void }) {
     return (
         <div className="w-full">
             <Button
-                onPress={onBack}
-                variant="light"
-                size="sm"
-                className="mb-4 text-white bg-transparent border-none hover:bg-white/10 text-xl"
+                onClick={onBack}
+                variant="glass"
+                size="glass"
             >
                 &larr;{" "} Back
             </Button>
@@ -249,8 +233,8 @@ function PassModal({ onClose }: { onClose: () => void }) {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
             <div className="bg-black/20 backdrop-blur-xl p-8 rounded-md border border-neutral-300/60 max-w-md w-full">
                 <Button
-                    onPress={onClose}
-                    variant="light"
+                    onClick={onClose}
+                    variant="destructive"
                     size="sm"
                     className="mb-4 text-white bg-transparent border-none hover:bg-white/10"
                 >
@@ -297,19 +281,11 @@ function ProfileClient({ session, user }: ProfileClientProps) {
     }
 
     return (
-        <div className="w-full min-h-screen ambit p-6 grid grid-cols-1 md:grid-cols-2 gap-4 relative text-white ambit">
-            <div className="z-20 max-w-2xl max-h-screen profile container flex flex-col items-start gap-8 border border-neutral-300 border-neutral-300/60 bg-black/20 p-8 backdrop-blur-xl overflow-y-auto">
+        <div className="w-full min-h-screen p-6 grid grid-cols-1 md:grid-cols-2 gap-4 relative ambit">
+            <div className="z-20 max-w-2xl max-h-screen profile container flex flex-col items-start gap-8 border border-glass bg-glass p-8 overflow-y-auto">
                 {content}
             </div>
             <div className="min-w-4xl hidden md:block z-1">
-                {/* replace with lanyard from reactbits. lap cant handle the load :( */}
-                <Image
-                    src={'/idplaceholder.webp'}
-                    alt="id-card"
-                    width={500}
-                    height={200}
-                    className="absolute top-0 right-20"
-                />
             </div>
             {isPassModalOpen && <PassModal onClose={() => setIsPassModalOpen(false)} />}
         </div>

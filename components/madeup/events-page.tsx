@@ -9,11 +9,12 @@ import type { z } from 'zod';
 
 import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
-import { Select, SelectItem } from '@heroui/react';
 import RotatingText from '../ui/rotatingText';
 import Dock, { type DockItemData } from './Dock';
 import Plusbox from './box';
-import EventCard, { Icon } from './event-card';
+import EventCard from './event-card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import Image from 'next/image';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -134,19 +135,12 @@ export function EventPage({
     ]
     return (
         <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 relative ">
-            <div className='p-3 w-full gap-3 flex flex-col  justify-center items-center'>
-                <img src='/asthra.svg' className='w-[200px]' alt='Asthra image' />
-                <motion.div
-                    className='relative w-fit transition-width p-2 border border-white/20'
-                    layout
-                    layoutId="span">
-                    <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
-                    <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
-                    <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
-                    <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
+            <div className='p-3 w-full gap-3 flex justify-center items-center'>
+                <p className='p-0 m-0 text-6xl font-semibold'>Asthra</p>
+                <Plusbox className='relative p-2 border  border-white/20'>
                     <RotatingText
                         texts={['Events', 'Workshops', 'Games']}
-                        mainClassName="px-2 sm:px-2 text-6xl drop-shadow-md text-white items-center md:px-5 font-bold flex glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
+                        mainClassName="px-2 sm:px-2 text-6xl text-white items-center md:px-5 font-bold flex bg-glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
                         staggerFrom={"last"}
                         initial={{ y: "100%" }}
                         animate={{ y: 0 }}
@@ -160,19 +154,20 @@ export function EventPage({
 
 
             </div>
-            <div className="w-full flex gap-2 py-4 justify-center">
+            <div className="w-full flex gap-2 justify-center">
                 <Select
-                    className="max-w-xs outline-none border-0"
+
+                    className="max-w-xs outline-none text-black"
                     placeholder="Select an Dept"
                     variant="faded"
                 >
                     {departments.map((animal, index) => (
-                        <SelectItem className=' glass' key={index}>{animal}</SelectItem>
+                        <SelectItem className='bg-glass mt-2' key={index}>{animal}</SelectItem>
                     ))}
                 </Select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-center mt-8 px-4">
                 {events
                     // .filter(
                     //     (event: Event) =>
@@ -181,8 +176,8 @@ export function EventPage({
                     //         !isUploaded(event),
                     // )
                     .map((event) => (
-                        <motion.div key={event.id} className="w-full">
-                            <Link href={'/events/' + event.id}><EventCard data={event} /></Link>
+                        <motion.div key={event.id} className="w-full bg-glass">
+                            <Link href={`/events/${event.id}`}><EventCard data={event} /></Link>
                         </motion.div>
                     ))}
             </div>
