@@ -106,7 +106,7 @@ To develop students with moral & ethical values, for their successful career by 
         </div>
 
         <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 md:col-span-2" />
-        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 bg-slate-400/50 p-8 p-8 backdrop-blur-xl md:col-span-1">
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 bg-slate-400/50 p-8 backdrop-blur-xl md:col-span-1">
           <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl md:text-2xl">
             <li>40 events</li>
             <li>10 workshops</li>
