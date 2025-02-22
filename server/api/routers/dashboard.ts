@@ -1,6 +1,11 @@
 import { count, eq } from 'drizzle-orm';
 
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import {
+  coordinatorProcedure,
+  createTRPCRouter,
+  managementProcedure,
+  protectedProcedure,
+} from '@/server/api/trpc';
 import {
   eventsTable,
   transactionsTable,
@@ -12,11 +17,7 @@ import { getTrpcError } from '@/server/db/utils';
 import { eventAccessZod } from '@/lib/validator';
 
 export const dashboardRouter = createTRPCRouter({
-  allManagementCounts: protectedProcedure.query(async ({ ctx }) => {
-    if (ctx.session.user.role !== 'MANAGEMENT') {
-      throw getTrpcError('NOT_AUTHORIZED');
-    }
-
+  allManagementCounts: managementProcedure.query(async ({ ctx }) => {
     return await ctx.db.transaction(async (tx) => {
       const totalRegistedAndAttended = await tx
         .select({
@@ -53,7 +54,7 @@ export const dashboardRouter = createTRPCRouter({
     });
   }),
 
-  departmentWiseData: protectedProcedure
+  departmentWiseData: coordinatorProcedure
     .input(
       eventAccessZod
         .pick({
@@ -62,17 +63,10 @@ export const dashboardRouter = createTRPCRouter({
         .optional()
     )
     .query(async ({ ctx, input }) => {
-      if (
-        ctx.session.user.role !== 'MANAGEMENT' &&
-        ctx.session.user.role !== 'STUDENT_COORDINATOR'
-      ) {
-        throw getTrpcError('NOT_AUTHORIZED');
-      }
-
       return await ctx.db.transaction(async (tx) => {
         const equcation =
-          ctx.session.user.role === 'STUDENT_COORDINATOR'
-            ? eq(eventsTable.department, ctx.session.user.department)
+          ctx.role === 'STUDENT_COORDINATOR'
+            ? eq(eventsTable.department, ctx.user.department)
             : eq(eventsTable.department, input?.department ?? 'NA');
 
         const registrationList = await tx

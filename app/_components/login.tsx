@@ -1,7 +1,8 @@
 'use server';
 
+import { Button } from '@/components/ui/button';
+import { isValidUserDetails } from '@/lib/validator';
 import { getServerAuthSession } from '@/server/auth';
-import { Button } from '@heroui/button';
 import Link from 'next/link';
 
 const LoginButton = async () => {
@@ -10,16 +11,26 @@ const LoginButton = async () => {
   if (!session) {
     return (
       <Link href={'/api/auth/signin'}>
-        <Button className="border border-white/50 bg-none p-10 backdrop-blur-xl">
+        <Button size={"glass"} variant={"glass"}>
           Login with Google
         </Button>
       </Link>
     );
   }
 
+  const valid = isValidUserDetails(session.user)
+
+  if (!valid) {
+    return (
+      <Button size={"glass"} variant={"glass"}>
+        Logged In, Edit Profile to Continue
+      </Button>
+    );
+  }
+
   return (
-    <Button className="border border-white/50 bg-none p-10 backdrop-blur-xl">
-      Logged in
+    <Button size={"glass"} variant={"glass"}>
+      Logged In
     </Button>
   );
 };

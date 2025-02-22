@@ -1,7 +1,8 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { AnimatePresence, motion, useMotionValue } from 'motion/react';
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useMotionValue } from "motion/react";
+import type { MotionValue } from "motion/react";
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -87,10 +88,8 @@ export function PointerWrapper({
  * @property {MotionValue<number>} y - The y-coordinate position of the pointer
  */
 interface PointerProps {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  x: any;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  y: any;
+  x: MotionValue<number>;
+  y: MotionValue<number>;
 }
 
 /**

@@ -53,6 +53,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { RichEditor } from './editor';
 
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
@@ -86,16 +87,19 @@ const FormSchema = eventZod
 
 export type EventEdit = z.infer<typeof FormSchema>;
 
-export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
+export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChangeEvent: () => void }> = ({
   data,
   id,
+  onChangeEvent
 }) => {
+  console.log(data);
   const { mutateAsync: createEvent, isPending } =
     api.event.createEvent.useMutation({
       onSuccess: () => {
         toast('Event Created', {
           description: 'Event has been created successfully',
         });
+        onChangeEvent();
       },
       onError: (e) => {
         toast('Error', {
@@ -109,6 +113,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
       toast('Event Updated', {
         description: 'Event has been updated successfully',
       });
+      onChangeEvent();
     },
     onError: (e) => {
       toast('Error', {
@@ -139,6 +144,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    console.log(data)
     id !== undefined
       ? await updateEvent({ ...data, id })
       : await createEvent(data);
@@ -146,7 +152,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 rounded-none">
         <div className="grid grid-cols-1 gap-[10px] w-full md:grid-cols-2">
           <FormField
             control={form.control}
@@ -205,12 +211,14 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea
-                  className="h-[100px]"
-                  placeholder="Enter description"
-                  {...field}
-                  value={field.value ?? ''}
-                />
+                <RichEditor content={field.value} onUpdate={(e) => {
+                  field.onChange({
+                    ...e,
+                    target: {
+                      value: e.data
+                    }
+                  })
+                }}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -224,12 +232,14 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
             <FormItem>
               <FormLabel>Secret Description</FormLabel>
               <FormControl>
-                <Textarea
-                  className="h-[100px]"
-                  placeholder="Enter secret"
-                  {...field}
-                  value={field.value ?? undefined}
-                />
+                <RichEditor content={field.value ?? ""} onUpdate={(e) => {
+                  field.onChange({
+                    ...e,
+                    target: {
+                      value: e.data
+                    }
+                  })
+                }}/>
               </FormControl>
               <FormDescription>
                 Sent your secret message to registered users through email
@@ -248,7 +258,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
           control={form.control}
           name="poster"
           render={({ field }) => (
-            <FormItem hidden>
+            <FormItem>
               <FormLabel>Poster Image Link</FormLabel>
               <FormControl>
                 <Input
@@ -265,7 +275,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
               </FormControl>
               <FormMessage />
               <Button
-                link={'/uploads'}
+                link={id ? `/dashboard/upload?id=${id}` : '/dashboard/upload'}
                 className="rounded-s gap-3 w-full h-12 mt-2"
                 variant={'secondary'}
               >
@@ -425,23 +435,16 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
             <FormItem>
               <FormLabel>Start Time</FormLabel>
               <FormControl>
-                <TimePicker
-                  onChange={(e) => {
-                    console.log(e);
-                    field.onChange({ target: { value: e } });
-                  }}
-                  value={field.value}
-                >
-                  <TimePickerSegment segment={'days'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'months'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'years'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'hours'} />
-                  <TimePickerSeparator>:</TimePickerSeparator>
-                  <TimePickerSegment segment={'minutes'} />
-                </TimePicker>
+                <Input type='datetime-local' defaultValue={field.value.toISOString().slice(0, -2)} onChange={(event) => {
+                  const datetime = event.target.valueAsDate;
+                  console.log(datetime)
+                  field.onChange({
+                    ...event,
+                    target: {
+                      value: datetime
+                    }
+                  })
+                }}/>
               </FormControl>
               <FormDescription>
                 Default is {AsthraStartsAt.toLocaleString()}
@@ -521,7 +524,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string }> = ({
           <AlertDialogCancel asChild>
             <Button
               variant="secondary"
-              className="flex-1 text-center rounded-s"
+              className="flex-1 text-center rounded-s hover:bg-neutral-300 text-black"
             >
               Cancel
             </Button>
