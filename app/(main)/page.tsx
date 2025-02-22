@@ -1,5 +1,6 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
+import { FAQ } from '@/components/madeup/faq';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import LoginButton from '../_components/login';
@@ -58,7 +59,7 @@ tomorrow"
             />
           </p>
         </div>
-        <div className="col-span-1 border border-neutral-300" />
+        <div className="col-span-1 border border-neutral-300 hidden md:block" />
 
         <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
           <p className="ambit text-center font-thin text-2xl md:text-3xl lg:text-5xl">
@@ -106,7 +107,7 @@ To develop students with moral & ethical values, for their successful career by 
         </div>
 
         <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 md:col-span-2" />
-        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 bg-slate-400/50 p-8 p-8 backdrop-blur-xl md:col-span-1">
+        <div className="col-span-1 flex flex-col items-center justify-center border border-neutral-300 bg-slate-400/50 p-8 backdrop-blur-xl md:col-span-1">
           <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl md:text-2xl">
             <li>40 events</li>
             <li>10 workshops</li>
@@ -133,6 +134,7 @@ To develop students with moral & ethical values, for their successful career by 
           <LoginButton />
         </div>
       </section>
+      <FAQ />
     </main>
   );
 }
