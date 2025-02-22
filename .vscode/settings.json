@@ -6,7 +6,7 @@
   "emmet.showExpandedAbbreviation": "never",
   "editor.codeActionsOnSave": {
     "quickfix.biome": "never",
-    "source.organizeImports.biome": "explicit"
+    "source.organizeImports.biome": "never"
   },
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
@@ -22,5 +22,6 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  },
+  "biome.enabled": false
 }
