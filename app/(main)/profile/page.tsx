@@ -1,7 +1,7 @@
 // Adjust path as needed
 import ProfileClient from '@/components/madeup/ProfileClient';
 import type { userZod } from '@/lib/validator';
-import { getServerSession } from 'next-auth';
+import { getServerAuthSession } from '@/server/auth';
 import { redirect } from 'next/navigation';
 import type { z } from 'zod';
 
@@ -18,9 +18,7 @@ const sampleUser: userSchema = {
 };
 
 export default async function ProfilePage() {
-    const session = await getServerSession();
-
-
+    const session = await getServerAuthSession();
 
     if (!session) {
         redirect('/');

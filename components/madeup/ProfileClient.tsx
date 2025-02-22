@@ -302,14 +302,6 @@ function ProfileClient({ session, user }: ProfileClientProps) {
                 {content}
             </div>
             <div className="min-w-4xl hidden md:block z-1">
-                {/* replace with lanyard from reactbits. lap cant handle the load :( */}
-                <Image
-                    src={'/idplaceholder.webp'}
-                    alt="id-card"
-                    width={500}
-                    height={200}
-                    className="absolute top-0 right-20"
-                />
             </div>
             {isPassModalOpen && <PassModal onClose={() => setIsPassModalOpen(false)} />}
         </div>

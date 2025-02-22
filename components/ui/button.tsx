@@ -19,13 +19,14 @@ const buttonVariants = cva(
           'bg-black text-secondary-foreground hover:bg-black/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        glass: 'hover:-translate-y-0.5 border border-white/20 bg-white/10 text-white shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/20 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
+        glass: 'ambit hover:-translate-y-0.5 border border-white/20 bg-white/10 text-white shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/20 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        glass: "rounded-lg px-10 py-3 font-thin text-xl"
       },
     },
     defaultVariants: {

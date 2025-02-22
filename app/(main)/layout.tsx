@@ -13,7 +13,7 @@ const Items: DockItemData[] = [
     label: "Workshops & Events",
   },
   {
-    link: "/",
+    link: "/asthra",
     label: "Asthra Pass",
   },
   {
