@@ -64,6 +64,23 @@ const config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+		cursor: {
+			default: 'url("/cursor/small.png") 0 0, default',
+			pointer: 'url("/cursor/point.png") 0 0, pointer',
+			clicked: 'url("/cursor/clicked.png") 0 0, pointer',
+			'not-allowed': 'url("/cursor/red.png") 0 0, not-allowed',
+			text: 'url("/cursor/text.png") 0 0, text',
+			// wait: 'url("/cursor/loading.png") 0 0, wait',
+			grab: 'url("/cursor/closed.png") 0 0, grab',
+			grabbing: 'url("/cursor/open.png") 0 0, grabbing',
+			// move: 'url("/cursor/move.png") 0 0, move',
+			// 'row-resize': 'url("/cursor/row-resize.png") 0 0, row-resize',
+			// 'col-resize': 'url("/cursor/col-resize.png") 0 0, col-resize',
+			// help: 'url("/cursor/help.png") 0 0, help',
+			// crosshair: 'url("/cursor/crosshair.png") 0 0, crosshair',
+			// 'zoom-in': 'url("/cursor/zoom-in.png") 0 0, zoom-in',
+			// 'zoom-out': 'url("/cursor/zoom-out.png") 0 0, zoom-out',
+		}, 
   		keyframes: {
   			'accordion-down': {
   				from: {
