@@ -4,12 +4,10 @@ import Plusbox from "./box"
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50 relative">
-      <div className="min-h-[95vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 divide-dashed  ">
-        <div className="col-span-1 sm:col-span-2 border-white/50 border-b p-4 sm:p-6 lg:p-8 flex items-center justify-center font-bold ">
-          <h2 className="text-3xl sm:text-4xl md:text-6xl tracking-wide font-bold">
-            Asthra 9.0
-          </h2>
+    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-50 relative p-2 mt-40">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0">
+        <div className="col-span-1 sm:col-span-2 md:col-start-1 md:col-span-2 md:row-start-1 flex items-center justify-center border-b border-white/20 p-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wide font-bold">Asthra 9.0</h2>
         </div>
         <Plusbox className="relative p-2 border-x border-b border-white/20 border-dashed flex items-center justify-center md:col-start-3 md:row-start-1">
           <Image
@@ -20,10 +18,10 @@ export default function Footer() {
             className="object-contain w-[150px] sm:w-[200px] md:w-[250px] lg:w-[300px]"
           />
         </Plusbox>
-        <div className="col-span-1 sm:col-span-2 md:col-start-4 md:row-start-1 border-b border-white/50 flex items-center justify-center p-4">
+        <div className="col-span-1 sm:col-span-2 md:col-start-4 md:row-start-1 border-b border-white/20 flex items-center justify-center p-4">
           <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">Register Now</span>
         </div>
-        <div className="p-4 sm:p-6 lg:p-8 border-b border-white/50 ">
+        <div className="p-4 sm:p-6 lg:p-8 border-b md:border-l border-white/20 ">
           <div className="text-center sm:text-right">
             <span className="text-xl sm:text-2xl md:text-3xl">
               Envisioned to explore the possibilities of tomorrow
@@ -31,7 +29,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="col-span-1 sm:col-span-2 lg:col-span-3 border-white/50 lg:border-r p-4 sm:p-6 lg:p-8 border-b">
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 border-white/20 lg:border-r p-4 sm:p-6 lg:p-8 border-b">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6 lg:gap-8">
             <div className="flex flex-row md:flex-col  gap-4">
               <div>
@@ -80,16 +78,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="hidden lg:block lg:col-span-1 row-span-2">
+        <Plusbox className="hidden lg:block lg:col-span-1 row-span-2">
           <div className="h-full grid grid-rows-3">
-            <div className="border-b border-white/50 p-8">
+            <div className="border-b border-white/20 p-8">
               <div className="text-right">
                 <span className="text-xl sm:text-2xl md:text-3xl">
                   One of the biggest tech fests in Kerala
                 </span>
               </div>
             </div>
-            <div className="border-b border-white/50 p-8">
+            <div className="border-b border-white/20 p-8">
               <div className="text-right">
                 <span className="text-xl sm:text-2xl md:text-3xl">
                   NATIONAL LEVEL TECHNICAL FEST 2025
@@ -98,7 +96,7 @@ export default function Footer() {
             </div>
           </div>
         </Plusbox>
-        <Plusbox className="relative p-4 border-b border-l border-dashed border-white/50 flex items-center justify-center md:col-start-4 md:row-start-3">
+        <Plusbox className="relative p-4 border-b border-l border-dashed border-white/20 flex items-center justify-center md:col-start-4 md:row-start-3">
           <div>
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4">Faculty Coordinators</h3>
             <div className="space-y-2 text-[#6E72A0]">
@@ -121,13 +119,13 @@ export default function Footer() {
             </p>
           </div>
         </div>
-        <Plusbox className="relative p-4 border-y border-l border-r border-b-0 border-dashed border-white/50 flex items-center justify-center md:col-start-3 md:row-start-4">
+        <Plusbox className="relative p-4 border-y border-l border-r border-b-0 border-dashed border-white/20 flex items-center justify-center md:col-start-3 md:row-start-4">
           <Image
-            src="/sjcet.svg"
+            src="/sjcetauto.webp"
             alt="St. Joseph's College Logo"
             width={150}
             height={75}
-            className="object-cover w-[120px] sm:w-[150px] md:w-[200px] lg:w-[300px]"
+            className="object-cover w-[120px] sm:w-[150px] md:w-[150px] lg:w-[190px]"
           />
         </Plusbox>
         <div className="col-span-1 md:col-start-4 md:row-start-4 p-4 flex flex-col justify-between items-center">
@@ -162,13 +160,13 @@ export default function Footer() {
               <Github className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
           </div>
-          <p className="text-xs sm:text-sm text-gray-400 text-center">@2025 ASTHRA 9.0, All Rights Reserved</p>
+          <p className="text-xs sm:hidden flex sm:text-sm text-gray-400 text-center">&copy; 2025 ASTHRA 9.0, All Rights Reserved</p>
         </div>
       </div>
 
-      <div className="border-t border-gray-800">
-        <p className="text-xs sm:text-sm text-gray-400 text-center sm:text-right p-4 sm:p-6 lg:p-8">
-          @2025 ASTHRA 9.0, All Rights Reserved
+      <div className="md:border-0 border-t border-gray-800">
+        <p className="text-xs sm:flex hidden sm:text-sm text-gray-400 text-center sm:text-right p-4 sm:p-6 lg:p-8">
+          &copy; 2025 ASTHRA 9.0, All Rights Reserved
         </p>
       </div>
     </footer>

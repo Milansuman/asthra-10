@@ -22,7 +22,7 @@ interface DepartmentData {
 
 type Department = Record<string, DepartmentData>;
 type Props = {
-  data: {
+  data?: {
     totalRegistedAndAttended: {
       value: number;
     }[];
@@ -75,7 +75,7 @@ const Dashboard = ({ data }: Props) => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{}</div>
+                    <div className="text-2xl font-bold">{ }</div>
                     <p className="text-xs text-muted-foreground">
                       Passes are Sold
                     </p>
@@ -99,7 +99,7 @@ const Dashboard = ({ data }: Props) => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{}</div>
+                    <div className="text-2xl font-bold">{ }</div>
                     <p className="text-xs text-muted-foreground">
                       Passes are Sold
                     </p>
@@ -123,7 +123,7 @@ const Dashboard = ({ data }: Props) => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{}</div>
+                    <div className="text-2xl font-bold">{ }</div>
                     <p className="text-xs text-muted-foreground">
                       Passes are Sold
                     </p>
@@ -159,7 +159,7 @@ const Dashboard = ({ data }: Props) => {
                   <CardTitle>Total Asthra Pass</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{}</div>
+                  <div className="text-2xl font-bold">{ }</div>
                 </CardContent>
               </Card>
               <Card>
@@ -167,7 +167,7 @@ const Dashboard = ({ data }: Props) => {
                   <CardTitle>Total Workshop Pass</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{}</div>
+                  <div className="text-2xl font-bold">{ }</div>
                 </CardContent>
               </Card>
               <Card>
@@ -175,7 +175,7 @@ const Dashboard = ({ data }: Props) => {
                   <CardTitle>Total Competition Pass</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{}</div>
+                  <div className="text-2xl font-bold">{ }</div>
                 </CardContent>
               </Card>
             </div>

@@ -18,14 +18,14 @@ const sampleUser: userSchema = {
 };
 
 export default async function ProfilePage() {
-    const session = await getServerSession();
+    // const session = await getServerSession();
 
 
 
-    if (!session) {
-        redirect('/');
+    // if (!session) {
+    //     redirect('/');
 
-    }
+    // }
 
-    return <ProfileClient session={session} user={sampleUser} />;
+    return <ProfileClient user={sampleUser} />;
 }

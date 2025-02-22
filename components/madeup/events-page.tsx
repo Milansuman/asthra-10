@@ -11,11 +11,10 @@ import type { z } from 'zod';
 import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
 import { Select, SelectItem } from '@heroui/react';
-import { Select, SelectItem } from '@heroui/react';
 import RotatingText from '../ui/rotatingText';
 import Dock, { DockItemData } from './Dock';
 import Plusbox from './box';
-import EventCard from './event-card';
+import EventCard, { Icon } from './event-card';
 
 type Event = z.infer<typeof eventZod>;
 

@@ -1,4 +1,5 @@
 import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
+import CircularGalleryMade from '@/components/bits/CircularGallery/CircularGalleryMade';
 import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
 import Image from 'next/image';
@@ -123,7 +124,8 @@ To develop students with moral & ethical values, for their successful career by 
 
       <section className="grid min-h-screen grid-cols-1 gap-8">
         <div className="relative h-[600px]">
-          <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} />
+          {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}
+          <CircularGalleryMade />
         </div>
         <div className="flex flex-col items-center justify-center p-8">
           <p className="ambit mb-6 text-center font-thin text-2xl md:text-3xl">
