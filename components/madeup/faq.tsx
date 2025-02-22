@@ -33,7 +33,7 @@ export function FAQ() {
                         We got you.
                     </h2>
                     <p className="text-gray-800 max-w-md">
-                        Yet bed any for assistance indulgence unpleasing. Not thoughts all exercise blessing. Indulgence way everything joy alteration boisterous the attachment.
+                        lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
                     </p>
                     {/* <a href="/" className="text-purple-600 hover:text-purple-700 inline-flex items-center">
                         More FAQs →
