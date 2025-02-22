@@ -1,12 +1,10 @@
 import { Tailwind } from '@react-email/components';
 
-type EmailProps = {
-  eventId: string;
-  eventName: string;
+type CertificateReadyProps = {
   personName: string;
 };
 
-export const AsthraPass = (data: EmailProps) => {
+const CertificateReady = ({ personName }: CertificateReadyProps) => {
   return (
     <Tailwind
       config={{
@@ -19,9 +17,9 @@ export const AsthraPass = (data: EmailProps) => {
         },
       }}
     >
-      {JSON.stringify(data)}
+      {JSON.stringify(personName)}
     </Tailwind>
   );
 };
 
-export default AsthraPass;
+export default CertificateReady;

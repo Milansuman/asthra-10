@@ -1,6 +1,5 @@
 import { env } from '@/env';
 import type { EntireZodType } from '@/lib/validator';
-import { z } from 'zod';
 
 export const allRoles = {
   USER: true,
@@ -154,6 +153,9 @@ export const ASTHRA = {
 > & {
   credit: number;
 };
+
+// next year will be 10
+export const currentAsthraCount = 9;
 
 export const defaultRazorpayOptions = {
   key: env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
