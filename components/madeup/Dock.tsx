@@ -66,7 +66,7 @@ export default function Dock({
     const height = useSpring(heightRow, spring);
 
     return (
-        <Plusbox className="fixed z-40 bottom-[6px] right-[6px] p-1 border border-glass">
+        <Plusbox className="fixed z-40 bottom-[6px] right-[6px] w-auto">
             <motion.div
                 // onMouseMove={({ pageX }) => {
                 //     isHovered.set(1);

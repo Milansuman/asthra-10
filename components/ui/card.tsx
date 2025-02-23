@@ -10,7 +10,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'rounded-3xl border border-white/50 text-card-foreground backdrop-blur-xl',
+      ' border border-glass text-glass bg-glass',
       className
     )}
     {...props}
@@ -21,17 +21,14 @@ Card.displayName = 'Card';
 const GlowCard = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { color?: string }
->(({ className, color, ...props }, ref) => (
-  <Glow color={color} className="rounded-3xl">
-    <div
-      ref={ref}
-      className={cn(
-        'rounded-3xl border border-white/50 text-card-foreground backdrop-blur-xl',
-        className
-      )}
-      {...props}
-    />
-  </Glow>
+>(({ className, color, ...props }) => (
+  <Glow
+    {...props}
+    color={color}
+    className={cn(
+      'border border-glass text-glass bg-glass',
+      className
+    )} />
 ));
 GlowCard.displayName = 'GlowCard';
 
@@ -68,7 +65,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('text-muted-foreground text-sm', className)}
+    className={cn('text-opacity-60 text-sm', className)}
     {...props}
   />
 ));

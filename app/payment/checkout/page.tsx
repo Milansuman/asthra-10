@@ -5,6 +5,16 @@ import { defaultRazorpayOptions } from '@/logic';
 import { api } from '@/trpc/react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import QRCode from "react-qr-code";
+import { getQrFromId } from '@/logic/qr';
 
 // ?eventId=""
 export default function Home() {
@@ -121,7 +131,27 @@ function CheckOut({
       <form onSubmit={processPayment}>
         <Button type="submit">Pay</Button>
       </form>
-      <Button type="button">Pay at Front Desk</Button>
+      <Dialog>
+        <DialogTrigger>Pay at Front Desk</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Scan this QR at Front Desk</DialogTitle>
+            <DialogDescription>
+              Pay them with your preferred payment method. And scan the QR code at the Front Desk.
+            </DialogDescription>
+          </DialogHeader>
+          <div style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%" }}>
+            <QRCode
+              size={256}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+
+              // need proper eventType here
+              value={getQrFromId(transactionId, "ASTHRA_PASS")}
+              viewBox={"0 0 256 256"}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
