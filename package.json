@@ -93,6 +93,7 @@
     "sonner": "^2.0.0",
     "superjson": "^2.2.2",
     "tailwind-merge": "^2.6.0",
+    "tailwindcss-bg-patterns": "^0.3.0",
     "three": "^0.173.0",
     "timescape": "^0.7.1",
     "uuid": "^11.0.5",
