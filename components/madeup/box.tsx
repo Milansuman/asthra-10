@@ -2,7 +2,7 @@ import type React from 'react'
 import { PlusIcon } from './plus'
 import { cn } from '@/lib/utils'
 
-const Plusbox = ({ children, className }: { children: React.ReactNode, className: string }) => {
+const Plusbox = ({ children, className }: { children: React.ReactNode, className?: string }) => {
     return (
         <div className={cn(className)}>
             <PlusIcon className="absolute h-6 w-6 -top-3 -left-3" />

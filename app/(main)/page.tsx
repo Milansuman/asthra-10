@@ -5,6 +5,7 @@ import { FAQ } from '@/components/madeup/faq';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import LoginButton from '../_components/login';
+import Plusbox from '@/components/madeup/box';
 
 export default function Page() {
   return (
@@ -125,7 +126,12 @@ To develop students with moral & ethical values, for their successful career by 
       </section>
 
       <section className="grid min-h-screen grid-cols-1 gap-8">
-        <div className="relative h-[600px]">
+        <div className="relative">
+          <div className='ambit   mb-[-20px]  flex items-center justify-center w-full text-center'>
+            <Plusbox className='opacity-100 w-auto'>
+              <h4 className='ambit text-6xl tracking-wide font-bold'>Events</h4>
+            </Plusbox>
+          </div>
           {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}
           <CircularGalleryMade />
         </div>

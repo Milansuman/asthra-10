@@ -66,6 +66,7 @@ const config = {
   		},
 		cursor: {
 			default: 'url("/cursor/small.png") 0 0, default',
+			auto: 'url("/cursor/small.png") 0 0, auto',
 			pointer: 'url("/cursor/point.png") 0 0, pointer',
 			clicked: 'url("/cursor/clicked.png") 0 0, pointer',
 			'not-allowed': 'url("/cursor/red.png") 0 0, not-allowed',
@@ -103,7 +104,29 @@ const config = {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
-  	}
+  	},
+	patterns: {
+        opacities: {
+            100: "1",
+            80: ".80",
+            60: ".60",
+            40: ".40",
+            20: ".20",
+            10: ".10",
+            5: ".05",
+        },
+        sizes: {
+            1: "0.25rem",
+            2: "0.5rem",
+            4: "1rem",
+            6: "1.5rem",
+            8: "2rem",
+            16: "4rem",
+            20: "5rem",
+            24: "6rem",
+            32: "8rem",
+        }
+    }
   },
   plugins: [
     require('tailwindcss-animate'),
@@ -111,6 +134,7 @@ const config = {
     require('@tailwindcss/container-queries'),
     require('@tailwindcss/typography'),
     require('tailwind-corner-smoothing'),
+	require('tailwindcss-bg-patterns'),
     heroui(),
   ],
 } satisfies Config;

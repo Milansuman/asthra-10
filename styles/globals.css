@@ -58,6 +58,7 @@
   body {
     @apply text-black;
   }
+
   .glass {
     @apply bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20;
   }
@@ -79,6 +80,7 @@
   font-family: 'Ambit', sans-serif;
   text-shadow: 1px 1px 30px #44444480;
 }
+
 .europa {
   font-family: "EuropaGroteskSH", sans-serif;
   /* @apply tracking-wide; */
@@ -141,6 +143,7 @@ blockquote {
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 5px;
+
   & * {
     display: flex;
     flex-direction: row;
@@ -154,7 +157,60 @@ blockquote {
     outline: none;
   }
 
-  & * > h1 {
+  & *>h1 {
     font-size: 20px;
+  }
+}
+
+* {
+  cursor: url("/cursor/small.png") 0 0, auto;
+}
+
+a:disabled,
+button:disabled,
+.disabled,
+.invalid {
+  cursor: url("/cursor/red.png") 0 0, not-allowed;
+}
+
+.draggable,
+[draggable="true"] {
+  cursor: url("/cursor/closed.png") 0 0, grab;
+}
+
+.dragging,
+[draggable="true"]:active {
+  cursor: url("/cursor/open.png") 0 0, grabbing;
+}
+
+a,
+button:enabled,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+.clickable {
+  cursor: url("/cursor/point.png") 0 0, pointer;
+}
+
+a:active,
+button:enabled:active,
+[role="button"]:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+.clickable:active {
+  cursor: url("/cursor/clicked.png") 0 0, pointer;
+}
+
+@media screen {
+  :root {
+    background-image:
+      url("/cursor/small.png"),
+      url("/cursor/red.png"),
+      url("/cursor/closed.png"),
+      url("/cursor/open.png"),
+      url("/cursor/point.png"),
+      url("/cursor/clicked.png"),
+      url("/cursor/text.png");
+    background-image: none;
   }
 }

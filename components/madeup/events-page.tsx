@@ -15,6 +15,7 @@ import Plusbox from './box';
 import EventCard from './event-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import Image from 'next/image';
+import { Home } from 'lucide-react';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -150,20 +151,21 @@ export function EventPage({
                         transition={{ type: "spring", damping: 30, stiffness: 400 }}
                         rotationInterval={2000}
                     />
-                </motion.div>
+                </Plusbox>
 
 
             </div>
             <div className="w-full flex gap-2 justify-center">
                 <Select
-
                     className="max-w-xs outline-none text-black"
                     placeholder="Select an Dept"
                     variant="faded"
                 >
-                    {departments.map((animal, index) => (
-                        <SelectItem className='bg-glass mt-2' key={index}>{animal}</SelectItem>
-                    ))}
+                    <SelectContent>
+                        {departments.map((animal, index) => (
+                            <SelectItem className='bg-glass mt-2' key={index}>{animal}</SelectItem>
+                        ))}
+                    </SelectContent>
                 </Select>
             </div>
 
