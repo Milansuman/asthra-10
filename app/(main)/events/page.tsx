@@ -2,7 +2,9 @@
 
 import { EventPage } from '@/components/madeup/events-page';
 import type { eventZod } from '@/lib/validator';
+import { api } from '@/trpc/react';
 import { Button } from '@heroui/button';
+import { Loader } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
@@ -52,19 +54,24 @@ function Page() {
     regCount: 0,
   }
 
-  // const events = await api.event.getLatest.query();
-  const events = [
-    "/assets/Ref1.webp",
-    "/assets/Ref2.webp",
-    "/assets/Ref3.webp",
-    "/assets/Ref4.webp",
-    "/assets/Ref5.webp",
-    "/assets/Ref6.webp",
-  ].map((poster, index) => ({ ...demoEvent, id: index.toString(), poster }))
-  // console.log(events)
+  const { data, isLoading, isPending, isError } = api.event.getLatest.useQuery();
+  // const events = [
+  //   "/assets/Ref1.webp",
+  //   "/assets/Ref2.webp",
+  //   "/assets/Ref3.webp",
+  //   "/assets/Ref4.webp",
+  //   "/assets/Ref5.webp",
+  //   "/assets/Ref6.webp",
+  // ].map((poster, index) => ({ ...demoEvent, id: index.toString(), poster }))
+  // // console.log(events)
 
-
-  if (events.length === 0) {
+  if (isLoading) {
+    return <div className="min-h-screen w-full flex flex-col gap-3 justify-center items-center">
+      <Loader size={80} className='animate-spin' />
+      <h1 className="text-3xl">Loading</h1>
+    </div>
+  }
+  if (!data || data!.length === 0) {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
         <h2>No Events Found!</h2>
@@ -80,29 +87,29 @@ function Page() {
 
   const additionalCategories = ['GENERAL'];
 
-  const approvedEvents = events.filter((event) => event.eventStatus === 'approved');
+  const approvedEvents = data!.filter((event) => event.eventStatus === 'approved');
   // const cancel = events.filter((event) => event.eventStatus === "cancel")
 
-  const departments = [...new Set(events.map((event) => event.department))];
+  const departments = [...new Set(data!.map((event) => event.department))];
   const filterDepartment = department as string;
   const eventStatus = status as string;
   const eventCategory = category as string;
   ;
-  if (departments.includes('NA') && events.filter((event) => event.registrationType === 'spot').length > 0) {
+  if (departments.includes('NA') && data!.filter((event) => event.registrationType === 'spot').length > 0) {
     additionalCategories.push('INFORMAL');
   }
 
-  if (events.filter((event) => event.eventStatus === 'cancel').length > 0) {
+  if (data!.filter((event) => event.eventStatus === 'cancel').length > 0) {
     additionalCategories.push('CANCELLED');
   }
 
   const categories = ['ALL'].concat(
-    [...new Set(events.map((event) => event.eventType as string))].concat(additionalCategories).filter((et) => et !== 'ASTHRA_PASS'),
+    [...new Set(data!.map((event) => event.eventType as string))].concat(additionalCategories).filter((et) => et !== 'ASTHRA_PASS'),
   );
   return (
     <>
       <EventPage
-        events={events}
+        events={data ?? []}
         categories={categories}
         departments={departments}
         // events={approvedEvents}
