@@ -5,11 +5,12 @@ import Dashboard from './_components/dashboard';
 export const dynamic = 'force-dynamic';
 
 async function DashboardPage() {
-  const dashData = await api.dashboard.allManagementCounts();
+  // const dashData = await api.dashboard.allManagementCounts();
   // console.log(dashData);
   return (
     <>
-      <Dashboard data={dashData} />
+      {/* <Dashboard data={dashData} /> */}
+      <Dashboard />
     </>
   );
 }

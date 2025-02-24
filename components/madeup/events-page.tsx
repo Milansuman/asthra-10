@@ -10,11 +10,12 @@ import type { z } from 'zod';
 import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
 import RotatingText from '../ui/rotatingText';
-
+import Dock, { type DockItemData } from './Dock';
 import Plusbox from './box';
 import EventCard from './event-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import Image from 'next/image';
+import { Home } from 'lucide-react';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -52,58 +53,94 @@ export function EventPage({
     const isDepartment = (event: Event) => {
         if ((department === 'all' || event.department === department) && event.eventStatus !== 'cancel') {
             return true;
-        } return false;
+        } else {
+            return false;
+        }
     };
 
     const isEventType = (event: Event) => {
         if ((filter === 'ALL' || event.eventType === filter) && event.eventStatus !== 'cancel') {
             return true;
-        } return false;
+        } else {
+            return false;
+        }
     };
 
     const isGeneralEvent = (event: Event) => {
         if (event.department === 'NA' && filter === 'GENERAL' && event.registrationType !== 'spot' && event.eventStatus !== 'cancel') {
             return true;
-        } return false;
+        } else {
+            return false;
+        }
     };
 
     const isSpotEvent = (event: Event) => {
         if (event.registrationType === 'spot' && filter === 'INFORMAL' && event.department === 'NA' && event.eventStatus !== 'cancel') {
             return true;
-        } return false;
+        } else {
+            return false;
+        }
     };
 
     const isEventStatus = (event: Event) => {
         if (eventStatus === 'all' || event.eventStatus === eventStatus) {
             return true;
-        } return false;
+        } else {
+            return false;
+        }
     };
 
     const isCancelled = (event: Event) => {
         if (filter === 'CANCELLED' && event.eventStatus === 'cancel') {
             return true;
-        } return false;
+        } else {
+            return false;
+        }
     };
 
     const isUploaded = (event: Event) => {
         if (event.eventStatus === 'uploaded') {
             return true;
-        } return false;
+        } else {
+            return false;
+        }
     };
 
     const isSoldOut = (event: Event) => {
         if (event.regCount >= event.regLimit) {
-            return true;
-        } return false;
+            return true
+        } else {
+            return false
+        }
     }
 
+    const Items: DockItemData[] = [
+        {
+            icon: <Home />,
+            label: "Home",
+            onClick: () => { },
+            className: ''
+        },
+        {
+            icon: <Home />,
+            label: "WorkShops",
+            onClick: () => { },
+            className: ''
+        },
+        {
+            icon: <Home />,
+            label: "Asthra Pass",
+            onClick: () => { },
+            className: ''
+        }
+    ]
     return (
-        <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 ">
-            <div className='mt-20 w-full gap-3 flex flex-col justify-center items-center'>
-                <img src='/asthra.svg' className='w-64' />
+        <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 relative ">
+            <div className='p-3 w-full gap-3 flex justify-center items-center'>
+                <p className='p-0 m-0 text-6xl font-semibold'>Asthra</p>
                 <Plusbox className='relative p-2 border  border-white/20'>
                     <RotatingText
-                        texts={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]}
+                        texts={['Events', 'Workshops', 'Games']}
                         mainClassName="px-2 sm:px-2 text-6xl text-white items-center md:px-5 font-bold flex bg-glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
                         staggerFrom={"last"}
                         initial={{ y: "100%" }}
@@ -115,15 +152,18 @@ export function EventPage({
                         rotationInterval={2000}
                     />
                 </Plusbox>
+
+
             </div>
             <div className="w-full flex gap-2 justify-center">
-                <Select>
-                    <SelectTrigger className="w-[380px]">
-                        <SelectValue placeholder="Department" />
-                    </SelectTrigger>
-                    <SelectContent className="w-[380px]">
-                        {departments.map((d, index) => (
-                            <SelectItem value={d} key={index}>{d}</SelectItem>
+                <Select
+                    className="max-w-xs outline-none text-black"
+                    placeholder="Select an Dept"
+                    variant="faded"
+                >
+                    <SelectContent>
+                        {departments.map((animal, index) => (
+                            <SelectItem className='bg-glass mt-2' key={index}>{animal}</SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
@@ -138,10 +178,8 @@ export function EventPage({
                     //         !isUploaded(event),
                     // )
                     .map((event) => (
-                        <motion.div key={event.id}>
-                            {/* <Link href={`/events/${event.id}`}> */}
-                            <EventCard data={event} />
-                            {/* </Link> */}
+                        <motion.div key={event.id} className="w-full bg-glass">
+                            <Link href={`/events/${event.id}`}><EventCard data={event} /></Link>
                         </motion.div>
                     ))}
             </div>
