@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   Camera,
   Mesh,
@@ -7,10 +7,10 @@ import {
   Renderer,
   Texture,
   Transform,
-} from 'ogl';
-import { useEffect, useRef } from 'react';
+} from "ogl";
+import { useEffect, useRef } from "react";
 
-type GL = Renderer['gl'];
+type GL = Renderer["gl"];
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
@@ -31,7 +31,7 @@ function autoBind(instance: any): void {
   const proto = Object.getPrototypeOf(instance);
   // biome-ignore lint/complexity/noForEach: <explanation>
   Object.getOwnPropertyNames(proto).forEach((key) => {
-    if (key !== 'constructor' && typeof instance[key] === 'function') {
+    if (key !== "constructor" && typeof instance[key] === "function") {
       instance[key] = instance[key].bind(instance);
     }
   });
@@ -46,13 +46,13 @@ function getFontSize(font: string): number {
 function createTextTexture(
   gl: GL,
   text: string,
-  font = 'bold 30px monospace',
-  color = 'black'
+  font = "bold 30px monospace",
+  color = "black",
 ): { texture: Texture; width: number; height: number } {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
   // biome-ignore lint/style/useBlockStatements: <explanation>
-  if (!context) throw new Error('Could not get 2d context');
+  if (!context) throw new Error("Could not get 2d context");
 
   context.font = font;
   const metrics = context.measureText(text);
@@ -65,8 +65,8 @@ function createTextTexture(
 
   context.font = font;
   context.fillStyle = color;
-  context.textBaseline = 'middle';
-  context.textAlign = 'center';
+  context.textBaseline = "middle";
+  context.textAlign = "center";
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.fillText(text, canvas.width / 2, canvas.height / 2);
 
@@ -98,8 +98,8 @@ class Title {
     plane,
     renderer,
     text,
-    textColor = '#545050',
-    font = '30px sans-serif',
+    textColor = "#545050",
+    font = "30px sans-serif",
   }: TitleProps) {
     autoBind(this);
     this.gl = gl;
@@ -116,7 +116,7 @@ class Title {
       this.gl,
       this.text,
       this.font,
-      this.textColor
+      this.textColor,
     );
     const geometry = new Plane(this.gl);
     const program = new Program(this.gl, {
@@ -274,13 +274,13 @@ class Media {
         uniform sampler2D tMap;
         uniform float uBorderRadius;
         varying vec2 vUv;
-        
+
         // Rounded box SDF for UV space
         float roundedBoxSDF(vec2 p, vec2 b, float r) {
           vec2 d = abs(p) - b;
           return length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0) - r;
         }
-        
+
         void main() {
           vec2 ratio = vec2(
             min((uPlaneSizes.x / uPlaneSizes.y) / (uImageSizes.x / uImageSizes.y), 1.0),
@@ -291,13 +291,13 @@ class Media {
             vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
           );
           vec4 color = texture2D(tMap, uv);
-          
+
           // Apply rounded corners (assumes vUv in [0,1])
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
           if(d > 0.0) {
             discard;
           }
-          
+
           gl_FragColor = vec4(color.rgb, 1.0);
         }
       `,
@@ -312,7 +312,7 @@ class Media {
       transparent: true,
     });
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    img.crossOrigin = "anonymous";
     img.src = this.image;
     img.onload = () => {
       texture.image = img;
@@ -344,7 +344,7 @@ class Media {
 
   update(
     scroll: { current: number; last: number },
-    direction: 'right' | 'left'
+    direction: "right" | "left",
   ) {
     this.plane.position.x = this.x - scroll.current - this.extra;
 
@@ -377,11 +377,11 @@ class Media {
     const viewportOffset = this.viewport.width / 2;
     this.isBefore = this.plane.position.x + planeOffset < -viewportOffset;
     this.isAfter = this.plane.position.x - planeOffset > viewportOffset;
-    if (direction === 'right' && this.isBefore) {
+    if (direction === "right" && this.isBefore) {
       this.extra -= this.widthTotal;
       this.isBefore = this.isAfter = false;
     }
-    if (direction === 'left' && this.isAfter) {
+    if (direction === "left" && this.isAfter) {
       this.extra += this.widthTotal;
       this.isBefore = this.isAfter = false;
     }
@@ -461,12 +461,12 @@ class App {
     {
       items,
       bend = 1,
-      textColor = '#ffffff',
+      textColor = "#ffffff",
       borderRadius = 0,
-      font = 'bold 30px DM Sans',
-    }: AppConfig
+      font = "bold 30px DM Sans",
+    }: AppConfig,
   ) {
-    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.remove("no-js");
     this.container = container;
     this.scroll = { ease: 0.05, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
@@ -510,39 +510,39 @@ class App {
     bend = 1,
     textColor: string,
     borderRadius: number,
-    font: string
+    font: string,
   ) {
     const defaultItems = [
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `/assets/Ref1.webp`,
-        text: 'IOT 101',
-      },
+      // {
+      //   // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+      //   image: `/assets/Ref1.webp`,
+      //   text: "IOT 101",
+      // },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
         image: `/assets/Ref2.webp`,
-        text: 'WORKSHOP',
+        text: "WORKSHOP",
       },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `/assets/Ref3.webp`,
-        text: 'Waterfall',
-      },
+      // {
+      //   // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+      //   image: `/assets/Ref3.webp`,
+      //   text: "Waterfall",
+      // },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
         image: `/assets/Ref5.webp`,
-        text: 'Strawberries',
+        text: "Strawberries",
       },
       {
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
         image: `/assets/Ref6.webp`,
-        text: 'Deep Diving',
+        text: "Deep Diving",
       },
-      {
-        // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-        image: `/assets/Ref8.webp`,
-        text: 'Santorini',
-      },
+      // {
+      //   // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+      //   image: `/assets/Ref8.webp`,
+      //   text: "Santorini",
+      // },
     ];
     // biome-ignore lint/complexity/useOptionalChain: <explanation>
     const galleryItems = items && items.length ? items : defaultItems;
@@ -571,14 +571,20 @@ class App {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    this.start = 'touches' in e ? (e.touches[0] as Touch).clientX : (e as MouseEvent).clientX;
+    this.start =
+      "touches" in e
+        ? (e.touches[0] as Touch).clientX
+        : (e as MouseEvent).clientX;
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     // biome-ignore lint/style/useBlockStatements: <explanation>
     if (!this.isDown) return;
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const x = 'touches' in e ? (e.touches[0] as Touch).clientX : (e as MouseEvent).clientX;
+    const x =
+      "touches" in e
+        ? (e.touches[0] as Touch).clientX
+        : (e as MouseEvent).clientX;
     const distance = (this.start - x) * 0.05;
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
@@ -617,7 +623,7 @@ class App {
     if (this.medias) {
       // biome-ignore lint/complexity/noForEach: <explanation>
       this.medias.forEach((media) =>
-        media.onResize({ screen: this.screen, viewport: this.viewport })
+        media.onResize({ screen: this.screen, viewport: this.viewport }),
       );
     }
   }
@@ -626,9 +632,9 @@ class App {
     this.scroll.current = lerp(
       this.scroll.current,
       this.scroll.target,
-      this.scroll.ease
+      this.scroll.ease,
     );
-    const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
+    const direction = this.scroll.current > this.scroll.last ? "right" : "left";
     if (this.medias) {
       // biome-ignore lint/complexity/noForEach: <explanation>
       this.medias.forEach((media) => media.update(this.scroll, direction));
@@ -644,28 +650,28 @@ class App {
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
-    window.addEventListener('resize', this.boundOnResize);
-    window.addEventListener('mousewheel', this.boundOnWheel);
-    window.addEventListener('wheel', this.boundOnWheel);
-    window.addEventListener('mousedown', this.boundOnTouchDown);
-    window.addEventListener('mousemove', this.boundOnTouchMove);
-    window.addEventListener('mouseup', this.boundOnTouchUp);
-    window.addEventListener('touchstart', this.boundOnTouchDown);
-    window.addEventListener('touchmove', this.boundOnTouchMove);
-    window.addEventListener('touchend', this.boundOnTouchUp);
+    window.addEventListener("resize", this.boundOnResize);
+    window.addEventListener("mousewheel", this.boundOnWheel);
+    window.addEventListener("wheel", this.boundOnWheel);
+    window.addEventListener("mousedown", this.boundOnTouchDown);
+    window.addEventListener("mousemove", this.boundOnTouchMove);
+    window.addEventListener("mouseup", this.boundOnTouchUp);
+    window.addEventListener("touchstart", this.boundOnTouchDown);
+    window.addEventListener("touchmove", this.boundOnTouchMove);
+    window.addEventListener("touchend", this.boundOnTouchUp);
   }
 
   destroy() {
     window.cancelAnimationFrame(this.raf);
-    window.removeEventListener('resize', this.boundOnResize);
-    window.removeEventListener('mousewheel', this.boundOnWheel);
-    window.removeEventListener('wheel', this.boundOnWheel);
-    window.removeEventListener('mousedown', this.boundOnTouchDown);
-    window.removeEventListener('mousemove', this.boundOnTouchMove);
-    window.removeEventListener('mouseup', this.boundOnTouchUp);
-    window.removeEventListener('touchstart', this.boundOnTouchDown);
-    window.removeEventListener('touchmove', this.boundOnTouchMove);
-    window.removeEventListener('touchend', this.boundOnTouchUp);
+    window.removeEventListener("resize", this.boundOnResize);
+    window.removeEventListener("mousewheel", this.boundOnWheel);
+    window.removeEventListener("wheel", this.boundOnWheel);
+    window.removeEventListener("mousedown", this.boundOnTouchDown);
+    window.removeEventListener("mousemove", this.boundOnTouchMove);
+    window.removeEventListener("mouseup", this.boundOnTouchUp);
+    window.removeEventListener("touchstart", this.boundOnTouchDown);
+    window.removeEventListener("touchmove", this.boundOnTouchMove);
+    window.removeEventListener("touchend", this.boundOnTouchUp);
     if (
       // biome-ignore lint/complexity/useOptionalChain: <explanation>
       this.renderer &&
@@ -673,7 +679,7 @@ class App {
       this.renderer.gl.canvas.parentNode
     ) {
       this.renderer.gl.canvas.parentNode.removeChild(
-        this.renderer.gl.canvas as HTMLCanvasElement
+        this.renderer.gl.canvas as HTMLCanvasElement,
       );
     }
   }
@@ -690,9 +696,9 @@ interface CircularGalleryProps {
 export default function CircularGallery({
   items,
   bend = 3,
-  textColor = '#ffffff',
+  textColor = "#ffffff",
   borderRadius = 0.05,
-  font = 'bold 30px DM Sans',
+  font = "bold 30px DM Sans",
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
