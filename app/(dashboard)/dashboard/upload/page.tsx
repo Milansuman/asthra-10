@@ -37,7 +37,7 @@ const SearchParamsComponent = ({ setUrl, copy, setCopy, url }: { setUrl: React.D
             {url && <CardHeader>
               <Image src={url} alt="" className='w-full' width={600} height={600} />
             </CardHeader>}
-            <CardContent>
+            <CardContent className='p-6'>
               <UploadImage setUrl={setUrl} />
             </CardContent>
             <CardFooter className='flex flex-col gap-5'>

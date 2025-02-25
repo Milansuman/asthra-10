@@ -51,7 +51,9 @@ function EventContent() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className='h-screen w-screen flex justify-center items-center font-bold text-white'>
+      Loading...
+    </div>;
   }
 
   if (events.length === 0) {
