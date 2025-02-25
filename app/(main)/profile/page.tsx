@@ -33,6 +33,11 @@ import {
 import { ProfileEdit } from "./_componetns/edit";
 import { useSession } from "next-auth/react";
 import { useMemo } from "react";
+import { Lanyard } from "@/components/lanyard";
+import { Label } from "@/components/ui/label";
+import * as THREE from "three";
+import Image from "next/image";
+import { ShoppingBag } from "lucide-react";
 
 export default function ProfilePage() {
   const { status, data } = useSession();
@@ -46,7 +51,7 @@ export default function ProfilePage() {
   const listOfEvents: EventZodType[] = [];
 
   return (
-    <main className="flex flex-col md:flex-row justify-start p-6 min-h-screen ambit">
+    <main className="flex flex-col md:flex-row gap-6 justify-start p-6 min-h-screen ambit relative">
       <Card className="flex-1 flex-col flex">
         <CardHeader>
           <Avatar className="h-20 w-20">
@@ -130,8 +135,28 @@ export default function ProfilePage() {
           <Button variant="destructive">Sign Out</Button>
         </CardFooter>
       </Card>
-      <div className="flex-1"></div>
-      <div className="flex-1"></div>
+      <div className="flex-[1_auto] flex flex-col gap-6">
+        <Card className="relative">
+          <Lanyard
+            className={"absolute" + (hasAsthra ? "" : " blur")}
+            position={[0, 0, 20]}
+            gravity={[0, -40, 0]}
+          />
+          <CardHeader>
+            <Image src="/assets/asthraps.png" alt="" width={200} height={200} />
+          </CardHeader>
+          <CardContent>
+            <Label size={"md"} className="text-center">
+              You don't have an Asthra Pass
+            </Label>
+          </CardContent>
+          <CardFooter>
+            <Button variant={"glass"}>
+              Purchase Now <ShoppingBag />
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
     </main>
   );
 }
