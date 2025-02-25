@@ -10,7 +10,6 @@ import {
   userCreateMailZod,
 } from '@/lib/validator';
 
-import { sendMail } from '@/lib/sendMail';
 import {
   coordinatorProcedure,
   createTRPCRouter,

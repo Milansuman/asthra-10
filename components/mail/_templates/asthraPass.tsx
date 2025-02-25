@@ -23,3 +23,5 @@ export const AsthraPass = (data: EmailProps) => {
     </Tailwind>
   );
 };
+
+export default AsthraPass;

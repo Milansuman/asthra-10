@@ -67,6 +67,10 @@
     @apply bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20;
   }
 
+  .bg-glass-top {
+    @apply pattern-diagonal-lines pattern-blue-500 pattern-bg-white pattern-size-2 pattern-opacity-20;
+  }
+
   .text-glass-foreground {
     @apply text-white;
   }

@@ -15,6 +15,13 @@
       "when": 1739131828684,
       "tag": "0001_tranquil_ego",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740158932892,
+      "tag": "0002_faithful_cardiac",
+      "breakpoints": true
     }
   ]
 }

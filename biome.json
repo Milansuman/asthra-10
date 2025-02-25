@@ -9,7 +9,8 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noConsole": "off"
+        "noConsole": "off",
+        "noConsoleLog": "off"
       },
       "nursery": {
         "useSortedClasses": {

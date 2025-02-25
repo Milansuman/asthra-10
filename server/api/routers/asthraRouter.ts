@@ -1,26 +1,25 @@
 import { ASTHRA } from '@/logic';
-import { generateHash } from '@/logic/payment';
+import { createOrder, generatedSignature } from '@/logic/payment';
 import { and, eq } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
-import type { z } from 'zod';
-
-import { env } from '@/env';
+import { z } from 'zod';
 
 import {
   createTRPCRouter,
+  frontDeskProcedure,
   managementProcedure,
   validUserOnlyProcedure,
 } from '@/server/api/trpc';
 import {
   eventsTable,
+  referalsTable,
   transactionsTable,
   user,
   userRegisteredEventTable,
 } from '@/server/db/schema';
 import { Increment, getTrpcError } from '@/server/db/utils';
 
-import { transactionsZod } from '@/lib/validator';
-import { paymentClientSide, type paymentZod } from '@/lib/validator/payment';
+import { type TransactionZodType, transactionsZod } from '@/lib/validator';
 
 export const asthraRouter = createTRPCRouter({
   createAsthraPass: managementProcedure.mutation(async ({ ctx }) => {
@@ -31,51 +30,140 @@ export const asthraRouter = createTRPCRouter({
 
     console.log('ASTHRA PASS CREATED');
   }),
-  initiatePurchaseAsthraPass: validUserOnlyProcedure.mutation(
-    async ({ ctx }) => {
-      const userData = ctx.session.user;
+  initiatePurchaseAsthraPass: validUserOnlyProcedure
+    .input(
+      z.object({
+        referral: z.string().max(50).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userData = ctx.user;
 
       if (userData.asthraPass) {
         throw getTrpcError('ALREADY_PURCHASED');
       }
 
+      const transactionId = uuid();
+
+      const insertTransaction: Omit<TransactionZodType, 'orderId'> = {
+        eventId: ASTHRA.id,
+        eventName: ASTHRA.name,
+        id: transactionId,
+        userId: userData.id,
+        userName: userData.name ?? 'NA',
+        status: 'initiated',
+        amount: ASTHRA.amount,
+        remark: `Initiated Asthra Pass on ${new Date().toLocaleString()}`,
+      };
+
+      const {
+        data: order,
+        error,
+        isSuccess,
+      } = await createOrder(insertTransaction.amount);
+
+      if (!isSuccess) {
+        console.error(error);
+        throw getTrpcError('PAYMENT_INITIALISATION_FAILED');
+      }
+
       return await ctx.db.transaction(async (tx) => {
-        const transactionId = uuid();
+        const finalData = await tx
+          .insert(transactionsTable)
+          .values({ ...insertTransaction, orderId: order.id })
+          .returning();
 
-        const data: z.infer<typeof paymentZod> = {
-          amount: ASTHRA.amount,
-          email: userData.email ?? 'NA',
-          firstname: userData.name ?? 'NA',
-          phone: Number.parseInt(userData.number ?? '000'),
-          productinfo: ASTHRA.id,
-          txnid: transactionId,
-          furl: `${env.NEXTAUTH_URL}/payment/failed/${transactionId}`,
-          surl: `${env.NEXTAUTH_URL}/payment/asthra/success/${transactionId}`,
-          salt: env.NEXT_PUBLIC_HDFC_SALT,
-          key: env.NEXT_PUBLIC_HDFC_KEY,
-        };
+        if (input.referral) {
+          tx.insert(referalsTable).values({
+            referralCode: input.referral,
+            transactionId: transactionId,
+          });
+        }
 
-        const hash = generateHash(data);
-
-        const newData = paymentClientSide.parse({ ...data, hash });
-
-        await tx.insert(transactionsTable).values({
-          eventId: ASTHRA.id,
-          eventName: ASTHRA.name,
-          id: transactionId,
-          userId: userData.id,
-          userName: userData?.name ?? 'NA',
-          status: 'initiated',
-          amount: ASTHRA.amount,
-          remark: `Initiated Asthra Pass on ${new Date().toLocaleString()}`,
-        });
-
-        return newData;
+        return finalData[0];
       });
-    }
-  ),
+    }),
 
   successPurchaseAsthraPass: validUserOnlyProcedure
+    .input(
+      transactionsZod
+        .pick({
+          id: true,
+          orderId: true,
+        })
+        .merge(
+          z.object({
+            razorpayPaymentId: z.string(),
+            razorpaySignature: z.string(),
+            orderCreationId: z.string(),
+          })
+        )
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { orderCreationId, razorpayPaymentId, razorpaySignature } = input;
+      console.log('Verifing', input);
+
+      const signature = generatedSignature(orderCreationId, razorpayPaymentId);
+
+      if (signature !== razorpaySignature) {
+        throw getTrpcError('PAYMENT_VERIFICATION_FAILED');
+      }
+
+      return await ctx.db.transaction(async (tx) => {
+        const transactiondata = await tx
+          .update(transactionsTable)
+          .set({ status: 'success' })
+          .where(
+            and(
+              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.status, 'initiated')
+            )
+          )
+          .returning();
+
+        if (transactiondata.length === 0 || !transactiondata[0]) {
+          throw getTrpcError('TRANSACTION_NOT_FOUND');
+        }
+
+        const currentTransation = transactiondata[0];
+
+        tx.update(referalsTable)
+          .set({ status: true })
+          .where(eq(referalsTable.transactionId, currentTransation.id));
+
+        const asthraUser = await tx
+          .update(user)
+          .set({
+            asthraPass: true,
+            asthraCredit: ASTHRA.credit,
+            transactionId: currentTransation.id,
+          })
+          .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)))
+          .returning();
+
+        await tx.insert(userRegisteredEventTable).values({
+          eventId: currentTransation.eventId,
+          transactionId: currentTransation.id,
+          userId: ctx.user.id,
+          remark: `Success on ${new Date().toLocaleString()}`,
+        });
+
+        const eventData = await tx
+          .update(eventsTable)
+          .set({ regCount: Increment(eventsTable.regCount, 1) })
+          .where(eq(eventsTable.id, currentTransation.eventId))
+          .returning();
+
+        return {
+          event: eventData[0],
+          transaction: currentTransation,
+          status: currentTransation.status,
+          user: asthraUser[0],
+        };
+      });
+    }),
+
+  forceSuccessPurchase: frontDeskProcedure
     .input(
       transactionsZod.pick({
         id: true,
@@ -83,11 +171,7 @@ export const asthraRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (tx) => {
-        /**
-         * Do something to verify the request is a valid transation from HDFC
-         */
-
-        const currentTransation = await tx
+        const transactiondata = await tx
           .update(transactionsTable)
           .set({
             status: 'success',
@@ -100,43 +184,45 @@ export const asthraRouter = createTRPCRouter({
           )
           .returning();
 
-        if (currentTransation.length === 0) {
+        if (transactiondata.length === 0 || !transactiondata[0]) {
           throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
-        if (
-          currentTransation[0] &&
-          currentTransation[0].status !== 'initiated'
-        ) {
-          const asthraUser = await tx
-            .update(user)
-            .set({
-              asthraPass: true,
-              asthraCredit: ASTHRA.credit,
-              transactionId: currentTransation[0].id,
-            })
-            .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)))
-            .returning();
 
-          await tx
-            .update(eventsTable)
-            .set({
-              regCount: Increment(eventsTable.regCount, 1),
-            })
-            .where(eq(eventsTable.id, ASTHRA.id));
+        const currentTransation = transactiondata[0];
 
-          await tx
-            .insert(userRegisteredEventTable)
-            .values({
-              registrationId: uuid(),
-              eventId: currentTransation[0].eventId,
-              transactionId: currentTransation[0].id,
-              userId: ctx.user.id,
-              remark: `Success on ${new Date().toLocaleString()}`,
-            })
-            .returning();
+        tx.update(referalsTable)
+          .set({ status: true })
+          .where(eq(referalsTable.transactionId, currentTransation.id));
 
-          return asthraUser;
-        }
+        const asthraUser = await tx
+          .update(user)
+          .set({
+            asthraPass: true,
+            asthraCredit: ASTHRA.credit,
+            transactionId: currentTransation.id,
+          })
+          .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)))
+          .returning();
+
+        await tx.insert(userRegisteredEventTable).values({
+          eventId: currentTransation.eventId,
+          transactionId: currentTransation.id,
+          userId: ctx.user.id,
+          remark: `Forced Success on ${new Date().toLocaleString()}`,
+        });
+
+        const eventData = await tx
+          .update(eventsTable)
+          .set({ regCount: Increment(eventsTable.regCount, 1) })
+          .where(eq(eventsTable.id, currentTransation.eventId))
+          .returning();
+
+        return {
+          event: eventData[0],
+          transaction: currentTransation,
+          status: currentTransation.status,
+          user: asthraUser[0],
+        };
       });
     }),
 
