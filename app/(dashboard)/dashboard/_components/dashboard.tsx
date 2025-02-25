@@ -22,7 +22,7 @@ interface DepartmentData {
 
 type Department = Record<string, DepartmentData>;
 type Props = {
-  data: {
+  data?: {
     totalRegistedAndAttended: {
       value: number;
     }[];

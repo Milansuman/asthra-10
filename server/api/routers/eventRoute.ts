@@ -134,7 +134,8 @@ export const eventRouter = createTRPCRouter({
       eventRouteRules(ctx.user.role);
 
       if (ctx.user.role === 'MANAGEMENT') {
-        return await ctx.db
+        console.log(ctx.user);
+        return (await ctx.db
           .delete(eventsTable)
           .where(
             and(
@@ -142,7 +143,7 @@ export const eventRouter = createTRPCRouter({
               eq(eventsTable.department, ctx.user.department)
             )
           )
-          .returning({ deletedId: eventsTable.id });
+          .returning({ deletedId: eventsTable.id }));
       }
       return await ctx.db
         .delete(eventsTable)
