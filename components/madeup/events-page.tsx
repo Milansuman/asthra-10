@@ -10,7 +10,8 @@ import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
 
 import EventCard from './event-card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Link from 'next/link';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -61,9 +62,9 @@ export function EventPage({
                     // )
                     .map((event) => (
                         <motion.div key={event.id}>
-                            {/* <Link href={`/events/${event.id}`}> */}
-                            <EventCard data={event} />
-                            {/* </Link> */}
+                            <Link href={`/event/${event.id}`}>
+                                <EventCard data={event} />
+                            </Link>
                         </motion.div>
                     ))}
             </div>

@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import RotatingText from '@/components/ui/rotatingText';
+
 import Plusbox from "@/components/madeup/box";
+import { TextRotatingAnimation } from "@/components/madeup/text-animate";
 
 export interface Main {
   userId: number;
@@ -22,18 +23,7 @@ export default function Home() {
       <div className='mt-20 w-full gap-3 flex flex-col justify-center items-center'>
         <img src='/asthra.svg' alt="SJCET Logo" className='w-64' />
         <Plusbox className='relative p-2 border  border-white/20 w-auto'>
-          <RotatingText
-            texts={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]}
-            mainClassName="px-2 sm:px-2 text-6xl text-white items-center md:px-5 font-bold flex bg-glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
-            staggerFrom={"last"}
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-120%" }}
-            staggerDuration={0.025}
-            splitLevelClassName="overflow-hidden pt-2"
-            transition={{ type: "spring", damping: 30, stiffness: 400 }}
-            rotationInterval={2000}
-          />
+          <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
         </Plusbox>
       </div>
       <Suspense fallback={<Loader size={80} className="animate-spin" />}>

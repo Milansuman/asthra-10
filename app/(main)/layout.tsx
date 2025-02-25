@@ -43,9 +43,9 @@ export default function RootLayout({
       </div>
       <main className="z-10 relative">
         {children}
+        <Footer />
       </main>
       <Dock items={Items} />
-      <Footer />
     </>
   );
 }

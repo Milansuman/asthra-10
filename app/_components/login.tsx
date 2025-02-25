@@ -1,34 +1,39 @@
-"use server";
+"use client";
 
 import { Button } from "@/components/ui/button";
-import { isValidUserDetails } from "@/lib/validator";
-import { getServerAuthSession } from "@/server/auth";
-import Link from "next/link";
+import { useSession } from "@/hooks/session";
+import { ButtonText } from "./pay";
 
-const LoginButton = async () => {
-  const session = await getServerAuthSession();
+const LoginButton = () => {
+  const { status, valid, data } = useSession()
 
-  if (!session) {
+  if (status === "loading") {
     return (
-      <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"}>
-        Login with Google
+      <Button size={"glass"} variant={"glass"}>
+        <ButtonText keyType={"Loading"} />
       </Button>
     );
   }
 
-  const valid = isValidUserDetails(session.user);
+  if (!data) {
+    return (
+      <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"}>
+        <ButtonText keyType={"Login to Register"} />
+      </Button>
+    );
+  }
 
   if (!valid) {
     return (
       <Button link={"/profile"} size={"glass"} variant={"glass"}>
-        Logged In, Edit Profile to Continue
+        <ButtonText keyType={"Complete your Profile Data before Registration"} />
       </Button>
     );
   }
 
   return (
     <Button link={"/events"} size={"glass"} variant={"glass"}>
-      Logged In, Go to Events
+      <ButtonText keyType={"Register Now"} />
     </Button>
   );
 };

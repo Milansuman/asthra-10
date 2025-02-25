@@ -1,11 +1,9 @@
-import CircularGallery from '@/components/bits/CircularGallery/CircularGallery';
-import DecryptedText from '@/components/bits/DecryptedText/DecryptedText';
-import { FAQ } from '@/components/madeup/faq';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import LoginButton from '../_components/login';
 import Plusbox from '@/components/madeup/box';
 import CircularGalleryMade from '@/components/madeup/circularGalleryMade';
+import { FAQ } from '@/components/madeup/faq';
+import Image from 'next/image';
+import LoginButton from '../_components/login';
+import { TextRotatingAnimation } from '@/components/madeup/text-animate';
 
 
 export default function Page() {
@@ -94,7 +92,7 @@ export default function Page() {
         <div className="relative">
           <div className='ambit   mb-[-20px]  flex items-center justify-center w-full text-center'>
             <Plusbox className='opacity-100 w-auto'>
-              <h4 className='ambit text-6xl tracking-wide font-bold bg-glass p-2'>Events</h4>
+              <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
             </Plusbox>
           </div>
           {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}
