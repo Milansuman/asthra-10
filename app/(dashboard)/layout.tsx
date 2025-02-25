@@ -26,6 +26,6 @@ export default function RootLayout({
 }) {
   return <div className="bg-blue-700 min-h-screen">
     {children}
-    <Dock items={Items} />
+    <Dock items={Items} className='z-0' />
   </div>;
 }
