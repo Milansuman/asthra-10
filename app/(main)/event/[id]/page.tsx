@@ -91,13 +91,14 @@ export default async function Event({ params }: Props) {
           <Card className='relative'>
             <ShareButton />
             <CardHeader>
-              <Badge variant={"glass"} className="w-fit relative">
+              <Badge variant={"glass"} className="w-fit relative mb-3">
                 Created by {department}
                 <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
               </Badge>
               <CardTitle>
                 {event.name ?? "Event"}
               </CardTitle>
+              <br />
               <Markdown full>
                 {event.description}
               </Markdown>

@@ -257,11 +257,14 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
         <p>Venue: {data.venue}</p>
         <p>Starts at: {data.dateTimeStarts?.toLocaleString("en-GB", { timeZone: "Asia/Calcutta" })}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
-        <p>Secret Message: {data.secret}</p>
+        <p>Secret Message:</p>
+        <Markdown full>
+          {data.secret}
+        </Markdown>
       </CardContent>
       <CardFooter className="px-0 flex-col w-full items-start">
         <div className="flex gap-[10px] p-0 mt-[20px] justify-between">
-          <h3>₹{data.amount}</h3>
+          <h3>{data.eventType !== "ASTHRA_PASS_EVENT" ? "₹" : ""}{data.amount}</h3>
           <h3>for {data.regLimit ?? 0}x users</h3>
         </div>
         <p className="cal">
