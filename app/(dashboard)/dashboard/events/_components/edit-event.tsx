@@ -27,7 +27,7 @@ type Props = {
 
 export function EventEditPage({ data, departments }: Props) {
   const deleteEventMutation = api.event.deleteEvent.useMutation();
-  const latestEventsQuery = api.event.getLatest.useQuery();
+  const latestEventsQuery = api.event.getAll.useQuery();
   const [localData, setLocalData] = useState(data);
 
   // Filtering states

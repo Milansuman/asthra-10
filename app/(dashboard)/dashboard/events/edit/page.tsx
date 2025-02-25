@@ -5,7 +5,7 @@ import { api } from '@/trpc/react';
 import { EventEditPage } from '../_components/edit-event';
 
 export default function Home() {
-  const { data } = api.event.getLatest.useQuery();
+  const { data } = api.event.getAll.useQuery();
 
   if (!data) return null;
 
