@@ -23,6 +23,7 @@ import {
   transactionsZod,
 } from '@/lib/validator';
 import { ASTHRA } from '@/logic';
+import { api } from '@/trpc/vanila';
 
 export const transactionRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
@@ -135,18 +136,29 @@ export const transactionRouter = createTRPCRouter({
           .set({ status: true })
           .where(eq(referalsTable.transactionId, currentTransation.id));
 
-        await tx.insert(userRegisteredEventTable).values({
-          eventId: currentTransation.eventId,
-          transactionId: currentTransation.id,
-          userId: ctx.user.id,
-          remark: `Success on ${new Date().toLocaleString()}`,
-        });
+        const ure = await tx
+          .insert(userRegisteredEventTable)
+          .values({
+            eventId: currentTransation.eventId,
+            transactionId: currentTransation.id,
+            userId: ctx.user.id,
+            remark: `Success on ${new Date().toLocaleString()}`,
+          })
+          .returning();
 
         const eventData = await tx
           .update(eventsTable)
           .set({ regCount: Increment(eventsTable.regCount, 1) })
           .where(eq(eventsTable.id, currentTransation.eventId))
           .returning();
+
+        if (eventData.length === 0 || !eventData[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (ure.length === 0 || !ure[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
 
         if (currentTransation.eventId === ASTHRA.id) {
           await tx
@@ -157,6 +169,14 @@ export const transactionRouter = createTRPCRouter({
               transactionId: currentTransation.id,
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
+
+          api.mail.asthraPass.query({
+            event: eventData[0],
+            user: ctx.user,
+            transactions: currentTransation,
+            to: ctx.user.email,
+            userRegisteredEvent: ure[0],
+          });
         }
 
         return {
