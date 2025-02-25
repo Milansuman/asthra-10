@@ -79,6 +79,7 @@ export default function Dock({
                     //     isHovered.set(0);
                     //     mouseX.set(Infinity);
                     // }}
+                    key={"dock"}
                     className={`${className} bg-glass text-glass-foreground flex items-end w-max gap-4  py-0 px-3`}
                     role="toolbar"
                     aria-label="Application dock"
@@ -88,7 +89,7 @@ export default function Dock({
                         const props = item.link ? { href: item.link } : { onClick: item.onClick };
                         if (item.link === path) return <></>;
                         return (
-                            <Wrapper {...(props as any)} key={index}>
+                            <Wrapper {...(props as any)} key={item.link}>
                                 <div key={index} className="hover:scale-105 transition-all cursor-pointer">
                                     <p className="text-xl m-0 px-3 py-3 ">{item.label}</p>
                                 </div>

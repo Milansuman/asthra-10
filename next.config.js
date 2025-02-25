@@ -29,7 +29,7 @@ const config = {
     ];
   },
   experimental: {
-    // typedRoutes: true,
+    typedRoutes: true,
     reactCompiler: true,
   },
   images: {
@@ -49,6 +49,10 @@ const config = {
       },
       {
         protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'http',
         hostname: 'lh3.googleusercontent.com',
       },
     ],

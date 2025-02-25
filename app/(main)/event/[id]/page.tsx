@@ -1,19 +1,18 @@
-import { cache as reactCache } from 'react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { cache as reactCache } from 'react';
 
-import { allDepartments } from '@/logic';
-import { api } from '@/trpc/server';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { PaymentButton } from '@/app/_components/pay';
-import { EventTicket } from '../_components/event';
-import { cache } from '@/server/cache';
-import { Card, CardHeader, CardContent, CardDescription, CardTitle, CardFooter } from '@/components/ui/card';
-import { CopyIcon, ExternalLinkIcon } from 'lucide-react';
 import { ShareButton } from '@/app/_components/share';
 import Plusbox from '@/components/madeup/box';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { allDepartments } from '@/logic';
+import { cache } from '@/server/cache';
+import { api } from '@/trpc/server';
+import { ExternalLinkIcon } from 'lucide-react';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -82,7 +81,7 @@ export default async function Event({ params }: Props) {
   // diplay the event with nice ui
   return (
     <div className="min-h-screen flex flex-col justify-center gap-4">
-      <div className="flex flex-row gap-4 container">
+      <div className="flex flex-row gap-4 container items-start py-4">
         <Plusbox className="flex-1 p-2">
           <Image src={event.poster} width={400} height={500} alt={event.name ?? ""} className="w-full h-auto" />
         </Plusbox>
@@ -114,7 +113,7 @@ export default async function Event({ params }: Props) {
 
               <div className='relative bg-glass py-2 px-4 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Registration Limit</p>
-                {event.regLimit}x Seats
+                approx. {event.regLimit} Seats
               </div>
 
               {event.dateTimeStarts && (

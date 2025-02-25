@@ -1,9 +1,10 @@
 import { triedAsync } from '@/lib/utils';
-import { asthraNotStarted } from '@/logic/moods';
+import { allowEditing, asthraNotStarted } from '@/logic/moods';
 import { RedisClient } from './redis';
 
 const defauldExpire = 1 * 3600;
-const isCaching = !asthraNotStarted(); // cache only if asthra has started
+// const isCaching = !asthraNotStarted(); // cache only if asthra has started
+const isCaching = !allowEditing(); // cache only if editing is not allowed
 
 const cacheUtils = {
   async get<T>(key: string) {

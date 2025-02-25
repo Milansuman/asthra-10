@@ -136,7 +136,7 @@ export const ASTHRA = {
   venue: 'Registration Desk',
   eventStatus: 'approved',
   eventType: 'ASTHRA_PASS',
-  regLimit: 100000,
+  regLimit: Number.POSITIVE_INFINITY,
   regCount: 0,
   description:
     'With Asthra Pass, you can now get access to all department events and competitions (excluding workshops) for just ₹ 300!\nHurry up before the deal ends!',

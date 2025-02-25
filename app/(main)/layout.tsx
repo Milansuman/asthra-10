@@ -8,12 +8,12 @@ const Items: DockItemData[] = [
     label: "Home",
   },
   {
-    link: "/events",
-    label: "Workshops & Events",
-  },
-  {
     link: "/asthra",
     label: "Asthra Pass",
+  },
+  {
+    link: "/events",
+    label: "Workshops & Events",
   },
   {
     link: "/profile",

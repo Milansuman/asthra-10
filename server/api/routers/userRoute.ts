@@ -19,6 +19,7 @@ import {
   publicProcedure,
   validUserOnlyProcedure,
 } from '../trpc';
+import { ASTHRA } from '@/logic';
 
 export const userRouter = createTRPCRouter({
   /**
@@ -68,6 +69,26 @@ export const userRouter = createTRPCRouter({
         .where(
           and(
             eq(userRegisteredEventTable.eventId, input.eventId),
+            eq(userRegisteredEventTable.userId, input.userId)
+          )
+        );
+    }),
+
+  entryCheck: frontDeskProcedure
+    .input(
+      z.object({
+        userId: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db
+        .update(userRegisteredEventTable)
+        .set({
+          status: 'attended',
+        })
+        .where(
+          and(
+            eq(userRegisteredEventTable.eventId, ASTHRA.id),
             eq(userRegisteredEventTable.userId, input.userId)
           )
         );

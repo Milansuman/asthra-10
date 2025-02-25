@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { UrlObject } from "url"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-none",
@@ -26,7 +27,7 @@ const buttonVariants = cva(
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
-        thin: "h-6 rounded-none px-2",
+        thin: "h-7 rounded-none px-2",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
         glass: "rounded-none px-10 py-3 font-thin text-xl"
@@ -51,7 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = (asChild) ? Slot : 'button';
 
     if (link) {
-      return (<Link href={link} target={blank ? "_blank" : undefined}>
+      return (<Link href={link as unknown as UrlObject} target={blank ? "_blank" : undefined}>
         <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
           {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
           {children}

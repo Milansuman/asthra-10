@@ -223,7 +223,7 @@ export function EventPage({
               {dashboard ? (
                 <EventCard event={event} dashboard={dashboard} />
               ) : (
-                <Link href={'/events/' + event.id}>
+                <Link href={`/event/${event.id}`}>
                   <EventCard event={event} dashboard={dashboard} />
                 </Link>
               )}

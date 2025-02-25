@@ -1,7 +1,10 @@
-import { Lanyard } from '@/components/lanyard'
+"use client"
+
+import { ModelViewer } from "@/components/madeup/model";
+
 const Page = () => {
-  return <div className="flex w-screen h-screen relative">
-    <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+  return <div className="flex container min-h-screen flex-col items-center justify-center">
+    <ModelViewer />
   </div>;
 };
 

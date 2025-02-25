@@ -234,14 +234,7 @@ input[type="button"]:active,
   display: none;
 }
 
-
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
+#model-viewer {
+  width: 800px;
+  height: 800px;
 }

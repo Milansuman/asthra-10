@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "@/hooks/session";
 import type { EventZodType } from "@/lib/validator";
 import { api } from "@/trpc/react";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import ReactMarkdown from 'react-markdown'
 
 export const AsthraPaymentButton = () => {
     const { status, valid } = useSession()
@@ -63,7 +69,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     const { data: isRegisteredThisEvent } = api.user.isRegisteredThisEvent.useQuery({ eventId: event.id })
     const { mutateAsync, isPending, isSuccess } = api.event.registerEvent.useMutation()
 
-    const { id, amount, eventType, eventStatus, registrationType, regLimit, regCount } = event
+    const { id, eventType, eventStatus, registrationType, regLimit, regCount, secret } = event
 
     if (status === "unauthenticated") {
         return (
@@ -84,9 +90,18 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (isRegisteredThisEvent) {
         return (
-            <Button disabled size={"glass"} variant={"glass"}>
-                <ButtonText keyType={"Purchase Successfull"} />
-            </Button>
+            <HoverCard>
+                <HoverCardTrigger asChild>
+                    <Button size={"glass"} variant={"glass"}>
+                        <ButtonText keyType={"Purchase Successfull"} />
+                    </Button>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                    <ReactMarkdown>
+                        {secret}
+                    </ReactMarkdown>
+                </HoverCardContent>
+            </HoverCard>
         );
     }
 

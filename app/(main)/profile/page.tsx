@@ -31,22 +31,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ProfileEdit } from "./_componetns/edit";
-import { useSession, signOut } from "next-auth/react";
-import { useMemo } from "react";
-import { Lanyard } from "@/components/lanyard";
+import { useSession, signOut } from "@/hooks/session";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
+import { ModelViewer } from "@/components/madeup/model";
 
 export default function ProfilePage() {
-  const { status, data } = useSession();
+  const { status, data, valid } = useSession();
 
   if (!data || !data.user) {
     return null;
   }
   const user = data.user as UserZodType;
-  const hasAsthra = user.asthraPass ?? false;
-  const validProfile = useMemo(() => isValidUserDetails(user), [user]);
   const listOfEvents: EventZodType[] = [];
 
   return (
@@ -67,7 +64,7 @@ export default function ProfilePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {!validProfile && (
+          {!valid && (
             <Alert className="relative text-black">
               <Terminal className="h-4 w-4" />
               <AlertTitle>Complete Profile</AlertTitle>
@@ -153,11 +150,7 @@ export default function ProfilePage() {
       </Card>
       <div className="flex-[1_auto] flex flex-col gap-6">
         <Card className="relative">
-          <Lanyard
-            className={"absolute" + (hasAsthra ? "" : " blur")}
-            position={[0, 0, 20]}
-            gravity={[0, -40, 0]}
-          />
+          <ModelViewer className={`absolute mt-20 ${!user.asthraPass ? "blur" : ""}`} />
           <CardHeader>
             <Image src="/assets/asthraps.png" alt="" width={200} height={200} />
           </CardHeader>
