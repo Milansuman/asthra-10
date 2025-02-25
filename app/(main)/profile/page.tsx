@@ -151,7 +151,7 @@ export default function ProfilePage() {
             </Label>
           </CardContent>
           <CardFooter>
-            <Button variant={"glass"}>
+            <Button link="/asthra" variant={"glass"}>
               Purchase Now <ShoppingBag />
             </Button>
           </CardFooter>

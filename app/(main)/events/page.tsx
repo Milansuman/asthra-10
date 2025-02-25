@@ -49,7 +49,7 @@ function Page() {
       <div className="w-screen h-screen flex flex-col justify-center items-center">
         <h2>No Events Found!</h2>
         <p className="mb-2">Check back later</p>
-        <Button href="/home" variant={"glass"}>
+        <Button link="/home" variant={"glass"}>
           Go Home
         </Button>
       </div>
