@@ -1,7 +1,7 @@
 // import { api } from './vanila';
 
 // await api.mail.welcome.query({
-//   email: 'rajatsandeepsen1839@gmail.com',
+//   email: 'aravindmng47@gmail.com',
 //   name: 'User',
 // });
 
