@@ -13,7 +13,6 @@ import {
   eventsTable,
   referalsTable,
   transactionsTable,
-  user,
   userRegisteredEventTable,
 } from '@/server/db/schema';
 import { Increment, getTrpcError } from '@/server/db/utils';
@@ -56,7 +55,7 @@ export const transactionRouter = createTRPCRouter({
         await ctx.db.query.userRegisteredEventTable.findFirst({
           where: and(
             eq(userRegisteredEventTable.eventId, workshop.id),
-            eq(userRegisteredEventTable.userId, user.id)
+            eq(userRegisteredEventTable.userId, userData.id)
           ),
         });
 

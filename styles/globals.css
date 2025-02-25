@@ -71,6 +71,10 @@
     @apply pattern-diagonal-lines pattern-blue-500 pattern-bg-white pattern-size-2 pattern-opacity-20;
   }
 
+  .bg-glass-top-black {
+    @apply pattern-diagonal-lines pattern-white pattern-bg-black pattern-size-2 pattern-opacity-20;
+  }
+
   .text-glass-foreground {
     @apply text-white;
   }
@@ -89,17 +93,12 @@
   text-shadow: 1px 1px 30px #44444480;
 }
 
-.europa {
-  font-family: "EuropaGroteskSH", sans-serif;
-  /* @apply tracking-wide; */
-}
-
 span {
   font-family: inherit;
 }
 
 h1 {
-  font-family: EuropaGroteskSH, sans-serif;
+  font-family: "Ambit", sans-serif;
   @apply text-5xl font-black tracking-tight transition-all duration-700 sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl;
 }
 
@@ -108,7 +107,7 @@ h2 {
 }
 
 h3 {
-  font-family: EuropaGroteskSH, sans-serif;
+  font-family: "Ambit", sans-serif;
   @apply text-2xl font-semibold tracking-tight transition-all duration-700 sm:text-4xl;
 }
 
@@ -117,7 +116,7 @@ h4 {
 }
 
 p {
-  font-family: EuropaGroteskSH, Poppins, sans-serif;
+  font-family: "Ambit", Poppins, sans-serif;
   @apply tracking-wide;
   /* @apply ; */
 }
@@ -165,7 +164,7 @@ blockquote {
     outline: none;
   }
 
-  & * > h1 {
+  & *>h1 {
     font-size: 20px;
   }
 }
@@ -231,6 +230,18 @@ input[type="button"]:active,
   }
 }
 
-.no-scrollbar::-webkit-scrollbar{
+.no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }

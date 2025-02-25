@@ -81,10 +81,11 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
         );
     }
 
-    if (registrationType === "spot") {
+
+    if (isRegisteredThisEvent) {
         return (
             <Button disabled size={"glass"} variant={"glass"}>
-                <ButtonText keyType={"Only for Spot Registration"} />
+                <ButtonText keyType={"Purchase Successfull"} />
             </Button>
         );
     }
@@ -96,18 +97,20 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
             </Button>
         );
     }
-    if (regCount >= regLimit) {
+
+    if (registrationType === "spot") {
         return (
             <Button disabled size={"glass"} variant={"glass"}>
-                <ButtonText keyType={"Sorry, Sold Out"} />
+                <ButtonText keyType={"Only for Spot Registration"} />
             </Button>
         );
     }
 
-    if (isRegisteredThisEvent) {
+
+    if (regCount >= regLimit) {
         return (
             <Button disabled size={"glass"} variant={"glass"}>
-                <ButtonText keyType={"Purchase Successfull"} />
+                <ButtonText keyType={"Sorry, Sold Out"} />
             </Button>
         );
     }
