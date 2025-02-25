@@ -16,6 +16,8 @@ import { api } from '@/trpc/server';
 import { ExternalLinkIcon } from 'lucide-react';
 import { getActivityPoints } from '@/logic/points';
 import { Markdown } from '@/app/_components/md';
+import { dataFocusVisibleClasses } from '@heroui/theme';
+import { TRPCError } from '@trpc/server';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -31,6 +33,7 @@ const getEventData = reactCache(async (id: string) => {
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const id = (await params).id;
   const { data: event, error, isSuccess } = await cache.run(`event:${id}`, () => getEventData(id));
+
   const previousImages = (await parent).openGraph?.images ?? [];
 
   if (!isSuccess || !event) {
@@ -79,6 +82,17 @@ export default async function Event({ params }: Props) {
     );
   }
 
+  const shortURLResult = await api.shortner.shorten({
+    name: event.name!.replaceAll(" ", "_"),
+    url: `https://asthra.sjcetpalai.ac.in/event/${event.id}`
+  });
+
+  if (shortURLResult instanceof TRPCError) {
+    console.error(shortURLResult);
+    return {}
+  }
+
+
   const department = event.department === 'NA' ? "SJCET" : allDepartments[event.department as keyof typeof allDepartments];
 
   return (
@@ -89,7 +103,7 @@ export default async function Event({ params }: Props) {
         </Plusbox>
         <div className='flex-1 flex flex-col gap-4 w-full'>
           <Card className='relative'>
-            <ShareButton />
+            <ShareButton shortUrl={shortURLResult.url} />
             <CardHeader>
               <Badge variant={"glass"} className="w-fit relative mb-3">
                 Created by {department}
