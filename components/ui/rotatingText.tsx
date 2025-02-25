@@ -1,3 +1,4 @@
+import { AnimatePresence, Transition, motion } from "framer-motion";
 import React, {
     forwardRef,
     useCallback,
@@ -6,7 +7,6 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { motion, AnimatePresence, Transition } from "framer-motion";
 
 function cn(...classes: (string | undefined | null | boolean)[]): string {
     return classes.filter(Boolean).join(" ");
@@ -80,6 +80,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
             return Array.from(text);
         };
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
         const elements = useMemo(() => {
             const currentText: string = texts[currentTextIndex] ?? '';
             if (splitBy === "characters") {

@@ -7,6 +7,7 @@ import LoginButton from '../_components/login';
 import Plusbox from '@/components/madeup/box';
 import CircularGalleryMade from '@/components/madeup/circularGalleryMade';
 
+
 export default function Page() {
   return (
     <main className="z-10 relative">

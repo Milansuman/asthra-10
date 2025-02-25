@@ -23,13 +23,16 @@ export function EventEditPage({ data, departments }: Props) {
   const [filter, setFilter] = useState(departments[0]);
 
   const onDelete = (id: string) => {
-    setLocalData(prevData => prevData.filter(event => event.id !== id))
-    deleteEventMutation.mutate({ id })
+    deleteEventMutation.mutate({ id }, {
+      onSuccess: (data) => {
+        if (!data) return;
+        setLocalData(prevData => prevData.filter(event => event.id !== data[0]?.deletedId))
+      }
+    })
   }
 
-  const onChangeEvent = () => {
-    const data = latestEventsQuery.refetch()
-    console.log(data)
+  const onChangeEvent = async () => {
+    const data = await latestEventsQuery.refetch()
     setLocalData(latestEventsQuery.data ?? []);
   }
 

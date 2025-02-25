@@ -48,14 +48,26 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, pattern, children, link, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
+
+
     const Wrapper = link ? Link : React.Fragment
+    const extraProps = link ? { href:link ?? ""} : {}
     return (
-      <Wrapper href={link ?? ""}>
+      <>
+      {
+        link === undefined ?
         <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
           {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
           {children}
-        </Comp>
-      </Wrapper>
+        </Comp> :
+        <Link href={link} target={"_blank"}>
+          <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+            {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
+            {children}
+          </Comp>
+        </Link>
+      }
+      </>
     );
   },
 );

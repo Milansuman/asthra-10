@@ -94,7 +94,7 @@ function CheckOut({
   };
 
   return (
-    <>
+    <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4  z-50">
       {JSON.stringify(failedData)}
 
       <form onSubmit={processPayment}>
@@ -128,6 +128,6 @@ function CheckOut({
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
