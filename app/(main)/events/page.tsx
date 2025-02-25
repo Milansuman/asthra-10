@@ -26,7 +26,7 @@ export default function Home() {
           <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
         </Plusbox>
       </div>
-      <Suspense fallback={<Loader size={80} className="animate-spin" />}>
+      <Suspense fallback={<Loader size={60} className="animate-spin" />}>
         <Page />
       </Suspense>
     </div>
@@ -46,7 +46,7 @@ function Page() {
   if (isLoading) {
     return (
       <div className="w-full flex flex-col gap-3 justify-center items-center">
-        <Loader size={80} className="animate-spin" />
+        <Loader size={60} className="animate-spin" />
         <h1 className="text-3xl">Loading</h1>
       </div>
     );
@@ -96,7 +96,6 @@ function Page() {
         events={approvedEvents ?? []}
         categories={categories}
         departments={departments}
-        // events={approvedEvents}
         filterDepartment={filterDepartment ?? "all"}
         eventStatus={eventStatus ?? "all"}
         filterCategory={eventCategory ?? "ALL"}

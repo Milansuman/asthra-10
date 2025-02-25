@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cache as reactCache } from 'react';
 
+
 import { PaymentButton } from '@/app/_components/pay';
 import { ShareButton } from '@/app/_components/share';
 import Plusbox from '@/components/madeup/box';
@@ -13,6 +14,8 @@ import { allDepartments, ASTHRA } from '@/logic';
 import { cache } from '@/server/cache';
 import { api } from '@/trpc/server';
 import { ExternalLinkIcon } from 'lucide-react';
+import { getActivityPoints } from '@/logic/points';
+import { Markdown } from '@/app/_components/md';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -88,53 +91,58 @@ export default async function Event({ params }: Props) {
           <Card className='relative'>
             <ShareButton />
             <CardHeader>
-              <Badge variant={"glass"} className="w-fit relative text-black">
+              <Badge variant={"glass"} className="w-fit relative">
                 Created by {department}
                 <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
               </Badge>
               <CardTitle>
                 {event.name ?? "Event"}
               </CardTitle>
-              <CardDescription>
+              <Markdown>
                 {event.description}
-              </CardDescription>
+              </Markdown>
             </CardHeader>
-            <CardContent className='flex flex-row gap-5 flex-wrap font-bold capitalize'>
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+            <CardContent className='flex flex-row gap-3 flex-wrap font-bold capitalize'>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Venue</p>
                 {event.venue}
               </div>
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Registration Type</p>
                 {event.registrationType === 'both' ? 'Both Spot & Online' : `${event.registrationType} only`}
               </div>
 
-              {event.eventType !== "ASTHRA_PASS" && <div className='relative bg-glass py-2 px-4 border-glass border'>
+              {event.eventType !== "ASTHRA_PASS" && <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Registration Limit</p>
                 approx. {event.regLimit} Seats
               </div>}
 
               {event.dateTimeStarts && (
-                <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <div className='relative bg-glass py-2 px-3 border-glass border'>
                   <p className='opacity-70 text-sm font-normal'>Event starts at</p>
                   {event.dateTimeStarts.toLocaleTimeString()}
                 </div>
               )}
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Duration of event</p>
                 {event.dateTimeEnd}
               </div>
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>{event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}</p>
                 {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}{!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
               </div>
 
-              {event.eventType === "ASTHRA_PASS" && (<div className='relative bg-glass py-2 px-4 border-glass border'>
+              {event.eventType === "ASTHRA_PASS" && (<div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Credits</p>
                 {ASTHRA.credit}
+              </div>)}
+
+              {event.eventType !== "ASTHRA_PASS_EVENT" && (<div className='lowercase relative bg-glass py-2 px-3 border-glass border'>
+                <p className='opacity-70 text-sm font-normal capitalize'>KTU Activity Points</p>
+                {getActivityPoints(event.eventType)}
               </div>)}
 
             </CardContent>

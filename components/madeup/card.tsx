@@ -5,6 +5,7 @@ import { useState, type FC } from 'react';
 
 import { z } from 'zod';
 
+
 import type { eventZod } from '@/lib/validator';
 
 import { type EventEdit, EventForm } from '@/components/madeup/eventform';
@@ -35,6 +36,7 @@ import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 import { api } from '@/trpc/react';
 import { TRPCError } from '@trpc/server';
 import { Input } from '../ui/input';
+import { Markdown } from '@/app/_components/md';
 
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
@@ -58,11 +60,9 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
         <div className="flex justify-between items-start">
           <div className="flex-1 pr-4">
             <CardTitle className="text-4xl mb-3">{data.name}</CardTitle>
-            {data.description && (
-              <CardDescription className="text-xl text-white">
-                {data.description}
-              </CardDescription>
-            )}
+            <Markdown>
+              {data.description}
+            </Markdown>
           </div>
           {credits && (
             <div className="bg-white text-blue-600 px-4 py-2 rounded-lg flex-shrink-0">
@@ -143,9 +143,6 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
         )}
       </CardHeader>
       <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-      <CardDescription className="line-clamp-6 mb-2">
-        {data.description}
-      </CardDescription>
       <CardFooter className="flex gap-[10px] p-0 mt-auto flex-wrap">
         <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -249,7 +246,9 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
     <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300">
       <CardHeader>
         <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-        <CardDescription>{data.description}</CardDescription>
+        <Markdown>
+          {data.description}
+        </Markdown>
       </CardHeader>
       <CardContent className="flex-col gap-2 !justify-start items-start w-full text-white">
         <p>Department: {data.department}</p>
@@ -310,9 +309,9 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
       <CardTitle className="font-semibold text-2xl text-black">
         {data.name}
       </CardTitle>
-      <CardDescription className="text-neutral-700">
+      <Markdown>
         {data.description}
-      </CardDescription>
+      </Markdown>
     </CardHeader>
     <CardContent className="flex flex-col items-center space-y-6">
       <Image

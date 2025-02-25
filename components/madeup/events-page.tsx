@@ -34,7 +34,6 @@ export function EventPage({
     eventStatus = 'all',
     dashboard = false,
 }: Props) {
-    const [filter, setFilter] = useState(eventStatus === 'cancel' ? 'CANCELLED' : filterCategory);
     const [department, setDepartment] = useState(filterDepartment);
 
     return (
@@ -47,7 +46,9 @@ export function EventPage({
                     <SelectContent className="w-[380px]">
                         <SelectItem value="all">All</SelectItem>
                         {departments.map((d, index) => (
-                            <SelectItem value={d} key={index}>{d}</SelectItem>
+                            <SelectItem value={d} key={index}>
+                                {allDepartments[d as keyof typeof allDepartments]}
+                            </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>

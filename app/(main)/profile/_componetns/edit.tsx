@@ -134,11 +134,7 @@ export function ProfileEdit() {
                   placeholder="Enter your college's name"
                   {...field}
                   value={
-                    !field?.value
-                      ? ""
-                      : field?.value === "NA"
-                        ? ""
-                        : field?.value
+                    field?.value ?? "NA"
                   }
                   required
                 />
@@ -147,6 +143,28 @@ export function ProfileEdit() {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="KTU"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>KTU Username</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="SJC21AD123 (optional)"
+                  {...field}
+                  value={
+                    field?.value ?? undefined
+                  }
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="department"
@@ -160,8 +178,8 @@ export function ProfileEdit() {
                       {field.value === "NA"
                         ? "Other"
                         : allDepartments[
-                            field.value as keyof typeof allDepartments
-                          ]}
+                        field.value as keyof typeof allDepartments
+                        ]}
                     </SelectValue>
                   </SelectTrigger>
                 </FormControl>

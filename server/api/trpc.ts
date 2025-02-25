@@ -171,6 +171,7 @@ export const coordinatorProcedure = t.procedure.use(({ ctx, next }) => {
   const role = ctx.session.user.role;
 
   if (
+    role !== 'ADMIN' &&
     role !== 'MANAGEMENT' &&
     role !== 'STUDENT_COORDINATOR' &&
     role !== 'FACULTY_COORDINATOR'
@@ -199,11 +200,7 @@ export const frontDeskProcedure = t.procedure.use(({ ctx, next }) => {
 
   const role = ctx.session.user.role;
 
-  if (
-    role !== 'DESK' &&
-    role !== 'MANAGEMENT' &&
-    role !== 'STUDENT_COORDINATOR'
-  ) {
+  if (role !== 'DESK' && role !== 'MANAGEMENT' && role !== 'ADMIN') {
     throw getTrpcError('NOT_AUTHORIZED');
   }
 
@@ -231,12 +228,13 @@ export const eventsManageProcedure = t.procedure.use(({ ctx, next }) => {
   if (
     role !== 'STUDENT_COORDINATOR' &&
     role !== 'FACULTY_COORDINATOR' &&
-    role !== 'MANAGEMENT'
+    role !== 'MANAGEMENT' &&
+    role !== 'ADMIN'
   ) {
     throw getTrpcError('NOT_AUTHORIZED');
   }
 
-  if (role !== 'MANAGEMENT' && !allowEditing()) {
+  if (role !== 'MANAGEMENT' && role !== 'ADMIN' && !allowEditing()) {
     throw getTrpcError('EDIT_AFTER_LIMIT');
   }
 
