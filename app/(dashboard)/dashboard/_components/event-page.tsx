@@ -305,7 +305,7 @@ function EventCard({
                       Participants
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="w-full bg-glow rounded-none">
+                  <AlertDialogContent className="w-full bg-neutral-200/10 rounded-none backdrop-blur-xl">
                     <AlertDialogHeader>
                       <AlertDialogTitle>
                         Participants for {event.name}

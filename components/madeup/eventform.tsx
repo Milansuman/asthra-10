@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronRight, ExternalLink, Eye, Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useState } from 'react';
 
 import { eventZod } from '@/lib/validator';
 
@@ -92,6 +93,8 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
   id,
   onChangeEvent
 }) => {
+  const [previewData, setPreviewData] = useState<EventEdit | null>(data);
+
   console.log(data);
   const { mutateAsync: createEvent, isPending } =
     api.event.createEvent.useMutation({
@@ -218,7 +221,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                       value: e.data
                     }
                   })
-                }}/>
+                }} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -239,7 +242,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                       value: e.data
                     }
                   })
-                }}/>
+                }} />
               </FormControl>
               <FormDescription className='text-neutral-300'>
                 Sent your secret message to registered users through email
@@ -444,7 +447,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                       value: datetime
                     }
                   })
-                }}/>
+                }} />
               </FormControl>
               <FormDescription className='text-neutral-300'>
                 Default is {AsthraStartsAt.toLocaleString()}
@@ -535,6 +538,9 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <Button
                 variant="secondary"
                 className="flex-1 text-center"
+                onClick={() => {
+                  setPreviewData(form.getValues())
+                }}
               >
                 Preview <Eye />
               </Button>
@@ -547,7 +553,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                 </DialogDescription>
               </DialogHeader>
               <div>
-                <AsthraCardPreview data={{ ...form.getValues() }} />
+                <AsthraCardPreview data={previewData!} />
               </div>
               <DialogFooter>
                 <DialogClose asChild>

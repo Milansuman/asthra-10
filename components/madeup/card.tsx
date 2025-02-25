@@ -34,7 +34,7 @@ import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 
 import { api } from '@/trpc/react';
 import { TRPCError } from '@trpc/server';
-import { Input } from '@/components/ui/input';
+import { Input } from '../ui/input';
 
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
