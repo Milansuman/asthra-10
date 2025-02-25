@@ -200,12 +200,12 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
       )}
     </Card>
 
-    <Card className="m-2 rounded-sm cal p-5 relative !h-auto cal text-black border-neutral-600">
+    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300">
       <CardHeader>
-        <CardTitle className="mt-[20px]">{data.eventType}</CardTitle>
+        <CardTitle className="mt-[20px]">{data.name}</CardTitle>
         <CardDescription>{data.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-black">
+      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-white">
         <p>Department: {data.department}</p>
         <p>Event type: {data.eventType}</p>
         <p>Event status: {data.eventStatus}</p>
@@ -245,7 +245,7 @@ export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEv
           <p>
             Keyboard accessible, Use up & down arrows to control counts & dates
           </p>
-          <ScrollArea className="h-[80vh] rounded-none">
+          <ScrollArea className="h-[80vh] rounded-none p-4">
             <EventForm data={null} onChangeEvent={onChangeEvent} />
           </ScrollArea>
         </Card>

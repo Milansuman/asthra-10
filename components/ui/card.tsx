@@ -18,19 +18,19 @@ const Card = React.forwardRef<
 ));
 Card.displayName = "Card";
 
-const GlowCard = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { color?: string }
->(({ className, color, ...props }) => (
-  <Glow
-    {...props}
-    color={color}
-    className={cn(
-      'border border-glass text-glass bg-glass',
-      className
-    )} />
-));
-GlowCard.displayName = "GlowCard";
+// const GlowCard = React.forwardRef<
+//   HTMLDivElement,
+//   React.HTMLAttributes<HTMLDivElement> & { color?: string }
+// >(({ className, color, ...props }) => (
+//   <Glow
+//     color={color}
+//     className={cn(
+//       'border border-glass text-glass bg-glass',
+//       className
+//     )}
+//     {...props}/>
+// ));
+// GlowCard.displayName = "GlowCard";
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
@@ -93,7 +93,7 @@ CardFooter.displayName = "CardFooter";
 
 export {
   Card,
-  GlowCard,
+  // GlowCard,
   CardHeader,
   CardFooter,
   CardTitle,

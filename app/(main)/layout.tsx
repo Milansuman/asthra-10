@@ -1,7 +1,6 @@
 import Footer from '@/components/madeup/footer';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
 import Dock, { type DockItemData } from '@/components/madeup/Dock';
-import { GlowArea } from '@/components/ui/glow';
 
 const Items: DockItemData[] = [
   {
@@ -42,11 +41,9 @@ export default function RootLayout({
           className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#7ab1e1]"
         />
       </div>
-      <GlowArea>
       {children}
       <Dock items={Items} />
       <Footer />
-      </GlowArea>
     </>
   );
 }

@@ -276,7 +276,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <FormMessage />
               <Button
                 link={id ? `/dashboard/upload?id=${id}` : '/dashboard/upload'}
-                className="rounded-s gap-3 w-full h-12 mt-2 text-white"
+                className=" gap-3 w-full h-12 mt-2 text-white"
                 variant={'secondary'}
               >
                 Optional, But upload your image before editing <ExternalLink />
@@ -539,10 +539,10 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                 Preview <Eye />
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-6xl rounded-none">
+            <DialogContent className="max-w-6xl rounded-none text-white">
               <DialogHeader>
                 <DialogTitle>Are you absolutely about creation?</DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-neutral-200">
                   This action creates a new event and is irreversible.
                 </DialogDescription>
               </DialogHeader>
@@ -553,7 +553,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                 <DialogClose asChild>
                   <Button
                     variant="secondary"
-                    className="flex-1 text-center rounded-s"
+                    className="flex-1 text-center"
                   >
                     Back to Edit
                   </Button>
