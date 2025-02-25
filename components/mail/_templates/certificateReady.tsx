@@ -40,7 +40,9 @@ export default function CertificateReadyEmail({ personName }: CertificateReadyPr
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
       <Tailwind>
-        <Body className={twMerge("bg-[#0A0A19] font-ambit", `bg-[url(${baseUrl}/images/bg.webp)] bg-cover bg-center`)}>
+        <Body style={{
+          backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+        }} className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}>
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>

@@ -245,6 +245,5 @@ button.bg-glass.glass-button>.lucide {
 }
 
 .qr-container>*>*>svg {
-  /* opacity: 0; */
   width: 100%;
 }

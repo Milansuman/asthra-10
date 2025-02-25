@@ -15,18 +15,17 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import { twMerge } from "tailwind-merge";
 import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
+import { cn } from "@/lib/utils";
 
 interface EventConfirmationProps {
   user: UserZodType;
-  personName: string;
-  eventName: string | null;
-  eventSecret: string | null;
-  // transactions: TransactionCard;
+  transactions: TransactionZodType;
+  event: EventZodType;
+  userRegisteredEvent: UserRegisteredEventZod;
 };
 
-export default function EventConfirmationEmail({ personName, eventName, eventSecret }: EventConfirmationProps) {
+export default function EventConfirmationEmail({ event, transactions, user, userRegisteredEvent }: EventConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -45,7 +44,10 @@ export default function EventConfirmationEmail({ personName, eventName, eventSec
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
       <Tailwind>
-        <Body className={twMerge("bg-[#0A0A19] font-ambit", `bg-[url(${baseUrl}/images/bg.webp)] bg-cover bg-center`)}>
+        <Body
+          style={{
+            backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+          }} className={("bg-[#0A0A19] font-ambit bg-cover bg-center")}>
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>
@@ -67,7 +69,7 @@ export default function EventConfirmationEmail({ personName, eventName, eventSec
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
-              <Text className="text-lg pb-4">Hello {personName},</Text>
+              <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Section className="mt-10">
                 <Row>

@@ -1,31 +1,32 @@
+import { cn } from "@/lib/utils";
+import type { EventZodType, TransactionZodType, UserRegisteredEventZod, UserZodType } from "@/lib/validator";
 import {
-  Html,
-  Head,
-  Tailwind,
   Body,
+  Button,
+  Column,
   Container,
   Font,
+  Head,
   Heading,
+  Html,
   Img,
-  Preview,
-  Section,
-  Text,
   Link,
+  Preview,
   Row,
-  Column,
-  Button,
-} from "@react-email/components"
+  Section,
+  Tailwind,
+  Text,
+} from "@react-email/components";
 import { baseUrl } from "../utils";
-import { twMerge } from "tailwind-merge";
-import type { EventZodType, UserRegisteredEventZod, UserZodType } from "@/lib/validator";
 
 type AsthraPassProps = {
   event: EventZodType,
-  UserRegisteredEvent: UserRegisteredEventZod,
+  userRegisteredEvent: UserRegisteredEventZod,
   user: UserZodType,
+  transactions: TransactionZodType
 };
 
-export default function AsthraPassEmail({ event, UserRegisteredEvent, user }: AsthraPassProps) {
+export default function AsthraPassEmail({ event, userRegisteredEvent, user, transactions }: AsthraPassProps) {
   return (
     <Html>
       <Head>
@@ -44,7 +45,9 @@ export default function AsthraPassEmail({ event, UserRegisteredEvent, user }: As
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
       <Tailwind>
-        <Body className={twMerge("bg-[#0A0A19] font-ambit", `bg-[url(${baseUrl}/images/bg.webp)] bg-cover bg-center`)}>
+        <Body style={{
+          backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+        }} className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}>
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>
@@ -77,7 +80,7 @@ export default function AsthraPassEmail({ event, UserRegisteredEvent, user }: As
                   <Column align="left" className="w-1/2">
                     <Text className="m-0 font-extrabold">Bank Name</Text>
                     <Text className="m-0 mt-[2%] text-xs">Transaction ID:</Text>
-                    <Text className="m-0 mt-[2%] text-xs">{UserRegisteredEvent.transactionId}</Text>
+                    <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.transactionId}</Text>
                     <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
                     <Text className="m-0 text-xs">test@gmail.com</Text>
                     <Text className="m-0 mt-[2%] text-xs">+918921964557</Text>
@@ -100,7 +103,7 @@ export default function AsthraPassEmail({ event, UserRegisteredEvent, user }: As
                   <Column align="left" className="w-1/3">
                     <Row>
                       <Text className="m-0 text-xs">Register ID:</Text>
-                      <Text className="m-0 mt-[2%] text-xs">{UserRegisteredEvent.registrationId}</Text>
+                      <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.registrationId}</Text>
                     </Row>
                     <Row>
                       <Text className="m-0 mt-[4%] text-xs">Venue:</Text>
