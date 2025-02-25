@@ -243,3 +243,8 @@ input[type="button"]:active,
 button.bg-glass.glass-button>.lucide {
   @apply !w-7 !h-7;
 }
+
+.qr-container>*>*>svg {
+  /* opacity: 0; */
+  width: 100%;
+}

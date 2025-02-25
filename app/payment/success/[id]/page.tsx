@@ -16,12 +16,13 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
   searchParams: Promise<{
-    [key in keyof RazorQueryZod]: string | string[] | undefined;
+    [key in keyof RazorQueryZod]: string | string[] | undefined
   }>;
 }) {
   const { id } = await params;
+  const queryParam = await searchParams;
 
-  const { data, success } = razorQueryZod.safeParse(await searchParams);
+  const { data, success } = razorQueryZod.safeParse(queryParam);
 
   if (success) {
     const isSuccess = verifySignature({

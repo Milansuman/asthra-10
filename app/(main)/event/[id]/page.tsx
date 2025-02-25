@@ -110,10 +110,10 @@ export default async function Event({ params }: Props) {
                 {event.registrationType === 'both' ? 'Both Spot & Online' : `${event.registrationType} only`}
               </div>
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+              {event.eventType !== "ASTHRA_PASS" && <div className='relative bg-glass py-2 px-4 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Registration Limit</p>
                 approx. {event.regLimit} Seats
-              </div>
+              </div>}
 
               {event.dateTimeStarts && (
                 <div className='relative bg-glass py-2 px-4 border-glass border'>

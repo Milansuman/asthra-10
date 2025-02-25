@@ -97,7 +97,12 @@ function PreCheckOut({ eventId }: { eventId: string }) {
   const { transaction, event } = data;
 
 
-  const getPaymentURL = (transactionId: string) => {
+  const getPaymentURL = (transactionId: string, amount: number) => {
+
+    if (amount === 0) {
+      return `/payment/success/${transactionId}`
+    }
+
     const redirectUrl = new URL(`/payment/success/${transactionId}`, window.location.origin)
 
     const url = new URL("/asthra", env.NEXT_PUBLIC_SJCET_PAYMENT_LINK)
@@ -146,7 +151,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
         </Plusbox>
       </CardContent>
       <CardFooter className="justify-between gap-4 flex-row-reverse">
-        <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id)}>Pay ₹{event.amount} Now</Button>
+        <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id, event.amount)}>Pay ₹{event.amount} Now</Button>
         <Dialog>
           <DialogTrigger asChild>
             <Button disabled={!notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>
