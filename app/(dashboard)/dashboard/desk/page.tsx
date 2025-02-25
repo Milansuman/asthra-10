@@ -12,7 +12,7 @@ type Event = z.infer<typeof eventZod>
 
 export default function MainDesk() {
   const [events, setEvents] = useState<Event[]>([]);
-  const { data, isLoading } = api.event.getLatest.useQuery();
+  const { data, isLoading } = api.event.getAll.useQuery();
 
   return (
     <main className="flex flex-col h-screen text-white p-6">

@@ -40,7 +40,7 @@ function EventContent() {
   const searchParams = useSearchParams();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const eventsQuery = api.event.getLatest.useQuery()
+  const eventsQuery = api.event.getAll.useQuery()
 
   useEffect(() => {
     (async () => {

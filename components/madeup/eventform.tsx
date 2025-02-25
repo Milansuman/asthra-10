@@ -14,9 +14,7 @@ import { ChevronRight, ExternalLink, Eye, Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useState } from 'react';
-
 import { eventZod } from '@/lib/validator';
-
 import {
   TimePicker,
   TimePickerSegment,
@@ -53,9 +51,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { RichEditor } from './editor';
-
+import MDEditor from '@uiw/react-md-editor';
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
 
@@ -74,7 +70,7 @@ const FormSchema = eventZod
     z.object({
       poster: z.string().optional(),
       name: z.string().min(3),
-      description: z.string(),
+      description: z.string().nullable().default(null),
       secret: z.string().nullable().default(null),
 
       venue: z.string().min(3),
@@ -147,7 +143,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log("submitting data", data)
+    console.log(data)
     id !== undefined
       ? await updateEvent({ ...data, id })
       : await createEvent(data);
@@ -214,15 +210,27 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <RichEditor content={field.value} onUpdate={(e) => {
-                  field.onChange({
-                    ...e,
-                    target: {
-                      value: e.data
-                    }
-                  })
-                }} />
+                <MDEditor
+                  height={400}
+                  preview="edit"
+                  style={{ background: "black" }}
+                  textareaProps={{
+                    placeholder: "Enter the description..."
+                  }}
+                  value={(field.value as string) ?? ''}
+                  onChange={(e) => {
+                    field.onChange({
+                      target: {
+                        value: e
+                      }
+                    })
+                  }}
+                />
               </FormControl>
+              <FormDescription className='text-neutral-300'>
+                Sent your secret message to registered users through email
+                (markdown supported)
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -235,14 +243,22 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Secret Description</FormLabel>
               <FormControl>
-                <RichEditor content={field.value ?? ""} onUpdate={(e) => {
-                  field.onChange({
-                    ...e,
-                    target: {
-                      value: e.data
-                    }
-                  })
-                }} />
+                <MDEditor
+                  height={400}
+                  preview="edit"
+                  style={{ background: "black" }}
+                  value={(field.value as string) ?? ''}
+                  textareaProps={{
+                    placeholder: "Enter the secret message..."
+                  }}
+                  onChange={(e) => {
+                    field.onChange({
+                      target: {
+                        value: e
+                      }
+                    })
+                  }}
+                />
               </FormControl>
               <FormDescription className='text-neutral-300'>
                 Sent your secret message to registered users through email
@@ -441,35 +457,19 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Start Time</FormLabel>
               <FormControl>
-                <Input
-                  type='datetime-local'
-                  defaultValue={
-                    field.value
-                      ? new Date(field.value.getTime() - (field.value.getTimezoneOffset() * 60000))
-                        .toISOString()
-                        .slice(0, 16)
-                      : new Date(AsthraStartsAt.getTime() - (AsthraStartsAt.getTimezoneOffset() * 60000))
-                        .toISOString()
-                        .slice(0, 16)
-                  }
-                  onChange={(event) => {
-                    const datetimeStr = event.target.value;
-                    // Create date in local timezone then adjust for Indian timezone (UTC+5:30)
-                    const localDate = new Date(datetimeStr);
-
-                    // This ensures the date is treated as being in the user's local timezone
-                    // rather than UTC, preserving the exact time the user selected
-                    field.onChange({
-                      ...event,
-                      target: {
-                        value: localDate
-                      }
-                    });
-                  }}
-                />
+                <Input type='datetime-local' defaultValue={field.value?.toISOString().slice(0, -2) ?? "2025-03-06T09:00:00"} onChange={(event) => {
+                  const datetime = event.target.value;
+                  console.log(datetime)
+                  field.onChange({
+                    ...event,
+                    target: {
+                      value: new Date(datetime)
+                    }
+                  })
+                }} />
               </FormControl>
               <FormDescription className='text-neutral-300'>
-                Default is {AsthraStartsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                Default is {AsthraStartsAt.toLocaleString()}
               </FormDescription>
               <FormMessage />
             </FormItem>
