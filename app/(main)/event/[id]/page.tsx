@@ -87,7 +87,7 @@ export default async function Event({ params }: Props) {
         <Plusbox className="flex-1 p-2">
           <Image src={event.poster} width={400} height={500} alt={event.name ?? ""} className="w-full h-auto" />
         </Plusbox>
-        <div className='flex-1 flex flex-col gap-4'>
+        <div className='flex-1 flex flex-col gap-4 w-full'>
           <Card className='relative'>
             <ShareButton />
             <CardHeader>
@@ -122,7 +122,7 @@ export default async function Event({ params }: Props) {
               {event.dateTimeStarts && (
                 <div className='relative bg-glass py-2 px-3 border-glass border'>
                   <p className='opacity-70 text-sm font-normal'>Event starts at</p>
-                  {event.dateTimeStarts.toLocaleTimeString()}
+                  {event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
                 </div>
               )}
 
@@ -152,7 +152,7 @@ export default async function Event({ params }: Props) {
             </CardFooter>
           </Card>
 
-          <Button variant={"glass"} link={`/events?department=${event.department}`}>
+          <Button variant={"glass"} link={`/events?department=${event.department}`} className="w-full overflow-hidden text-wrap h-20">
             Show more events from {department}
             <ExternalLinkIcon />
           </Button>

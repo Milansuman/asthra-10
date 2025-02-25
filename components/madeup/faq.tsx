@@ -51,7 +51,7 @@ export function FAQ() {
                 </div>
 
                 {/* Right Section */}
-                <div className="flex-1">
+                <div className="flex-1 w-full">
                     <Accordion type="single" collapsible className="space-y-4 ambit w-full">
                         {faqItems.map((faq, index) => (
                             <AccordionItem key={index} value={`item-${index}`}>
