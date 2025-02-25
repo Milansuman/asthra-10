@@ -4,7 +4,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { UrlObject } from "url"
+import type { UrlObject } from "node:url"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-none",
@@ -30,7 +30,7 @@ const buttonVariants = cva(
         thin: "h-7 rounded-none px-2",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
-        glass: "rounded-none px-10 py-3 font-thin text-xl"
+        glass: "rounded-none px-6 py-3 font-thin text-xl glass-button"
       },
     },
     defaultVariants: {

@@ -51,6 +51,7 @@ export const eventStatusEnum = pgEnum('eventStatusEnum', [
 export const attendeeStatusEnum = pgEnum('attendeeStatusEnum', [
   'registered', // registered but not attended
   'attended',
+  'certified',
 ]);
 
 export const registrationType = pgEnum('registrationType', [
@@ -110,11 +111,12 @@ export const userRegisteredEventTable = pgTable('userRegisteredEvent', {
   status: attendeeStatusEnum('status').default('registered'),
 });
 
-export const referalsTable = pgTable('reference', {
+export const referalsTable = pgTable('referals', {
   id: uuid().defaultRandom().primaryKey(),
-  referralCode: text('referralCode').notNull(),
-  transactionId: text('transactionId').notNull(),
-  status: boolean('status').default(false).notNull(),
+  referralCode: text().notNull(),
+  transactionId: text().notNull(),
+  status: boolean().default(false).notNull(),
+  discound: integer().default(0).notNull(),
 });
 
 export type ReferalListType = InferSelectModel<typeof referalsTable>;
@@ -170,6 +172,7 @@ export const user = pgTable(
     image: varchar({ length: 255 }),
     number: text(),
 
+    KTU: text(),
     role: roleEnum().default('USER').notNull(),
     department: departmentEnum().default('NA').notNull(),
     year: yearEnum().default('NA').notNull(),
@@ -178,9 +181,6 @@ export const user = pgTable(
     asthraCredit: integer().default(0).notNull(),
     asthraPass: boolean().default(false).notNull(),
     transactionId: text('asthraPassTransactionId'),
-
-    // phone: varchar({ length: 256 }).unique(),
-    // type: userTypeEnum().default('unknown').notNull(),
 
     emailVerified: timestamp({
       mode: 'date',

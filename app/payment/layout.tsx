@@ -5,7 +5,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <main className="z-10 relative bg-[url(/spline-backup.png)] bg-[#d5e7ff]">
+      <main className="z-10 relative bg-[url(/spline-backup.png)] bg-blend-soft-light bg-black/70">
         {children}
       </main>
     </>

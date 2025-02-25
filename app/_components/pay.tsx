@@ -1,15 +1,24 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/hooks/session";
-import type { EventZodType } from "@/lib/validator";
-import { api } from "@/trpc/react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog";
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
-} from "@/components/ui/hover-card"
-import ReactMarkdown from 'react-markdown'
+} from "@/components/ui/hover-card";
+import { useSession } from "@/hooks/session";
+import type { EventZodType } from "@/lib/validator";
+import { api } from "@/trpc/react";
+import ReactMarkdown from 'react-markdown';
+import QRCode from "react-qr-code";
 
 export const AsthraPaymentButton = () => {
     const { status, valid } = useSession()
@@ -37,9 +46,9 @@ export const AsthraPaymentButton = () => {
     );
 };
 
-import { AlertOctagon, AlertTriangle, FileLock, LoaderIcon, Lock, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
-import type { FunctionComponent } from "react";
 import { ASTHRA } from "@/logic";
+import { AlertOctagon, AlertTriangle, FileLock, LoaderIcon, Lock, QrCode, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
+import type { FunctionComponent } from "react";
 import { toast } from "sonner";
 
 const ButtonMessages = {
@@ -57,11 +66,11 @@ const ButtonMessages = {
     'Loading': LoaderIcon,
 } as const;
 
-export const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessages }> = ({ keyType }) => {
+export const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessages, text?: boolean }> = ({ keyType, text = true }) => {
     const Logo = ButtonMessages[keyType];
     return (
         <>
-            {keyType} <Logo className="scale-125" />
+            {text ? keyType : ""} <Logo className="scale-125" />
         </>
     );
 };
@@ -110,6 +119,33 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
                     </ReactMarkdown>
                 </HoverCardContent>
             </HoverCard>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button size={"glass"} variant={"glass"}>
+                        Open QR <QrCode />
+                    </Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Scan this QR to get Attendence</DialogTitle>
+                        <DialogDescription>
+                            Show this QR code to the venue staff or student coordinator to get your attendence for your participation.
+                        </DialogDescription>
+                        <DialogDescription>
+                            Certificate will be issued based on this attendence.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="p-4 bg-white">
+                        <QRCode
+                            size={256}
+                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                            value={isRegisteredThisEvent.registrationId}
+                            viewBox={"0 0 256 256"}
+                        />
+                    </div>
+                </DialogContent>
+            </Dialog>
+
             <Button disabled size={"glass"} variant={"glass"}>
                 <ButtonText keyType={"Purchase Successfull"} />
             </Button>

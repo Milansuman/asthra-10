@@ -239,3 +239,7 @@ input[type="button"]:active,
   height: auto;
   aspect-ratio: 1 / 1;
 }
+
+button.bg-glass.glass-button>.lucide {
+  @apply !w-7 !h-7;
+}

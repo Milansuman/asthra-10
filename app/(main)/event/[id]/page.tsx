@@ -138,7 +138,7 @@ export default async function Event({ params }: Props) {
               </div>)}
 
             </CardContent>
-            <CardFooter className='justify-between gap-4'>
+            <CardFooter className='justify-between gap-4 flex-wrap'>
               <PaymentButton event={event} />
             </CardFooter>
           </Card>
