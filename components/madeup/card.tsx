@@ -210,7 +210,7 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
         <p>Event type: {data.eventType}</p>
         <p>Event status: {data.eventStatus}</p>
         <p>Venue: {data.venue}</p>
-        <p>Starts at: {data.dateTimeStarts?.toLocaleString()}</p>
+        <p>Starts at: {data.dateTimeStarts?.toLocaleString("en-US", {timeZone: "UTC"})}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
         <p>Secret Message: {data.secret}</p>
       </CardContent>

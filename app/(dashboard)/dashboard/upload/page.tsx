@@ -32,7 +32,7 @@ const SearchParamsComponent = ({ setUrl, copy, setCopy, url }: { setUrl: React.D
     <>
       {
         searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!}/> :
-        <div className='conatiner flex justify-center items-center min-h-[70vh] cal h-screen'>
+        <div className='conatiner flex justify-center items-center min-h-screen'>
           <Card className='flex flex-col gap-10'>
             {url && <CardHeader>
               <Image src={url} alt="" className='w-full' width={600} height={600} />

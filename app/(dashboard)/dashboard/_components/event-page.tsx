@@ -244,6 +244,7 @@ function EventCard({
   const { data: registeredUsers } = api.event.getParticipants.useQuery({
     id: event.id,
   });
+  console.log(event);
 
   const { mutate: removeAttendance } = api.user.removeAttendance.useMutation();
   const { mutate: addAttendance } = api.user.addAttendance.useMutation();
@@ -295,7 +296,7 @@ function EventCard({
               </h4>
 
               <p>{event.dateTimeStarts.toLocaleDateString()}</p>
-              <p>{event.dateTimeStarts.toLocaleTimeString()}</p>
+              <p>{event.dateTimeStarts.toLocaleTimeString("en-US", {timeZone: "UTC"})}</p>
             </div>
             {dashboard && (
               <div className="self-end max-h-80 overflow-auto">
