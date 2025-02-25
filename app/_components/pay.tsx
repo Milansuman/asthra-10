@@ -115,7 +115,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
                     </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>
-                    <Markdown>
+                    <Markdown full>
                         {secret}
                     </Markdown>
                 </HoverCardContent>

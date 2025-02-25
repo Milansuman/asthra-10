@@ -98,7 +98,7 @@ export default async function Event({ params }: Props) {
               <CardTitle>
                 {event.name ?? "Event"}
               </CardTitle>
-              <Markdown>
+              <Markdown full>
                 {event.description}
               </Markdown>
             </CardHeader>

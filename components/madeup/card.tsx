@@ -246,7 +246,7 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
     <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300">
       <CardHeader>
         <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-        <Markdown>
+        <Markdown full>
           {data.description}
         </Markdown>
       </CardHeader>
