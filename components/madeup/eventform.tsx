@@ -241,11 +241,11 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   })
                 }}/>
               </FormControl>
-              <FormDescription>
+              <FormDescription className='text-neutral-300'>
                 Sent your secret message to registered users through email
                 (markdown supported)
               </FormDescription>
-              <FormDescription>
+              <FormDescription className='text-neutral-300'>
                 Eg: Here is the G-Form to update your team details
                 [Here](https://example.com/form)
               </FormDescription>
@@ -276,7 +276,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <FormMessage />
               <Button
                 link={id ? `/dashboard/upload?id=${id}` : '/dashboard/upload'}
-                className="rounded-s gap-3 w-full h-12 mt-2"
+                className="rounded-s gap-3 w-full h-12 mt-2 text-white"
                 variant={'secondary'}
               >
                 Optional, But upload your image before editing <ExternalLink />
@@ -298,7 +298,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   value={field.value ?? ''}
                 />
               </FormControl>
-              <FormDescription>
+              <FormDescription className='text-neutral-300'>
                 EG: ROOM 303, BLOCK SPB, 2nd FLOOR
               </FormDescription>
               <FormMessage />{' '}
@@ -393,7 +393,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                     }}
                   />
                 </FormControl>
-                <FormDescription className="cal">
+                <FormDescription className='text-neutral-300'>
                   Default is Free (₹0)
                 </FormDescription>
                 <FormMessage />
@@ -420,7 +420,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                     }}
                   />
                 </FormControl>
-                <FormDescription className="cal">
+                <FormDescription className='text-neutral-300'>
                   Default is 0, doesn&apos;t effect registration count
                 </FormDescription>
                 <FormMessage />
@@ -446,7 +446,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   })
                 }}/>
               </FormControl>
-              <FormDescription>
+              <FormDescription className='text-neutral-300'>
                 Default is {AsthraStartsAt.toLocaleString()}
               </FormDescription>
               <FormMessage />
@@ -524,7 +524,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
           <AlertDialogCancel asChild>
             <Button
               variant="secondary"
-              className="flex-1 text-center rounded-s hover:bg-neutral-300 text-black"
+              className="flex-1 text-center"
             >
               Cancel
             </Button>
@@ -534,12 +534,12 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <DialogTrigger asChild>
               <Button
                 variant="secondary"
-                className="flex-1 text-center rounded-s"
+                className="flex-1 text-center"
               >
                 Preview <Eye />
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-6xl">
+            <DialogContent className="max-w-6xl rounded-none">
               <DialogHeader>
                 <DialogTitle>Are you absolutely about creation?</DialogTitle>
                 <DialogDescription>
@@ -562,7 +562,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             </DialogContent>
           </Dialog>
 
-          <Button className="flex-1 text-center rounded-s" type="submit">
+          <Button className="flex-1 text-center rounded-none" type="submit">
             {!isPending ? (
               <>
                 Continue <ChevronRight />

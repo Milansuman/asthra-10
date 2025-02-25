@@ -34,7 +34,7 @@ export function EventEditPage({ data, departments }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-5 p-10 h-screen bg-white">
+    <div className="flex flex-col gap-5 p-10 h-screen">
       {/* <TabSwitcher
         keys={departments as string[]}
         filter={filter!}
