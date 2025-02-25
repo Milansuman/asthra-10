@@ -1,27 +1,96 @@
-import { Tailwind } from '@react-email/components';
+import {
+  Html,
+  Head,
+  Tailwind,
+  Body,
+  Container,
+  Font,
+  Heading,
+  Img,
+  Preview,
+  Section,
+  Text,
+  Hr,
+  Link,
+  Row,
+  Column
+} from "@react-email/components";
 
-type EmailProps = {
+type Props = {
   eventId: string;
   eventName: string;
   personName: string;
 };
 
-export const AsthraPass = (data: EmailProps) => {
+const AsthraPass = ({ eventId, eventName, personName }: Props) => {
   return (
-    <Tailwind
-      config={{
-        theme: {
-          extend: {
-            colors: {
-              brand: '#007291',
+    <Html>
+      <Head>
+        <Font
+          fontFamily="Ambit"
+          fallbackFontFamily="Verdana"
+          webFont={{
+            url: "/static/fonts/ambit/Ambit-Regular.woff2",
+            format: "woff2",
+          }}
+          fontWeight={400}
+          fontStyle="normal"
+        />
+      </Head>
+      <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
+      <Tailwind
+        config={{
+          theme: {
+            extend: {
+              colors: {
+                brand: "#5B9BE6",
+              },
+              fontFamily: {
+                ambit: ["Ambit"],
+              },
+              backdropBlur: {
+                test: "blur(100px)"
+              }
             },
           },
-        },
-      }}
-    >
-      {JSON.stringify(data)}
-    </Tailwind>
-  );
+        }}
+      >
+        <Body className="bg-[#4A90E2]">
+          <Container className="mx-auto py-5">
+            <Section className="mt-4">
+              <Row>
+                <Column align="left">
+                  <Img
+                    src="/static/images/asthra.png"
+                    width="100"
+                    height="50"
+                    alt="St. Joseph's Logo"
+                    className="object-contain"
+                  />
+                </Column>
+                <Column align="right">
+                  <Img
+                    src="/static/images/sjcet.png"
+                    width="150"
+                    height="50"
+                    alt="St. Joseph's College"
+                    className="object-contain"
+                  />
+                </Column>
+              </Row>
+            </Section>
+
+            <Heading className="text-white text-6xl font-extrabold text-center mt-14 font-ambit">
+              ASTHRA 9.0
+            </Heading>
+
+            <Container className="bg-[#4A90E2]/80 rounded-2xl border-[1px] border-solid border-[#8abaf1] shadow-2xl p-8 text-white relative">
+            </Container>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  )
 };
 
 export default AsthraPass;

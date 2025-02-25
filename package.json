@@ -15,7 +15,8 @@
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
     "check": "biome check --write ./",
-    "start": "next start"
+    "start": "next start",
+    "email": "email dev --dir ./components/mail/_templates"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.7.0",
@@ -41,6 +42,8 @@
     "@radix-ui/react-tabs": "^1.1.3",
     "@radix-ui/react-toast": "^1.2.6",
     "@react-email/components": "^0.0.32",
+    "@react-email/font": "0.0.9",
+    "@react-email/img": "0.0.11",
     "@react-email/render": "^1.0.4",
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.4",
@@ -113,6 +116,7 @@
     "drizzle-kit": "^0.28.1",
     "pg": "^8.13.1",
     "postcss": "^8.5.1",
+    "react-email": "3.0.7",
     "shadcn-ui": "^0.8.0",
     "tailwind-corner-smoothing": "^1.2.0",
     "tailwindcss": "3",

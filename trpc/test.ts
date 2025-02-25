@@ -1,8 +1,8 @@
-// import { api } from './vanila';
+import { api } from './vanila';
 
-// await api.mail.welcome.query({
-//   email: 'rajatsandeepsen1839@gmail.com',
-//   name: 'User',
-// });
+await api.mail.welcome.query({
+  email: 'aravindmng47@gmail.com',
+  name: 'User',
+});
 
-// console.log('Mail sent');
+console.log('Mail sent');
