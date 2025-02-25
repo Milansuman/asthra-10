@@ -140,16 +140,14 @@ blockquote {
 }
 
 .mdxeditor {
-  border-radius: 5px;
-  border: 1px solid #444444;
+  border: 1px solid #efefef;
   padding: 5px;
 }
 
 .mdxeditor-toolbar {
   display: flex;
   flex-direction: row;
-  background-color: #efefef;
-  border-radius: 5px;
+  background-color: #efefef22;
   padding: 5px;
   margin-bottom: 5px;
 
@@ -161,6 +159,7 @@ blockquote {
 
 .mdxeditor-root-contenteditable {
   outline: none;
+  min-height: 50px;
 
   & * {
     outline: none;

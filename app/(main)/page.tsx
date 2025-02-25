@@ -139,9 +139,7 @@ To develop students with moral & ethical values, for their successful career by 
           <p className="ambit mb-6 text-center font-thin text-2xl md:text-3xl">
             What are you waiting for?
             <br />
-            Mark your calendar on <b className="text-bold">
-              March 6,7 2025
-            </b>
+            Mark your calendar on <b className="text-bold">March 6,7 2025</b>
           </p>
           <LoginButton />
         </div>
