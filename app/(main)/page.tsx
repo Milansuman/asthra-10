@@ -11,18 +11,9 @@ export default function Page() {
       <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
         <div className="col-span-1 flex items-center border border-glass p-8 md:col-span-2">
           <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
-            <DecryptedText
-              text="Envisioned to explore
-the possibilities of
-tomorrow"
-              speed={100}
-              maxIterations={20}
-              characters="ABCD1234!?"
-              className="revealed"
-              parentClassName="all-letters"
-              encryptedClassName="encrypted"
-              animateOn="view"
-            />
+            Envisioned to explore
+            the possibilities of
+            tomorrow
           </p>
         </div>
         <div className="relative col-span-1 flex items-center justify-center border-l-[0.02rem] border-b-[0.02rem] p-4 bg-glass border-glass">
@@ -43,20 +34,11 @@ tomorrow"
 
         <div className="col-span-1 flex items-center border border-glass p-8 bg-glass md:col-span-2">
           <p className="ambit text-balance px-4 text-left font-extralight text-lg md:text-xl lg:text-2xl">
-            <DecryptedText
-              text="ASTHRA, the national-level technical fest of St. Joseph's College of
-              Engineering and Technology, Palai, is a premier inter-college event
-              in Kerala. With 5,000+ annual visitors, it features professional
-              shows, competitions, lectures, and workshops, offering an immersive
-              experience for all participants."
-              speed={100}
-              maxIterations={20}
-              characters="ABCD1234!?"
-              className="revealed"
-              parentClassName="all-letters"
-              encryptedClassName="encrypted"
-              animateOn="view"
-            />
+            ASTHRA, the national-level technical fest of St. Joseph's College of
+            Engineering and Technology, Palai, is a premier inter-college event
+            in Kerala. With 5,000+ annual visitors, it features professional
+            shows, competitions, lectures, and workshops, offering an immersive
+            experience for all participants.
           </p>
         </div>
         <div className="col-span-1 border border-glass hidden md:block" />
@@ -74,16 +56,7 @@ tomorrow"
             VISION
           </p>
           <p className="ambit max-w-2xl px-4 text-center font-thin text-md md:text-xl lg:text-2xl">
-            <DecryptedText
-              text="Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society."
-              speed={100}
-              maxIterations={20}
-              characters="ABCD1234!?"
-              className="revealed"
-              parentClassName="all-letters"
-              encryptedClassName="encrypted"
-              animateOn="view"
-            />
+            Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society.
           </p>
         </div>
         <div className="col-span-1 flex flex-col items-center justify-center border p-8 md:col-span-1 border-glass">
@@ -91,18 +64,9 @@ tomorrow"
             MISSION
           </p>
           <p className="ambit px-4 text-center font-thin text-md md:text-md">
-            <DecryptedText
-              text="To maintain a conducive infrastructure and learning environment for world class education.
-To nurture a team of dedicated, competent and research oriented faculty.
-To develop students with moral & ethical values, for their successful career by offering variety of programmes and services."
-              speed={100}
-              maxIterations={20}
-              characters="ABCD1234!?"
-              className="revealed"
-              parentClassName="all-letters"
-              encryptedClassName="encrypted"
-              animateOn="view"
-            />
+            To maintain a conducive infrastructure and learning environment for world class education.
+            To nurture a team of dedicated, competent and research oriented faculty.
+            To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
           </p>
         </div>
 
