@@ -93,7 +93,7 @@ function Page() {
   return (
     <>
       <EventPage
-        events={data ?? []}
+        events={approvedEvents ?? []}
         categories={categories}
         departments={departments}
         // events={approvedEvents}
