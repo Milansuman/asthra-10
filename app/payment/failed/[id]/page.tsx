@@ -1,3 +1,5 @@
+import { api } from "@/trpc/server";
+
 export default async function Page({
   params,
   // searchParams,
@@ -9,5 +11,9 @@ export default async function Page({
 }) {
   const { id } = await params;
 
-  return id;
+  const data = await api.sjcetPay.failedPurchase({
+    id: id,
+  })
+
+  return JSON.stringify(data)
 }

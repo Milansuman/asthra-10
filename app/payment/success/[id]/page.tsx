@@ -1,4 +1,5 @@
 import { verifySignature } from "@/logic/payment";
+import { api } from "@/trpc/server";
 import { z } from "zod";
 
 const razorQueryZod = z.object({
@@ -22,17 +23,20 @@ export default async function Page({
 
   const { data, success } = razorQueryZod.safeParse(await searchParams);
 
-  if (!success) {
-    return "Nop";
+  if (success) {
+    const isSuccess = verifySignature({
+      ...data,
+    });
+
+    if (!isSuccess) {
+      return "Nop";
+    }
   }
+  else {
+    const data = await api.sjcetPay.successPurchase({
+      id: id,
+    })
 
-  const isSuccess = verifySignature({
-    ...data,
-  });
-
-  if (!isSuccess) {
-    return "Nop";
+    return JSON.stringify(data)
   }
-
-  return id;
 }

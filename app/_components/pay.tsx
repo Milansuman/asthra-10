@@ -40,6 +40,7 @@ export const AsthraPaymentButton = () => {
 import { AlertOctagon, AlertTriangle, FileLock, LoaderIcon, Lock, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
 import type { FunctionComponent } from "react";
 import { ASTHRA } from "@/logic";
+import { toast } from "sonner";
 
 const ButtonMessages = {
     'Buy ASTHRA PASS': Ticket,
@@ -68,7 +69,13 @@ export const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessage
 export const PaymentButton = ({ event }: { event: EventZodType }) => {
     const { status, valid, data } = useSession()
     const { data: isRegisteredThisEvent } = api.user.isRegisteredThisEvent.useQuery({ eventId: event.id })
-    const { mutateAsync, isPending, isSuccess } = api.event.registerEvent.useMutation()
+    const { mutateAsync, isPending, isSuccess } = api.event.registerEvent.useMutation({
+        onError: (error) => {
+            toast.error(error.data?.code, {
+                description: error.message,
+            })
+        }
+    })
 
     const { id, eventType, eventStatus, registrationType, regLimit, regCount, secret } = event
 
@@ -90,11 +97,11 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
 
     if (isRegisteredThisEvent) {
-        return (
+        return (<>
             <HoverCard>
                 <HoverCardTrigger asChild>
                     <Button size={"glass"} variant={"glass"}>
-                        <ButtonText keyType={"Purchase Successfull"} />
+                        Show Secret Message
                     </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>
@@ -103,6 +110,10 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
                     </ReactMarkdown>
                 </HoverCardContent>
             </HoverCard>
+            <Button disabled size={"glass"} variant={"glass"}>
+                <ButtonText keyType={"Purchase Successfull"} />
+            </Button>
+        </>
         );
     }
 
@@ -133,7 +144,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (eventType === "ASTHRA_PASS") {
         return (
-            <Button link={`/event/${ASTHRA.id}`} size={"glass"} variant={"glass"}>
+            <Button link={`/payment/init?eventId=${ASTHRA.id}`} size={"glass"} variant={"glass"}>
                 <ButtonText keyType={"Buy ASTHRA PASS"} />
             </Button>
         );

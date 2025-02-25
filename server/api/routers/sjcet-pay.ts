@@ -1,4 +1,3 @@
-import { createOrder, generatedSignature } from '@/logic/payment';
 import { and, eq, ne, or } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
 import * as z from 'zod';
@@ -13,6 +12,7 @@ import {
   eventsTable,
   referalsTable,
   transactionsTable,
+  user,
   userRegisteredEventTable,
 } from '@/server/db/schema';
 import { Increment, getTrpcError } from '@/server/db/utils';
@@ -22,6 +22,7 @@ import {
   eventZod,
   transactionsZod,
 } from '@/lib/validator';
+import { ASTHRA } from '@/logic';
 
 export const transactionRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
@@ -35,11 +36,14 @@ export const transactionRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const userData = ctx.user;
 
+      if (userData.asthraPass && input.eventId === ASTHRA.id) {
+        throw getTrpcError('ALREADY_PURCHASED');
+      }
+
       const workshop = await ctx.db.query.eventsTable.findFirst({
         where: and(
           eq(eventsTable.id, input.eventId),
-          ne(eventsTable.eventType, 'ASTHRA_PASS_EVENT'),
-          ne(eventsTable.eventType, 'ASTHRA_PASS')
+          ne(eventsTable.eventType, 'ASTHRA_PASS_EVENT')
         ),
       });
 
@@ -115,7 +119,8 @@ export const transactionRouter = createTRPCRouter({
           .where(
             and(
               eq(transactionsTable.id, input.id),
-              eq(transactionsTable.status, 'initiated')
+              eq(transactionsTable.status, 'initiated'),
+              eq(transactionsTable.userId, ctx.user.id)
             )
           )
           .returning();
@@ -142,6 +147,17 @@ export const transactionRouter = createTRPCRouter({
           .set({ regCount: Increment(eventsTable.regCount, 1) })
           .where(eq(eventsTable.id, currentTransation.eventId))
           .returning();
+
+        if (currentTransation.eventId === ASTHRA.id) {
+          await tx
+            .update(user)
+            .set({
+              asthraPass: true,
+              asthraCredit: ASTHRA.credit,
+              transactionId: currentTransation.id,
+            })
+            .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
+        }
 
         return {
           event: eventData[0],
@@ -194,6 +210,7 @@ export const transactionRouter = createTRPCRouter({
     .input(
       transactionsZod.pick({
         id: true,
+        orderId: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -202,6 +219,7 @@ export const transactionRouter = createTRPCRouter({
           .update(transactionsTable)
           .set({
             status: 'success',
+            orderId: input.orderId,
           })
           .where(
             and(
@@ -230,6 +248,17 @@ export const transactionRouter = createTRPCRouter({
           userId: transactionData.userId,
           remark: `Forced Success on ${new Date().toLocaleString()}`,
         });
+
+        if (transactionData.eventId === ASTHRA.id) {
+          await tx
+            .update(user)
+            .set({
+              asthraPass: true,
+              asthraCredit: ASTHRA.credit,
+              transactionId: transactionData.id,
+            })
+            .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
+        }
 
         return {
           transaction: transactionData,

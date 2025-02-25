@@ -9,7 +9,7 @@ import Plusbox from '@/components/madeup/box';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { allDepartments } from '@/logic';
+import { allDepartments, ASTHRA } from '@/logic';
 import { cache } from '@/server/cache';
 import { api } from '@/trpc/server';
 import { ExternalLinkIcon } from 'lucide-react';
@@ -128,12 +128,17 @@ export default async function Event({ params }: Props) {
               </div>
 
               <div className='relative bg-glass py-2 px-4 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Fee</p>
-                {!event.amount || event.amount === 0 ? 'FREE' : `₹${event.amount}`}
+                <p className='opacity-70 text-sm font-normal'>{event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}</p>
+                {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}{!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
               </div>
 
+              {event.eventType === "ASTHRA_PASS" && <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <p className='opacity-70 text-sm font-normal'>Credits</p>
+                {ASTHRA.credit}
+              </div>}
+
             </CardContent>
-            <CardFooter className='justify-end'>
+            <CardFooter className='justify-between gap-4'>
               <PaymentButton event={event} />
             </CardFooter>
           </Card>

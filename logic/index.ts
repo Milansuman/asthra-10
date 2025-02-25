@@ -129,26 +129,22 @@ export const ASTHRA = {
   // dont change this ID (else it will break the system)
   id: '11111111-2222-3333-4444-555555555555',
   credit: 400,
-  amount: 200,
+  amount: 300,
   department: 'NA',
   dateTimeEnd: 'ALL DAY',
   name: 'ASTHRA PASS',
-  venue: 'Registration Desk',
+  venue: 'Registration Desk, SJCET',
   eventStatus: 'approved',
   eventType: 'ASTHRA_PASS',
   regLimit: Number.POSITIVE_INFINITY,
   regCount: 0,
+  registrationType: 'both',
+  secret: 'ASTHRA_PASS',
   description:
     'With Asthra Pass, you can now get access to all department events and competitions (excluding workshops) for just ₹ 300!\nHurry up before the deal ends!',
 } satisfies Omit<
   EntireZodType['event'],
-  | 'createdAt'
-  | 'updatedAt'
-  | 'createdById'
-  | 'secret'
-  | 'poster'
-  | 'dateTimeStarts'
-  | 'registrationType'
+  'createdAt' | 'updatedAt' | 'createdById' | 'poster' | 'dateTimeStarts'
 > & {
   credit: number;
 };
