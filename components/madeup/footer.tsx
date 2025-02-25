@@ -4,7 +4,7 @@ import Plusbox from "./box"
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-30 relative p-2 m-0 -bottom-5">
+    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-30  p-2 py-4 m-0  -bottom-7">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0">
         <div className="col-span-1 sm:col-span-2 md:col-start-1 md:col-span-2 md:row-start-1 flex items-center justify-center border-b border-white/50 p-4">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wide font-bold">Asthra 9.0</h2>

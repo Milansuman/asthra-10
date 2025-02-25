@@ -4,9 +4,9 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 const images = [
-    "/assets/Ref1.webp",
+    // "/assets/Ref1.webp",
     "/assets/Ref2.webp",
-    "/assets/Ref3.webp",
+    // "/assets/Ref3.webp",
     "/assets/Ref4.webp",
     "/assets/Ref5.webp",
     "/assets/Ref6.webp",
@@ -28,7 +28,7 @@ const CircularGalleryMade: React.FC = () => {
     }, [isDragging, x]);
 
     return (
-        <div className="relative w-full mx-auto py-10 flex items-start md:justify-center justify-start overflow-hidden select-none pe-[-100px] md:pe-[100px] md:ps-[500px]">
+        <div className="relative w-full mx-auto py-10 flex items-start md:justify-center justify-center overflow-hidden select-none pe-[-100px] md:pe-[100px] md:ps-[100px]">
             <motion.div
                 className="flex space-x-4 cursor-grab"
                 style={{ width: galleryWidth }}
