@@ -231,16 +231,16 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
 );
 
 export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEvent }) => (
-  <Card className="m-2  w-52 aspect-square rounded-none border border-neutral-700">
+  <Card className="m-2  w-52 aspect-square rounded-none border border-neutral-200">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="m-auto flex h-full w-full flex-col justify-center text-black">
+        <CardContent className="m-auto flex h-full w-full flex-col justify-center text-white">
           <p className="mx-auto w-fit text-[5rem] leading-20">+</p>
           <p className="w-fit mx-auto">Add new</p>
         </CardContent>
       </AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[900px] p-0 border-none rounded-none">
-        <Card className="p-5 text-black bg-neutral-100 rounded-none">
+      <AlertDialogContent className="sm:max-w-[900px] p-0 border-none rounded-none bg-transparent">
+        <Card className="p-5 text-white bg-glass rounded-none">
           <h3 className="cal">Create Event</h3>
           <p>
             Keyboard accessible, Use up & down arrows to control counts & dates

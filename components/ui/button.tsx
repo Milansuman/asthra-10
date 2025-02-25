@@ -6,20 +6,22 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-none",
   {
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-red-400/80 transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]",
+        primary:
+          "ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-blue-500/80 transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]",
         outline:
-          'border border-input bg-transparent',
+          'ambit border border-glass text-white bg-glass transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
         secondary:
-          'bg-black text-secondary-foreground hover:bg-black/80',
+          'bg-black text-white hover:bg-black/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        glass: 'ambit hover:-translate-y-0.5 border border-glass text-white bg-glass transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
+        glass: 'ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-glass transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
       },
       size: {
         default: "h-10 px-4 py-2",
