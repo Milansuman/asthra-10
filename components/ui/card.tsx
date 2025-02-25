@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Glow } from "./glow";
+// import { Glow } from "./glow";
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -9,7 +9,7 @@ const Card = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(" border border-glass text-glass bg-glass", className)}
+    className={cn("border border-glass text-glass bg-glass", className)}
     {...props}
   />
 ));

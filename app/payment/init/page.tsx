@@ -6,29 +6,51 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import QRCode from "react-qr-code";
-import { getQrFromId } from "@/logic/qr";
-import type { EventZodType } from "@/lib/validator";
 import { env } from "@/env";
+import { Card, CardDescription, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import Plusbox from "@/components/madeup/box";
+import Image from "next/image";
+import { asthraNotStarted } from "@/logic/moods";
 
 // ?eventId=""
 export default function Home() {
   return (
-    <Suspense>
-      <Page />
-    </Suspense>
+    <div className="container min-h-screen flex flex-col justify-center items-center">
+      <Card>
+        <Suspense fallback={
+          <CardHeader>
+            <CardTitle>
+              Loading...
+            </CardTitle>
+          </CardHeader>
+        }>
+          <Page />
+        </Suspense>
+      </Card>
+    </div>
   );
 }
 
 function Page() {
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
+
+  if (!eventId) {
+    return <CardHeader>
+      <CardTitle>
+        No Event ID
+      </CardTitle>
+    </CardHeader>;
+  }
 
   return <>{eventId && <PreCheckOut eventId={eventId} />}</>;
 }
@@ -49,37 +71,31 @@ function PreCheckOut({ eventId }: { eventId: string }) {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <CardHeader>
+      <CardTitle>
+        Loading...
+      </CardTitle>
+    </CardHeader>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <CardHeader>
+      <CardTitle>
+        Error: {error.message}
+      </CardTitle>
+    </CardHeader>;
   }
 
   if (!data) {
-    return <div>No data</div>;
+    return <CardHeader>
+      <CardTitle>
+        No data
+      </CardTitle>
+    </CardHeader>;
   }
 
   const { transaction, event } = data;
 
-  return (
-    <CheckOut
-      eventType={event.eventType}
-      transactionId={transaction.id}
-      amount={transaction.amount}
-    />
-  );
-}
-
-function CheckOut({
-  transactionId,
-  eventType,
-  amount,
-}: {
-  transactionId: string;
-  eventType: EventZodType["eventType"];
-  amount: number;
-}) {
 
   const getPaymentURL = (transactionId: string) => {
     const redirectUrl = new URL(`/payment/success/${transactionId}`, window.location.origin)
@@ -88,7 +104,7 @@ function CheckOut({
 
     url.searchParams.append(
       "amount",
-      (amount * 100).toString()
+      (event.amount * 100).toString()
     );
 
     url.searchParams.append(
@@ -99,37 +115,66 @@ function CheckOut({
     return url.toString();
   }
 
+  const notSpot = asthraNotStarted() || event.registrationType === "online"
+
   return (
-    <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4  z-50">
-      <Button link={getPaymentURL(transactionId)}>Pay</Button>
-      <Dialog>
-        <DialogTrigger>Pay at Front Desk</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Scan this QR at Front Desk</DialogTitle>
-            <DialogDescription>
-              Pay them with your preferred payment method. And scan the QR code
-              at the Front Desk.
-            </DialogDescription>
-          </DialogHeader>
-          <div
-            style={{
-              height: "auto",
-              margin: "0 auto",
-              maxWidth: 64,
-              width: "100%",
-            }}
-          >
-            <QRCode
-              size={256}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              // need proper eventType here
-              value={getQrFromId(transactionId, eventType)}
-              viewBox={"0 0 256 256"}
-            />
+
+    <>
+      <CardHeader>
+        <CardTitle>
+          Confirm Payment?
+        </CardTitle>
+        <CardDescription>
+          Pay ₹{event.amount} INR for the {event.eventType}.
+        </CardDescription>
+        <CardDescription>
+          Transaction ID: {transaction.id}
+        </CardDescription>
+        <CardDescription>
+          User ID: {transaction.userId}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Plusbox className="p-2">
+          <div className="flex gap-2 flex-row">
+            <Image width={80} height={100} src={event.poster} alt={event.name ?? ""} />
+            <div>
+              <h4>{event.name}</h4>
+              <p>{event.id}</p>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </Plusbox>
+      </CardContent>
+      <CardFooter className="justify-between gap-4 flex-row-reverse">
+        <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id)}>Pay ₹{event.amount} Now</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button disabled={!notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Pay and Scan this QR at Front Desk</DialogTitle>
+              <DialogDescription>
+                Pay them with your preferred payment method. And scan the QR code
+                at the Front Desk.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="p-4 bg-white">
+              <QRCode
+                size={256}
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                value={transaction.id}
+                viewBox={"0 0 256 256"}
+              />
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant={"glass"} size={"glass"}>Close</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </CardFooter>
+    </>
   );
 }

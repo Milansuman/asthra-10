@@ -70,7 +70,7 @@ export default async function Event({ params }: Props) {
       <div className="w-screen h-screen flex flex-col justify-center items-center">
         <h2>This event does not exist!</h2>
         <Link href="/events">
-          <Button>Choose another event</Button>
+          <Button variant={"glass"} size={"glass"}>Choose another event</Button>
         </Link>
       </div>
     );
@@ -132,10 +132,10 @@ export default async function Event({ params }: Props) {
                 {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}{!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
               </div>
 
-              {event.eventType === "ASTHRA_PASS" && <div className='relative bg-glass py-2 px-4 border-glass border'>
+              {event.eventType === "ASTHRA_PASS" && (<div className='relative bg-glass py-2 px-4 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Credits</p>
                 {ASTHRA.credit}
-              </div>}
+              </div>)}
 
             </CardContent>
             <CardFooter className='justify-between gap-4'>
