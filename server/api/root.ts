@@ -10,6 +10,7 @@ import { transactionRouter } from "./routers/transaction";
 import { transactionRouter as sjcetPay } from "./routers/sjcet-pay";
 import { userRouter } from "./routers/userRoute";
 import { verifyRouter } from "./routers/verify";
+import { shortnerRouter } from "./routers/shortner";
 
 /**
  * This is the primary router for your server.
@@ -28,6 +29,7 @@ export const appRouter = createTRPCRouter({
   cron: cronRouter,
   spot: spotRegister,
   payment: paymentRouter,
+  shortner: shortnerRouter
 });
 
 // export type definition of API
