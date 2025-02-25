@@ -84,6 +84,7 @@ export function ProfileEdit() {
     await updateUser(values);
   };
 
+
   // {/* <ProfileUpload name="avatar" image={userFromAuth?.image} /> */}
   return (
     <Form {...form}>
@@ -93,7 +94,7 @@ export function ProfileEdit() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
                   placeholder="John Doe"
@@ -110,7 +111,7 @@ export function ProfileEdit() {
           name="number"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>Phone (whatsapp)</FormLabel>
               <FormControl>
                 <Input
                   type="tel"
@@ -157,7 +158,7 @@ export function ProfileEdit() {
                   value={
                     field?.value ?? undefined
                   }
-                  required
+                  required={false}
                 />
               </FormControl>
               <FormMessage />

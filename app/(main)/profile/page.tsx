@@ -165,7 +165,9 @@ export default function ProfilePage() {
                   This is required before purchasing Asthra Pass.
                 </DialogDescription>
               </DialogHeader>
+
               <ProfileEdit />
+
             </DialogContent>
           </Dialog>
           <Dialog>
