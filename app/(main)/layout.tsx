@@ -1,6 +1,9 @@
+"use client"
+
 import Footer from '@/components/madeup/footer';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
 import Dock, { type DockItemData } from '@/components/madeup/Dock';
+import { isMobileDevice } from '@/hooks/mobile';
 
 const Items: DockItemData[] = [
   {
@@ -36,10 +39,12 @@ export default function RootLayout({
             muted={true}
             className="h-full w-full object-cover"
           />*/}
-        <SplineViewer
-          url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
-          className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#23262a]"
-        />
+        {isMobileDevice() ?
+          <div className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#d5e7ff]" /> :
+          <SplineViewer
+            url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
+            className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#d5e7ff]"
+          />}
       </div>
       <main className="z-10 relative">
         {children}

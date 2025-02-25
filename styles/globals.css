@@ -235,6 +235,7 @@ input[type="button"]:active,
 }
 
 #model-viewer {
-  width: 800px;
-  height: 800px;
+  width: 600px;
+  height: auto;
+  aspect-ratio: 1 / 1;
 }

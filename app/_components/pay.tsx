@@ -32,22 +32,23 @@ export const AsthraPaymentButton = () => {
 
     return (
         <Button link={"/asthra"} size={"glass"} variant={"glass"}>
-            <ButtonText keyType={"Buy ASTHRA Pass"} />
+            <ButtonText keyType={"Buy ASTHRA PASS"} />
         </Button>
     );
 };
 
 import { AlertOctagon, AlertTriangle, FileLock, LoaderIcon, Lock, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
 import type { FunctionComponent } from "react";
+import { ASTHRA } from "@/logic";
 
 const ButtonMessages = {
-    'Buy ASTHRA Pass': Ticket,
-    'Buy ASTHRA Pass to Unlock': Lock,
+    'Buy ASTHRA PASS': Ticket,
+    'Buy ASTHRA PASS to Unlock': Lock,
     'Complete your Profile Data before Registration': UserRoundCog,
     'Register Now': Ticket,
     'Purchase Successfull': TicketCheck,
     'Sorry, Sold Out': AlertOctagon,
-    'Required ASTHRA Pass': FileLock,
+    'Required ASTHRA PASS': FileLock,
     'Registration Closed': AlertOctagon,
     'Login to Register': ShieldAlert,
     'Error Fetching': AlertTriangle,
@@ -132,8 +133,8 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (eventType === "ASTHRA_PASS") {
         return (
-            <Button link={"/asthra"} size={"glass"} variant={"glass"}>
-                <ButtonText keyType={"Buy ASTHRA Pass"} />
+            <Button link={`/event/${ASTHRA.id}`} size={"glass"} variant={"glass"}>
+                <ButtonText keyType={"Buy ASTHRA PASS"} />
             </Button>
         );
     }
@@ -141,8 +142,8 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     if (eventType === "ASTHRA_PASS_EVENT") {
         if (!data?.user.asthraPass) {
             return (
-                <Button link="/asthra" size={"glass"} variant={"glass"}>
-                    <ButtonText keyType={"Buy ASTHRA Pass to Unlock"} />
+                <Button link={`/event/${ASTHRA.id}`} size={"glass"} variant={"glass"}>
+                    <ButtonText keyType={"Buy ASTHRA PASS to Unlock"} />
                 </Button>
             );
         }

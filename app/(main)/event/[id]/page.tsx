@@ -78,10 +78,9 @@ export default async function Event({ params }: Props) {
 
   const department = event.department === 'NA' ? "SJCET" : allDepartments[event.department as keyof typeof allDepartments];
 
-  // diplay the event with nice ui
   return (
     <div className="min-h-screen flex flex-col justify-center gap-4">
-      <div className="flex flex-row gap-4 container items-start py-4">
+      <div className="flex flex-col md:flex-row gap-4 container items-start py-4">
         <Plusbox className="flex-1 p-2">
           <Image src={event.poster} width={400} height={500} alt={event.name ?? ""} className="w-full h-auto" />
         </Plusbox>
