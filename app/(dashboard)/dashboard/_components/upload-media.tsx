@@ -34,6 +34,8 @@ const UploadImage:React.FC<UploadMediaProps> = ({setUrl }) => {
           maxVideoFileSize: mbToBytes(5), //5 mb max video size
           multiple: false,
           maxFiles: 1,
+          showPoweredBy: false,
+
         }}
         uploadPreset={env.NEXT_PUBLIC_CLOUDINARY_CLOUD_PRESET}
         onSuccess={(result, { widget }: { widget: Widget }) => {

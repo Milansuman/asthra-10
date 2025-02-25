@@ -36,11 +36,6 @@ export const env = createEnv({
 
   shared: {
     NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string(),
-
-    NEXT_PUBLIC_WEBSITE_URL: z.preprocess(
-      (str) => process.env.VERCEL_URL ?? str,
-      process.env.VERCEL ? z.string() : z.string().url()
-    ),
   },
 
   /**
@@ -74,8 +69,6 @@ export const env = createEnv({
 
     NM_EMAIL: process.env.NM_EMAIL,
     NM_PASS: process.env.NM_PASS,
-
-    NEXT_PUBLIC_WEBSITE_URL: process.env.NEXT_PUBLIC_WEBSITE_URL,
 
     UPSTASH_REDIS_URL: process.env.UPSTASH_REDIS_URL,
     UPSTASH_REDIS_TOKEN: process.env.UPSTASH_REDIS_TOKEN,

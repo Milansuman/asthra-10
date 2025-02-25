@@ -34,12 +34,12 @@ export default function InitializedMDXEditor({
         toolbarPlugin({
           toolbarClassName: "flex flex-row gap-2",
           toolbarContents(){
-            return <>
+            return <div className='rounded-none '>
             <UndoRedo/>
             <BoldItalicUnderlineToggles/>
             {/* <KitchenSinkToolbar/> */}
             {/* <BlockTypeSelect/> */}
-            </>
+            </div>
           }
         })
       ]}

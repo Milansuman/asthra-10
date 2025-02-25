@@ -125,6 +125,19 @@ export const userRouter = createTRPCRouter({
     });
   }),
 
+  isRegisteredThisEvent: validUserOnlyProcedure
+    .input(z.object({ eventId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.db.query.userRegisteredEventTable.findFirst({
+        where: and(
+          eq(userRegisteredEventTable.userId, ctx.session.user.id),
+          eq(userRegisteredEventTable.eventId, input.eventId)
+        ),
+      });
+
+      return !!data;
+    }),
+
   getRegisterationId: validUserOnlyProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {

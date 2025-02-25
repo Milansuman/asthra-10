@@ -1,5 +1,3 @@
-import { next } from 'million/compiler';
-
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
@@ -20,6 +18,10 @@ const config = {
         hostname: 'res.cloudinary.com',
       },
       {
+        protocol: 'http',
+        hostname: 'res.cloudinary.com',
+      },
+      {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
       },
@@ -30,11 +32,5 @@ const config = {
     ],
   },
 };
-
-// @ts-ignore
-// export default next(config, {
-//   auto: true,
-//   mute: true,
-// });
 
 export default config;

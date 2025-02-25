@@ -98,18 +98,28 @@ export const generatePassMailZod = z.object({
     personName: z.string(),
   }),
 });
-export const userDataFillZod = userZod.refine((user) => {
-  if (user.college === null || user.name === null || user.number === null) {
-    // || user.image === null
-    return {
-      message: 'fields cannot be null',
-    };
+export const userDataFillZod = userAccessZod.refine(
+  (user) => {
+    if (user.college === 'NA') {
+      return false;
+    }
+
+    if (user.name === '') {
+      return false;
+    }
+
+    if (user.number === null) {
+      return false;
+    }
+    return true;
+  },
+  {
+    message: 'fields cannot be null',
   }
-  return true;
-});
+);
 
 export const isValidUserDetails = (
-  user: User | undefined | z.infer<typeof userZod>
+  user: User | undefined | null | z.infer<typeof userZod>
 ) => userDataFillZod.safeParse(user).success;
 
 export const verifyPassZod = z.object({

@@ -36,7 +36,7 @@ const UploadEdit = ({ id }: { id: string }) => {
             />
           </CardHeader>
         )}
-        <CardContent>
+        <CardContent className='p-6'>
           <UploadImage setUrl={setUrl} />
         </CardContent>
         <CardFooter className="flex flex-col gap-5">

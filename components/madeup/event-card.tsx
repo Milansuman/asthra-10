@@ -1,8 +1,7 @@
 'use client'
 
-import { eventZod } from "@/lib/validator";
-import React from "react";
-import { z } from "zod";
+import type { eventZod } from "@/lib/validator";
+import type { z } from "zod";
 import { PlusIcon } from "./plus";
 import { cn } from "@/lib/utils";
 import { Label } from "../ui/label";

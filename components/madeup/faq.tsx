@@ -45,13 +45,14 @@ export function FAQ() {
                         We got you.
                     </h2>
                     <p className="max-w-md">
-                        lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                        Really excited to have you all on board!
+                        In case you've got any common questions, Just check this out and in case of other doubts, contact the coordinators given below :)
                     </p>
                 </div>
 
                 {/* Right Section */}
                 <div className="flex-1">
-                    <Accordion type="single" collapsible className="space-y-4 ambit">
+                    <Accordion type="single" collapsible className="space-y-4 ambit w-full">
                         {faqItems.map((faq, index) => (
                             <AccordionItem key={index} value={`item-${index}`}>
                                 <AccordionTrigger className="ambit">{faq.title}</AccordionTrigger>

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-none",
   {
     variants: {
       variant: {
@@ -18,7 +18,7 @@ const buttonVariants = cva(
         outline:
           'ambit border border-glass text-white bg-glass transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
         secondary:
-          'bg-black text-secondary-foreground hover:bg-black/80',
+          'bg-black text-white hover:bg-black/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         glass: 'ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-glass transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
@@ -48,14 +48,26 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, pattern, children, link, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
+
+
     const Wrapper = link ? Link : React.Fragment
+    const extraProps = link ? { href:link ?? ""} : {}
     return (
-      <Wrapper href={link ?? ""}>
+      <>
+      {
+        link === undefined ?
         <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
           {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
           {children}
-        </Comp>
-      </Wrapper>
+        </Comp> :
+        <Link href={link} target={"_blank"}>
+          <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+            {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
+            {children}
+          </Comp>
+        </Link>
+      }
+      </>
     );
   },
 );
