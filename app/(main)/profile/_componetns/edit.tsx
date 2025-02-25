@@ -50,26 +50,29 @@ type Props = {
 export function ProfileEdit() {
   const { data: sessionData, update } = useSession();
   // const [user, setUser] = useState<userSchema>(userFromAuth);
-  const { mutateAsync: updateUser, isPending: isLoading } =
-    api.user.updateUser.useMutation({
-      onSuccess: async (data) => {
-        toast("User Updated", {
-          description: "Your details have been updated!",
-        });
-        await update({
-          ...(sessionData ? sessionData : {}),
-          user: {
-            ...(sessionData?.user ? sessionData.user : {}),
-            ...data[0],
-          },
-        });
-      },
-      onError: (err) => {
-        toast.error("Unable to process details", {
-          description: err.message,
-        });
-      },
-    });
+  const {
+    mutateAsync: updateUser,
+    isPending: isLoading,
+    isSuccess,
+  } = api.user.updateUser.useMutation({
+    onSuccess: async (data) => {
+      toast("User Updated", {
+        description: "Your details have been updated!",
+      });
+      await update({
+        ...(sessionData ? sessionData : {}),
+        user: {
+          ...(sessionData?.user ? sessionData.user : {}),
+          ...data[0],
+        },
+      });
+    },
+    onError: (err) => {
+      toast.error("Unable to process details", {
+        description: err.message,
+      });
+    },
+  });
 
   const form = useForm<userSchema>({
     resolver: zodResolver(userDataFillZod), // use this
@@ -162,7 +165,7 @@ export function ProfileEdit() {
                     </SelectValue>
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent className="bg-gray-400">
                   <SelectGroup>
                     <SelectLabel>Departments</SelectLabel>
                     {Object.entries(allDepartments).map(([short, long]) => (
@@ -191,7 +194,7 @@ export function ProfileEdit() {
                     </SelectValue>
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent className="bg-gray-400">
                   <SelectGroup>
                     <SelectLabel>Year</SelectLabel>
                     {Object.keys(allYears).map((short) => (
@@ -206,8 +209,18 @@ export function ProfileEdit() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="text-black mt-4">
-          {isLoading ? <Loader className="animate-spin" /> : "Update Profile"}
+        <Button
+          disabled={isSuccess || isLoading}
+          type="submit"
+          className="text-black mt-4"
+        >
+          {isLoading ? (
+            <Loader className="animate-spin" />
+          ) : isSuccess ? (
+            "Updated"
+          ) : (
+            "Update Profile"
+          )}
         </Button>
       </form>
     </Form>

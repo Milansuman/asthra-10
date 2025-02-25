@@ -17,7 +17,11 @@ import { ChevronRight, Terminal } from "lucide-react";
 
 import Plusbox from "@/components/madeup/box";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import type { EventZodType, UserZodType } from "@/lib/validator";
+import {
+  isValidUserDetails,
+  type EventZodType,
+  type UserZodType,
+} from "@/lib/validator";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { ProfileEdit } from "./_componetns/edit";
 import { useSession } from "next-auth/react";
+import { useMemo } from "react";
 
 export default function ProfilePage() {
   const { status, data } = useSession();
@@ -37,7 +42,7 @@ export default function ProfilePage() {
   }
   const user = data.user as UserZodType;
   const hasAsthra = user.asthraPass ?? false;
-  const validProfile = false;
+  const validProfile = useMemo(() => isValidUserDetails(user), [user]);
   const listOfEvents: EventZodType[] = [];
 
   return (
