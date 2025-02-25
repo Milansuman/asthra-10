@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { defaultRazorpayOptions } from '@/logic';
+import { defaultRazorpayOptions } from '@/logic/pay';
 import { api } from '@/trpc/react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';

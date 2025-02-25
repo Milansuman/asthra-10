@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <div className="fixed top-0 left-0 h-screen w-screen">
+      <div className="fixed top-0 left-0 h-screen w-screen -z-1">
         {/* <video
             src={'/glass.mp4'}
             autoPlay={true}
@@ -38,10 +38,12 @@ export default function RootLayout({
           />*/}
         <SplineViewer
           url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
-          className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#7ab1e1]"
+          className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#23262a]"
         />
       </div>
-      {children}
+      <main className="z-10 relative">
+        {children}
+      </main>
       <Dock items={Items} />
       <Footer />
     </>

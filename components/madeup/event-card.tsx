@@ -14,13 +14,8 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ data, credits = true, footerNote, className }) => {
-	const [hovered, setHovered] = React.useState(false);
 	return (
-		<div
-			onMouseEnter={() => setHovered(true)}
-			onMouseLeave={() => setHovered(false)}
-			className={cn("border group/canvas-card flex items-center justify-center border-glass bg-glass min-w-[300px] max-w-[450px] p-4 relative", className)}
-		>
+		<div className={cn("border group/canvas-card flex items-center justify-center border-glass bg-glass min-w-[300px] max-w-[450px] p-4 relative", className)} >
 			<PlusIcon className="absolute h-6 w-6 -top-3 -left-3" />
 			<PlusIcon className="absolute h-6 w-6 -bottom-3 -left-3" />
 			<PlusIcon className="absolute h-6 w-6 -top-3 -right-3" />

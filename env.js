@@ -36,6 +36,7 @@ export const env = createEnv({
 
   shared: {
     NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string(),
+    NEXT_PUBLIC_SJCET_PAYMENT_LINK: z.string().url(),
   },
 
   /**
@@ -75,6 +76,8 @@ export const env = createEnv({
 
     NEXT_PUBLIC_RAZORPAY_KEY_ID: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
     RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
+
+    NEXT_PUBLIC_SJCET_PAYMENT_LINK: process.env.NEXT_PUBLIC_SJCET_PAYMENT_LINK,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

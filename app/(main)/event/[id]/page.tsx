@@ -1,4 +1,4 @@
-import { cache } from 'react';
+import { cache as reactCache } from 'react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,12 +9,17 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PaymentButton } from '@/app/_components/pay';
 import { EventTicket } from '../_components/event';
+import { cache } from '@/server/cache';
+import { Card, CardHeader, CardContent, CardDescription, CardTitle, CardFooter } from '@/components/ui/card';
+import { CopyIcon, ExternalLinkIcon } from 'lucide-react';
+import { ShareButton } from '@/app/_components/share';
+import Plusbox from '@/components/madeup/box';
 
 type Props = {
   params: Promise<{ id: string }>;
 };
 
-const getEventData = cache(async (id: string) => {
+const getEventData = reactCache(async (id: string) => {
   const event = await api.event.getSpecific({
     id: id,
   });
@@ -23,10 +28,13 @@ const getEventData = cache(async (id: string) => {
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const id = (await params).id;
-  const event = await getEventData(id);
+  const { data: event, error, isSuccess } = await cache.run(`event:${id}`, () => getEventData(id));
   const previousImages = (await parent).openGraph?.images ?? [];
 
-  if (!event) return {};
+  if (!isSuccess || !event) {
+    console.error(error);
+    return {}
+  };
 
   const department = event.department === 'NA' ? "" : allDepartments[event.department as keyof typeof allDepartments];
 
@@ -37,7 +45,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     category: event.eventType,
     authors: [{ name: department, url: 'https://asthra.sjcetpalai.ac.in/' }],
     openGraph: {
-      images: [event?.poster, ...previousImages],
+      images: [event.poster, ...previousImages],
     },
     twitter: {
       card: 'summary_large_image',
@@ -69,30 +77,75 @@ export default async function Event({ params }: Props) {
     );
   }
 
-  const department = event.department === 'NA' ? "" : allDepartments[event.department as keyof typeof allDepartments];
+  const department = event.department === 'NA' ? "SJCET" : allDepartments[event.department as keyof typeof allDepartments];
 
   // diplay the event with nice ui
   return (
-    <div className="mt-14 w-full min-h-screen flex flex-col gap-4">
-      <div className="flex flex-col gap-4 md:p-16">
-        <div className="flex flex-col gap-4 md:flex-row md:m-auto w-full">
-          <div className="border border-neutral-500/75 bg-black grid grid-cols-1 xl:grid-cols-2 rounded-md p-5 gap-4">
-            <Image src={event.poster} width={400} height={400} alt={event.name ?? ""} className="aspect-square rounded-md w-full" />
-            <div className="flex flex-col gap-4 w-full">
-              <h2 className="text-3xl p-0">{event.name}</h2>
-              <Badge className="w-fit cal">Created by {department}</Badge>
-              <p className="text-neutral-500 break-words">{event.description}</p>
-              <div className="flex mt-auto w-fit">
-                <PaymentButton event={event} />
+    <div className="min-h-screen flex flex-col justify-center gap-4">
+      <div className="flex flex-row gap-4 container">
+        <Plusbox className="flex-1 p-2">
+          <Image src={event.poster} width={400} height={500} alt={event.name ?? ""} className="w-full h-auto" />
+        </Plusbox>
+        <div className='flex-1 flex flex-col gap-4'>
+          <Card className='relative'>
+            <ShareButton />
+            <CardHeader>
+              <Badge variant={"glass"} className="w-fit relative text-black">
+                Created by {department}
+                <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
+              </Badge>
+              <CardTitle>
+                {event.name ?? "Event"}
+              </CardTitle>
+              <CardDescription>
+                {event.description}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className='flex flex-row gap-5 flex-wrap font-bold capitalize'>
+              <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <p className='opacity-70 text-sm font-normal'>Venue</p>
+                {event.venue}
               </div>
-            </div>
-          </div>
-          <EventTicket event={event} />
+
+              <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <p className='opacity-70 text-sm font-normal'>Registration Type</p>
+                {event.registrationType === 'both' ? 'Both Spot & Online' : `${event.registrationType} only`}
+              </div>
+
+              <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <p className='opacity-70 text-sm font-normal'>Registration Limit</p>
+                {event.regLimit}x Seats
+              </div>
+
+              {event.dateTimeStarts && (
+                <div className='relative bg-glass py-2 px-4 border-glass border'>
+                  <p className='opacity-70 text-sm font-normal'>Event starts at</p>
+                  {event.dateTimeStarts.toLocaleTimeString()}
+                </div>
+              )}
+
+              <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <p className='opacity-70 text-sm font-normal'>Duration of event</p>
+                {event.dateTimeEnd}
+              </div>
+
+              <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <p className='opacity-70 text-sm font-normal'>Fee</p>
+                {!event.amount || event.amount === 0 ? 'FREE' : `₹${event.amount}`}
+              </div>
+
+            </CardContent>
+            <CardFooter className='justify-end'>
+              <PaymentButton event={event} />
+            </CardFooter>
+          </Card>
+
+          <Button variant={"glass"} link={`/events?department=${event.department}`}>
+            Show more events from {department}
+            <ExternalLinkIcon />
+          </Button>
         </div>
       </div>
-      <Link href={`/events?department=${event.department}`}>
-        <Button>More events from {department}</Button>
-      </Link>
     </div>
   );
 }

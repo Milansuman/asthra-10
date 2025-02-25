@@ -94,7 +94,7 @@ export default function Page() {
         <div className="relative">
           <div className='ambit   mb-[-20px]  flex items-center justify-center w-full text-center'>
             <Plusbox className='opacity-100 w-auto'>
-              <h4 className='ambit text-6xl tracking-wide font-bold'>Events</h4>
+              <h4 className='ambit text-6xl tracking-wide font-bold bg-glass p-2'>Events</h4>
             </Plusbox>
           </div>
           {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}

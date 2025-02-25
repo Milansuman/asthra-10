@@ -95,6 +95,7 @@ export const generatePassMailZod = z.object({
     toMail: z.string(),
     eventId: z.string(),
     eventName: z.string(),
+    eventSecret: z.string().optional(),
     personName: z.string(),
   }),
 });
@@ -163,6 +164,7 @@ export const EventConfirmationZod = z.object({
 
 export type UserZodType = z.infer<typeof userZod>;
 export type EventZodType = z.infer<typeof eventZod>;
+export type UserRegisteredEventZod = z.infer<typeof userRegisteredEventZod>;
 export type TransactionZodType = z.infer<typeof transactionsZod>;
 
 export type EntireZodType = {
