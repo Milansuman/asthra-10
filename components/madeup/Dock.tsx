@@ -68,7 +68,7 @@ export default function Dock({
     const height = useSpring(heightRow, spring);
 
     return (
-        <div className="fixed z-40 sm:left-auto left-0 sm:overflow-x-auto p-2 no-scrollbar overflow-y-hidden overflow-x-scroll bottom-[6px] right-[6px] w-auto">
+        <div className="fixed z-20 sm:left-auto left-0 sm:overflow-x-auto p-2 no-scrollbar overflow-y-hidden overflow-x-scroll bottom-[6px] right-[6px] w-auto">
             <Plusbox className="w-max">
                 <motion.div
                     // onMouseMove={({ pageX }) => {

@@ -24,5 +24,6 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "biome.enabled": true,
-  "notebook.defaultFormatter": "biomejs.biome"
+  "notebook.defaultFormatter": "biomejs.biome",
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
