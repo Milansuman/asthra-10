@@ -1,18 +1,20 @@
-'use client';
+"use client";
 
 import {
   QueryCache,
   QueryClient,
   QueryClientProvider,
-} from '@tanstack/react-query';
+} from "@tanstack/react-query";
 
-import { createTRPCReact } from '@trpc/react-query';
-import { useState } from 'react';
-import { toast } from 'sonner';
+import { SessionProvider, getCsrfToken, getSession } from "next-auth/react";
 
-import type { AppRouter } from '@/server/api/root';
-import { TRPCError } from '@trpc/server';
-import { links } from './vanila';
+import { createTRPCReact } from "@trpc/react-query";
+import { useState } from "react";
+import { toast } from "sonner";
+
+import type { AppRouter } from "@/server/api/root";
+import { TRPCError } from "@trpc/server";
+import { links } from "./vanila";
 
 const createQueryClient = () =>
   new QueryClient({
@@ -29,7 +31,7 @@ const createQueryClient = () =>
 
 let clientQueryClientSingleton: QueryClient | undefined;
 const getQueryClient = () => {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     // Server: always make a new query client
     return createQueryClient();
   }
@@ -46,14 +48,16 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const [trpcClient] = useState(() =>
     api.createClient({
       links,
-    })
+    }),
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <api.Provider client={trpcClient} queryClient={queryClient}>
-        {props.children}
-      </api.Provider>
-    </QueryClientProvider>
+    <SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <api.Provider client={trpcClient} queryClient={queryClient}>
+          {props.children}
+        </api.Provider>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }

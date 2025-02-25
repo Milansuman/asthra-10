@@ -1,36 +1,34 @@
-'use server';
+"use server";
 
-import { Button } from '@/components/ui/button';
-import { isValidUserDetails } from '@/lib/validator';
-import { getServerAuthSession } from '@/server/auth';
-import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import { isValidUserDetails } from "@/lib/validator";
+import { getServerAuthSession } from "@/server/auth";
+import Link from "next/link";
 
 const LoginButton = async () => {
   const session = await getServerAuthSession();
 
   if (!session) {
     return (
-      <Link href={'/api/auth/signin'}>
-        <Button size={"glass"} variant={"glass"}>
-          Login with Google
-        </Button>
-      </Link>
+      <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"}>
+        Login with Google
+      </Button>
     );
   }
 
-  const valid = isValidUserDetails(session.user)
+  const valid = isValidUserDetails(session.user);
 
   if (!valid) {
     return (
-      <Button size={"glass"} variant={"glass"}>
+      <Button link={"/profile"} size={"glass"} variant={"glass"}>
         Logged In, Edit Profile to Continue
       </Button>
     );
   }
 
   return (
-    <Button size={"glass"} variant={"glass"}>
-      Logged In
+    <Button link={"/events"} size={"glass"} variant={"glass"}>
+      Logged In, Go to Events
     </Button>
   );
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -15,7 +17,7 @@ import { ChevronRight, Terminal } from "lucide-react";
 
 import Plusbox from "@/components/madeup/box";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import type { EventZodType } from "@/lib/validator";
+import type { EventZodType, UserZodType } from "@/lib/validator";
 import {
   Dialog,
   DialogContent,
@@ -24,15 +26,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ProfileEdit } from "./_componetns/edit";
+import { useSession } from "next-auth/react";
 
 export default function ProfilePage() {
-  // const session = await getServerAuthSession();
+  const { status, data } = useSession();
 
-  // if (!session) {
-  //     redirect('/');
-  // }
-
-  const hasAsthra = false;
+  if (!data || !data.user) {
+    return null;
+  }
+  const user = data.user as UserZodType;
+  const hasAsthra = user.asthraPass ?? false;
   const validProfile = false;
   const listOfEvents: EventZodType[] = [];
 
@@ -41,12 +45,17 @@ export default function ProfilePage() {
       <Card className="flex-1 flex-col flex">
         <CardHeader>
           <Avatar className="h-20 w-20">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={user.image ?? ""} />
+            <AvatarFallback>{user.name}</AvatarFallback>
           </Avatar>
-          <CardTitle>Shadcn (ROLE)</CardTitle>
-          <CardDescription>shadcn@gmail.com</CardDescription>
-          <CardDescription>department, year, college</CardDescription>
+          <CardTitle>
+            {user.name} ({user.role})
+          </CardTitle>
+          <CardDescription>{user.email}</CardDescription>
+          <CardDescription>
+            department: {user.department}, year: {user.year}, college:{" "}
+            {user.college}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {!validProfile && (
@@ -61,18 +70,16 @@ export default function ProfilePage() {
           )}
         </CardContent>
         <CardContent className="flex justify-start flex-row flex-wrap gap-2">
-          <Button size={"sm"} variant="glass">
-            Show Profile QR <ChevronRight />
-          </Button>
-          <Button size={"sm"} variant="glass">
-            400 Credits <ChevronRight />
-          </Button>
-          <Button size={"sm"} variant="glass">
-            ASTHRA Pass Unlocked <ChevronRight />
-          </Button>
-          <Button size={"sm"} variant="glass">
-            Show Profile QR <ChevronRight />
-          </Button>
+          {user.asthraPass && (
+            <>
+              <Button size={"sm"} variant="glass">
+                {user.asthraCredit} Credits <ChevronRight />
+              </Button>
+              <Button size={"sm"} variant="glass">
+                ASTHRA Pass Unlocked <ChevronRight />
+              </Button>
+            </>
+          )}
           <Button size={"sm"} variant="glass">
             Show Profile QR <ChevronRight />
           </Button>
@@ -105,14 +112,14 @@ export default function ProfilePage() {
             <DialogTrigger asChild>
               <Button variant="destructive">Edit Profile</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="h-auto">
               <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogTitle>Edit your Profile</DialogTitle>
                 <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  This is required before purchasing Asthra Pass.
                 </DialogDescription>
               </DialogHeader>
+              <ProfileEdit />
             </DialogContent>
           </Dialog>
           <Button variant="destructive">Sign Out</Button>
