@@ -55,12 +55,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <>
       {
-        link ?
+        link === undefined ?
         <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
           {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
           {children}
         </Comp> :
-        <Link href={link as string} target={"_blank"}>
+        <Link href={link} target={"_blank"}>
           <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
             {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
             {children}
