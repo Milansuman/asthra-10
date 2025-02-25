@@ -99,16 +99,22 @@ export default function Page() {
 
       </section>
 
-      <section className="grid min-h-screen grid-cols-1 gap-8">
+      <section className="flex flex-col justify-center items-center min-h-screen gap-8">
         <div className="relative">
-          <div className='ambit mb-[-20px] flex items-center justify-center w-full text-center'>
+          <div className='ambit mb-[-20px] flex flex-col gap-4 items-center justify-center w-full text-center'>
             <Plusbox className='opacity-100 w-auto'>
               <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
             </Plusbox>
+
+            <Button size={"thin"} variant={"glass"} link='/events'>
+              View More
+            </Button>
           </div>
           {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}
           <CircularGalleryMade />
         </div>
+      </section>
+      <section className="flex flex-col justify-center items-center min-h-screen gap-8">
         <div className="flex flex-col items-center justify-center p-8 gap-5">
           <p className="ambit mb-2 text-center font-thin text-2xl md:text-3xl">
             What are you waiting for?
