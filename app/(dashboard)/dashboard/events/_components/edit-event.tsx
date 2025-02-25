@@ -33,6 +33,7 @@ export function EventEditPage({ data, departments }: Props) {
   // Filtering states
   const [department, setDepartment] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const onDelete = (id: string) => {
     deleteEventMutation.mutate({ id }, {
@@ -45,7 +46,7 @@ export function EventEditPage({ data, departments }: Props) {
 
   const onChangeEvent = async () => {
     const data = await latestEventsQuery.refetch()
-    setLocalData(latestEventsQuery.data ?? []);
+    setLocalData(data.data ?? []);
   }
 
   // Filter by department
@@ -63,9 +64,15 @@ export function EventEditPage({ data, departments }: Props) {
     return event.name?.toLowerCase().includes(searchQuery.toLowerCase());
   };
 
-  // Filter the events based on both department and search query
+  // Filter by status
+  const matchesStatusFilter = (event: z.infer<typeof eventZod>) => {
+    if (statusFilter === 'all') return true;
+    return event.eventStatus === statusFilter;
+  };
+
+  // Filter the events based on department, search query, and status
   const filteredEvents = localData.filter(
-    (event) => isDepartment(event) && matchesSearchQuery(event)
+    (event) => isDepartment(event) && matchesSearchQuery(event) && matchesStatusFilter(event)
   );
 
   return (
@@ -99,6 +106,22 @@ export function EventEditPage({ data, departments }: Props) {
                   {full}
                 </SelectItem>
               ))}
+          </SelectContent>
+        </Select>
+
+        {/* Status filter */}
+        <Select
+          onValueChange={(value) => setStatusFilter(value)}
+          defaultValue="all"
+        >
+          <SelectTrigger className="w-fit text-center bg-glass border border-glass">
+            <SelectValue placeholder="All Statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="approved">Approved</SelectItem>
+            <SelectItem value="cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
       </div>
