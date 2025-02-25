@@ -43,9 +43,9 @@ export default function RootLayout({
         />
       </div>
       <GlowArea>
-      {children}
-      <Dock items={Items} />
-      <Footer />
+        {children}
+        <Dock items={Items} />
+        <Footer />
       </GlowArea>
     </>
   );
