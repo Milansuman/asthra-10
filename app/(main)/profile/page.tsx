@@ -40,13 +40,14 @@ import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
 
 export default function ProfilePage() {
-  // const session = await getServerAuthSession();
+  const { status, data } = useSession();
 
-  // if (!session) {
-  //     redirect('/');
-  // }
-  const hasAsthra = false;
-  const validProfile = false;
+  if (!data || !data.user) {
+    return null;
+  }
+  const user = data.user as UserZodType;
+  const hasAsthra = user.asthraPass ?? false;
+  const validProfile = useMemo(() => isValidUserDetails(user), [user]);
   const listOfEvents: EventZodType[] = [];
 
   return (
@@ -54,12 +55,17 @@ export default function ProfilePage() {
       <Card className="flex-1 flex-col flex">
         <CardHeader>
           <Avatar className="h-20 w-20">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={user.image ?? ""} />
+            <AvatarFallback>{user.name}</AvatarFallback>
           </Avatar>
-          <CardTitle>Shadcn (ROLE)</CardTitle>
-          <CardDescription>shadcn@gmail.com</CardDescription>
-          <CardDescription>department, year, college</CardDescription>
+          <CardTitle>
+            {user.name} ({user.role})
+          </CardTitle>
+          <CardDescription>{user.email}</CardDescription>
+          <CardDescription>
+            department: {user.department}, year: {user.year}, college:{" "}
+            {user.college}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {!validProfile && (
@@ -74,18 +80,16 @@ export default function ProfilePage() {
           )}
         </CardContent>
         <CardContent className="flex justify-start flex-row flex-wrap gap-2">
-          <Button size={"sm"} variant="glass">
-            Show Profile QR <ChevronRight />
-          </Button>
-          <Button size={"sm"} variant="glass">
-            400 Credits <ChevronRight />
-          </Button>
-          <Button size={"sm"} variant="glass">
-            ASTHRA Pass Unlocked <ChevronRight />
-          </Button>
-          <Button size={"sm"} variant="glass">
-            Show Profile QR <ChevronRight />
-          </Button>
+          {user.asthraPass && (
+            <>
+              <Button size={"sm"} variant="glass">
+                {user.asthraCredit} Credits <ChevronRight />
+              </Button>
+              <Button size={"sm"} variant="glass">
+                ASTHRA Pass Unlocked <ChevronRight />
+              </Button>
+            </>
+          )}
           <Button size={"sm"} variant="glass">
             Show Profile QR <ChevronRight />
           </Button>
@@ -114,7 +118,20 @@ export default function ProfilePage() {
           </CardContent>
         )}
         <CardFooter className="justify-between mt-auto">
-          <Button variant="destructive">Edit Profile</Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="destructive">Edit Profile</Button>
+            </DialogTrigger>
+            <DialogContent className="h-auto">
+              <DialogHeader>
+                <DialogTitle>Edit your Profile</DialogTitle>
+                <DialogDescription>
+                  This is required before purchasing Asthra Pass.
+                </DialogDescription>
+              </DialogHeader>
+              <ProfileEdit />
+            </DialogContent>
+          </Dialog>
           <Button variant="destructive">Sign Out</Button>
         </CardFooter>
       </Card>
