@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
@@ -14,7 +13,6 @@ import RotatingText from '../ui/rotatingText';
 import Plusbox from './box';
 import EventCard from './event-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import Image from 'next/image';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -101,7 +99,7 @@ export function EventPage({
         <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 ">
             <div className='mt-20 w-full gap-3 flex flex-col justify-center items-center'>
                 <img src='/asthra.svg' className='w-64' />
-                <Plusbox className='relative p-2 border  border-white/20'>
+                <Plusbox className='relative p-2 border  border-white/20 w-auto'>
                     <RotatingText
                         texts={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]}
                         mainClassName="px-2 sm:px-2 text-6xl text-white items-center md:px-5 font-bold flex bg-glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"

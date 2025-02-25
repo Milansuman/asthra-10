@@ -1,14 +1,14 @@
-import type { AllRoles } from "@/logic";
+import type { AllRoles } from '@/logic';
 import {
   eventsTable,
   roleEnum,
   transactionsTable,
   user,
   userRegisteredEventTable,
-} from "@/server/db/schema";
-import { createSelectSchema } from "drizzle-zod";
-import type { User } from "next-auth";
-import { type ZodEnum, z } from "zod";
+} from '@/server/db/schema';
+import { createSelectSchema } from 'drizzle-zod';
+import type { User } from 'next-auth';
+import { type ZodEnum, z } from 'zod';
 
 const roleEnumZod = createSelectSchema(roleEnum) as unknown as ZodEnum<
   [AllRoles]
@@ -28,7 +28,7 @@ export const eventAccessZod = eventZod
   .merge(
     z.object({
       poster: z.string().optional(),
-    }),
+    })
   );
 
 export const eventEditAccessZod = eventZod
@@ -42,7 +42,7 @@ export const eventEditAccessZod = eventZod
   .merge(
     z.object({
       poster: z.string().optional(),
-    }),
+    })
   );
 export const eventAccessAfterLastDate = eventAccessZod.omit({
   amount: true,
@@ -52,7 +52,7 @@ export const eventAccessAfterLastDate = eventAccessZod.omit({
   eventType: true,
 });
 
-export type EventType = z.infer<typeof eventZod>["eventType"];
+export type EventType = z.infer<typeof eventZod>['eventType'];
 
 export const userZod = createSelectSchema(user)
   .omit({
@@ -61,7 +61,7 @@ export const userZod = createSelectSchema(user)
   .merge(
     z.object({
       role: roleEnumZod,
-    }),
+    })
   );
 export const userAccessZod = userZod.omit({
   createdAt: true,
@@ -75,12 +75,12 @@ export const userAccessZod = userZod.omit({
   image: true,
 });
 export const userRegisteredEventZod = createSelectSchema(
-  userRegisteredEventTable,
+  userRegisteredEventTable
 );
 export const transactionsZod = createSelectSchema(transactionsTable);
 
 export const userCreateMailZod = z.object({
-  templateName: z.enum(["invitation"]),
+  templateName: z.enum(['invitation']),
   data: z.object({
     toMail: z.string(),
     personName: z.string(),
@@ -90,7 +90,7 @@ export const userCreateMailZod = z.object({
 });
 
 export const generatePassMailZod = z.object({
-  templateName: z.enum(["asthraPass"]),
+  templateName: z.enum(['asthraPass']),
   data: z.object({
     toMail: z.string(),
     eventId: z.string(),
@@ -100,11 +100,11 @@ export const generatePassMailZod = z.object({
 });
 export const userDataFillZod = userAccessZod.refine(
   (user) => {
-    if (user.college === "NA") {
+    if (user.college === 'NA') {
       return false;
     }
 
-    if (user.name === "") {
+    if (user.name === '') {
       return false;
     }
 
@@ -114,12 +114,12 @@ export const userDataFillZod = userAccessZod.refine(
     return true;
   },
   {
-    message: "fields cannot be null",
-  },
+    message: 'fields cannot be null',
+  }
 );
 
 export const isValidUserDetails = (
-  user: User | undefined | z.infer<typeof userZod>,
+  user: User | undefined | null | z.infer<typeof userZod>
 ) => userDataFillZod.safeParse(user).success;
 
 export const verifyPassZod = z.object({
