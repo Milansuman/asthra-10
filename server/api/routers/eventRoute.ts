@@ -60,10 +60,10 @@ export const eventRouter = createTRPCRouter({
           .set({
             ...newInput,
           })
-          .where(eq(eventsTable.id, input.id));
+          .where(eq(eventsTable.id, input.id)).returning();
       }
 
-      await ctx.db
+      return await ctx.db
         .update(eventsTable)
         .set({
           ...newInput,
@@ -74,7 +74,7 @@ export const eventRouter = createTRPCRouter({
           //   eq(eventsTable.id, input.id),
           //   eq(eventsTable.department, ctx.user.department)
           // )
-        )
+        ).returning()
     }),
 
   /**
