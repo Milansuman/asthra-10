@@ -132,7 +132,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
       description: '',
       venue: 'SJCET',
       eventStatus: 'uploaded',
-      amount: 0,
+      amount: 20,
       department: 'NA',
       regLimit: 0,
       eventType: 'ASTHRA_PASS_EVENT',
@@ -382,7 +382,13 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             name="amount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Amount</FormLabel>
+                <FormLabel>
+                  {
+                    previewData ? <>
+                      {previewData?.eventType === "ASTHRA_PASS_EVENT" ? "Credit" : "Amount"}
+                    </> : <>Credit</>
+                  }
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -397,7 +403,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   />
                 </FormControl>
                 <FormDescription className='text-neutral-300'>
-                  Default is Free (₹0)
+                  Default is ₹20
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -496,7 +502,10 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                 <FormLabel>Event Type</FormLabel>
                 <Select
                   {...field}
-                  onValueChange={field.onChange}
+                  onValueChange={(event) => {
+                    field.onChange(event)
+                    setPreviewData(form.getValues())
+                  }}
                   defaultValue={field.value}
                 >
                   <FormControl>

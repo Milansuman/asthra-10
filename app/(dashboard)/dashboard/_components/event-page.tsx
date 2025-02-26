@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { allDepartments } from '@/logic';
 import { motion } from 'framer-motion';
-import { CheckCircle, XCircleIcon } from 'lucide-react';
+import { CheckCircle, Copy, LinkIcon, XCircleIcon } from 'lucide-react';
 import type { z } from 'zod';
 
 import type { eventZod } from '@/lib/validator';
@@ -43,6 +43,7 @@ import {
 } from '@/components/ui/table';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { TRPCError } from '@trpc/server';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -244,6 +245,8 @@ function EventCard({
     id: event.id,
   });
   console.log(event);
+  const { mutate: shortenUrl } = api.shortner.shorten.useMutation();
+  const [shortUrl, setShortUrl] = useState<string | null>(null);
 
   const { mutate: removeAttendance } = api.user.removeAttendance.useMutation();
   const { mutate: addAttendance } = api.user.addAttendance.useMutation();
@@ -298,7 +301,7 @@ function EventCard({
               <p>{event.dateTimeStarts.toLocaleTimeString("en-US", { timeZone: "UTC" })}</p>
             </div>
             {dashboard && (
-              <div className="self-end max-h-80 overflow-auto">
+              <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">
                 <AlertDialog>
                   <AlertDialogTrigger>
                     <Button className="h-[30px] uppercase font-black self-end">
@@ -361,9 +364,50 @@ function EventCard({
                 </AlertDialog>
               </div>
             )}
-            <Button className="h-[30px] uppercase font-black self-end">
-              {event.department}
-            </Button>
+            <div className='flex flex-row gap-2'>
+              <Button className="h-[30px] uppercase font-black self-end">
+                {event.department}
+              </Button>
+              <AlertDialog onOpenChange={(open) => {
+                if (open && event.name !== null && shortUrl === null) {
+                  shortenUrl({
+                    name: event.name.replaceAll(" ", "_"),
+                    url: `https://asthra.sjcetpalai.ac.in/event/${event.id}`
+                  }, {
+                    onSuccess(data) {
+                      if (data instanceof TRPCError) return;
+                      setShortUrl(data.url);
+                    }
+                  })
+                }
+              }}>
+                <AlertDialogTrigger asChild>
+                  <Button className='self-end h-[30px]'>
+                    <LinkIcon />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className='p-5 bg-glass rounded-none'>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className='text-2xl'>Copy Short URL</AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <div className='flex flex-row gap-2'>
+                    <div className="p-2 border border-neutral-400 bg-neutral-50/20 flex-1">
+                      {shortUrl ?? "Loading..."}
+                    </div>
+                    <Button variant="outline" onClick={async () => {
+                      await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+                    }}>
+                      <Copy />
+                    </Button>
+                  </div>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </AlertDialogCancel>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </div>
         </div>
       </CardContent>
