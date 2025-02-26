@@ -31,6 +31,7 @@ export const shortnerRouter = createTRPCRouter({
     }
 
     const {url}: {url: string} = await response.json();
+    console.log(url);
     return { url }
   })
 })
