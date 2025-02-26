@@ -8,8 +8,10 @@ import {
   thematicBreakPlugin,
   markdownShortcutPlugin,
   toolbarPlugin,
+  linkDialogPlugin,
   MDXEditor,
   UndoRedo,
+  CreateLink,
   BlockTypeSelect,
   KitchenSinkToolbar,
   BoldItalicUnderlineToggles,
@@ -31,14 +33,15 @@ export default function InitializedMDXEditor({
         quotePlugin(),
         thematicBreakPlugin(),
         markdownShortcutPlugin(),
+        linkDialogPlugin(),
         toolbarPlugin({
           toolbarClassName: "flex flex-row gap-2",
-          toolbarContents(){
+          toolbarContents() {
             return <div className='rounded-none '>
-            <UndoRedo/>
-            <BoldItalicUnderlineToggles/>
-            {/* <KitchenSinkToolbar/> */}
-            {/* <BlockTypeSelect/> */}
+              <UndoRedo />
+              <BoldItalicUnderlineToggles />
+              {/* <KitchenSinkToolbar/> */}
+              {/* <BlockTypeSelect/> */}
             </div>
           }
         })

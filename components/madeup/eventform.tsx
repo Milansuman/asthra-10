@@ -429,9 +429,6 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                     }}
                   />
                 </FormControl>
-                <FormDescription className='text-neutral-300'>
-                  Default is 0, doesn&apos;t effect registration count
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
