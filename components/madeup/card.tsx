@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
 
 import { z } from 'zod';
 
@@ -23,12 +23,18 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import { Trash2 } from 'lucide-react';
+import { Copy, Trash2 } from 'lucide-react';
+import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 
+import { api } from '@/trpc/react';
+import { TRPCError } from '@trpc/server';
+import { Input } from '@/components/ui/input';
 
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
@@ -120,12 +126,15 @@ interface PurchaseCardPreviewProps {
 }
 
 export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent }) => {
+  const { mutate: shortenUrl } = api.shortner.shorten.useMutation();
+  const [shortUrl, setShortUrl] = useState<string | null>(null); //only shorten url when user presses the button. use state as a way to not use the mutation immediately.
+
   return (
-    <Card className="m-2 flex flex-col text-black aspect-square max-w-80">
+    <Card className="m-2 flex flex-col text-white aspect-square max-w-80 p-4">
       <CardHeader className="p-0">
         {z.string().safeParse(data.poster).success && (
           <Image
-            className="h-[150px] w-full object-cover object-left-top rounded-[10px]"
+            className="h-[150px] w-full object-cover object-left-top"
             height="600"
             width="600"
             src={data.poster}
@@ -137,15 +146,15 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
       <CardDescription className="line-clamp-6 mb-2">
         {data.description}
       </CardDescription>
-      <CardFooter className="flex gap-[10px] p-0 mt-[20px] mt-auto">
+      <CardFooter className="flex gap-[10px] p-0 mt-auto flex-wrap">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="secondary" className="flex-1 rounded-s">
+            <Button variant="secondary" className="flex-1">
               Edit
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="sm:max-w-[900px] p-0 border-none bg-white text-black">
-            <Card className="p-5 text-black">
+          <AlertDialogContent className="sm:max-w-[900px] p-0 border-none bg-transparent">
+            <Card className="p-5 text-white bg-glass">
               <h3 className="cal">Edit Event</h3>
               <p>
                 Keyboard accessible, Use up & down arrows to control counts &
@@ -158,16 +167,53 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
             </Card>
           </AlertDialogContent>
         </AlertDialog>
-        <Button link={`/dashboard/upload?id=${data.id}`} className="flex-1 rounded-s">
+        <Button link={`/dashboard/upload?id=${data.id}`} className="flex-1">
           Change poster
         </Button>
+        <AlertDialog onOpenChange={(open) => {
+          if (open && data.name !== null && shortUrl === null) {
+            shortenUrl({
+              name: data.name.replaceAll(" ", "_"),
+              url: `https://asthra.sjcetpalai.ac.in/event/${data.id}`
+            }, {
+              onSuccess(data) {
+                if (data instanceof TRPCError) return;
+                setShortUrl(data.url);
+              }
+            })
+          }
+        }}>
+          <AlertDialogTrigger asChild>
+            <Button>Shorten Link</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className='p-5 bg-glass rounded-none'>
+            <AlertDialogHeader>
+              <AlertDialogTitle className='text-2xl'>Copy Short URL</AlertDialogTitle>
+            </AlertDialogHeader>
+            <div className='flex flex-row gap-2'>
+              <div className="p-2 border border-neutral-400 bg-neutral-50/20 flex-1">
+                {shortUrl ?? "Loading..."}
+              </div>
+              <Button variant="outline" onClick={async () => {
+                await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+              }}>
+                <Copy />
+              </Button>
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel asChild>
+                <Button variant="outline">Cancel</Button>
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive">
               <Trash2 size={20} />
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-white text-black">
+          <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-glass rounded-none">
             <h3 className="text-lg font-semibold">Confirm Deletion</h3>
             <p>Are you sure you want to delete this event? This action cannot be undone.</p>
             <div className="flex justify-end gap-4 mt-4">
@@ -175,7 +221,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
                 <Button variant="outline">Cancel</Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild>
-                <Button variant="destructive" className='bg-red-950 hover:bg-red-900 text-white' onClick={() => onDelete(data.id)}>Delete</Button>
+                <Button variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
               </AlertDialogAction>
             </div>
           </AlertDialogContent>
@@ -200,17 +246,17 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
       )}
     </Card>
 
-    <Card className="m-2 rounded-sm cal p-5 relative !h-auto cal text-black border-neutral-600">
+    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300">
       <CardHeader>
-        <CardTitle className="mt-[20px]">{data.eventType}</CardTitle>
+        <CardTitle className="mt-[20px]">{data.name}</CardTitle>
         <CardDescription>{data.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-black">
+      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-white">
         <p>Department: {data.department}</p>
         <p>Event type: {data.eventType}</p>
         <p>Event status: {data.eventStatus}</p>
         <p>Venue: {data.venue}</p>
-        <p>Starts at: {data.dateTimeStarts?.toLocaleString()}</p>
+        <p>Starts at: {data.dateTimeStarts?.toLocaleString("en-US", { timeZone: "UTC" })}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
         <p>Secret Message: {data.secret}</p>
       </CardContent>
@@ -245,7 +291,7 @@ export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEv
           <p>
             Keyboard accessible, Use up & down arrows to control counts & dates
           </p>
-          <ScrollArea className="h-[80vh] rounded-none">
+          <ScrollArea className="h-[80vh] rounded-none p-4">
             <EventForm data={null} onChangeEvent={onChangeEvent} />
           </ScrollArea>
         </Card>

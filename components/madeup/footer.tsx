@@ -1,7 +1,6 @@
 import { Facebook, Github, Instagram, Youtube } from "lucide-react"
 import Image from "next/image"
 import Plusbox from "./box"
-
 export default function Footer() {
   return (
     <footer className="w-full bg-[#0A0A19] font-[350] text-white z-30  p-2 py-4 m-0  -bottom-7">

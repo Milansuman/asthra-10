@@ -41,15 +41,14 @@ export const generateMailRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }) => {
-      const { personName, toMail, eventId, eventName } = input.data;
+      const { personName, toMail, eventId, eventName, eventSecret } =
+        input.data;
 
       const { isSuccess, error } = await sentMail({
         to: toMail,
         html: await getHTML(EventConfirmation, {
-          user: ctx.user,
-          eventName,
-          eventSecret: '',
-          transactions: {},
+          eventName: eventName,
+          eventSecret: eventSecret ?? '',
         }),
         subject: 'Your Asthra Pass',
         text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
@@ -70,7 +69,7 @@ export const generateMailRouter = createTRPCRouter({
       const { isSuccess, error } = await sentMail({
         to: email,
         html: await getHTML(WelcomeTemplate, {
-          personName: name ?? 'User',
+          personName: name ?? email,
         }),
         subject: `Welcome to Asthra ${currentAsthraCount}`,
         text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,

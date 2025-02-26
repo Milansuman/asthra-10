@@ -5,7 +5,7 @@ import { Session } from 'next-auth';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import type { z } from 'zod';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 type userSchema = Partial<z.infer<typeof userZod>>;
 

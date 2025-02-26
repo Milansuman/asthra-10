@@ -15,6 +15,7 @@ import {
 import QRCode from "react-qr-code";
 import { getQrFromId } from "@/logic/qr";
 import type { EventZodType } from "@/lib/validator";
+import { env } from "@/env";
 
 // ?eventId=""
 export default function Home() {
@@ -79,27 +80,28 @@ function CheckOut({
   eventType: EventZodType["eventType"];
   amount: number;
 }) {
-  const { data: failedData, mutateAsync: failedFunction } =
-    api.sjcetPay.failedPurchase.useMutation();
 
-  const processPayment = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      console.log("Hi", amount);
-    } catch (error) {
-      failedFunction({
-        id: transactionId,
-      });
-    }
-  };
+  const getPaymentURL = (transactionId: string) => {
+    const redirectUrl = new URL(`/payment/success/${transactionId}`, window.location.origin)
+
+    const url = new URL("/asthra", env.NEXT_PUBLIC_SJCET_PAYMENT_LINK)
+
+    url.searchParams.append(
+      "amount",
+      (amount * 100).toString()
+    );
+
+    url.searchParams.append(
+      "redirect",
+      redirectUrl.toString()
+    );
+
+    return url.toString();
+  }
 
   return (
-    <>
-      {JSON.stringify(failedData)}
-
-      <form onSubmit={processPayment}>
-        <Button type="submit">Pay</Button>
-      </form>
+    <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4  z-50">
+      <Button link={getPaymentURL(transactionId)}>Pay</Button>
       <Dialog>
         <DialogTrigger>Pay at Front Desk</DialogTrigger>
         <DialogContent>
@@ -128,6 +130,6 @@ function CheckOut({
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }

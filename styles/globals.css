@@ -71,6 +71,10 @@
     @apply pattern-diagonal-lines pattern-blue-500 pattern-bg-white pattern-size-2 pattern-opacity-20;
   }
 
+  .bg-glass-top-black {
+    @apply pattern-diagonal-lines pattern-white pattern-bg-black pattern-size-2 pattern-opacity-20;
+  }
+
   .text-glass-foreground {
     @apply text-white;
   }
@@ -81,17 +85,12 @@
 }
 
 .cal {
-  font-family: 'Cal Sans', sans-serif;
+  font-family: "Cal Sans", sans-serif;
 }
 
 .ambit {
-  font-family: 'Ambit', sans-serif;
+  font-family: "Ambit", sans-serif;
   text-shadow: 1px 1px 30px #44444480;
-}
-
-.europa {
-  font-family: 'EuropaGroteskSH', sans-serif;
-  /* @apply tracking-wide; */
 }
 
 span {
@@ -99,7 +98,7 @@ span {
 }
 
 h1 {
-  font-family: EuropaGroteskSH, sans-serif;
+  font-family: "Ambit", sans-serif;
   @apply text-5xl font-black tracking-tight transition-all duration-700 sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl;
 }
 
@@ -108,7 +107,7 @@ h2 {
 }
 
 h3 {
-  font-family: EuropaGroteskSH, sans-serif;
+  font-family: "Ambit", sans-serif;
   @apply text-2xl font-semibold tracking-tight transition-all duration-700 sm:text-4xl;
 }
 
@@ -117,7 +116,7 @@ h4 {
 }
 
 p {
-  font-family: EuropaGroteskSH, Poppins, sans-serif;
+  font-family: "Ambit", Poppins, sans-serif;
   @apply tracking-wide;
   /* @apply ; */
 }
@@ -131,9 +130,12 @@ blockquote {
 }
 
 @font-face {
-  font-family: 'Ambit';
-  src: url('/fonts/ambit/Ambit-Regular.woff2') format('woff2'),
-    url('/fonts/ambit/Ambit-Regular.woff') format('woff');
+  font-family: "Ambit";
+  src:
+    url("/fonts/ambit/Ambit-Regular.woff2") format("woff2"),
+    url("/fonts/ambit/Ambit-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 .mdxeditor {
@@ -168,28 +170,33 @@ blockquote {
 }
 
 * {
-  cursor: url("/cursor/small.png") 0 0, auto;
+  cursor:
+    url("/cursor/small.png") 0 0,
+    auto;
 }
 
 a:disabled,
 button:disabled,
 .disabled,
 .invalid {
-  cursor: url("/cursor/red.png") 0 0, not-allowed;
+  cursor:
+    url("/cursor/red.png") 0 0,
+    not-allowed;
 }
-
 
 .draggable,
 [draggable="true"] {
-  cursor: url("/cursor/closed.png") 0 0, grab;
+  cursor:
+    url("/cursor/closed.png") 0 0,
+    grab;
 }
-
 
 .dragging,
 [draggable="true"]:active {
-  cursor: url("/cursor/open.png") 0 0, grabbing;
+  cursor:
+    url("/cursor/open.png") 0 0,
+    grabbing;
 }
-
 
 a,
 button:enabled,
@@ -197,7 +204,9 @@ button:enabled,
 input[type="submit"],
 input[type="button"],
 .clickable {
-  cursor: url("/cursor/point.png") 0 0, pointer;
+  cursor:
+    url("/cursor/point.png") 0 0,
+    pointer;
 }
 
 a:active,
@@ -206,24 +215,33 @@ button:enabled:active,
 input[type="submit"]:active,
 input[type="button"]:active,
 .clickable:active {
-  cursor: url("/cursor/clicked.png") 0 0, pointer;
+  cursor:
+    url("/cursor/clicked.png") 0 0,
+    pointer;
 }
-
 
 @media screen {
   :root {
-    background-image:
-      url("/cursor/small.png"),
-      url("/cursor/red.png"),
-      url("/cursor/closed.png"),
-      url("/cursor/open.png"),
-      url("/cursor/point.png"),
-      url("/cursor/clicked.png"),
+    background-image: url("/cursor/small.png"), url("/cursor/red.png"),
+      url("/cursor/closed.png"), url("/cursor/open.png"),
+      url("/cursor/point.png"), url("/cursor/clicked.png"),
       url("/cursor/text.png");
     background-image: none;
   }
 }
 
-.no-scrollbar::-webkit-scrollbar{
+.no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }

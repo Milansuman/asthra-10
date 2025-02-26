@@ -14,6 +14,7 @@ import {
 } from "react";
 import Plusbox from "./box";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export type DockItemData = {
     icon?: React.ReactNode;
@@ -57,6 +58,7 @@ export default function Dock({
 }: DockProps) {
     const mouseX = useMotionValue(Number.POSITIVE_INFINITY);
     const isHovered = useMotionValue(0);
+    const path = usePathname();
 
     const maxHeight = useMemo(
         () => Math.max(dockHeight, magnification + magnification / 2 + 4),
@@ -66,7 +68,7 @@ export default function Dock({
     const height = useSpring(heightRow, spring);
 
     return (
-        <div className="fixed z-40 sm:left-auto left-0 sm:overflow-x-auto p-2 no-scrollbar overflow-y-hidden overflow-x-scroll bottom-[6px] right-[6px] w-auto">
+        <div className="fixed z-20 sm:left-auto left-0 sm:overflow-x-auto p-2 no-scrollbar overflow-y-hidden overflow-x-scroll bottom-[6px] right-[6px] w-auto">
             <Plusbox className="w-max">
                 <motion.div
                     // onMouseMove={({ pageX }) => {
@@ -84,6 +86,7 @@ export default function Dock({
                     {items.map((item, index) => {
                         const Wrapper = item.link ? Link : "div";
                         const props = item.link ? { href: item.link } : { onClick: item.onClick };
+                        if (item.link === path) return <></>;
                         return (
                             <Wrapper {...(props as any)} key={index}>
                                 <div key={index} className="hover:scale-105 transition-all cursor-pointer">

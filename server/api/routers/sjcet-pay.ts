@@ -1,28 +1,27 @@
-import { createOrder, generatedSignature } from "@/logic/payment";
-import { and, eq, ne, or } from "drizzle-orm";
-import { v4 as uuid } from "uuid";
-import * as z from "zod";
+import { createOrder, generatedSignature } from '@/logic/payment';
+import { and, eq, ne, or } from 'drizzle-orm';
+import { v4 as uuid } from 'uuid';
+import * as z from 'zod';
 
 import {
   createTRPCRouter,
   frontDeskProcedure,
   protectedProcedure,
   validUserOnlyProcedure,
-} from "@/server/api/trpc";
+} from '@/server/api/trpc';
 import {
   eventsTable,
   referalsTable,
   transactionsTable,
-  user,
   userRegisteredEventTable,
-} from "@/server/db/schema";
-import { Increment, getTrpcError } from "@/server/db/utils";
+} from '@/server/db/schema';
+import { Increment, getTrpcError } from '@/server/db/utils';
 
 import {
   type TransactionZodType,
   eventZod,
   transactionsZod,
-} from "@/lib/validator";
+} from '@/lib/validator';
 
 export const transactionRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
@@ -30,7 +29,7 @@ export const transactionRouter = createTRPCRouter({
       z.object({
         eventId: eventZod.shape.id,
         referral: z.string().max(50).optional(),
-      }),
+      })
     )
 
     .query(async ({ ctx, input }) => {
@@ -39,40 +38,40 @@ export const transactionRouter = createTRPCRouter({
       const workshop = await ctx.db.query.eventsTable.findFirst({
         where: and(
           eq(eventsTable.id, input.eventId),
-          ne(eventsTable.eventType, "ASTHRA_PASS_EVENT"),
-          ne(eventsTable.eventType, "ASTHRA_PASS"),
+          ne(eventsTable.eventType, 'ASTHRA_PASS_EVENT'),
+          ne(eventsTable.eventType, 'ASTHRA_PASS')
         ),
       });
 
       if (!workshop) {
-        throw getTrpcError("EVENT_NOT_FOUND");
+        throw getTrpcError('EVENT_NOT_FOUND');
       }
 
       if (workshop.regCount >= workshop.regLimit) {
-        throw getTrpcError("REGISTRATION_LIMIT_EXCEDED");
+        throw getTrpcError('REGISTRATION_LIMIT_EXCEDED');
       }
 
       const alreadyRegisteredData =
         await ctx.db.query.userRegisteredEventTable.findFirst({
           where: and(
             eq(userRegisteredEventTable.eventId, workshop.id),
-            eq(userRegisteredEventTable.userId, user.id),
+            eq(userRegisteredEventTable.userId, userData.id)
           ),
         });
 
       if (alreadyRegisteredData) {
-        throw getTrpcError("ALREADY_PURCHASED");
+        throw getTrpcError('ALREADY_PURCHASED');
       }
 
       const transactionId = uuid();
 
-      const insertTransaction: Omit<TransactionZodType, "orderId"> = {
+      const insertTransaction: Omit<TransactionZodType, 'orderId'> = {
         eventId: workshop.id,
-        eventName: workshop.name ?? "Unknown Workshop/Competiton Name",
+        eventName: workshop.name ?? 'Unknown Workshop/Competiton Name',
         id: transactionId,
         userId: userData.id,
-        userName: userData.name ?? "NA",
-        status: "initiated",
+        userName: userData.name ?? 'NA',
+        status: 'initiated',
         amount: workshop.amount,
         remark: `Initiated ${workshop.eventType} purchase on ${new Date().toLocaleString()}`,
       };
@@ -92,7 +91,7 @@ export const transactionRouter = createTRPCRouter({
         }
 
         if (!finalData.length || !finalData[0]) {
-          throw getTrpcError("TRANSACTION_NOT_FOUND");
+          throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
 
         return {
@@ -106,23 +105,23 @@ export const transactionRouter = createTRPCRouter({
     .input(
       transactionsZod.pick({
         id: true,
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (tx) => {
         const transactiondata = await tx
           .update(transactionsTable)
-          .set({ status: "success" })
+          .set({ status: 'success' })
           .where(
             and(
               eq(transactionsTable.id, input.id),
-              eq(transactionsTable.status, "initiated"),
-            ),
+              eq(transactionsTable.status, 'initiated')
+            )
           )
           .returning();
 
         if (transactiondata.length === 0 || !transactiondata[0]) {
-          throw getTrpcError("TRANSACTION_NOT_FOUND");
+          throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
 
         const currentTransation = transactiondata[0];
@@ -156,32 +155,32 @@ export const transactionRouter = createTRPCRouter({
     .input(
       transactionsZod.pick({
         id: true,
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (tx) => {
         const currentTransation = await tx
           .update(transactionsTable)
           .set({
-            status: "failed",
+            status: 'failed',
           })
           .where(
             and(
               eq(transactionsTable.id, input.id),
-              eq(transactionsTable.status, "initiated"),
-              eq(transactionsTable.userId, ctx.user.id),
-            ),
+              eq(transactionsTable.status, 'initiated'),
+              eq(transactionsTable.userId, ctx.user.id)
+            )
           )
           .returning();
 
         if (currentTransation.length === 0 || !currentTransation[0]) {
-          throw getTrpcError("TRANSACTION_NOT_FOUND");
+          throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
 
         const eventData = await tx
           .select()
           .from(eventsTable)
-          .where(eq(eventsTable.id, currentTransation[0]?.eventId ?? ""));
+          .where(eq(eventsTable.id, currentTransation[0]?.eventId ?? ''));
 
         return {
           transaction: currentTransation[0],
@@ -195,25 +194,25 @@ export const transactionRouter = createTRPCRouter({
     .input(
       transactionsZod.pick({
         id: true,
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (tx) => {
         const currentTransation = await tx
           .update(transactionsTable)
           .set({
-            status: "success",
+            status: 'success',
           })
           .where(
             and(
               eq(transactionsTable.id, input.id),
-              eq(transactionsTable.status, "initiated"),
-            ),
+              eq(transactionsTable.status, 'initiated')
+            )
           )
           .returning();
 
         if (currentTransation.length === 0 || !currentTransation[0]) {
-          throw getTrpcError("TRANSACTION_NOT_FOUND");
+          throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
 
         const transactionData = currentTransation[0];
@@ -247,7 +246,7 @@ export const transactionRouter = createTRPCRouter({
         .where(eq(transactionsTable.userId, ctx.user.id));
 
       if (transations.length === 0) {
-        throw getTrpcError("TRANSACTION_NOT_FOUND");
+        throw getTrpcError('TRANSACTION_NOT_FOUND');
       }
 
       const eventIds = transations.map((e) => e.eventId);

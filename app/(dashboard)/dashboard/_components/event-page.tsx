@@ -153,18 +153,17 @@ export function EventPage({
 
   return (
     <div className="w-full min-h-screen p-2 flex flex-col gap-4">
-      <div className="w-full flex flex-row gap-2 justify-center z-10 items-center">
+      <div className="w-full flex flex-col-reverse gap-2 justify-center z-10 items-center">
         <Select
           onValueChange={(value) => handleSelect(value)}
           defaultValue={filterDepartment}
         >
-          <SelectTrigger className="w-40 text-center rounded-full text-white border-neutral-50 backdrop-blur-lg">
+          <SelectTrigger className="w-fit text-center bg-glass border border-glass">
             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All</SelectItem>
             {Object.entries(allDepartments)
-              .filter(([key, _]) => key !== 'es')
               .map(([dep, full]) => (
                 <SelectItem key={dep} value={dep}>
                   {full}
@@ -172,11 +171,11 @@ export function EventPage({
               ))}
           </SelectContent>
         </Select>
-        <div className="max-w-2/3 h-full rounded-full flex flex-row gap-2 bg-neutral-900/10 backdrop-blur-lg border border-neutral-100 overflow-auto scrollbar-none">
+        <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 bg-glass border border-glass overflow-auto scrollbar-none">
           {categories.map((category) => (
             <div
-              key={category + '.div'}
-              className="flex p-2"
+              key={`${category}.div`}
+              className="flex p-1"
               onClick={() => handleFilter(category)}
             >
               <motion.div
@@ -185,19 +184,19 @@ export function EventPage({
                 animate={{
                   color: filter === category ? '#111111' : '#ffffff',
                 }}
-                className="relative py-2 px-6"
+                className="relative py-1 px-4"
               >
                 {filter === category && (
                   <motion.div
                     layoutId="pill_event"
-                    style={{ borderRadius: 500 }}
+                    // style={{ borderRadius: 500 }}
                     transition={{
                       duration: 0.75,
                       type: 'tween',
                       ease: [0.76, 0, 0.24, 1],
                       delay: 0.2,
                     }}
-                    className="absolute inset-0 bg-neutral-50"
+                    className="absolute inset-0 bg-white"
                   />
                 )}
                 <span className="relative whitespace-nowrap">
@@ -244,6 +243,7 @@ function EventCard({
   const { data: registeredUsers } = api.event.getParticipants.useQuery({
     id: event.id,
   });
+  console.log(event);
 
   const { mutate: removeAttendance } = api.user.removeAttendance.useMutation();
   const { mutate: addAttendance } = api.user.addAttendance.useMutation();
@@ -295,7 +295,7 @@ function EventCard({
               </h4>
 
               <p>{event.dateTimeStarts.toLocaleDateString()}</p>
-              <p>{event.dateTimeStarts.toLocaleTimeString()}</p>
+              <p>{event.dateTimeStarts.toLocaleTimeString("en-US", { timeZone: "UTC" })}</p>
             </div>
             {dashboard && (
               <div className="self-end max-h-80 overflow-auto">
@@ -305,7 +305,7 @@ function EventCard({
                       Participants
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="w-full bg-white">
+                  <AlertDialogContent className="w-full bg-glow rounded-none">
                     <AlertDialogHeader>
                       <AlertDialogTitle>
                         Participants for {event.name}

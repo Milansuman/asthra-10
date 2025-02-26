@@ -31,11 +31,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ProfileEdit } from "./_componetns/edit";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useMemo } from "react";
 import { Lanyard } from "@/components/lanyard";
 import { Label } from "@/components/ui/label";
-import * as THREE from "three";
 import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
 
@@ -132,7 +131,24 @@ export default function ProfilePage() {
               <ProfileEdit />
             </DialogContent>
           </Dialog>
-          <Button variant="destructive">Sign Out</Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="destructive">Sign Out</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle className="text-white">Are you absolutely sure?</DialogTitle>
+                <DialogDescription className="text-white">
+                  This action will sign you out of the application. But you can always sign back in.
+                </DialogDescription>
+              </DialogHeader>
+              <Button onClick={() => signOut({
+                callbackUrl: "/",
+              })} variant="destructive">
+                Sign Out
+              </Button>
+            </DialogContent>
+          </Dialog>
         </CardFooter>
       </Card>
       <div className="flex-[1_auto] flex flex-col gap-6">

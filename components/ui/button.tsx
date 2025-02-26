@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 border border-neutral-200",
         destructive:
           "ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-red-400/80 transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]",
         primary:
@@ -29,7 +29,7 @@ const buttonVariants = cva(
         thin: "h-6 rounded-none px-2",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
-        glass: "rounded-lg px-10 py-3 font-thin text-xl"
+        glass: "rounded-none px-10 py-3 font-thin text-xl"
       },
     },
     defaultVariants: {
@@ -43,19 +43,27 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   asChild?: boolean;
   pattern?: boolean;
   link?: string
+  blank?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, pattern, children, link, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button';
-    const Wrapper = link ? Link : React.Fragment
-    return (
-      <Wrapper href={link ?? ""}>
+  ({ className, variant, pattern, children, link, size, blank = false, asChild = false, ...props }, ref) => {
+    const Comp = (asChild) ? Slot : 'button';
+
+    if (link) {
+      return (<Link href={link} target={blank ? "_blank" : undefined}>
         <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
           {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
           {children}
         </Comp>
-      </Wrapper>
+      </Link>)
+    }
+
+    return (
+      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+        {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
+        {children}
+      </Comp>
     );
   },
 );
