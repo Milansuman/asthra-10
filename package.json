@@ -17,7 +17,7 @@
     "check": "biome check --write ./",
     "start": "next start",
     "dev:email": "email dev --port 3003 --dir ./components/mail/_templates",
-    "start:email": "concurrently \"bun run dev\" \"bun run dev:email\""
+    "start:email": "bun run dev & bun run dev:email"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.7.0",
