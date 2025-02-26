@@ -10,7 +10,7 @@ import CircularGalleryMade from '@/components/madeup/circularGalleryMade';
 export default function Page() {
   return (
     <main className="z-10 relative">
-      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
+      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3 gap-4 md:gap-0">
         <div className="col-span-1 flex items-center border border-glass p-8 md:col-span-2">
           <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
             Envisioned to explore
@@ -18,13 +18,15 @@ export default function Page() {
             tomorrow
           </p>
         </div>
+        <div className="col-span-1 h-32 md:hidden" />
+
         <div className="relative col-span-1 flex items-center justify-center border-l-[0.02rem] border-b-[0.02rem] p-4 bg-glass border-glass">
           {/* <Orb
-            hoverIntensity={0.5}
-            rotateOnHover={true}
-            hue={2}
-            forceHoverState={false}
-          /> */}
+      hoverIntensity={0.5}
+      rotateOnHover={true}
+      hue={2}
+      forceHoverState={false}
+    /> */}
           <Image
             src="/asthra.svg"
             alt="logo"
@@ -33,6 +35,8 @@ export default function Page() {
             className="w-3/4 md:w-2/3 lg:w-1/2"
           />
         </div>
+
+        <div className="col-span-1 h-48 md:hidden" />
 
         <div className="col-span-1 flex items-center border border-glass p-8 bg-glass md:col-span-2">
           <p className="ambit text-balance px-4 text-left font-extralight text-lg md:text-xl lg:text-2xl">
@@ -52,7 +56,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3">
+      <section className="grid min-h-screen grid-cols-1 md:grid-cols-3 gap-4 md:gap-0">
         <div className="col-span-1 flex flex-col items-center justify-center border p-8 md:col-span-2 bg-glass border-glass">
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             VISION
@@ -61,6 +65,8 @@ export default function Page() {
             Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society.
           </p>
         </div>
+        <div className="col-span-1 h-24  md:hidden" />
+
         <div className="col-span-1 flex flex-col items-center justify-center border p-8 md:col-span-1 border-glass">
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             MISSION
@@ -71,6 +77,7 @@ export default function Page() {
             To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
           </p>
         </div>
+        <div className="col-span-1 h-24 md:hidden" />
 
         <div className="col-span-1 flex flex-col items-center justify-center border border-glass md:col-span-2" />
         <div className="col-span-1 flex flex-col items-center justify-center border border-glass p-8 bg-glass border-glass md:col-span-1">
@@ -87,6 +94,8 @@ export default function Page() {
             and management programs.
           </p>
         </div>
+        <div className="col-span-1 h-48 md:hidden" />
+
       </section>
 
       <section className="grid min-h-screen grid-cols-1 gap-8">
