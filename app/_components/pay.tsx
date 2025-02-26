@@ -49,11 +49,11 @@ const ButtonMessages = {
     'Loading': LoaderIcon,
 } as const;
 
-const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessages }> = ({ keyType }) => {
+export const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessages }> = ({ keyType }) => {
     const Logo = ButtonMessages[keyType];
     return (
         <>
-            {keyType} <Logo />
+            {keyType} <Logo className="scale-125" />
         </>
     );
 };
