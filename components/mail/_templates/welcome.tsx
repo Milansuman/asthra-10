@@ -45,7 +45,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
       <Tailwind>
-        <Body className={twMerge("bg-[#0A0A19] font-ambit", `bg-[url('${baseUrl}/images/bg.png')] bg-cover bg-center`)}>
+        <Body className={twMerge("bg-[#0A0A19] font-ambit", `bg-[url(${baseUrl}/images/bg.webp)] bg-cover bg-center`)}>
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>
@@ -67,14 +67,14 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
-              <Text className="text-lg border-b-2 border-[#5B9BE6] pb-4">Hello {personName},</Text>
+              <Text className="text-lg pb-4">Hello {personName},</Text>
 
               <Text className="my-4">
                 Thank you for registering for the upcoming event! We're excited to have you join us. Here are the
                 essential details you'll need:
               </Text>
 
-              <Section className="bg-[#F0F8FF] rounded-lg border-2 border-[#5B9BE6] py-4 px-[5%] my-6">
+              <Section className="bg-[#F0F8FF] rounded-lg py-4 px-[5%] my-6">
                 <Text className="text-xl text-[#4A90E2] font-bold text-center">Event Details</Text>
                 <Row className="mt-8">
                   <Column>
@@ -102,7 +102,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
                 </Row>
               </Section>
 
-              <Section className="bg-[#F0F8FF] rounded-lg border-2 border-[#5B9BE6] p-4 px-[5%] my-6">
+              <Section className="bg-[#F0F8FF] rounded-lg p-4 px-[5%] my-6">
                 <Text className="text-xl text-[#4A90E2] font-bold text-center">Hotel Accommodations</Text>
                 <Text>
                   We understand that a comfortable stay is crucial for a successful event experience. We recommend
@@ -110,7 +110,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
                 </Text>
               </Section>
 
-              <Section className="bg-[#F0F8FF] rounded-lg border-2 border-[#5B9BE6] p-4 my-6">
+              <Section className="bg-[#F0F8FF] rounded-lg p-4 my-6">
                 <Text className="text-xl text-[#4A90E2] font-bold text-center mb-4">Coordinators</Text>
                 {coordinators.map((coordinator) => (
                   <Row key={coordinator.phone} className="text-center">
@@ -122,7 +122,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
                 ))}
               </Section>
 
-              <Section className="bg-[#F0F8FF] rounded-lg border-2 border-[#5B9BE6] p-4 my-6">
+              <Section className="bg-[#F0F8FF] rounded-lg p-4 my-6">
                 <Text className="text-xl text-[#4A90E2] font-bold text-center mb-4">How to Reach</Text>
                 <Row>
                   <Column align="center">
@@ -130,7 +130,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
                       <Img
                         src={`${baseUrl}/images/map.webp`}
                         alt="Location Map"
-                        className="rounded-lg border-2 border-[#5B9BE6] w-[95%] mb-5"
+                        className="rounded-lg w-[95%] mb-5"
                       />
                     </Link>
                     <Row className="w-[83%]">
