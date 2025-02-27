@@ -40,11 +40,12 @@ export function EventPage({
     return (
         <>
             <div className="w-full flex gap-2 justify-center">
-                <Select>
+                <Select onValueChange={(selectedDepartment) => setDepartment(selectedDepartment)}>
                     <SelectTrigger className="w-[380px]">
                         <SelectValue placeholder="Department" />
                     </SelectTrigger>
                     <SelectContent className="w-[380px]">
+                        <SelectItem value="all">All</SelectItem>
                         {departments.map((d, index) => (
                             <SelectItem value={d} key={index}>{d}</SelectItem>
                         ))}
@@ -54,12 +55,7 @@ export function EventPage({
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-center mt-8 px-4">
                 {events
-                    // .filter(
-                    //     (event: Event) =>
-                    //         ((isDepartment(event) && isEventType(event)) || isGeneralEvent(event) || isSpotEvent(event) || isCancelled(event)) &&
-                    //         isEventStatus(event) &&
-                    //         !isUploaded(event),
-                    // )
+                    .filter((event) => event.department === department || department === "all")
                     .map((event) => (
                         <motion.div key={event.id}>
                             <Link href={`/event/${event.id}`}>
