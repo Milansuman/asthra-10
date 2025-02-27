@@ -40,10 +40,10 @@ export default function RootLayout({
             className="h-full w-full object-cover"
           />*/}
         {isMobileDevice() ?
-          <div className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#d5e7ff]" /> :
+          <div className="relative h-full w-full bg-[url(/spline-backup.png)] bg-blend-soft-light bg-black/70" /> :
           <SplineViewer
-            url="https://prod.spline.design/2GLk35LgytPBcf1w/scene.splinecode"
-            className="relative h-full w-full bg-[url(/spline-backup.png)] bg-[#d5e7ff]"
+            url="https://prod.spline.design/eeFdLAQHPt2utu3p/scene.splinecode"
+            className="relative h-full w-full bg-[url(/spline-backup.png)] bg-black/60"
           />}
       </div>
       <main className="z-10 relative">
