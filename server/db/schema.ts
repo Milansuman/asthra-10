@@ -132,7 +132,7 @@ export const eventsTable = pgTable(
     poster: varchar({ length: 255 }).notNull().default('/assets/poster.jpg'),
 
     createdAt: timestamp().default(sql`CURRENT_TIMESTAMP`).notNull(),
-    updatedAt: timestamp(),
+    updatedAt: timestamp().$onUpdateFn(() => new Date()),
 
     createdById: uuid()
       .notNull()

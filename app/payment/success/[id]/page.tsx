@@ -23,7 +23,7 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
   searchParams: Promise<{
-    [key in keyof RazorQueryZod]: string | string[] | undefined;
+    [key in keyof RazorQueryZod]: string | string[] | undefined
   }>;
 }) {
   const { id } = await params;
