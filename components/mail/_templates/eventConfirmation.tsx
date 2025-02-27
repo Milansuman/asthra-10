@@ -16,7 +16,6 @@ import {
 } from "@react-email/components"
 import { baseUrl } from "../utils";
 import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
-import { cn } from "@/lib/utils";
 
 interface EventConfirmationProps {
   user: UserZodType;
@@ -47,7 +46,9 @@ export default function EventConfirmationEmail({ event, transactions, user, user
         <Body
           style={{
             backgroundImage: `url(${baseUrl}/images/bg.webp)`,
-          }} className={("bg-[#0A0A19] font-ambit bg-cover bg-center")}>
+          }}
+          className={("bg-[#0A0A19] font-ambit bg-cover bg-center")}
+        >
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>

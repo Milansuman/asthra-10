@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils";
-import type { EventZodType, TransactionZodType, UserRegisteredEventZod, UserZodType } from "@/lib/validator";
 import {
   Body,
   Button,
@@ -18,6 +16,7 @@ import {
   Text,
 } from "@react-email/components";
 import { baseUrl } from "../utils";
+import type { EventZodType, TransactionZodType, UserRegisteredEventZod, UserZodType } from "@/lib/validator";
 
 type AsthraPassProps = {
   event: EventZodType,
@@ -45,9 +44,12 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
       <Tailwind>
-        <Body style={{
-          backgroundImage: `url(${baseUrl}/images/bg.webp)`,
-        }} className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}>
+        <Body
+          style={{
+            backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+          }}
+          className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}
+        >
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>
@@ -86,7 +88,7 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
                     <Text className="m-0 mt-[2%] text-xs">+918921964557</Text>
                   </Column>
                   <Column align="right" className="w-1/2">
-                    <Img src={`${baseUrl}/images/qr.png`} className="w-[100%] object-contain" />
+                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />
                   </Column>
                 </Row>
               </Section>
@@ -96,7 +98,7 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
                   <Column align="left" className="w-1/3">
                     <Row>
                       <Column align="center">
-                        <Img src={`${baseUrl}/images/bg.webp`} className="w-[80%] max-w-[100px] rounded-lg" />
+                        <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[80%] max-w-[100px] rounded-lg" />
                       </Column>
                     </Row>
                   </Column>

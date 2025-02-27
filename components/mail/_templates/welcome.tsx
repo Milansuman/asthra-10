@@ -15,7 +15,6 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import { twMerge } from "tailwind-merge";
 
 interface WelcomeEmailProps {
   personName: string
@@ -45,7 +44,12 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
       <Tailwind>
-        <Body className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}>
+        <Body
+          style={{
+            backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+          }}
+          className={("bg-[#0A0A19] font-ambit bg-cover bg-center")}
+        >
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>

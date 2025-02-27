@@ -15,13 +15,15 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import { twMerge } from "tailwind-merge";
+import type { UserZodType, EventZodType, UserRegisteredEventZod } from '@/lib/validator';
 
 interface CertificateReadyProps {
-  personName: string;
+  user: UserZodType;
+  event: EventZodType;
+  userRegisteredEvent: UserRegisteredEventZod;
 };
 
-export default function CertificateReadyEmail({ personName }: CertificateReadyProps) {
+export default function CertificateReadyEmail({ user, event, userRegisteredEvent }: CertificateReadyProps) {
   return (
     <Html>
       <Head>
@@ -40,9 +42,12 @@ export default function CertificateReadyEmail({ personName }: CertificateReadyPr
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
       <Tailwind>
-        <Body style={{
-          backgroundImage: `url(${baseUrl}/images/bg.webp)`,
-        }} className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}>
+        <Body
+          style={{
+            backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+          }}
+          className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}
+        >
           <Container className="mx-auto my-4">
             <Section className="mt-8 px-2">
               <Row>
@@ -64,7 +69,7 @@ export default function CertificateReadyEmail({ personName }: CertificateReadyPr
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
-              <Text className="text-lg pb-4">Hello {personName},</Text>
+              <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Section className="mt-10">
                 <Row>
