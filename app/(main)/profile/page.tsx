@@ -38,7 +38,6 @@ import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
 import { ModelViewer } from "@/components/madeup/model";
 import { api } from "@/trpc/react";
-import { allDepartments } from "@/logic";
 import LoginButton from "@/app/_components/login";
 import { allDepartments, ASTHRA } from "@/logic";
 import { ButtonText } from "@/app/_components/pay";
