@@ -15,11 +15,12 @@ import {
 import Plusbox from "./box";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { UrlObject } from "node:url";
 
 export type DockItemData = {
     icon?: React.ReactNode;
     label: React.ReactNode;
-    link?: string;
+    link: string;
     onClick?: () => void;
     className?: string;
 };
@@ -85,15 +86,14 @@ export default function Dock({
                     aria-label="Application dock"
                 >
                     {items.map((item, index) => {
-                        const Wrapper = item.link ? Link : "div";
-                        const props = item.link ? { href: item.link } : { onClick: item.onClick };
-                        if (item.link === path) return <></>;
+                        if (item.link === path) return null;
+
                         return (
-                            <Wrapper {...(props as any)} key={item.link}>
-                                <div key={index} className="hover:scale-105 transition-all cursor-pointer">
+                            <Link href={item.link as unknown as UrlObject} key={item.link}>
+                                <div className="hover:scale-105 transition-all cursor-pointer">
                                     <p className="text-xl m-0 px-3 py-3 ">{item.label}</p>
                                 </div>
-                            </Wrapper>
+                            </Link>
                         )
                     })}
                 </motion.div>

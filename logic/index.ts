@@ -89,7 +89,7 @@ export type EndTime = keyof typeof endTime;
  *
  * Mon Mar 06 2025 09:00:00 GMT+0530 (India Standard Time)
  * */
-export const AsthraStartsAt = new Date(Date.parse("2025-03-06T09:00:00"));
+export const AsthraStartsAt = new Date(Date.parse('2025-03-06T09:00:00'));
 // AsthraStartsAt.toLocaleString() "4/3/2025, 9:00:00 am"
 
 /**
@@ -128,10 +128,10 @@ export const AsthraLastEditDay = new Date(1740810540000);
 export const ASTHRA = {
   // dont change this ID (else it will break the system)
   id: '11111111-2222-3333-4444-555555555555',
-  credit: 400,
-  amount: 300,
+  credit: 500,
+  amount: 250,
   department: 'NA',
-  dateTimeEnd: 'ALL DAY',
+  dateTimeEnd: '2 FULL DAYS',
   name: 'ASTHRA PASS',
   venue: 'Registration Desk, SJCET',
   eventStatus: 'approved',
@@ -141,7 +141,7 @@ export const ASTHRA = {
   registrationType: 'both',
   secret: 'ASTHRA_PASS',
   description:
-    'With Asthra Pass, you can now get access to all department events and competitions (excluding workshops) for just ₹ 300!\nHurry up before the deal ends!',
+    'With Asthra Pass, you can now get access to all department and general events (excluding workshops) for just ₹250!\nHurry up before the deal ends!',
 } satisfies Omit<
   EntireZodType['event'],
   'createdAt' | 'updatedAt' | 'createdById' | 'poster' | 'dateTimeStarts'

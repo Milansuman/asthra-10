@@ -40,6 +40,8 @@ import { ModelViewer } from "@/components/madeup/model";
 import { api } from "@/trpc/react";
 import { allDepartments } from "@/logic";
 import LoginButton from "@/app/_components/login";
+import { allDepartments, ASTHRA } from "@/logic";
+import { ButtonText } from "@/app/_components/pay";
 
 export default function ProfilePage() {
   const { status, data, valid } = useSession();
@@ -177,25 +179,13 @@ export default function ProfilePage() {
           </Dialog>
         </CardFooter>
       </Card>
-      <div className="flex-[1_auto] flex flex-col gap-6">
-        <Card className="relative">
-          <ModelViewer className={`absolute mt-20 ${!user.asthraPass ? "blur" : ""}`} />
-          <CardHeader>
-            <Image src="/assets/asthraps.png" alt="" width={200} height={200} />
-          </CardHeader>
-          {!user.asthraPass && (<>
-            <CardContent>
-              <Label size={"md"} className="text-center">
-                You don't have an Asthra Pass
-              </Label>
-            </CardContent>
-            <CardFooter>
-              <Button link="/asthra" variant={"glass"} size={"glass"}>
-                Purchase Now <ShoppingBag />
-              </Button>
-            </CardFooter>
-          </>)}
-        </Card>
+      <div className="flex-[1_auto] flex flex-col gap-6 items-center justify-center relative">
+        <div className="group">
+          <ModelViewer className={`group-hover:blur-0 transition-all ${user.asthraPass ? "" : "blur"}`} />
+          {!user.asthraPass && <Button variant={"glass"} size={"glass"} className="absolute top-1/2 left-1/2 -translate-x-1/2" link={`/event/${ASTHRA.id}`}>
+            <ButtonText keyType={"Buy ASTHRA PASS"} />
+          </Button>}
+        </div>
       </div>
     </main>
   );
