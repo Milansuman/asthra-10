@@ -63,17 +63,18 @@ export const eventRouter = createTRPCRouter({
           .where(eq(eventsTable.id, input.id));
       }
 
-      return await ctx.db
+      await ctx.db
         .update(eventsTable)
         .set({
           ...newInput,
         })
         .where(
-          and(
-            eq(eventsTable.id, input.id),
-            eq(eventsTable.department, ctx.user.department)
-          )
-        );
+          eq(eventsTable.id, input.id)
+          // and(
+          //   eq(eventsTable.id, input.id),
+          //   eq(eventsTable.department, ctx.user.department)
+          // )
+        )
     }),
 
   /**
@@ -113,10 +114,11 @@ export const eventRouter = createTRPCRouter({
           ...input,
         })
         .where(
-          and(
-            eq(eventsTable.id, input.id),
-            eq(eventsTable.department, ctx.user.department)
-          )
+          eq(eventsTable.id, input.id)
+          // and(
+          //   eq(eventsTable.id, input.id),
+          //   eq(eventsTable.department, ctx.user.department)
+          // )
         )
         .returning();
     }),
@@ -138,10 +140,11 @@ export const eventRouter = createTRPCRouter({
         return (await ctx.db
           .delete(eventsTable)
           .where(
-            and(
-              eq(eventsTable.id, input.id),
-              eq(eventsTable.department, ctx.user.department)
-            )
+            eq(eventsTable.id, input.id)
+            // and(
+            //   eq(eventsTable.id, input.id),
+            //   eq(eventsTable.department, ctx.user.department)
+            // )
           )
           .returning({ deletedId: eventsTable.id }));
       }

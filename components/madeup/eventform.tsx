@@ -441,7 +441,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Start Time</FormLabel>
               <FormControl>
-                <Input type='datetime-local' defaultValue={field.value.toISOString().slice(0, -2)} onChange={(event) => {
+                <Input type='datetime-local' defaultValue={field.value?.toISOString().slice(0, -2) ?? "2025-03-06T09:00:00"} onChange={(event) => {
                   const datetime = event.target.valueAsDate;
                   console.log(datetime)
                   field.onChange({
