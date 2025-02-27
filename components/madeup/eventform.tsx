@@ -442,12 +442,12 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <FormLabel>Start Time</FormLabel>
               <FormControl>
                 <Input type='datetime-local' defaultValue={field.value?.toISOString().slice(0, -2) ?? "2025-03-06T09:00:00"} onChange={(event) => {
-                  const datetime = event.target.valueAsDate;
+                  const datetime = event.target.value;
                   console.log(datetime)
                   field.onChange({
                     ...event,
                     target: {
-                      value: datetime
+                      value: new Date(datetime)
                     }
                   })
                 }} />
