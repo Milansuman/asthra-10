@@ -89,7 +89,7 @@ export type EndTime = keyof typeof endTime;
  *
  * Mon Mar 06 2025 09:00:00 GMT+0530 (India Standard Time)
  * */
-export const AsthraStartsAt = new Date(1741231800000);
+export const AsthraStartsAt = new Date(Date.parse("2025-03-06T09:00:00"));
 // AsthraStartsAt.toLocaleString() "4/3/2025, 9:00:00 am"
 
 /**

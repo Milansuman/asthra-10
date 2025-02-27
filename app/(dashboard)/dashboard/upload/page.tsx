@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <>
       <Suspense fallback={<pre>loading</pre>}>
-        <SearchParamsComponent setUrl={setUrl} copy={copy} setCopy={setCopy} url={url}/>
+        <SearchParamsComponent setUrl={setUrl} copy={copy} setCopy={setCopy} url={url} />
       </Suspense>
     </>
   );
@@ -31,41 +31,41 @@ const SearchParamsComponent = ({ setUrl, copy, setCopy, url }: { setUrl: React.D
   return (
     <>
       {
-        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!}/> :
-        <div className='conatiner flex justify-center items-center min-h-screen'>
-          <Card className='flex flex-col gap-10'>
-            {url && <CardHeader>
-              <Image src={url} alt="" className='w-full' width={600} height={600} />
-            </CardHeader>}
-            <CardContent className='p-6'>
-              <UploadImage setUrl={setUrl} />
-            </CardContent>
-            <CardFooter className='flex flex-col gap-5'>
-              {url && <Alert className='flex gap-3'>
-                <Button size={'icon'} className='gap-3 rounded-s' onClick={async () => {
-                  await navigator.clipboard.writeText(url);
-                  setCopy(true)
-                }}>
-                  {!copy ? <Copy /> : <Check />}
-                </Button>
+        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} /> :
+          <div className='conatiner flex justify-center items-center min-h-screen'>
+            <Card className='flex flex-col gap-10'>
+              {url && <CardHeader>
+                <Image src={url} alt="" className='mx-auto max-h-96 aspect-auto' width={600} height={600} />
+              </CardHeader>}
+              <CardContent className='p-6'>
+                <UploadImage setUrl={setUrl} />
+              </CardContent>
+              <CardFooter className='flex flex-col gap-5'>
+                {url && <Alert className='flex gap-3'>
+                  <Button size={'icon'} className='gap-3 rounded-s' onClick={async () => {
+                    await navigator.clipboard.writeText(url);
+                    setCopy(true)
+                  }}>
+                    {!copy ? <Copy /> : <Check />}
+                  </Button>
 
-                <div>
-                  <AlertTitle>{!copy ? "Copy" : "Copied"}</AlertTitle>
+                  <div>
+                    <AlertTitle>{!copy ? "Copy" : "Copied"}</AlertTitle>
+                    <AlertDescription>
+                      {url}
+                    </AlertDescription>
+                  </div>
+                </Alert>}
+                <Alert className=''>
+                  <ArrowUp className="h-4 w-4" />
+                  <AlertTitle>Dont forget to copy!</AlertTitle>
                   <AlertDescription>
-                    {url}
+                    Upload your image and Add this link in poster section before creating/editing events
                   </AlertDescription>
-                </div>
-              </Alert>}
-              <Alert className=''>
-                <ArrowUp className="h-4 w-4" />
-                <AlertTitle>Dont forget to copy!</AlertTitle>
-                <AlertDescription>
-                  Upload your image and Add this link in poster section before creating/editing events
-                </AlertDescription>
-              </Alert>
-            </CardFooter>
-          </Card>
-        </div>
+                </Alert>
+              </CardFooter>
+            </Card>
+          </div>
       }
     </>
   );
