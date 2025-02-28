@@ -301,67 +301,70 @@ function EventCard({
               <p>{event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}</p>
             </div>
             {dashboard && (
+              // <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">
+              //   <AlertDialog>
+              //     <AlertDialogTrigger>
+
+              //     </AlertDialogTrigger>
+              //     <AlertDialogContent className="w-full bg-neutral-200/10 rounded-none backdrop-blur-xl">
+              //       <AlertDialogHeader>
+              //         <AlertDialogTitle>
+              //           Participants for {event.name}
+              //         </AlertDialogTitle>
+              //       </AlertDialogHeader>
+              //       <ScrollArea className="max-h-80 w-full">
+              //         <Table>
+              //           <TableHeader>
+              //             <TableHead className="w-[100px]">Name</TableHead>
+              //             {/* <TableHead>Department</TableHead> */}
+              //             <TableHead>College</TableHead>
+              //             <TableHead>Status</TableHead>
+              //           </TableHeader>
+              //           <TableBody className="max-h-20 overflow-auto">
+              //             {registeredUsers?.map((participant) => (
+              //               <TableRow key={participant.email}>
+              //                 <TableCell>{participant.name}</TableCell>
+              //                 {/* <TableCell>{participant.department}</TableCell> */}
+              //                 <TableCell>{participant.college}</TableCell>
+              //                 <TableCell className="flex flex-row gap-2">
+              //                   {participant.status}
+              //                   {participant.status === 'attended' ? (
+              //                     <XCircleIcon
+              //                       onClick={() =>
+              //                         handleAttendance(
+              //                           participant.userId,
+              //                           participant.eventId,
+              //                           false
+              //                         )
+              //                       }
+              //                     />
+              //                   ) : (
+              //                     <CheckCircle
+              //                       onClick={() =>
+              //                         handleAttendance(
+              //                           participant.userId,
+              //                           participant.eventId,
+              //                           true
+              //                         )
+              //                       }
+              //                     />
+              //                   )}
+              //                 </TableCell>
+              //               </TableRow>
+              //             ))}
+              //           </TableBody>
+              //         </Table>
+              //       </ScrollArea>
+              //       <AlertDialogFooter>
+              //         <AlertDialogCancel>Close</AlertDialogCancel>
+              //       </AlertDialogFooter>
+              //     </AlertDialogContent>
+              //   </AlertDialog>
+              // </div>
               <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">
-                <AlertDialog>
-                  <AlertDialogTrigger>
-                    <Button className="h-[30px] uppercase font-black self-end">
-                      Participants
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="w-full bg-neutral-200/10 rounded-none backdrop-blur-xl">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Participants for {event.name}
-                      </AlertDialogTitle>
-                    </AlertDialogHeader>
-                    <ScrollArea className="max-h-80 w-full">
-                      <Table>
-                        <TableHeader>
-                          <TableHead className="w-[100px]">Name</TableHead>
-                          {/* <TableHead>Department</TableHead> */}
-                          <TableHead>College</TableHead>
-                          <TableHead>Status</TableHead>
-                        </TableHeader>
-                        <TableBody className="max-h-20 overflow-auto">
-                          {registeredUsers?.map((participant) => (
-                            <TableRow key={participant.email}>
-                              <TableCell>{participant.name}</TableCell>
-                              {/* <TableCell>{participant.department}</TableCell> */}
-                              <TableCell>{participant.college}</TableCell>
-                              <TableCell className="flex flex-row gap-2">
-                                {participant.status}
-                                {participant.status === 'attended' ? (
-                                  <XCircleIcon
-                                    onClick={() =>
-                                      handleAttendance(
-                                        participant.userId,
-                                        participant.eventId,
-                                        false
-                                      )
-                                    }
-                                  />
-                                ) : (
-                                  <CheckCircle
-                                    onClick={() =>
-                                      handleAttendance(
-                                        participant.userId,
-                                        participant.eventId,
-                                        true
-                                      )
-                                    }
-                                  />
-                                )}
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </ScrollArea>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Close</AlertDialogCancel>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <Button link={`/dashboard/events/list?eventId=${event.id}`} className="h-[30px] uppercase font-black self-end">
+                  Participants
+                </Button>
               </div>
             )}
             <div className='flex flex-row gap-2'>

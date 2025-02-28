@@ -21,10 +21,6 @@ const Items: DockItemData[] = [
     link: "/dashboard/events/edit",
     label: "Edit Events",
   },
-  {
-    link: "/dashboard/attendance",
-    label: "Attendance Scan",
-  },
   // {
   //   link: "/dashboard/desk",
   //   label: "Desk",

@@ -11,22 +11,25 @@ import { Markdown } from "@/app/_components/md";
 
 interface EventCardProps {
 	data: z.infer<typeof eventZod>;
-	credits?: boolean;
 	footerNote?: string;
 	className?: string;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ data, credits = true }) => {
+const EventCard: React.FC<EventCardProps> = ({ data }) => {
 	return (
-		<Plusbox className="p-2 relative group">
-			<Image width={400} height={500} src={data.poster} alt={data.name ?? "SJCET Events"} />
+		<Plusbox className="p-2 relative group w-[98%] md:w-[400px] max-h-[400px] overflow-hidden">
+			<Image width={400} height={400} className="aspect-square w-full max-h-[370px]" src={data.poster} alt={data.name ?? "SJCET Events"} />
 			<div className="absolute top-0 left-0 right-0 bottom-0 bg-glass p-4 opacity-0 group-hover:opacity-100 transition-all">
-				<div className="flex flex-col items-center justify-center h-full gap-2">
-					<Label variant={'glass'} className="text-sm font-thin">{allDepartments[data.department as AllDepartments]}</Label>
-					<h4>{data.name}</h4>
-					<Markdown>
-						{data.description}
-					</Markdown>
+				<div className="flex flex-col items-center justify-around h-full gap-2">
+					<div className="flex flex-col items-center gap-2">
+						<Label variant={'glass'} className="text-sm font-thin">{allDepartments[data.department as AllDepartments]}</Label>
+						<h4 className="mt-[4%]">{data.name}</h4>
+						<div className="mt-[4%]">
+							<Markdown>
+								{data.description}
+							</Markdown>
+						</div>
+					</div>
 					<div className="flex gap-2 flex-wrap flex-row items-center justify-center">
 						{data.eventType !== "ASTHRA_PASS_EVENT" && <Label variant={'glass'} className="text-sm font-thin inline-flex gap-1">KTU Points <CheckCircleIcon size={18} /></Label>}
 					</div>

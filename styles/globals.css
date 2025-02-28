@@ -117,8 +117,7 @@ h4 {
 
 p {
   font-family: "Ambit", Poppins, sans-serif;
-  @apply tracking-wide;
-  /* @apply ; */
+  @apply tracking-wide text-sm md:text-medium break-all;
 }
 
 blockquote {
@@ -131,8 +130,7 @@ blockquote {
 
 @font-face {
   font-family: "Ambit";
-  src:
-    url("/fonts/ambit/Ambit-Regular.woff2") format("woff2"),
+  src: url("/fonts/ambit/Ambit-Regular.woff2") format("woff2"),
     url("/fonts/ambit/Ambit-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
@@ -147,7 +145,7 @@ blockquote {
   display: flex;
   flex-direction: row;
   background-color: #efefef22;
-  padding: 5px;
+  padding: 8px;
   margin-bottom: 5px;
 
   & * {
@@ -158,44 +156,36 @@ blockquote {
 
 .mdxeditor-root-contenteditable {
   outline: none;
-  min-height: 50px;
+  min-height: 100px;
 
   & * {
     outline: none;
   }
 
-  & *>h1 {
+  & * > h1 {
     font-size: 20px;
   }
 }
 
 * {
-  cursor:
-    url("/cursor/small.png") 0 0,
-    auto;
+  cursor: url("/cursor/small.png") 0 0, auto;
 }
 
 a:disabled,
 button:disabled,
 .disabled,
 .invalid {
-  cursor:
-    url("/cursor/red.png") 0 0,
-    not-allowed;
+  cursor: url("/cursor/red.png") 0 0, not-allowed;
 }
 
 .draggable,
 [draggable="true"] {
-  cursor:
-    url("/cursor/closed.png") 0 0,
-    grab;
+  cursor: url("/cursor/closed.png") 0 0, grab;
 }
 
 .dragging,
 [draggable="true"]:active {
-  cursor:
-    url("/cursor/open.png") 0 0,
-    grabbing;
+  cursor: url("/cursor/open.png") 0 0, grabbing;
 }
 
 a,
@@ -204,9 +194,7 @@ button:enabled,
 input[type="submit"],
 input[type="button"],
 .clickable {
-  cursor:
-    url("/cursor/point.png") 0 0,
-    pointer;
+  cursor: url("/cursor/point.png") 0 0, pointer;
 }
 
 a:active,
@@ -215,9 +203,7 @@ button:enabled:active,
 input[type="submit"]:active,
 input[type="button"]:active,
 .clickable:active {
-  cursor:
-    url("/cursor/clicked.png") 0 0,
-    pointer;
+  cursor: url("/cursor/clicked.png") 0 0, pointer;
 }
 
 @media screen {
@@ -240,10 +226,17 @@ input[type="button"]:active,
   aspect-ratio: 1 / 1;
 }
 
-button.bg-glass.glass-button>.lucide {
+button.bg-glass.glass-button > .lucide {
   @apply !w-7 !h-7;
 }
 
-.qr-container>*>*>svg {
+.qr-container > * > * > svg {
   width: 100%;
+}
+
+.md-container {
+  @apply space-y-2;
+  a {
+    @apply bg-black/20 rounded-md px-2 py-1 before:content-['🔗_'];
+  }
 }

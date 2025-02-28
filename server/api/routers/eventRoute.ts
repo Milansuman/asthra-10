@@ -60,7 +60,8 @@ export const eventRouter = createTRPCRouter({
           .set({
             ...newInput,
           })
-          .where(eq(eventsTable.id, input.id)).returning();
+          .where(eq(eventsTable.id, input.id))
+          .returning();
       }
 
       return await ctx.db
@@ -74,7 +75,8 @@ export const eventRouter = createTRPCRouter({
           //   eq(eventsTable.id, input.id),
           //   eq(eventsTable.department, ctx.user.department)
           // )
-        ).returning()
+        )
+        .returning();
     }),
 
   /**
@@ -137,7 +139,7 @@ export const eventRouter = createTRPCRouter({
 
       if (ctx.user.role === 'MANAGEMENT') {
         console.log(ctx.user);
-        return (await ctx.db
+        return await ctx.db
           .delete(eventsTable)
           .where(
             eq(eventsTable.id, input.id)
@@ -146,7 +148,7 @@ export const eventRouter = createTRPCRouter({
             //   eq(eventsTable.department, ctx.user.department)
             // )
           )
-          .returning({ deletedId: eventsTable.id }));
+          .returning({ deletedId: eventsTable.id });
       }
       return await ctx.db
         .delete(eventsTable)
@@ -154,11 +156,24 @@ export const eventRouter = createTRPCRouter({
         .returning({ deletedId: eventsTable.id });
     }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.query.eventsTable.findMany({
-      orderBy: (events, { desc }) => [desc(events.createdAt)],
-    });
-  }),
+  getLatest: publicProcedure
+    .input(z.number().optional())
+    .query(({ ctx, input }) => {
+      return ctx.db.query.eventsTable.findMany({
+        where: eq(eventsTable.eventStatus, 'approved'),
+        orderBy: (events, { desc }) => [desc(events.createdAt)],
+        limit: input,
+      });
+    }),
+
+  getAll: coordinatorProcedure
+    .input(z.number().optional())
+    .query(({ ctx, input }) => {
+      return ctx.db.query.eventsTable.findMany({
+        orderBy: (events, { desc }) => [desc(events.createdAt)],
+        limit: input,
+      });
+    }),
 
   getSpecific: publicProcedure
     .input(
@@ -207,6 +222,17 @@ export const eventRouter = createTRPCRouter({
         .orderBy(user.name);
     }),
 
+  getEventParticipants: coordinatorProcedure
+    .input(eventZod.pick({id: true}))
+    .query(({ctx, input}) => {
+      return ctx.db
+      .select()
+      .from(userRegisteredEventTable)
+      .leftJoin(user, eq(userRegisteredEventTable.userId, user.id))
+      .leftJoin(eventsTable, eq(userRegisteredEventTable.eventId, eventsTable.id))
+      .where(eq(userRegisteredEventTable.eventId, input.id))
+      .orderBy(user.name);
+    }),
   /**
    * Register non price events
    */
