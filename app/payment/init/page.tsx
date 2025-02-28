@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -56,6 +56,7 @@ function Page() {
 }
 
 function PreCheckOut({ eventId }: { eventId: string }) {
+  const [pdfUrl, setPdfUrl] = useState("");
   const { data, error, isLoading } = api.sjcetPay.initiatePurchase.useQuery(
     {
       eventId,
@@ -132,9 +133,9 @@ function PreCheckOut({ eventId }: { eventId: string }) {
         <CardDescription>
           Pay ₹{event.amount} INR for the {event.eventType}.
         </CardDescription>
-        <CardDescription>
+        {/* <CardDescription>
           Transaction ID: {transaction.id}
-        </CardDescription>
+        </CardDescription> */}
         <CardDescription>
           User ID: {transaction.userId}
         </CardDescription>
@@ -150,7 +151,49 @@ function PreCheckOut({ eventId }: { eventId: string }) {
           </div>
         </Plusbox>
       </CardContent>
+      <p className="p-4 text-sm text-center">
+        By completing this purchase, you agree to our{" "}
+        <Dialog>
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              onClick={() => setPdfUrl("/Mandatory_policy_sjcet.pdf")}
+              className=" underline"
+            >
+              Privacy Policy
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
+            <iframe
+              src={`${pdfUrl}`}
+              className="w-full h-full p-4"
+              title="pdf-viewer"
+            />
+
+          </DialogContent>
+        </Dialog>{" "}
+        and{" "}
+        <Dialog>
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              onClick={() => setPdfUrl("/REFUND_POLICY_SJCET.pdf")}
+              className="underline"
+            >
+              Refund Policy
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
+            <iframe
+              src={`${pdfUrl}`}
+              className="w-full h-full p-4"
+              title="pdf-viewer"
+            />
+          </DialogContent>
+        </Dialog>
+      </p>
       <CardFooter className="justify-between gap-4 flex-row-reverse">
+
         <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id, event.amount)}>Pay ₹{event.amount} Now</Button>
         <Dialog>
           <DialogTrigger asChild>

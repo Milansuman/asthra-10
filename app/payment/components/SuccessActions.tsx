@@ -32,7 +32,7 @@ export default function SuccessActions({ eventName }: SuccessActionsProps) {
                 Download Your Pass
             </Button>
             <Button variant="secondary">
-                <a href="/">Back to Home</a>
+                <a href="/profile">Back to Profile</a>
             </Button>
         </div>
     );
