@@ -9,14 +9,14 @@ type FailureActionsProps = {
 export default function FailureActions({ eventName }: FailureActionsProps) {
     return (
         <div className="justify-between flex flex-row-reverse p-6">
-            <Button
+            {/* <Button
                 variant="default"
                 onClick={() => alert(`Retry payment for ${eventName}`)}
             >
                 Retry Payment
-            </Button>
+            </Button> */}
             <Button variant="secondary">
-                <a href="/">Back to Home</a>
+                <a href="/profile">Back to Profile</a>
             </Button>
         </div>
     );
