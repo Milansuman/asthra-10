@@ -91,13 +91,14 @@ export default async function Event({ params }: Props) {
           <Card className='relative'>
             <ShareButton />
             <CardHeader>
-              <Badge variant={"glass"} className="w-fit relative">
+              <Badge variant={"glass"} className="w-fit relative mb-3">
                 Created by {department}
                 <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
               </Badge>
               <CardTitle>
                 {event.name ?? "Event"}
               </CardTitle>
+              <br />
               <Markdown full>
                 {event.description}
               </Markdown>
@@ -121,7 +122,7 @@ export default async function Event({ params }: Props) {
               {event.dateTimeStarts && (
                 <div className='relative bg-glass py-2 px-3 border-glass border'>
                   <p className='opacity-70 text-sm font-normal'>Event starts at</p>
-                  {event.dateTimeStarts.toLocaleTimeString()}
+                  {event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
                 </div>
               )}
 

@@ -11,12 +11,11 @@ import { Markdown } from "@/app/_components/md";
 
 interface EventCardProps {
 	data: z.infer<typeof eventZod>;
-	credits?: boolean;
 	footerNote?: string;
 	className?: string;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ data, credits = true }) => {
+const EventCard: React.FC<EventCardProps> = ({ data }) => {
 	return (
 		<Plusbox className="p-2 relative group w-[98%] md:w-[400px] max-h-[400px] overflow-hidden">
 			<Image width={400} height={400} className="aspect-square w-full max-h-[370px]" src={data.poster} alt={data.name ?? "SJCET Events"} />
