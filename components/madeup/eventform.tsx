@@ -214,7 +214,8 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <RichEditor content={field.value} onUpdate={(e) => {
+                <RichEditor content={field.value ?? ""} onUpdate={(e) => {
+                  console.log(e.data)
                   field.onChange({
                     ...e,
                     target: {
@@ -236,6 +237,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <FormLabel>Secret Description</FormLabel>
               <FormControl>
                 <RichEditor content={field.value ?? ""} onUpdate={(e) => {
+                  console.log(e.data)
                   field.onChange({
                     ...e,
                     target: {

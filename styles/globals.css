@@ -247,3 +247,14 @@ button.bg-glass.glass-button>.lucide {
 .qr-container>*>*>svg {
   width: 100%;
 }
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
