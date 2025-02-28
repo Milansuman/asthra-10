@@ -298,7 +298,7 @@ function EventCard({
               </h4>
 
               <p>{event.dateTimeStarts.toLocaleDateString()}</p>
-              <p>{event.dateTimeStarts.toLocaleTimeString("en-US", { timeZone: "UTC" })}</p>
+              <p>{event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}</p>
             </div>
             {dashboard && (
               <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">

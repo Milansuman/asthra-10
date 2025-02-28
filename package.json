@@ -97,6 +97,7 @@
     "react-qr-code": "^2.0.15",
     "react-qr-scanner": "^1.0.0-alpha.11",
     "react-stately": "^3.35.0",
+    "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
     "sonner": "^2.0.0",
     "superjson": "^2.2.2",

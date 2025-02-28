@@ -10,28 +10,29 @@ import {
   Preview,
   Section,
   Text,
-  Hr,
   Link,
   Row,
-  Column
-} from "@react-email/components";
+  Column,
+} from "@react-email/components"
 import { baseUrl } from "../utils";
-// import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
+import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
 
-type Props = {
-  // user: UserZodType;
-  eventName: string | null;
-  eventSecret: string | null;
-  // transactions: TransactionCard;
+interface EventConfirmationProps {
+  user: UserZodType;
+  transactions: TransactionZodType;
+  event: EventZodType;
+  userRegisteredEvent: UserRegisteredEventZod;
 };
 
-const EventConfirmation = ({ eventName, eventSecret }: Props) => {
+export default function EventConfirmationEmail({ event, transactions, user, userRegisteredEvent }: EventConfirmationProps) {
   return (
     <Html>
       <Head>
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light only" />
         <Font
-          fontFamily="Ambit"
-          fallbackFontFamily="Verdana"
+          fontFamily="ambit"
+          fallbackFontFamily="sans-serif"
           webFont={{
             url: `${baseUrl}/fonts/ambit/Ambit-Regular.woff2`,
             format: "woff2",
@@ -41,92 +42,75 @@ const EventConfirmation = ({ eventName, eventSecret }: Props) => {
         />
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
-      <Tailwind
-        config={{
-          theme: {
-            extend: {
-              colors: {
-                brand: "#5B9BE6",
-              },
-              fontFamily: {
-                ambit: ["Ambit"],
-              },
-              backdropBlur: {
-                test: "blur(100px)"
-              }
-            },
-          },
-        }}
-      >
-        <Body className="bg-[#4A90E2]">
-          <Container className="mx-auto py-5">
-            <Section className="mt-4">
+      <Tailwind>
+        <Body
+          style={{
+            backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+          }}
+          className={("bg-[#0A0A19] font-ambit bg-cover bg-center")}
+        >
+          <Container className="mx-auto my-4">
+            <Section className="mt-8 px-2">
               <Row>
                 <Column align="left">
-                  <Img
-                    src={`${baseUrl}/images/asthra.png`}
-                    width="100"
-                    height="50"
-                    alt="St. Joseph's Logo"
-                    className="object-contain"
-                  />
+                  <Link href="https://asthra.sjcetpalai.ac.in">
+                    <Img src={`${baseUrl}/images/asthra.png`} width="100" height="50" alt="Asthra SJCET Logo" className="object-contain" />
+                  </Link>
                 </Column>
                 <Column align="right">
-                  <Img
-                    src={`${baseUrl}/images/sjcet.png`}
-                    width="150"
-                    height="50"
-                    alt="St. Joseph's College"
-                    className="object-contain"
-                  />
+                  <Link href="https://sjcetpalai.ac.in">
+                    <Img src={`${baseUrl}/images/sjcet.png`} width="150" height="50" alt="SJCET Logo" className="object-contain" />
+                  </Link>
                 </Column>
               </Row>
             </Section>
 
-            <Heading className="text-white text-6xl font-extrabold text-center mt-14 font-ambit">
+            <Heading className="text-[#ffffff] text-5xl font-extrabold text-center mt-16">
               ASTHRA 9.0
             </Heading>
 
-            <Container className="bg-[#4A90E2]/80 rounded-2xl border-[1px] border-solid border-[#8abaf1] shadow-2xl p-8 text-white relative">
-              <Section className="my-5">
-                <Heading className="text-3xl text-center font-[Verdana,sans-serif]">Event Confirmation</Heading>
-                <Container className="bg-white/20 rounded-2xl">
-                  <Section>
+            <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
+              <Text className="text-lg pb-4">Hello {user.name},</Text>
+
+              <Section className="mt-10">
+                <Row>
+                  <Column align="left" className="w-28">
+                    <Text className="m-0 text-[#50c2ff] text-base font-extrabold">Follow us on:</Text>
                     <Row>
-                      <div className="flex flex-row justify-center items-center gap-2">
-                        <div className="w-10 h-auto bg-slate-800">
-                        </div>
-                        <div className="grid grid-cols-3 gap-2">
-                          <div>
-                            <Text>Registered ID</Text>
-                          </div>
-                          <div>
-                            <Text>Username</Text>
-                          </div>
-                          <div>
-                            <Text>Event Name</Text>
-                          </div>
-                          <div>
-                            <Text>Venue</Text>
-                          </div>
-                          <div>
-                            <Text>Host</Text>
-                          </div>
-                          <div>
-                            <Text>Event Date</Text>
-                          </div>
-                        </div>
-                      </div>
+                      <Column>
+                        <Link href="https://sjcetpalai.ac.in">
+                          <Img src={`${baseUrl}/images/social-web.png`} width="25" height="25" alt="Globe" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://www.linkedin.com/school/sjcetpalai/">
+                          <Img src={`${baseUrl}/images/social-linkedin.png`} width="25" height="25" alt="LinkedIn" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://x.com/SJCET_PALAI">
+                          <Img src={`${baseUrl}/images/social-x.png`} width="25" height="25" alt="X" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://www.instagram.com/sjcet_palai/">
+                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
+                        </Link>
+                      </Column>
                     </Row>
-                  </Section>
-                </Container>
+                  </Column>
+                  <Column align="right">
+                    <Link href="https://asthra.sjcetpalai.ac.in">
+                      <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
+                    </Link>
+                  </Column>
+                </Row>
               </Section>
             </Container>
+
           </Container>
         </Body>
-      </Tailwind>
-    </Html>
+      </Tailwind >
+    </Html >
   )
-};
-
-export default EventConfirmation;
+}

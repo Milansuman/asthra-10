@@ -5,6 +5,9 @@ import type { z } from "zod";
 import { Label } from "@/components/ui/label";
 import Plusbox from "./box";
 import Image from "next/image";
+import { CheckCircleIcon } from "lucide-react";
+import { type AllDepartments, allDepartments } from "@/logic";
+import { Markdown } from "@/app/_components/md";
 
 interface EventCardProps {
 	data: z.infer<typeof eventZod>;
@@ -18,11 +21,15 @@ const EventCard: React.FC<EventCardProps> = ({ data, credits = true }) => {
 		<Plusbox className="p-2 relative group">
 			<Image width={400} height={500} src={data.poster} alt={data.name ?? "SJCET Events"} />
 			<div className="absolute top-0 left-0 right-0 bottom-0 bg-glass p-4 opacity-0 group-hover:opacity-100 transition-all">
-				<div className="flex flex-col items-center justify-center h-full">
+				<div className="flex flex-col items-center justify-center h-full gap-2">
+					<Label variant={'glass'} className="text-sm font-thin">{allDepartments[data.department as AllDepartments]}</Label>
 					<h4>{data.name}</h4>
-					<p>{data.description}</p>
-					<Label variant={'glass'} className="text-sm font-thin mt-2">{data.registrationType}</Label>
-					{credits && <p className="text-xl font-thin mt-10">Registration Fees: {data.amount}</p>}
+					<Markdown>
+						{data.description}
+					</Markdown>
+					<div className="flex gap-2 flex-wrap flex-row items-center justify-center">
+						{data.eventType !== "ASTHRA_PASS_EVENT" && <Label variant={'glass'} className="text-sm font-thin inline-flex gap-1">KTU Points <CheckCircleIcon size={18} /></Label>}
+					</div>
 				</div>
 			</div>
 		</Plusbox>

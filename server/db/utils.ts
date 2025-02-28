@@ -76,6 +76,10 @@ export const errorList = {
     message: 'Opps, registration requires more asthra credits',
     code: 'PRECONDITION_FAILED',
   },
+  SHORT_URL_NOT_FOUND: {
+    message: 'Short URL not found',
+    code: 'NOT_FOUND',
+  },
   WRONG_PARAMETERS: {
     message: 'Wrong parameters detected',
     code: 'BAD_REQUEST',

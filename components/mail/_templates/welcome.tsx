@@ -10,37 +10,30 @@ import {
   Preview,
   Section,
   Text,
-  Hr,
   Link,
   Row,
-  Column
-} from "@react-email/components";
-
-import {
-  Instagram,
-  Mail,
-  Globe,
-  TrainFront,
-  Bus
-} from "lucide-react";
+  Column,
+} from "@react-email/components"
 import { baseUrl } from "../utils";
 
-type Props = {
-  personName: string;
-};
+interface WelcomeEmailProps {
+  personName: string
+}
 
 const coordinators = [
   { name: "Allen Sanjai", phone: "+917907369056" },
-  { name: "Basil Babu", phone: "+918590013252" }
+  { name: "Basil Babu", phone: "+918590013252" },
 ]
 
-const WelcomeEmail = ({ personName }: Props) => {
+export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
   return (
     <Html>
       <Head>
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light only" />
         <Font
-          fontFamily="Ambit"
-          fallbackFontFamily="Verdana"
+          fontFamily="ambit"
+          fallbackFontFamily="sans-serif"
           webFont={{
             url: `${baseUrl}/fonts/ambit/Ambit-Regular.woff2`,
             format: "woff2",
@@ -50,187 +43,209 @@ const WelcomeEmail = ({ personName }: Props) => {
         />
       </Head>
       <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
-      <Tailwind
-        config={{
-          theme: {
-            extend: {
-              colors: {
-                brand: "#5B9BE6",
-              },
-              fontFamily: {
-                ambit: ["Ambit"],
-              },
-              backdropBlur: {
-                test: "blur(100px)"
-              }
-            },
-          },
-        }}
-      >
-        <Body className="bg-[#4A90E2]">
-          <Container className="mx-auto py-5">
-            <Section className="mt-4">
+      <Tailwind>
+        <Body
+          style={{
+            backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+          }}
+          className={("bg-[#0A0A19] font-ambit bg-cover bg-center")}
+        >
+          <Container className="mx-auto my-4">
+            <Section className="mt-8 px-2">
               <Row>
                 <Column align="left">
-                  <Img
-                    src={`${baseUrl}/images/asthra.png`}
-                    width="100"
-                    height="50"
-                    alt="Asthra SJCET Logo"
-                    className="object-contain"
-                  />
+                  <Link href="https://asthra.sjcetpalai.ac.in">
+                    <Img src={`${baseUrl}/images/asthra.png`} width="100" height="50" alt="Asthra SJCET Logo" className="object-contain" />
+                  </Link>
                 </Column>
                 <Column align="right">
-                  <Img
-                    src={`${baseUrl}/images/sjcet.png`}
-                    width="150"
-                    height="50"
-                    alt="SJCET Logo"
-                    className="object-contain"
-                  />
+                  <Link href="https://sjcetpalai.ac.in">
+                    <Img src={`${baseUrl}/images/sjcet.png`} width="150" height="50" alt="SJCET Logo" className="object-contain" />
+                  </Link>
                 </Column>
               </Row>
             </Section>
 
-            <Heading className="text-white text-6xl font-extrabold text-center mt-14 font-ambit">
+            <Heading className="text-[#ffffff] text-5xl font-extrabold text-center mt-16">
               ASTHRA 9.0
             </Heading>
 
-            <Container className="bg-[#4A90E2]/80 rounded-2xl border-[1px] border-solid border-[#8abaf1] shadow-2xl p-8 text-white relative">
-              <Img src={`${baseUrl}/images/object-1.png`} className="w-48 h-auto object-fill absolute top-0 right-0 z-[-10]" />
-              <Img src={`${baseUrl}/images/object-2.png`} className="w-48 h-auto object-fill absolute top-[350px] left-0 z-[-10]" />
-              <Img src={`${baseUrl}/images/object-3.png`} className="w-48 h-auto object-fill absolute top-[700px] right-0 z-[-10]" />
-              <Text className="text-xl font-[Verdana,sans-serif]">Hello {personName},</Text>
+            <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
+              <Text className="text-lg pb-4">Hello {personName},</Text>
 
-              Thank you for registering for the upcoming event! We're excited to have you join us. Here are the
-              essential details you'll need:
+              <Text className="my-4">
+                Thank you for registering for the upcoming event! We're excited to have you join us. Here are the
+                essential details you'll need:
+              </Text>
 
-              <Section className="mt-4">
-                <Text className="font-bold text-xl font-[Verdana,sans-serif]">1. Event Details:</Text>
-                <ul className="list-disc ml-3">
-                  <li>Date: 06/03/2025 to 07/03/2025</li>
-                  <li>Time: 9:00 am to 5:00 pm</li>
-                  <li>Venue: Bharananganam Pravithanam Road Kottayam, Palai, Choondacherry, Kerala 686579</li>
-                </ul>
-              </Section>
-
-              <Section className="mt-2">
-                <Text className="font-bold text-xl font-[Verdana,sans-serif]">2. Hotel Accommodations:</Text>
-                We understand that a comfortable stay is crucial for a successful event experience. We recommend
-                staying at one of the nearby hotels.
-              </Section>
-
-              <Section className="mt-2">
-                <Text className="font-bold text-xl font-[Verdana,sans-serif]">3. Additional Information:</Text>
-                Remember to bring your registration confirmation email to the event.
-              </Section>
-
-              <Section className="mt-4">
-                Feel free to reach out if you have any questions or need further assistance. We look forward to seeing you at Expo India!
-              </Section>
-
-              <Section className="mt-4">
-                Best regards, Team Asthra
-              </Section>
-
-              <Section className="mt-4 border-t">
-                <strong>Disclaimer:</strong> This email is for informational purposes only. Please verify all details
-                independently. We are not responsible for any changes or discrepancies.
-              </Section>
-
-              <Section className="mt-4 text-center">
-                <Row>
-                  <Column align="center">
-                    <Text className="font-bold text-base font-[Verdana,sans-serif]">Coordinators</Text>
+              <Section className="bg-[#F0F8FF] rounded-lg py-4 px-[5%] my-6">
+                <Text className="text-xl text-[#4A90E2] font-bold text-center">Event Details</Text>
+                <Row className="mt-8">
+                  <Column>
+                    <Text className="m-0">Date:</Text>
+                  </Column>
+                  <Column align="right" className="max-w-28">
+                    <Text className="m-0">06/03/2025 to 07/03/2025</Text>
                   </Column>
                 </Row>
-                <Row>
-                  {coordinators.map(c => (<Column key={c.phone} align="center">
-                    <Text className="m-0">{c.name}</Text>
-                    <Text className="m-0">{c.phone}</Text>
-                  </Column>))}
+                <Row className="mt-3">
+                  <Column>
+                    <Text className="m-0">Time:</Text>
+                  </Column>
+                  <Column align="right" className="max-w-28">
+                    <Text className="m-0">9:00 am to 5:00 pm</Text>
+                  </Column>
+                </Row>
+                <Row className="mt-3">
+                  <Column>
+                    <Text className="m-0">Venue:</Text>
+                  </Column>
+                  <Column align="right" className="max-w-28">
+                    <Text className="m-0">Bharananganam Pravithanam Road,<br /> Palai, Choondacherry, Kerala 686579</Text>
+                  </Column>
                 </Row>
               </Section>
 
-              <Hr />
-
-              <Section className="my-5">
-                <Heading className="text-3xl text-center font-[Verdana,sans-serif]">How to reach</Heading>
-                <Container className="bg-white/20 rounded-2xl p-10">
-                  <Section>
-                    <Heading className="text-lg text-center text-white underline m-0 mb-3">Nearest Railway Station</Heading>
-                    <Row>
-                      <Column className="flex flex-col justify-center items-center">
-                        <div>
-                          <div className="flex flex-row gap-2">
-                            <TrainFront size={20} />
-                            <Text className="text-base m-0">Ettumanur Railway Station</Text>
-                          </div>
-                          <div className="flex flex-row gap-2">
-                            <TrainFront size={20} />
-                            <Text className="text-base m-0">Kottayam Railway Station</Text>
-                          </div>
-                        </div>
-                      </Column>
-                    </Row>
-                    <Heading className="text-lg text-center text-white underline m-0 my-3">Nearest Bus Station</Heading>
-                    <Row>
-                      <Column className="flex flex-col justify-center items-center">
-                        <div>
-                          <div className="flex flex-row gap-2">
-                            <Bus size={20} />
-                            <Text className="text-base m-0">Bharananganam Bus Stop</Text>
-                          </div>
-                          <div className="flex flex-row gap-2">
-                            <Bus size={20} />
-                            <Text className="text-base m-0">Pala KSRTC Bus Stop</Text>
-                          </div>
-                          <div className="flex flex-row gap-2">
-                            <Bus size={20} />
-                            <Text className="text-base m-0">Kottaramattom Bus Stop</Text>
-                          </div>
-                        </div>
-                      </Column>
-                    </Row>
-                  </Section>
-                </Container>
+              <Section className="bg-[#F0F8FF] rounded-lg p-4 px-[5%] my-6">
+                <Text className="text-xl text-[#4A90E2] font-bold text-center">Hotel Accommodations</Text>
+                <Text>
+                  We understand that a comfortable stay is crucial for a successful event experience. We recommend
+                  staying at one of the nearby hotels.
+                </Text>
               </Section>
 
-              <Container className="my-5">
-                <Link href="https://maps.app.goo.gl/gpLPVCXYc3aMnMhr9">
-                  <Img src={`${baseUrl}/images/map.png`} className="w-full h-[350px] object-cover rounded-lg" />
-                </Link>
-              </Container>
-
-              <Container className="bg-white/20 rounded-2xl border-2 border-solid border-[#6eabf0]">
-                <Section className="px-3">
-                  <Row>
-                    <Column align="left">
-                      <Text className="m-0 pt-2 pl-2">Follow us on</Text>
-                      <div>
-                        <Link href="https://asthra.sjcetpalai.ac.in/">
-                          <Globe className="p-1" color="white" />
-                        </Link>
-                        <Link href="mailto:asthra@sjcetpalai.ac.in">
-                          <Mail className="p-1" color="white" />
-                        </Link>
-                        <Link href="https://www.instagram.com/sjcetpalai">
-                          <Instagram className="p-1" color="white" />
-                        </Link>
-                      </div>
-                    </Column>
-                    <Column align="right">
-                      <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-24 h-auto object-fill" />
+              <Section className="bg-[#F0F8FF] rounded-lg p-4 my-6">
+                <Text className="text-xl text-[#4A90E2] font-bold text-center mb-4">Coordinators</Text>
+                {coordinators.map((coordinator) => (
+                  <Row key={coordinator.phone} className="text-center">
+                    <Column>
+                      <Text className="m-0">{coordinator.name}</Text>
+                      <Text className="m-0 text-[#5B9BE6]">{coordinator.phone}</Text>
                     </Column>
                   </Row>
-                </Section>
-              </Container>
+                ))}
+              </Section>
+
+              <Section className="bg-[#F0F8FF] rounded-lg p-4 my-6">
+                <Text className="text-xl text-[#4A90E2] font-bold text-center mb-4">How to Reach</Text>
+                <Row>
+                  <Column align="center">
+                    <Link href="https://maps.app.goo.gl/gpLPVCXYc3aMnMhr9">
+                      <Img
+                        src={`${baseUrl}/images/map.webp`}
+                        alt="Location Map"
+                        className="rounded-lg w-[95%] mb-5"
+                      />
+                    </Link>
+                    <Row className="w-[83%]">
+                      <Column align="center">
+                        <Text className="font-bold m-0 mb-2 underline">Nearest Railway & Bus Stations</Text>
+                      </Column>
+                    </Row>
+                    <Row className="w-[85%]">
+                      <Column align="left">
+                        <Text className="m-0">
+                          ⁃ Kottayam Railway Station
+                        </Text>
+                      </Column>
+                      <Column align="right">
+                        <Link href="https://maps.app.goo.gl/vmPNQhQFqbfAn8je8">
+                          <Img src={`${baseUrl}/images/open-new-tab.png`} width={14} height={14} alt="Open Link" className="object-contain" />
+                        </Link>
+                      </Column>
+                    </Row>
+                    <Row className="w-[85%]">
+                      <Column align="left">
+                        <Text className="m-0">
+                          ⁃ Ettumanoor Railway Station
+                        </Text>
+                      </Column>
+                      <Column align="right">
+                        <Link href="https://maps.app.goo.gl/9aWupK4BtmWELBs5A">
+                          <Img src={`${baseUrl}/images/open-new-tab.png`} width={14} height={14} alt="Open Link" className="object-contain" />
+                        </Link>
+                      </Column>
+                    </Row>
+                    <Row className="w-[85%]">
+                      <Column align="left">
+                        <Text className="m-0">
+                          ⁃ Pala KSRTC Bus Stand
+                        </Text>
+                      </Column>
+                      <Column align="right">
+                        <Link href="https://maps.app.goo.gl/UP9Ne6WtQwaq2xsF8">
+                          <Img src={`${baseUrl}/images/open-new-tab.png`} width={14} height={14} alt="Open Link" className="object-contain" />
+                        </Link>
+                      </Column>
+                    </Row>
+                    <Row className="w-[85%]">
+                      <Column align="left">
+                        <Text className="m-0">
+                          ⁃ Kottaramattom Bus Stand
+                        </Text>
+                      </Column>
+                      <Column align="right">
+                        <Link href="https://maps.app.goo.gl/PW4xPZByRZbuaRM4A">
+                          <Img src={`${baseUrl}/images/open-new-tab.png`} width={14} height={14} alt="Open Link" className="object-contain" />
+                        </Link>
+                      </Column>
+                    </Row>
+                    <Row className="w-[85%]">
+                      <Column align="left">
+                        <Text className="m-0">
+                          ⁃ Bharananganam Bus Stop
+                        </Text>
+                      </Column>
+                      <Column align="right">
+                        <Link href="https://maps.app.goo.gl/a4ZLNNAzf1xa7BEg7">
+                          <Img src={`${baseUrl}/images/open-new-tab.png`} width={14} height={14} alt="Open Link" className="object-contain" />
+                        </Link>
+                      </Column>
+                    </Row>
+
+                  </Column>
+                </Row>
+              </Section>
+
+              <Section className="mt-10">
+                <Row>
+                  <Column align="left" className="w-28">
+                    <Text className="m-0 text-[#50c2ff] text-base font-extrabold">Follow us on:</Text>
+                    <Row>
+                      <Column>
+                        <Link href="https://sjcetpalai.ac.in">
+                          <Img src={`${baseUrl}/images/social-web.png`} width="25" height="25" alt="Globe" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://www.linkedin.com/school/sjcetpalai/">
+                          <Img src={`${baseUrl}/images/social-linkedin.png`} width="25" height="25" alt="LinkedIn" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://x.com/SJCET_PALAI">
+                          <Img src={`${baseUrl}/images/social-x.png`} width="25" height="25" alt="X" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://www.instagram.com/sjcet_palai/">
+                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
+                        </Link>
+                      </Column>
+                    </Row>
+                  </Column>
+                  <Column align="right">
+                    <Link href="https://asthra.sjcetpalai.ac.in">
+                      <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
+                    </Link>
+                  </Column>
+                </Row>
+              </Section>
             </Container>
+
           </Container>
         </Body>
-      </Tailwind>
+      </Tailwind >
     </Html >
   )
 }
-
-export default WelcomeEmail;

@@ -147,7 +147,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data)
+    console.log("submitting data", data)
     id !== undefined
       ? await updateEvent({ ...data, id })
       : await createEvent(data);
@@ -441,19 +441,35 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Start Time</FormLabel>
               <FormControl>
-                <Input type='datetime-local' defaultValue={field.value?.toISOString().slice(0, -2) ?? "2025-03-06T09:00:00"} onChange={(event) => {
-                  const datetime = event.target.value;
-                  console.log(datetime)
-                  field.onChange({
-                    ...event,
-                    target: {
-                      value: new Date(datetime)
-                    }
-                  })
-                }} />
+                <Input
+                  type='datetime-local'
+                  defaultValue={
+                    field.value
+                      ? new Date(field.value.getTime() - (field.value.getTimezoneOffset() * 60000))
+                        .toISOString()
+                        .slice(0, 16)
+                      : new Date(AsthraStartsAt.getTime() - (AsthraStartsAt.getTimezoneOffset() * 60000))
+                        .toISOString()
+                        .slice(0, 16)
+                  }
+                  onChange={(event) => {
+                    const datetimeStr = event.target.value;
+                    // Create date in local timezone then adjust for Indian timezone (UTC+5:30)
+                    const localDate = new Date(datetimeStr);
+
+                    // This ensures the date is treated as being in the user's local timezone
+                    // rather than UTC, preserving the exact time the user selected
+                    field.onChange({
+                      ...event,
+                      target: {
+                        value: localDate
+                      }
+                    });
+                  }}
+                />
               </FormControl>
               <FormDescription className='text-neutral-300'>
-                Default is {AsthraStartsAt.toLocaleString()}
+                Default is {AsthraStartsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
               </FormDescription>
               <FormMessage />
             </FormItem>

@@ -1,8 +1,64 @@
-// import { api } from './vanila';
+import { api } from './vanila';
 
-// await api.mail.welcome.query({
-//   email: 'aravindmng47@gmail.com',
-//   name: 'User',
-// });
+await api.mail.asthraPass.query({
+  to: 'aravindmng47@gmail.com',
+  event: {
+    id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    name: '',
+    description: '',
+    secret: '',
+    poster: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    createdById: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    department: 'NA',
+    venue: 'SJCET',
+    dateTimeStarts: new Date(),
+    dateTimeEnd: 'ALL DAY',
+    eventStatus: 'uploaded',
+    eventType: 'ASTHRA_PASS_EVENT',
+    amount: 0,
+    registrationType: 'both',
+    regLimit: 70,
+    regCount: 0,
+  },
+  user: {
+    id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    name: 'adasd',
+    email: 'adasd',
+    image: 'adasd',
+    number: 'adasd',
+    KTU: 'adasd',
+    role: 'USER',
+    department: 'ce',
+    year: '2025',
+    college: 'asd',
+    emailVerified: new Date(),
+    asthraCredit: 123,
+    asthraPass: true,
+    transactionId: 'asd',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  transactions: {
+    id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    amount: 0,
+    status: 'success',
+    orderId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    userName: 'adasd',
+    userId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    eventId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    eventName: 'adasd',
+    remark: 'adasd',
+  },
+  userRegisteredEvent: {
+    status: 'registered',
+    transactionId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    userId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    eventId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+    remark: 'asdasd',
+    registrationId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
+  },
+});
 
-// console.log('Mail sent');
+console.log('done');

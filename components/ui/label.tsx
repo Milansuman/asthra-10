@@ -12,7 +12,7 @@ const labelVariants = cva(
     variants: {
       variant: {
         default: 'ambit text-white text-md p-0 bg-transparent',
-        glass: 'ambit px-2 py-1 text-white text-md bg-glass drop-shadow-md rounded-sm border border-glass'
+        glass: 'ambit px-2 py-1 text-white text-md bg-glass drop-shadow-md rounded-none border border-glass'
       },
       size: {
         default: "ambit text-white text-2xl font-medium",

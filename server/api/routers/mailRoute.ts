@@ -2,7 +2,13 @@ import AsthraPass from '@/components/mail/_templates/asthraPass';
 import EventConfirmation from '@/components/mail/_templates/eventConfirmation';
 import WelcomeTemplate from '@/components/mail/_templates/welcome';
 import { getHTML, sentMail } from '@/lib/mail';
-import { generatePassMailZod, userZod } from '@/lib/validator';
+import {
+  eventZod,
+  generatePassMailZod,
+  userZod,
+  userRegisteredEventZod,
+  transactionsZod,
+} from '@/lib/validator';
 import { currentAsthraCount } from '@/logic';
 import {
   createTRPCRouter,
@@ -10,22 +16,29 @@ import {
   publicProcedure,
   validUserOnlyProcedure,
 } from '../trpc';
+import { z } from 'zod';
 
 export const generateMailRouter = createTRPCRouter({
   asthraPass: validUserOnlyProcedure
     .input(
-      generatePassMailZod.pick({
-        data: true,
+      z.object({
+        event: eventZod,
+        user: userZod,
+        transactions: transactionsZod,
+        userRegisteredEvent: userRegisteredEventZod,
+        to: z.string().email(),
       })
     )
     .query(async ({ input }) => {
-      const { personName, toMail, eventId, eventName } = input.data;
+      const { to, event, user, userRegisteredEvent, transactions } = input;
+
       const { isSuccess, error } = await sentMail({
-        to: toMail,
+        to,
         html: await getHTML(AsthraPass, {
-          eventId,
-          eventName,
-          personName,
+          event,
+          user,
+          transactions,
+          userRegisteredEvent,
         }),
         subject: 'Your Asthra Pass',
         text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
@@ -36,19 +49,24 @@ export const generateMailRouter = createTRPCRouter({
 
   purchased: validUserOnlyProcedure
     .input(
-      generatePassMailZod.pick({
-        data: true,
+      z.object({
+        event: eventZod,
+        user: userZod,
+        userRegisteredEvent: userRegisteredEventZod,
+        transactions: transactionsZod,
+        to: z.string().email(),
       })
     )
     .query(async ({ input, ctx }) => {
-      const { personName, toMail, eventId, eventName, eventSecret } =
-        input.data;
+      const { user, to, event, transactions, userRegisteredEvent } = input;
 
       const { isSuccess, error } = await sentMail({
-        to: toMail,
+        to,
         html: await getHTML(EventConfirmation, {
-          eventName: eventName,
-          eventSecret: eventSecret ?? '',
+          event,
+          transactions,
+          userRegisteredEvent,
+          user,
         }),
         subject: 'Your Asthra Pass',
         text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,

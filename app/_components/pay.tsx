@@ -17,7 +17,7 @@ import {
 import { useSession } from "@/hooks/session";
 import type { EventZodType } from "@/lib/validator";
 import { api } from "@/trpc/react";
-import ReactMarkdown from 'react-markdown';
+
 import QRCode from "react-qr-code";
 
 export const AsthraPaymentButton = () => {
@@ -50,6 +50,7 @@ import { ASTHRA } from "@/logic";
 import { AlertOctagon, AlertTriangle, FileLock, LoaderIcon, Lock, QrCode, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
 import type { FunctionComponent } from "react";
 import { toast } from "sonner";
+import { Markdown } from "./md";
 
 const ButtonMessages = {
     'Buy ASTHRA PASS': Ticket,
@@ -114,9 +115,9 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
                     </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>
-                    <ReactMarkdown>
+                    <Markdown full>
                         {secret}
-                    </ReactMarkdown>
+                    </Markdown>
                 </HoverCardContent>
             </HoverCard>
             <Dialog>

@@ -197,7 +197,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
         <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id, event.amount)}>Pay ₹{event.amount} Now</Button>
         <Dialog>
           <DialogTrigger asChild>
-            <Button disabled={!notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>
+            <Button disabled={notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -207,7 +207,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
                 at the Front Desk.
               </DialogDescription>
             </DialogHeader>
-            <div className="p-4 bg-white">
+            <div className="p-1 md:p-4 bg-white">
               <QRCode
                 size={256}
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
