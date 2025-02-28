@@ -87,7 +87,7 @@ export default async function Event({ params }: Props) {
         <Plusbox className="flex-1 p-2">
           <Image src={event.poster} width={400} height={500} alt={event.name ?? ""} className="w-full h-auto" />
         </Plusbox>
-        <div className='flex-1 flex flex-col gap-4'>
+        <div className='flex-1 flex flex-col gap-4 w-full'>
           <Card className='relative'>
             <ShareButton />
             <CardHeader>
@@ -151,7 +151,7 @@ export default async function Event({ params }: Props) {
             </CardFooter>
           </Card>
 
-          <Button variant={"glass"} link={`/events?department=${event.department}`}>
+          <Button variant={"glass"} link={`/events?department=${event.department}`} className="w-full overflow-hidden text-wrap h-20">
             Show more events from {department}
             <ExternalLinkIcon />
           </Button>
