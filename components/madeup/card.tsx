@@ -26,12 +26,12 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger
+  AlertDialogTrigger,
+  AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { Copy, Trash2 } from 'lucide-react';
-import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 
 import { api } from '@/trpc/react';
 import { TRPCError } from '@trpc/server';
@@ -150,9 +150,9 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
               Edit
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="sm:max-w-[900px] p-0 border-none bg-transparent">
+          <AlertDialogContent className="p-5 min-h-screen max-w-screen border-none bg-transparent">
             <Card className="p-5 text-white bg-glass">
-              <h3 className="cal">Edit Event</h3>
+              <AlertDialogTitle>Edit Event</AlertDialogTitle>
               <p>
                 Keyboard accessible, Use up & down arrows to control counts &
                 dates
@@ -206,7 +206,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
         </AlertDialog>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">
+            <Button size={"glass"} variant="destructive">
               <Trash2 size={20} />
             </Button>
           </AlertDialogTrigger>
@@ -215,10 +215,10 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
             <p>Are you sure you want to delete this event? This action cannot be undone.</p>
             <div className="flex justify-end gap-4 mt-4">
               <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button size={"glass"} variant="outline">Cancel</Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild>
-                <Button variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
+                <Button size={"glass"} variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
               </AlertDialogAction>
             </div>
           </AlertDialogContent>

@@ -7,7 +7,7 @@ export const Markdown = ({ children, full = false }: { children?: string | null,
 
     return (
         <div className={full ? "" : "max-h-24 overflow-hidden"}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <ReactMarkdown className={"md-container"} remarkPlugins={[remarkGfm]}>
                 {children ?? "### Coming soon!"}
             </ReactMarkdown>
         </div>
