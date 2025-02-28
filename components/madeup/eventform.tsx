@@ -14,9 +14,7 @@ import { ChevronRight, ExternalLink, Eye, Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useState } from 'react';
-
 import { eventZod } from '@/lib/validator';
-
 import {
   TimePicker,
   TimePickerSegment,
@@ -53,9 +51,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { RichEditor } from './editor';
-
+import MDEditor from '@uiw/react-md-editor';
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
 
@@ -214,15 +210,22 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <RichEditor content={field.value ?? ""} onUpdate={(e) => {
-                  console.log(e.data)
-                  field.onChange({
-                    ...e,
-                    target: {
-                      value: e.data
-                    }
-                  })
-                }} />
+                <MDEditor
+                  height={400}
+                  preview="edit"
+                  style={{ background: "black" }}
+                  textareaProps={{
+                    placeholder: "Enter the description..."
+                  }}
+                  value={(field.value as string) ?? ''}
+                  onChange={(e) => {
+                    field.onChange({
+                      target: {
+                        value: e
+                      }
+                    })
+                  }}
+                />
               </FormControl>
               <FormDescription className='text-neutral-300'>
                 Sent your secret message to registered users through email
@@ -240,15 +243,22 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
             <FormItem>
               <FormLabel>Secret Description</FormLabel>
               <FormControl>
-                <RichEditor content={field.value ?? ""} onUpdate={(e) => {
-                  console.log(e.data)
-                  field.onChange({
-                    ...e,
-                    target: {
-                      value: e.data
-                    }
-                  })
-                }} />
+                <MDEditor
+                  height={400}
+                  preview="edit"
+                  style={{ background: "black" }}
+                  value={(field.value as string) ?? ''}
+                  textareaProps={{
+                    placeholder: "Enter the secret message..."
+                  }}
+                  onChange={(e) => {
+                    field.onChange({
+                      target: {
+                        value: e
+                      }
+                    })
+                  }}
+                />
               </FormControl>
               <FormDescription className='text-neutral-300'>
                 Sent your secret message to registered users through email
