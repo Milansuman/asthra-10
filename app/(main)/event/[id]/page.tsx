@@ -121,7 +121,7 @@ export default async function Event({ params }: Props) {
               {event.dateTimeStarts && (
                 <div className='relative bg-glass py-2 px-3 border-glass border'>
                   <p className='opacity-70 text-sm font-normal'>Event starts at</p>
-                  {event.dateTimeStarts.toLocaleTimeString()}
+                  {event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
                 </div>
               )}
 
