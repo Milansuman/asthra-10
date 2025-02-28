@@ -1,5 +1,7 @@
+"use client"
+
+import MDEditor from '@uiw/react-md-editor';
 import remarkGfm from 'remark-gfm'
-import ReactMarkdown from 'react-markdown';
 
 export const Markdown = ({ children, full = false }: { children?: string | null, full?: boolean }) => {
 
@@ -7,9 +9,18 @@ export const Markdown = ({ children, full = false }: { children?: string | null,
 
     return (
         <div className={full ? "" : "max-h-24 overflow-hidden"}>
-            <ReactMarkdown className={"md-container"} remarkPlugins={[remarkGfm]}>
-                {children ?? "### Coming soon!"}
-            </ReactMarkdown>
+            <MDEditor.Markdown
+                remarkPlugins={[remarkGfm]}
+                className={"md-container"}
+                source={children ?? "### Coming soon!"}
+                style={{
+                    whiteSpace: "pre-wrap",
+                    background: "transparent",
+                    color: "white"
+                }}
+                components={{
+
+                }} />
         </div>
     );
 }

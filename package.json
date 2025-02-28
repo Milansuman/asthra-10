@@ -64,6 +64,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/three": "^0.173.0",
     "@uidotdev/usehooks": "^2.4.1",
+    "@uiw/react-md-editor": "^4.0.5",
     "@upstash/redis": "^1.34.4",
     "@yudiel/react-qr-scanner": "^2.2.1",
     "autoprefixer": "^10.4.20",
