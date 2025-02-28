@@ -222,6 +222,17 @@ export const eventRouter = createTRPCRouter({
         .orderBy(user.name);
     }),
 
+  getEventParticipants: coordinatorProcedure
+    .input(eventZod.pick({id: true}))
+    .query(({ctx, input}) => {
+      return ctx.db
+      .select()
+      .from(userRegisteredEventTable)
+      .leftJoin(user, eq(userRegisteredEventTable.userId, user.id))
+      .leftJoin(eventsTable, eq(userRegisteredEventTable.eventId, eventsTable.id))
+      .where(eq(userRegisteredEventTable.eventId, input.id))
+      .orderBy(user.name);
+    }),
   /**
    * Register non price events
    */

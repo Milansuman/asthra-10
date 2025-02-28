@@ -234,9 +234,22 @@ button.bg-glass.glass-button > .lucide {
   width: 100%;
 }
 
+<<<<<<< HEAD
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+=======
 .md-container {
   @apply space-y-2;
   a {
     @apply bg-black/20 rounded-md px-2 py-1 before:content-['🔗_'];
   }
 }
+>>>>>>> ae4b68dd0f9e1bd06ecb6be36939212872b59a20

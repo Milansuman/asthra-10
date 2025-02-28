@@ -20,6 +20,7 @@ ForwardRefEditor.displayName = 'ForwardRefEditor'
 
 export function RichEditor({ content, onUpdate }: { content: string, onUpdate: (event: InputEvent) => void }) {
   return <ForwardRefEditor markdown={content} onChange={(markdown) => {
+    console.log(markdown)
     const event = new InputEvent("input", {
       data: markdown
     });
