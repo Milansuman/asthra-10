@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+import { toast } from "sonner";
+
 import { api } from "@/trpc/react";
 
 export type TableType = {
@@ -88,6 +90,11 @@ export const columns: ColumnDef<TableType>[] = [
           mutate({
             registrationId: row.original.userRegisteredEvent.registrationId,
             status: value
+          }, {
+            onError: (error) => toast("An error occurred", {
+              description: error.message
+            }),
+            onSuccess: () => toast("Status changed successfully")
           })
         } catch (error) {
           console.error("Failed to update status:", error);
