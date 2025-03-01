@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+import { api } from "@/trpc/react";
+
 export type TableType = {
   event: z.infer<typeof eventZod> | null,
   userRegisteredEvent: z.infer<typeof userRegisteredEventZod>,
@@ -77,19 +79,16 @@ export const columns: ColumnDef<TableType>[] = [
     header: "Status",
     cell: ({ row }) => {
       const [status, setStatus] = useState(row.original.userRegisteredEvent.status || "registered");
+      const { mutate } = api.spot.updateParticipantStatus.useMutation()
 
       const handleStatusChange = async (value: "registered" | "attended" | "certified") => {
         setStatus(value);
-        try {
-          // Here you would typically make an API call to update the status
-          // Example:
-          // await fetch(`/api/events/${row.original.event?.id}/registrations/${row.original.userRegisteredEvent.id}`, {
-          //   method: 'PATCH',
-          //   headers: { 'Content-Type': 'application/json' },
-          //   body: JSON.stringify({ status: value }),
-          // });
 
-          console.log(`Updated status to ${value} for user ${row.original.user?.id} in event ${row.original.event?.id}`);
+        try {
+          mutate({
+            registrationId: row.original.userRegisteredEvent.registrationId,
+            status: value
+          })
         } catch (error) {
           console.error("Failed to update status:", error);
           // Optionally revert the status on error
