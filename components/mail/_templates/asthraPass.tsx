@@ -1,6 +1,5 @@
 import {
   Body,
-  Button,
   Column,
   Container,
   Font,
@@ -42,7 +41,7 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
           fontStyle="normal"
         />
       </Head>
-      <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
+      <Preview>ASTHRA 9.0 Asthra Pass Purchased</Preview>
       <Tailwind>
         <Body
           style={{
@@ -74,68 +73,48 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
               <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Text className="my-4">
-                Here is your Asthra Pass
+                Thank you for purchasing Asthra Pass. We're excited to have you join us!
+                Attached is your digital pass. Please scan it at the front desk and event venue for entry.
               </Text>
 
-              <Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[2%] px-[3%] max-w-[400px]">
+              <Section
+                style={{
+                  backgroundImage: `url(${baseUrl}/images/pass.png)`,
+                }}
+                className="w-[95%] max-w-[280px] h-[500px] bg-cover bg-center mt-10"
+              >
+                <Row >
+                  <Column align="center">
+                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[65%] min-w-[180px] rounded-md object-contain" />
+                  </Column>
+                </Row>
                 <Row>
-                  <Column align="left" className="w-1/2">
-                    <Text className="m-0 font-extrabold">Bank Name</Text>
-                    <Text className="m-0 mt-[2%] text-xs">Transaction ID:</Text>
-                    <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.transactionId}</Text>
-                    <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
-                    <Text className="m-0 text-xs">test@gmail.com</Text>
-                    <Text className="m-0 mt-[2%] text-xs">+918921964557</Text>
-                  </Column>
-                  <Column align="right" className="w-1/2">
-                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />
-                  </Column>
+                  <Text className="pt-5 w-full text-center text-xl font-extrabold text-black">{user.name}</Text>
+                  <Text className="w-full text-center text-xl font-extrabold text-black">{user.number}</Text>
+                  <Container className="h-[50px]" />
                 </Row>
               </Section>
 
-              <Section className={`bg-white mt-2 ${""} border-2 border-solid border-[#5B9BE6] py-[4%] max-w-[400px]`}>
-                <Row>
-                  <Column align="left" className="w-1/3">
-                    <Row>
-                      <Column align="center">
-                        <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[80%] max-w-[100px] rounded-lg" />
-                      </Column>
-                    </Row>
-                  </Column>
-                  <Column align="left" className="w-1/3">
-                    <Row>
-                      <Text className="m-0 text-xs">Register ID:</Text>
-                      <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.registrationId}</Text>
-                    </Row>
-                    <Row>
-                      <Text className="m-0 mt-[4%] text-xs">Venue:</Text>
-                      <Text className="m-0 mt-[2%] text-xs">{event.venue}</Text>
-                    </Row>
-                    <Row>
-                      <Text className="m-0 mt-[4%] text-xs">Event Date:</Text>
-                      <Text className="m-0 mt-[2%] text-xs">{new Date(event.dateTimeStarts).toLocaleString()}</Text>
-                    </Row>
-                  </Column>
-                  <Column align="left" className="w-1/3">
-                    <Row>
-                      <Text className="m-0 text-xs">Event name:</Text>
-                      <Text className="m-0 mt-[2%] text-xs">{event.name}</Text>
-                    </Row>
-                    <Row>
-                      <Text className="m-0 mt-[4%] text-xs">Host:</Text>
-                      <Text className="m-0 mt-[2%] text-xs">{event.department}</Text>
-                    </Row>
-                    <Row>
-                      <Button
-                        href="#"
-                        className="m-0 mt-[10%] w-[70%] bg- px-2 py-1 text-center rounded-md text-white bg-[#4A90E2] border-[1px] border-solid border-[#308ffc]"
-                      >
-                        Download Pass
-                      </Button>
-                    </Row>
-                  </Column>
-                </Row>
-              </Section>
+              <Row className="mt-8">
+                <Column align="center">
+                  <Link href="https://asthra.sjcetpalai.ac.in/profile" className="bg-[#21d0fe] text-white rounded-md p-2">
+                    View Profile
+                  </Link>
+                </Column>
+              </Row>
+
+              <Text className="mt-10">You are required to carry a valid ID card or an official identification document for authentication upon entry.</Text>
+              <Text>
+                If you require further assistance, don't hesitate to reach out to us!
+                <br />
+                We look forward to welcoming you at the event!
+              </Text>
+
+              <Text className="my-5">
+                Best regards,
+                <br />
+                Asthra Team
+              </Text>
 
               <Section className="mt-10">
                 <Row>
@@ -143,23 +122,28 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
                     <Text className="m-0 text-[#50c2ff] text-base font-extrabold">Follow us on:</Text>
                     <Row>
                       <Column>
-                        <Link href="https://sjcetpalai.ac.in">
+                        <Link href="https://asthra.sjcetpalai.ac.in">
                           <Img src={`${baseUrl}/images/social-web.png`} width="25" height="25" alt="Globe" className="object-contain" />
                         </Link>
                       </Column>
                       <Column>
-                        <Link href="https://www.linkedin.com/school/sjcetpalai/">
+                        <Link href="https://www.facebook.com/asthra.sjcet">
+                          <Img src={`${baseUrl}/images/social-facebook.png`} width="25" height="25" alt="Facebook" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://instagram.com/asthra_sjcet">
+                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://www.linkedin.com/showcase/asthra-sjcet">
                           <Img src={`${baseUrl}/images/social-linkedin.png`} width="25" height="25" alt="LinkedIn" className="object-contain" />
                         </Link>
                       </Column>
                       <Column>
-                        <Link href="https://x.com/SJCET_PALAI">
-                          <Img src={`${baseUrl}/images/social-x.png`} width="25" height="25" alt="X" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://www.instagram.com/sjcet_palai/">
-                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
+                        <Link href="https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d">
+                          <Img src={`${baseUrl}/images/social-whatsapp.png`} width="25" height="25" alt="Whatsapp" className="object-contain" />
                         </Link>
                       </Column>
                     </Row>
