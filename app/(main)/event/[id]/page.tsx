@@ -146,7 +146,9 @@ export default async function Event({ params }: Props) {
               </div>
 
               <div className='relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>{event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}</p>
+                <p className='opacity-70 text-sm font-normal'>
+                  {event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}
+                </p>
                 {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}{!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
               </div>
 
@@ -162,7 +164,20 @@ export default async function Event({ params }: Props) {
 
             </CardContent>
             <CardFooter className='justify-between gap-4 flex-wrap'>
-              <PaymentButton event={event} />
+              {
+                (
+                  event.id === "12c94cc5-9096-492c-8611-5c2824f93931" ||
+                  event.id === "15749c9e-2022-43aa-91f6-ab3f375b3a88"
+                ) ? <></>
+                  :
+                  <PaymentButton event={event} />
+              }
+              {
+                event.id === "12c94cc5-9096-492c-8611-5c2824f93931" &&
+                <Button link='https://forms.gle/3d228KJaee3aYzcS6' variant="outline">
+                  Register Now
+                </Button>
+              }
             </CardFooter>
           </Card>
 
