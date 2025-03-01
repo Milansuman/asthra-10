@@ -164,20 +164,7 @@ export default async function Event({ params }: Props) {
 
             </CardContent>
             <CardFooter className='justify-between gap-4 flex-wrap'>
-              {
-                (
-                  event.id === "12c94cc5-9096-492c-8611-5c2824f93931" ||
-                  event.id === "15749c9e-2022-43aa-91f6-ab3f375b3a88"
-                ) ? <></>
-                  :
-                  <PaymentButton event={event} />
-              }
-              {
-                event.id === "12c94cc5-9096-492c-8611-5c2824f93931" &&
-                <Button link='https://forms.gle/3d228KJaee3aYzcS6' variant="outline">
-                  Register Now
-                </Button>
-              }
+              <PaymentButton event={event} />
             </CardFooter>
           </Card>
 
