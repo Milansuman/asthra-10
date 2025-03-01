@@ -18,13 +18,13 @@ import { baseUrl } from "../utils";
 import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
 
 type EventConfirmationProps = {
+  user: UserZodType,
   event: EventZodType,
   userRegisteredEvent: UserRegisteredEventZod,
-  user: UserZodType,
   transactions: TransactionZodType
 };
 
-export default function EventConfirmationEmail({ event, userRegisteredEvent, user }: EventConfirmationProps) {
+export default function EventConfirmationEmail({ user, event, userRegisteredEvent, transactions }: EventConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -82,12 +82,12 @@ export default function EventConfirmationEmail({ event, userRegisteredEvent, use
                   <Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[2%] px-[3%] max-w-[400px]">
                     <Row>
                       <Column align="left" className="w-1/2">
-                        <Text className="m-0 font-extrabold">Bank Name</Text>
+                        <Text className="m-0 font-extrabold">₹ {transactions.amount}/-</Text>
                         <Text className="m-0 mt-[2%] text-xs">Transaction ID:</Text>
                         <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.transactionId}</Text>
                         <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
-                        <Text className="m-0 text-xs">test@gmail.com</Text>
-                        <Text className="m-0 mt-[2%] text-xs">+918921964557</Text>
+                        <Text className="m-0 text-xs">{user.email}</Text>
+                        <Text className="m-0 mt-[2%] text-xs">{user.number ?? ''}</Text>
                       </Column>
                       <Column align="right" className="w-1/2">
                         <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />

@@ -15,11 +15,9 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import type { UserZodType } from "@/lib/validator";
 
 type WelcomeEmailProps = {
-  user?: UserZodType,
-  personName: string
+  personName: string,
 };
 
 const coordinators = [
@@ -27,7 +25,7 @@ const coordinators = [
   { name: "Basil Babu", phone: "+918590013252" },
 ]
 
-export default function WelcomeEmail({ user }: WelcomeEmailProps) {
+export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
   return (
     <Html>
       <Head>
@@ -73,7 +71,7 @@ export default function WelcomeEmail({ user }: WelcomeEmailProps) {
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
-              <Text className="text-lg pb-4">Hello {user?.name},</Text>
+              <Text className="text-lg pb-4">Hello {personName},</Text>
 
               <Text className="my-4">
                 Thank you for registering for the upcoming event! We're excited to have you join us. Here are the

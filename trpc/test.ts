@@ -1,7 +1,6 @@
 import { api } from './vanila';
 
-await api.mail.asthraPass.query({
-  to: 'aravindmng47@gmail.com',
+const data = {
   event: {
     id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
     name: 'CipherX',
@@ -59,6 +58,16 @@ await api.mail.asthraPass.query({
     remark: 'asdasd',
     registrationId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
   },
+};
+await api.mail.certificateReady.query({
+  // asthraPass: true,
+  // email: '',
+  // name: '',
+  // to: '',
+  // user: data.user,
+  // event: data.event,
+  // userRegisteredEvent: data.userRegisteredEvent,
+  // transactions: data.transactions,
 });
 
 console.log('done');
