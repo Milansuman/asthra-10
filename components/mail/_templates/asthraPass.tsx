@@ -15,14 +15,16 @@ import {
   Text,
 } from "@react-email/components";
 import { baseUrl } from "../utils";
-import type { UserRegisteredEventZod, UserZodType } from "@/lib/validator";
+import type { UserRegisteredEventZod, UserZodType, EventZodType, TransactionZodType } from "@/lib/validator";
 
 type AsthraPassProps = {
+  event: EventZodType,
   userRegisteredEvent: UserRegisteredEventZod,
   user: UserZodType,
+  transactions: TransactionZodType
 };
 
-export default function AsthraPassEmail({ userRegisteredEvent, user }: AsthraPassProps) {
+export default function AsthraPassEmail({ event, userRegisteredEvent, user, transactions }: AsthraPassProps) {
   return (
     <Html>
       <Head>

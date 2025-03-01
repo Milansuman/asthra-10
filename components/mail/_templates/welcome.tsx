@@ -18,7 +18,8 @@ import { baseUrl } from "../utils";
 import type { UserZodType } from "@/lib/validator";
 
 type WelcomeEmailProps = {
-  user: UserZodType,
+  user?: UserZodType,
+  personName: string
 };
 
 const coordinators = [
@@ -72,7 +73,7 @@ export default function WelcomeEmail({ user }: WelcomeEmailProps) {
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
-              <Text className="text-lg pb-4">Hello {user.name},</Text>
+              <Text className="text-lg pb-4">Hello {user?.name},</Text>
 
               <Text className="my-4">
                 Thank you for registering for the upcoming event! We're excited to have you join us. Here are the

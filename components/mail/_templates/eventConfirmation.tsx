@@ -15,12 +15,13 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import type { UserZodType, EventZodType, UserRegisteredEventZod } from '@/lib/validator';
+import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
 
 type EventConfirmationProps = {
   event: EventZodType,
   userRegisteredEvent: UserRegisteredEventZod,
   user: UserZodType,
+  transactions: TransactionZodType
 };
 
 export default function EventConfirmationEmail({ event, userRegisteredEvent, user }: EventConfirmationProps) {
