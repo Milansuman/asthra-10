@@ -17,6 +17,10 @@ export const faqItems: FAQItems = [
         content: "The Asthra Pass grants access to exclusive events and exhibitions. Make sure to scan your Asthra Pass to generate certificates for these events. You can purchase the Asthra pass for ₹250 from the website.",
     },
     {
+        title: "Im an SJCET Student, Can I purchase the PASS?",
+        content: "NO, ASTHRA is strictly for outside SJCET campus students. But you can participate workshops and view exibitions.",
+    },
+    {
         title: "Can I register for any events on the spot?",
         content: "Some events allow spot registration, but availability is not guaranteed. To secure your spot, we recommend registering in advance before the event begins.",
     },
