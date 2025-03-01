@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { SuggestionsInput } from "./suggestions-input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { toast } from "sonner";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -131,16 +133,20 @@ export function ProfileEdit() {
             <FormItem>
               <FormLabel>College / School</FormLabel>
               <FormControl>
-                <Input
+                <SuggestionsInput
                   placeholder="Enter your college's name"
                   {...field}
                   value={
                     field?.value ?? "NA"
                   }
                   required
+                  suggestions={["SJCET", "SAINTGITS", "MANGALAM", "AMAL JYOTHI", "RIT", "TOMS COLLEGE", "CE POONJAR", "CE KIDANGOOR", "KITS", "GISAT", "GREGORIAN INSTITUTE"]}
                 />
               </FormControl>
               <FormMessage />
+              <FormDescription className="text-neutral-200">
+                Enter your college or school even if it doesn't appear in the suggestions.
+              </FormDescription>
             </FormItem>
           )}
         />
@@ -231,7 +237,7 @@ export function ProfileEdit() {
         <Button
           disabled={isSuccess || isLoading}
           type="submit"
-          className="text-black mt-4"
+          className="mt-4"
         >
           {isLoading ? (
             <Loader className="animate-spin" />
