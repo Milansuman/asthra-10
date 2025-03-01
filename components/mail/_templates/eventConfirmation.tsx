@@ -15,16 +15,15 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
+import type { UserZodType, EventZodType, UserRegisteredEventZod } from '@/lib/validator';
 
-interface EventConfirmationProps {
-  user: UserZodType;
-  transactions: TransactionZodType;
-  event: EventZodType;
-  userRegisteredEvent: UserRegisteredEventZod;
+type EventConfirmationProps = {
+  event: EventZodType,
+  userRegisteredEvent: UserRegisteredEventZod,
+  user: UserZodType,
 };
 
-export default function EventConfirmationEmail({ event, transactions, user, userRegisteredEvent }: EventConfirmationProps) {
+export default function EventConfirmationEmail({ event, userRegisteredEvent, user }: EventConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -41,7 +40,7 @@ export default function EventConfirmationEmail({ event, transactions, user, user
           fontStyle="normal"
         />
       </Head>
-      <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
+      <Preview>ASTHRA 9.0 Event Confirm</Preview>
       <Tailwind>
         <Body
           style={{
@@ -71,6 +70,40 @@ export default function EventConfirmationEmail({ event, transactions, user, user
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
               <Text className="text-lg pb-4">Hello {user.name},</Text>
+
+              <Text>We’re excited to confirm your registration for {event.name}! Your registration was successful and we can’t wait to have you join us.</Text>
+
+              {event.eventType === 'ASTHRA_PASS_EVENT' ? (
+                <Text>This is an Asthra Pass event, so you can attend the event without any additional registration.</Text>
+              ) : (
+                <>
+                  <Text className="text-lg font-extrabold text-center">Transaction Details</Text>
+                  <Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[2%] px-[3%] max-w-[400px]">
+                    <Row>
+                      <Column align="left" className="w-1/2">
+                        <Text className="m-0 font-extrabold">Bank Name</Text>
+                        <Text className="m-0 mt-[2%] text-xs">Transaction ID:</Text>
+                        <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.transactionId}</Text>
+                        <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
+                        <Text className="m-0 text-xs">test@gmail.com</Text>
+                        <Text className="m-0 mt-[2%] text-xs">+918921964557</Text>
+                      </Column>
+                      <Column align="right" className="w-1/2">
+                        <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />
+                      </Column>
+                    </Row>
+                  </Section>
+                </>
+              )}
+
+              <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
+              <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>
+
+              <Text className="my-5">
+                Best regards,
+                <br />
+                Asthra Team
+              </Text>
 
               <Section className="mt-10">
                 <Row>

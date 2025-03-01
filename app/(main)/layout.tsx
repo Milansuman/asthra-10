@@ -40,7 +40,7 @@ export default function RootLayout({
             className="h-full w-full object-cover"
           />*/}
         {isMobileDevice() ?
-          <div className="relative h-full w-full bg-[url(/spline-backup-dark.png)] bg-blend-soft-light bg-black/70" /> :
+          <div className="relative h-full w-full bg-[url(/spline-backup-dark-mobile.png)] bg-blend-soft-light bg-black/50" /> :
           <SplineViewer
             url="https://prod.spline.design/eeFdLAQHPt2utu3p/scene.splinecode"
             className="relative h-full w-full bg-[url(/spline-backup-dark.png)] bg-black/60"

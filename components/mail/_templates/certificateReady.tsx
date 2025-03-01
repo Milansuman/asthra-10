@@ -15,15 +15,14 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import type { UserZodType, EventZodType, UserRegisteredEventZod } from '@/lib/validator';
+import type { UserZodType, EventZodType } from '@/lib/validator';
 
-interface CertificateReadyProps {
-  user: UserZodType;
-  event: EventZodType;
-  userRegisteredEvent: UserRegisteredEventZod;
+type CertificateReadyProps = {
+  event: EventZodType,
+  user: UserZodType,
 };
 
-export default function CertificateReadyEmail({ user, event, userRegisteredEvent }: CertificateReadyProps) {
+export default function CertificateReadyEmail({ event, user }: CertificateReadyProps) {
   return (
     <Html>
       <Head>
@@ -40,7 +39,7 @@ export default function CertificateReadyEmail({ user, event, userRegisteredEvent
           fontStyle="normal"
         />
       </Head>
-      <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
+      <Preview>ASTHRA 9.0 Certificate Download</Preview>
       <Tailwind>
         <Body
           style={{
@@ -70,6 +69,24 @@ export default function CertificateReadyEmail({ user, event, userRegisteredEvent
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
               <Text className="text-lg pb-4">Hello {user.name},</Text>
+
+              <Text>Greetings from SJCET!</Text>
+
+              <Text>
+                We are pleased to inform you that you have successfully received your Certificate of Participation for {event.name} conducted as part of Asthra 9.0 at SJCET.
+              </Text>
+
+              <Text>
+                We appreciate your enthusiastic participation and hope the experience was valuable to you. You can download your certificate from the link below:
+              </Text>
+
+              <Link href="#">Download Certificate</Link>
+
+              <Text className="my-5">
+                Best regards,
+                <br />
+                Asthra Team
+              </Text>
 
               <Section className="mt-10">
                 <Row>

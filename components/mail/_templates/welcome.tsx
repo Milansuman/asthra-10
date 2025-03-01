@@ -15,17 +15,18 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
+import type { UserZodType } from "@/lib/validator";
 
-interface WelcomeEmailProps {
-  personName: string
-}
+type WelcomeEmailProps = {
+  user: UserZodType,
+};
 
 const coordinators = [
   { name: "Allen Sanjai", phone: "+917907369056" },
   { name: "Basil Babu", phone: "+918590013252" },
 ]
 
-export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
+export default function WelcomeEmail({ user }: WelcomeEmailProps) {
   return (
     <Html>
       <Head>
@@ -71,7 +72,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
-              <Text className="text-lg pb-4">Hello {personName},</Text>
+              <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Text className="my-4">
                 Thank you for registering for the upcoming event! We're excited to have you join us. Here are the
@@ -207,6 +208,13 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
                 </Row>
               </Section>
 
+              <Text>Please note that you are required to carry a valid ID card or an official identification document for authentication upon entry. This is essential to ensure a smooth check-in process.</Text>
+
+              <Text className="my-5">
+                Best regards,
+                <br />
+                Asthra Team
+              </Text>
               <Section className="mt-10">
                 <Row>
                   <Column align="left" className="w-28">
