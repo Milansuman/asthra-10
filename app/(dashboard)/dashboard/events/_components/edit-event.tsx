@@ -46,7 +46,7 @@ export function EventEditPage({ data, departments }: Props) {
 
   const onChangeEvent = async () => {
     const data = await latestEventsQuery.refetch()
-    setLocalData(latestEventsQuery.data ?? []);
+    setLocalData(data.data ?? []);
   }
 
   // Filter by department
