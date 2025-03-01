@@ -243,7 +243,7 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
       )}
     </Card>
 
-    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300">
+    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300 max-h-96 overflow-auto">
       <CardHeader>
         <CardTitle className="mt-[20px]">{data.name}</CardTitle>
         <Markdown full>
@@ -258,9 +258,11 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
         <p>Starts at: {data.dateTimeStarts?.toLocaleString("en-GB", { timeZone: "Asia/Calcutta" })}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
         <p>Secret Message:</p>
-        <Markdown full>
-          {data.secret}
-        </Markdown>
+        <div className='max-h-96 overflow-auto'>
+          <Markdown>
+            {data.secret}
+          </Markdown>
+        </div>
       </CardContent>
       <CardFooter className="px-0 flex-col w-full items-start">
         <div className="flex gap-[10px] p-0 mt-[20px] justify-between">
