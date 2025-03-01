@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cache as reactCache } from 'react';
 
+
 import { PaymentButton } from '@/app/_components/pay';
 import { ShareButton } from '@/app/_components/share';
 import Plusbox from '@/components/madeup/box';
@@ -13,6 +14,10 @@ import { allDepartments, ASTHRA } from '@/logic';
 import { cache } from '@/server/cache';
 import { api } from '@/trpc/server';
 import { ExternalLinkIcon } from 'lucide-react';
+import { getActivityPoints } from '@/logic/points';
+import { Markdown } from '@/app/_components/md';
+import { dataFocusVisibleClasses } from '@heroui/theme';
+import { TRPCError } from '@trpc/server';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -28,6 +33,7 @@ const getEventData = reactCache(async (id: string) => {
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const id = (await params).id;
   const { data: event, error, isSuccess } = await cache.run(`event:${id}`, () => getEventData(id));
+
   const previousImages = (await parent).openGraph?.images ?? [];
 
   if (!isSuccess || !event) {
@@ -76,6 +82,17 @@ export default async function Event({ params }: Props) {
     );
   }
 
+  const shortURLResult = await api.shortner.shorten({
+    name: event.name!.replaceAll(" ", "_"),
+    url: `https://asthra.sjcetpalai.ac.in/event/${event.id}`
+  });
+
+  if (shortURLResult instanceof TRPCError) {
+    console.error(shortURLResult);
+    return {}
+  }
+
+
   const department = event.department === 'NA' ? "SJCET" : allDepartments[event.department as keyof typeof allDepartments];
 
   return (
@@ -84,57 +101,65 @@ export default async function Event({ params }: Props) {
         <Plusbox className="flex-1 p-2">
           <Image src={event.poster} width={400} height={500} alt={event.name ?? ""} className="w-full h-auto" />
         </Plusbox>
-        <div className='flex-1 flex flex-col gap-4'>
+        <div className='flex-1 flex flex-col gap-4 w-full'>
           <Card className='relative'>
-            <ShareButton />
+            <ShareButton shortUrl={shortURLResult.url} />
             <CardHeader>
-              <Badge variant={"glass"} className="w-fit relative text-black">
+              <Badge variant={"glass"} className="w-fit relative mb-3">
                 Created by {department}
                 <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
               </Badge>
               <CardTitle>
                 {event.name ?? "Event"}
               </CardTitle>
-              <CardDescription>
+              <br />
+              <Markdown full>
                 {event.description}
-              </CardDescription>
+              </Markdown>
             </CardHeader>
-            <CardContent className='flex flex-row gap-5 flex-wrap font-bold capitalize'>
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+            <CardContent className='flex flex-row gap-3 flex-wrap font-bold capitalize'>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Venue</p>
                 {event.venue}
               </div>
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Registration Type</p>
                 {event.registrationType === 'both' ? 'Both Spot & Online' : `${event.registrationType} only`}
               </div>
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+              {event.eventType !== "ASTHRA_PASS" && <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Registration Limit</p>
                 approx. {event.regLimit} Seats
-              </div>
+              </div>}
 
               {event.dateTimeStarts && (
-                <div className='relative bg-glass py-2 px-4 border-glass border'>
+                <div className='relative bg-glass py-2 px-3 border-glass border'>
                   <p className='opacity-70 text-sm font-normal'>Event starts at</p>
-                  {event.dateTimeStarts.toLocaleTimeString()}
+                  {event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
                 </div>
               )}
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Duration of event</p>
                 {event.dateTimeEnd}
               </div>
 
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>{event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}</p>
+              <div className='relative bg-glass py-2 px-3 border-glass border'>
+                <p className='opacity-70 text-sm font-normal'>
+                  {event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}
+                </p>
                 {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}{!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
               </div>
 
-              {event.eventType === "ASTHRA_PASS" && (<div className='relative bg-glass py-2 px-4 border-glass border'>
+              {event.eventType === "ASTHRA_PASS" && (<div className='relative bg-glass py-2 px-3 border-glass border'>
                 <p className='opacity-70 text-sm font-normal'>Credits</p>
                 {ASTHRA.credit}
+              </div>)}
+
+              {event.eventType !== "ASTHRA_PASS_EVENT" && (<div className='lowercase relative bg-glass py-2 px-3 border-glass border'>
+                <p className='opacity-70 text-sm font-normal capitalize'>KTU Activity Points</p>
+                {getActivityPoints(event.eventType)}
               </div>)}
 
             </CardContent>
@@ -143,7 +168,7 @@ export default async function Event({ params }: Props) {
             </CardFooter>
           </Card>
 
-          <Button variant={"glass"} link={`/events?department=${event.department}`}>
+          <Button variant={"glass"} link={`/events?department=${event.department}`} className="w-full overflow-hidden text-wrap h-20">
             Show more events from {department}
             <ExternalLinkIcon />
           </Button>

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -56,6 +56,7 @@ function Page() {
 }
 
 function PreCheckOut({ eventId }: { eventId: string }) {
+  const [pdfUrl, setPdfUrl] = useState("");
   const { data, error, isLoading } = api.sjcetPay.initiatePurchase.useQuery(
     {
       eventId,
@@ -97,7 +98,12 @@ function PreCheckOut({ eventId }: { eventId: string }) {
   const { transaction, event } = data;
 
 
-  const getPaymentURL = (transactionId: string) => {
+  const getPaymentURL = (transactionId: string, amount: number) => {
+
+    if (amount === 0) {
+      return `/payment/success/${transactionId}`
+    }
+
     const redirectUrl = new URL(`/payment/success/${transactionId}`, window.location.origin)
 
     const url = new URL("/asthra", env.NEXT_PUBLIC_SJCET_PAYMENT_LINK)
@@ -127,9 +133,9 @@ function PreCheckOut({ eventId }: { eventId: string }) {
         <CardDescription>
           Pay ₹{event.amount} INR for the {event.eventType}.
         </CardDescription>
-        <CardDescription>
+        {/* <CardDescription>
           Transaction ID: {transaction.id}
-        </CardDescription>
+        </CardDescription> */}
         <CardDescription>
           User ID: {transaction.userId}
         </CardDescription>
@@ -145,11 +151,53 @@ function PreCheckOut({ eventId }: { eventId: string }) {
           </div>
         </Plusbox>
       </CardContent>
-      <CardFooter className="justify-between gap-4 flex-row-reverse">
-        <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id)}>Pay ₹{event.amount} Now</Button>
+      <p className="p-4 text-sm text-center">
+        By completing this purchase, you agree to our{" "}
         <Dialog>
           <DialogTrigger asChild>
-            <Button disabled={!notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>
+            <button
+              type="button"
+              onClick={() => setPdfUrl("/Mandatory_policy_sjcet.pdf")}
+              className=" underline"
+            >
+              Privacy Policy
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
+            <iframe
+              src={`${pdfUrl}`}
+              className="w-full h-full p-4"
+              title="pdf-viewer"
+            />
+
+          </DialogContent>
+        </Dialog>{" "}
+        and{" "}
+        <Dialog>
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              onClick={() => setPdfUrl("/REFUND_POLICY_SJCET.pdf")}
+              className="underline"
+            >
+              Refund Policy
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
+            <iframe
+              src={`${pdfUrl}`}
+              className="w-full h-full p-4"
+              title="pdf-viewer"
+            />
+          </DialogContent>
+        </Dialog>
+      </p>
+      <CardFooter className="justify-between gap-4 flex-row-reverse">
+
+        <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id, event.amount)}>Pay ₹{event.amount} Now</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button disabled={notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -159,7 +207,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
                 at the Front Desk.
               </DialogDescription>
             </DialogHeader>
-            <div className="p-4 bg-white">
+            <div className="p-1 md:p-4 bg-white">
               <QRCode
                 size={256}
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}

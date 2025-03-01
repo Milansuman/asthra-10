@@ -70,7 +70,6 @@ export default function Dock({
 
     return (
         <>
-            {/* Mobile Hamburger Button */}
             <button
                 type="button"
                 className="md:hidden fixed bottom-4 right-4 z-30 bg-glass p-2 rounded-full"

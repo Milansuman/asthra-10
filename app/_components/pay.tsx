@@ -17,7 +17,7 @@ import {
 import { useSession } from "@/hooks/session";
 import type { EventZodType } from "@/lib/validator";
 import { api } from "@/trpc/react";
-import ReactMarkdown from 'react-markdown';
+
 import QRCode from "react-qr-code";
 
 export const AsthraPaymentButton = () => {
@@ -50,6 +50,7 @@ import { ASTHRA } from "@/logic";
 import { AlertOctagon, AlertTriangle, FileLock, LoaderIcon, Lock, QrCode, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
 import type { FunctionComponent } from "react";
 import { toast } from "sonner";
+import { Markdown } from "./md";
 
 const ButtonMessages = {
     'Buy ASTHRA PASS': Ticket,
@@ -75,6 +76,12 @@ export const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessage
     );
 };
 
+const customEvents = {
+    "65d0e575-aa0a-4671-b2fa-828e6d98b99a": "https://docs.google.com/forms/d/e/1FAIpQLSdYnWmLVJ6_MCvH1tf8ByaBHf9fvPrmXcIgiP-WbqRbQXgDOQ/viewform?usp=header",
+    "15749c9e-2022-43aa-91f6-ab3f375b3a88": "",
+    "12c94cc5-9096-492c-8611-5c2824f93931": "https://forms.gle/3d228KJaee3aYzcS6",
+} as const
+
 export const PaymentButton = ({ event }: { event: EventZodType }) => {
     const { status, valid, data } = useSession()
     const { data: isRegisteredThisEvent } = api.user.isRegisteredThisEvent.useQuery({ eventId: event.id })
@@ -87,6 +94,12 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     })
 
     const { id, eventType, eventStatus, registrationType, regLimit, regCount, secret } = event
+
+    if (id in customEvents) {
+        return (<Button link={customEvents[id as keyof typeof customEvents]} size={"glass"} variant={"glass"}>
+            Register Now
+        </Button>)
+    }
 
     if (status === "unauthenticated") {
         return (
@@ -114,9 +127,9 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
                     </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>
-                    <ReactMarkdown>
+                    <Markdown full>
                         {secret}
-                    </ReactMarkdown>
+                    </Markdown>
                 </HoverCardContent>
             </HoverCard>
             <Dialog>

@@ -20,7 +20,19 @@ const Items: DockItemData[] = [
   {
     link: "/dashboard/events/edit",
     label: "Edit Events",
+  },
+  {
+    link: "/dashboard/users",
+    label: "Users"
   }
+  // {
+  //   link: "/dashboard/desk",
+  //   label: "Desk",
+  // },
+  // {
+  //   link: "/dashboard/desk/scan",
+  //   label: "Desk Scan",
+  // }
 ]
 
 export default function RootLayout({
@@ -28,7 +40,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="bg-[url(/spline-backup.png)] bg-blend-soft-light bg-black/70 min-h-screen">
+  return <div className="bg-[url(/spline-backup-dark.png)] bg-blend-soft-light bg-black/70 h-screen overflow-auto">
     {children}
     <Dock items={Items} className='z-0' />
   </div>;

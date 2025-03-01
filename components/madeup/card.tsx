@@ -5,6 +5,7 @@ import { useState, type FC } from 'react';
 
 import { z } from 'zod';
 
+
 import type { eventZod } from '@/lib/validator';
 
 import { type EventEdit, EventForm } from '@/components/madeup/eventform';
@@ -25,16 +26,17 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger
+  AlertDialogTrigger,
+  AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { Copy, Trash2 } from 'lucide-react';
-import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 
 import { api } from '@/trpc/react';
 import { TRPCError } from '@trpc/server';
 import { Input } from '../ui/input';
+import { Markdown } from '@/app/_components/md';
 
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
@@ -58,11 +60,9 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
         <div className="flex justify-between items-start">
           <div className="flex-1 pr-4">
             <CardTitle className="text-4xl mb-3">{data.name}</CardTitle>
-            {data.description && (
-              <CardDescription className="text-xl text-white">
-                {data.description}
-              </CardDescription>
-            )}
+            <Markdown>
+              {data.description}
+            </Markdown>
           </div>
           {credits && (
             <div className="bg-white text-blue-600 px-4 py-2 rounded-lg flex-shrink-0">
@@ -143,9 +143,6 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
         )}
       </CardHeader>
       <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-      <CardDescription className="line-clamp-6 mb-2">
-        {data.description}
-      </CardDescription>
       <CardFooter className="flex gap-[10px] p-0 mt-auto flex-wrap">
         <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -153,9 +150,9 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
               Edit
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="sm:max-w-[900px] p-0 border-none bg-transparent">
+          <AlertDialogContent className="p-5 min-h-screen max-w-screen border-none bg-transparent">
             <Card className="p-5 text-white bg-glass">
-              <h3 className="cal">Edit Event</h3>
+              <AlertDialogTitle>Edit Event</AlertDialogTitle>
               <p>
                 Keyboard accessible, Use up & down arrows to control counts &
                 dates
@@ -209,7 +206,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
         </AlertDialog>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">
+            <Button size={"glass"} variant="destructive">
               <Trash2 size={20} />
             </Button>
           </AlertDialogTrigger>
@@ -218,10 +215,10 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
             <p>Are you sure you want to delete this event? This action cannot be undone.</p>
             <div className="flex justify-end gap-4 mt-4">
               <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button size={"glass"} variant="outline">Cancel</Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild>
-                <Button variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
+                <Button size={"glass"} variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
               </AlertDialogAction>
             </div>
           </AlertDialogContent>
@@ -246,23 +243,30 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
       )}
     </Card>
 
-    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300">
+    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300 max-h-96 overflow-auto">
       <CardHeader>
         <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-        <CardDescription>{data.description}</CardDescription>
+        <Markdown full>
+          {data.description}
+        </Markdown>
       </CardHeader>
       <CardContent className="flex-col gap-2 !justify-start items-start w-full text-white">
         <p>Department: {data.department}</p>
         <p>Event type: {data.eventType}</p>
         <p>Event status: {data.eventStatus}</p>
         <p>Venue: {data.venue}</p>
-        <p>Starts at: {data.dateTimeStarts?.toLocaleString("en-US", { timeZone: "UTC" })}</p>
+        <p>Starts at: {data.dateTimeStarts?.toLocaleString("en-GB", { timeZone: "Asia/Calcutta" })}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
-        <p>Secret Message: {data.secret}</p>
+        <p>Secret Message:</p>
+        <div className='max-h-96 overflow-auto'>
+          <Markdown>
+            {data.secret}
+          </Markdown>
+        </div>
       </CardContent>
       <CardFooter className="px-0 flex-col w-full items-start">
         <div className="flex gap-[10px] p-0 mt-[20px] justify-between">
-          <h3>₹{data.amount}</h3>
+          <h3>{data.eventType !== "ASTHRA_PASS_EVENT" ? "₹" : ""}{data.amount}</h3>
           <h3>for {data.regLimit ?? 0}x users</h3>
         </div>
         <p className="cal">
@@ -310,9 +314,9 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
       <CardTitle className="font-semibold text-2xl text-black">
         {data.name}
       </CardTitle>
-      <CardDescription className="text-neutral-700">
+      <Markdown>
         {data.description}
-      </CardDescription>
+      </Markdown>
     </CardHeader>
     <CardContent className="flex flex-col items-center space-y-6">
       <Image

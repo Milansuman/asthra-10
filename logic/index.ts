@@ -89,18 +89,19 @@ export type EndTime = keyof typeof endTime;
  *
  * Mon Mar 06 2025 09:00:00 GMT+0530 (India Standard Time)
  * */
-export const AsthraStartsAt = new Date(Date.parse('2025-03-06T09:00:00'));
+export const AsthraStartsAt = new Date(1741231800000);
 // AsthraStartsAt.toLocaleString() "4/3/2025, 9:00:00 am"
 
 /**
  * last date of edits
  *
- * Defualt March 01 11:59 PM "01-03-2025"
+ * Defualt March 02 11:59 AM "02-03-2025"
  *
- * Mon March 01 2025 23:59:00 GMT+0530 (India Standard Time)
+ * Mon March 02 2025 11:59:00 GMT+0530 (India Standard Time)
  * */
-export const AsthraLastEditDay = new Date(1740810540000);
-// AsthraStartsAt.toLocaleString() "1/3/2025, 11:59:00 PM"
+export const AsthraLastEditDay = new Date(1740896999000);
+
+// AsthraStartsAt.toLocaleString() "2/3/2025, 11:59:00 AM"
 
 /**
  * Venue example

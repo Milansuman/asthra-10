@@ -34,7 +34,6 @@ export function EventPage({
     eventStatus = 'all',
     dashboard = false,
 }: Props) {
-    const [filter, setFilter] = useState(eventStatus === 'cancel' ? 'CANCELLED' : filterCategory);
     const [department, setDepartment] = useState(filterDepartment);
 
     return (
@@ -47,13 +46,15 @@ export function EventPage({
                     <SelectContent className="w-[380px]">
                         <SelectItem value="all">All</SelectItem>
                         {departments.map((d, index) => (
-                            <SelectItem value={d} key={index}>{d}</SelectItem>
+                            <SelectItem value={d} key={index}>
+                                {allDepartments[d as keyof typeof allDepartments]}
+                            </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-center mt-8 px-4">
+            <div className="container my-8 flex flex-row flex-wrap gap-4 justify-center px-4">
                 {events
                     .filter((event) => event.department === department || department === "all")
                     .map((event) => (

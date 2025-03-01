@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { SuggestionsInput } from "./suggestions-input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { toast } from "sonner";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -84,6 +86,7 @@ export function ProfileEdit() {
     await updateUser(values);
   };
 
+
   // {/* <ProfileUpload name="avatar" image={userFromAuth?.image} /> */}
   return (
     <Form {...form}>
@@ -93,7 +96,7 @@ export function ProfileEdit() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
                   placeholder="John Doe"
@@ -110,7 +113,7 @@ export function ProfileEdit() {
           name="number"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>Phone (whatsapp)</FormLabel>
               <FormControl>
                 <Input
                   type="tel"
@@ -130,23 +133,45 @@ export function ProfileEdit() {
             <FormItem>
               <FormLabel>College / School</FormLabel>
               <FormControl>
-                <Input
+                <SuggestionsInput
                   placeholder="Enter your college's name"
                   {...field}
                   value={
-                    !field?.value
-                      ? ""
-                      : field?.value === "NA"
-                        ? ""
-                        : field?.value
+                    field?.value ?? "NA"
                   }
                   required
+                  suggestions={["SJCET", "SAINTGITS", "MANGALAM", "AMAL JYOTHI", "RIT", "TOMS COLLEGE", "CE POONJAR", "CE KIDANGOOR", "KITS", "GISAT", "GREGORIAN INSTITUTE"]}
+                />
+              </FormControl>
+              <FormMessage />
+              <FormDescription className="text-neutral-200">
+                Enter your college or school even if it doesn't appear in the suggestions.
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="KTU"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>KTU Username</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="SJC21AD123 (optional)"
+                  {...field}
+                  value={
+                    field?.value ?? undefined
+                  }
+                  required={false}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="department"
@@ -160,8 +185,8 @@ export function ProfileEdit() {
                       {field.value === "NA"
                         ? "Other"
                         : allDepartments[
-                            field.value as keyof typeof allDepartments
-                          ]}
+                        field.value as keyof typeof allDepartments
+                        ]}
                     </SelectValue>
                   </SelectTrigger>
                 </FormControl>
@@ -212,7 +237,7 @@ export function ProfileEdit() {
         <Button
           disabled={isSuccess || isLoading}
           type="submit"
-          className="text-black mt-4"
+          className="mt-4"
         >
           {isLoading ? (
             <Loader className="animate-spin" />

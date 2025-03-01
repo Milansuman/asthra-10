@@ -1,35 +1,38 @@
 import {
-  Html,
-  Head,
-  Tailwind,
   Body,
+  Column,
   Container,
   Font,
+  Head,
   Heading,
+  Html,
   Img,
-  Preview,
-  Section,
-  Text,
-  Hr,
   Link,
+  Preview,
   Row,
-  Column
+  Section,
+  Tailwind,
+  Text,
 } from "@react-email/components";
 import { baseUrl } from "../utils";
+import type { UserRegisteredEventZod, UserZodType, EventZodType, TransactionZodType } from "@/lib/validator";
 
-type Props = {
-  eventId: string;
-  eventName: string;
-  personName: string;
+type AsthraPassProps = {
+  event: EventZodType,
+  userRegisteredEvent: UserRegisteredEventZod,
+  user: UserZodType,
+  transactions: TransactionZodType
 };
 
-const AsthraPass = ({ eventId, eventName, personName }: Props) => {
+export default function AsthraPassEmail({ event, userRegisteredEvent, user, transactions }: AsthraPassProps) {
   return (
     <Html>
       <Head>
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light only" />
         <Font
-          fontFamily="Ambit"
-          fallbackFontFamily="Verdana"
+          fontFamily="ambit"
+          fallbackFontFamily="sans-serif"
           webFont={{
             url: `${baseUrl}/fonts/ambit/Ambit-Regular.woff2`,
             format: "woff2",
@@ -38,60 +41,125 @@ const AsthraPass = ({ eventId, eventName, personName }: Props) => {
           fontStyle="normal"
         />
       </Head>
-      <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
-      <Tailwind
-        config={{
-          theme: {
-            extend: {
-              colors: {
-                brand: "#5B9BE6",
-              },
-              fontFamily: {
-                ambit: ["Ambit"],
-              },
-              backdropBlur: {
-                test: "blur(100px)"
-              }
-            },
-          },
-        }}
-      >
-        <Body className="bg-[#4A90E2]">
-          <Container className="mx-auto py-5">
-            <Section className="mt-4">
+      <Preview>ASTHRA 9.0 Asthra Pass Purchased</Preview>
+      <Tailwind>
+        <Body
+          style={{
+            backgroundImage: `url(${baseUrl}/images/bg.webp)`,
+          }}
+          className={"bg-[#0A0A19] font-ambit bg-cover bg-center"}
+        >
+          <Container className="mx-auto my-4">
+            <Section className="mt-8 px-2">
               <Row>
                 <Column align="left">
-                  <Img
-                    src={`${baseUrl}/images/asthra.png`}
-                    width="100"
-                    height="50"
-                    alt="St. Joseph's Logo"
-                    className="object-contain"
-                  />
+                  <Link href="https://asthra.sjcetpalai.ac.in">
+                    <Img src={`${baseUrl}/images/asthra.png`} width="100" height="50" alt="Asthra SJCET Logo" className="object-contain" />
+                  </Link>
                 </Column>
                 <Column align="right">
-                  <Img
-                    src={`${baseUrl}/images/sjcet.png`}
-                    width="150"
-                    height="50"
-                    alt="St. Joseph's College"
-                    className="object-contain"
-                  />
+                  <Link href="https://sjcetpalai.ac.in">
+                    <Img src={`${baseUrl}/images/sjcet.png`} width="150" height="50" alt="SJCET Logo" className="object-contain" />
+                  </Link>
                 </Column>
               </Row>
             </Section>
 
-            <Heading className="text-white text-6xl font-extrabold text-center mt-14 font-ambit">
+            <Heading className="text-[#ffffff] text-5xl font-extrabold text-center mt-16">
               ASTHRA 9.0
             </Heading>
 
-            <Container className="bg-[#4A90E2]/80 rounded-2xl border-[1px] border-solid border-[#8abaf1] shadow-2xl p-8 text-white relative">
+            <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
+              <Text className="text-lg pb-4">Hello {user.name},</Text>
+
+              <Text className="my-4">
+                Thank you for purchasing Asthra Pass. We're excited to have you join us!
+                Attached is your digital pass. Please scan it at the front desk and event venue for entry.
+              </Text>
+
+              <Section
+                style={{
+                  backgroundImage: `url(${baseUrl}/images/pass.png)`,
+                }}
+                className="w-[95%] max-w-[280px] h-[500px] bg-cover bg-center mt-10"
+              >
+                <Row >
+                  <Column align="center">
+                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[65%] min-w-[180px] rounded-md object-contain" />
+                  </Column>
+                </Row>
+                <Row>
+                  <Text className="pt-5 w-full text-center text-xl font-extrabold text-black">{user.name}</Text>
+                  <Text className="w-full text-center text-xl font-extrabold text-black">{user.number}</Text>
+                  <Container className="h-[50px]" />
+                </Row>
+              </Section>
+
+              <Row className="mt-8">
+                <Column align="center">
+                  <Link href="https://asthra.sjcetpalai.ac.in/profile" className="bg-[#21d0fe] text-white rounded-md p-2">
+                    View Profile
+                  </Link>
+                </Column>
+              </Row>
+
+              <Text className="mt-10">You are required to carry a valid ID card or an official identification document for authentication upon entry.</Text>
+              <Text>
+                If you require further assistance, don't hesitate to reach out to us!
+                <br />
+                We look forward to welcoming you at the event!
+              </Text>
+
+              <Text className="my-5">
+                Best regards,
+                <br />
+                Asthra Team
+              </Text>
+
+              <Section className="mt-10">
+                <Row>
+                  <Column align="left" className="w-28">
+                    <Text className="m-0 text-[#50c2ff] text-base font-extrabold">Follow us on:</Text>
+                    <Row>
+                      <Column>
+                        <Link href="https://asthra.sjcetpalai.ac.in">
+                          <Img src={`${baseUrl}/images/social-web.png`} width="25" height="25" alt="Globe" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://www.facebook.com/asthra.sjcet">
+                          <Img src={`${baseUrl}/images/social-facebook.png`} width="25" height="25" alt="Facebook" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://instagram.com/asthra_sjcet">
+                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://www.linkedin.com/showcase/asthra-sjcet">
+                          <Img src={`${baseUrl}/images/social-linkedin.png`} width="25" height="25" alt="LinkedIn" className="object-contain" />
+                        </Link>
+                      </Column>
+                      <Column>
+                        <Link href="https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d">
+                          <Img src={`${baseUrl}/images/social-whatsapp.png`} width="25" height="25" alt="Whatsapp" className="object-contain" />
+                        </Link>
+                      </Column>
+                    </Row>
+                  </Column>
+                  <Column align="right">
+                    <Link href="https://asthra.sjcetpalai.ac.in">
+                      <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
+                    </Link>
+                  </Column>
+                </Row>
+              </Section>
             </Container>
+
           </Container>
         </Body>
-      </Tailwind>
-    </Html>
+      </Tailwind >
+    </Html >
   )
-};
-
-export default AsthraPass;
+}

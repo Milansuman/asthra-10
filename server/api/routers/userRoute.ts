@@ -2,6 +2,8 @@
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
+import { allRoles } from '@/logic';
+
 import {
   eventsTable,
   user,
@@ -54,6 +56,21 @@ export const userRouter = createTRPCRouter({
           ...input,
         })
         .where(eq(user.id, ctx.session.user.id))
+        .returning();
+    }),
+
+  editUserRole: managementProcedure
+    .input(z.object({
+      role: z.enum(["USER", "STUDENT_COORDINATOR" , "FACULTY_COORDINATOR" , "MANAGEMENT" , "ADMIN" , "DESK"]),
+      userId: z.string()
+    }))
+    .mutation(async ({ctx, input}) => {
+      return await ctx.db
+        .update(user)
+        .set({
+          role: input.role
+        })
+        .where(eq(user.id, input.userId))
         .returning();
     }),
 

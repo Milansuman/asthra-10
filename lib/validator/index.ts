@@ -109,9 +109,9 @@ export const userDataFillZod = userAccessZod.refine(
       return false;
     }
 
-    if (user.number === null) {
-      return false;
-    }
+    // if (user.number === null) {
+    //   return false;
+    // }
     return true;
   },
   {

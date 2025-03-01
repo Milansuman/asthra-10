@@ -11,6 +11,7 @@ import {
   userRegisteredEventTable,
 } from '@/server/db/schema';
 import { getTrpcError } from '@/server/db/utils';
+import { db } from '@/server/db';
 
 export const spotRegister = createTRPCRouter({
   registerEventOffline: frontDeskProcedure
@@ -88,4 +89,16 @@ export const spotRegister = createTRPCRouter({
         };
       });
     }),
+  updateParticipantStatus: frontDeskProcedure
+    .input(
+      z.object({
+        registrationId: z.string(),
+        status: z.enum(["attended", "registered", "certified"])
+      })
+    )
+    .mutation(async ({ctx, input}) => {
+      await ctx.db.update(userRegisteredEventTable).set({
+        status: input.status
+      }).where(eq(userRegisteredEventTable.registrationId, input.registrationId))
+    })
 });
