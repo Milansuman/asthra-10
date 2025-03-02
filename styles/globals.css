@@ -60,14 +60,20 @@
   }
 
   .glass {
+    -webkit-backdrop-filter: blur(12px);
+    text-shadow: none;
     @apply bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20;
   }
 
   .bg-glass {
+    -webkit-backdrop-filter: blur(24px);
+    text-shadow: none;
     @apply bg-white bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-20;
   }
 
   .bg-glass-top {
+    -webkit-backdrop-filter: blur(24px);
+    text-shadow: none;
     @apply pattern-diagonal-lines pattern-blue-500 pattern-bg-white pattern-size-2 pattern-opacity-20;
   }
 
