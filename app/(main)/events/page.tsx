@@ -1,6 +1,6 @@
 "use client";
 
-import { EventPage } from "@/components/madeup/events-page";
+import { EventPage } from "./_components/events-page";
 import { api } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
@@ -26,7 +26,7 @@ export default function Home() {
           <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
         </Plusbox>
       </div>
-      <Suspense fallback={<Loader size={60} className="animate-spin" />}>
+      <Suspense fallback={<Loader size={50} className="animate-spin" />}>
         <Page />
       </Suspense>
     </div>
@@ -46,8 +46,7 @@ function Page() {
   if (isLoading) {
     return (
       <div className="w-full flex flex-col gap-3 justify-center items-center">
-        <Loader size={60} className="animate-spin" />
-        <h1 className="text-3xl">Loading</h1>
+        <Loader size={50} className="animate-spin" />
       </div>
     );
   }

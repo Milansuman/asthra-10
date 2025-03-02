@@ -22,9 +22,8 @@ export const EventParent = ({ id }: { id: string }) => {
 
     if (isLoading) {
         return (
-            <div className="w-full flex flex-col gap-3 justify-center items-center">
-                <LoaderIcon size={60} className="animate-spin" />
-                <h1 className="text-3xl">Loading</h1>
+            <div className="w-full h-full flex flex-col gap-3 justify-center items-center">
+                <LoaderIcon size={50} className="animate-spin" />
             </div>
         );
     }

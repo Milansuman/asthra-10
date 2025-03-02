@@ -21,7 +21,9 @@ const EventCard: React.FC<EventCardProps> = ({ data }) => {
 			<div className="absolute top-0 left-0 right-0 bottom-0 bg-glass p-4 opacity-0 group-hover:opacity-100 transition-all">
 				<div className="flex flex-col items-center justify-around h-full gap-2">
 					<div className="flex flex-col items-center gap-2">
-						<Label variant={'glass'} className="text-sm font-thin">{allDepartments[data.department as AllDepartments]}</Label>
+						<Label variant={'glass'} className="text-sm font-thin">
+							{data.department === "NA" ? "General Event" : allDepartments[data.department as AllDepartments]}
+						</Label>
 						<h4 className="mt-[4%]">{data.name}</h4>
 						<div className="mt-[4%]">
 							<Markdown>

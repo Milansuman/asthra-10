@@ -9,7 +9,7 @@ import type { z } from 'zod';
 import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
 
-import EventCard from './event-card';
+import EventCard from '@/components/madeup/event-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Link from 'next/link';
 
@@ -45,9 +45,9 @@ export function EventPage({
                     </SelectTrigger>
                     <SelectContent className="w-[380px]">
                         <SelectItem value="all">All</SelectItem>
-                        {departments.map((d, index) => (
-                            <SelectItem value={d} key={index}>
-                                {allDepartments[d as keyof typeof allDepartments]}
+                        {departments.map((dprt, index) => (
+                            <SelectItem value={dprt} key={index}>
+                                {dprt === "NA" ? "General Events" : allDepartments[dprt as keyof typeof allDepartments]}
                             </SelectItem>
                         ))}
                     </SelectContent>
