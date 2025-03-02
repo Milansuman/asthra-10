@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <div className="fixed top-0 left-0 h-screen w-screen -z-1">
+      <div className="fixed top-0 left-0 h-screen w-screen -z-10">
         {/* <video
             src={'/glass.mp4'}
             autoPlay={true}
@@ -46,7 +46,7 @@ export default function RootLayout({
             className="relative h-full w-full bg-[url(/spline-backup-dark.png)] bg-black/60"
           />}
       </div>
-      <main className="z-10 relative overflow-auto h-screen">
+      <main className="relative overflow-y-auto h-screen">
         {children}
         <Footer />
       </main>
