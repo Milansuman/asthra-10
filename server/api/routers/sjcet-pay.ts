@@ -20,6 +20,7 @@ import { Increment, getTrpcError } from '@/server/db/utils';
 
 import {
   type TransactionZodType,
+  UserZodType,
   eventZod,
   transactionsZod,
 } from '@/lib/validator';
@@ -281,12 +282,20 @@ export const sjcetPaymentRouter = createTRPCRouter({
           })
           .returning();
 
+        const userData = await tx.query.user.findFirst({
+          where: eq(user.id, transactionData.userId),
+        });
+
         if (eventData.length === 0 || !eventData[0]) {
           throw getTrpcError('EVENT_NOT_FOUND');
         }
 
         if (ure.length === 0 || !ure[0]) {
           throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (!userData) {
+          throw getTrpcError('USER_NOT_FOUND');
         }
 
         if (transactionData.eventId === ASTHRA.id) {
@@ -297,20 +306,20 @@ export const sjcetPaymentRouter = createTRPCRouter({
               asthraCredit: ASTHRA.credit,
               transactionId: transactionData.id,
             })
-            .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
+            .where(and(eq(user.id, userData.id), eq(user.asthraPass, false)));
 
           await MailAPI.asthraPass({
-            user: ctx.user,
+            user: userData as UserZodType,
             transactions: transactionData,
-            to: ctx.user.email,
+            to: userData.email,
             userRegisteredEvent: ure[0],
           });
         } else {
           await MailAPI.purchaseConfirm({
             event: eventData[0],
-            user: ctx.user,
+            user: userData as UserZodType,
             transactions: transactionData,
-            to: ctx.user.email,
+            to: userData.email,
             userRegisteredEvent: ure[0],
           });
         }
