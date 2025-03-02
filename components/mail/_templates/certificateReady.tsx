@@ -15,14 +15,12 @@ import {
   Column,
 } from "@react-email/components"
 import { baseUrl } from "../utils";
-import type { UserZodType, EventZodType } from '@/lib/validator';
 
 type CertificateReadyProps = {
-  event: EventZodType,
-  user: UserZodType,
+  personName: string,
 };
 
-export default function CertificateReadyEmail({ event, user }: CertificateReadyProps) {
+export default function CertificateReadyEmail({ personName }: CertificateReadyProps) {
   return (
     <Html>
       <Head>
@@ -68,12 +66,12 @@ export default function CertificateReadyEmail({ event, user }: CertificateReadyP
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
-              <Text className="text-lg pb-4">Hello {user.name},</Text>
+              <Text className="text-lg pb-4">Hello {personName},</Text>
 
               <Text>Greetings from SJCET!</Text>
 
               <Text>
-                We are pleased to inform you that you have successfully received your Certificate of Participation for {event.name} conducted as part of Asthra 9.0 at SJCET.
+                We are pleased to inform you that you have successfully received your Certificate of Participation for events conducted as part of Asthra 9.0 at SJCET.
               </Text>
 
               <Text>

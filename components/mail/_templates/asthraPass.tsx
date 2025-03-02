@@ -15,16 +15,16 @@ import {
   Text,
 } from "@react-email/components";
 import { baseUrl } from "../utils";
-import type { UserRegisteredEventZod, UserZodType, EventZodType, TransactionZodType } from "@/lib/validator";
+import type { UserZodType, UserRegisteredEventZod, TransactionZodType } from "@/lib/validator";
+import { ASTHRA } from "@/logic";
 
 type AsthraPassProps = {
-  event: EventZodType,
-  userRegisteredEvent: UserRegisteredEventZod,
   user: UserZodType,
+  userRegisteredEvent: UserRegisteredEventZod,
   transactions: TransactionZodType
 };
 
-export default function AsthraPassEmail({ event, userRegisteredEvent, user, transactions }: AsthraPassProps) {
+export default function AsthraPassEmail({ user, userRegisteredEvent, transactions }: AsthraPassProps) {
   return (
     <Html>
       <Head>
@@ -85,7 +85,7 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
               >
                 <Row >
                   <Column align="center">
-                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[65%] min-w-[180px] rounded-md object-contain" />
+                    <Img src={`${baseUrl}/api/qr/${user.id}`} className="w-[65%] min-w-[180px] rounded-md object-contain" />
                   </Column>
                 </Row>
                 <Row>
@@ -94,6 +94,20 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
                   <Container className="h-[50px]" />
                 </Row>
               </Section>
+
+              <Row className="mt-8">
+                <Column align="center">
+                  <Text>
+                    {JSON.stringify(transactions, null, 2)}
+                  </Text>
+                  <Text>
+                    {JSON.stringify(userRegisteredEvent, null, 2)}
+                  </Text>
+                  <Text>
+                    {JSON.stringify(ASTHRA, null, 2)}
+                  </Text>
+                </Column>
+              </Row>
 
               <Row className="mt-8">
                 <Column align="center">

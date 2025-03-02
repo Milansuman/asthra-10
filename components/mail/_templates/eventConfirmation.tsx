@@ -13,17 +13,18 @@ import {
   Link,
   Row,
   Column,
+  Markdown
 } from "@react-email/components"
 import { baseUrl } from "../utils";
 import type { UserZodType, EventZodType, UserRegisteredEventZod } from '@/lib/validator';
 
 type EventConfirmationProps = {
+  user: UserZodType,
   event: EventZodType,
   userRegisteredEvent: UserRegisteredEventZod,
-  user: UserZodType,
 };
 
-export default function EventConfirmationEmail({ event, userRegisteredEvent, user }: EventConfirmationProps) {
+export default function EventConfirmationEmail({ user, event, userRegisteredEvent }: EventConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -72,29 +73,50 @@ export default function EventConfirmationEmail({ event, userRegisteredEvent, use
               <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Text>We’re excited to confirm your registration for {event.name}! Your registration was successful and we can’t wait to have you join us.</Text>
+              <Text className="text-lg font-extrabold text-center">Transaction Details</Text>
+              <Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[2%] px-[3%] max-w-[400px] mb-10">
+                <Row>
+                  <Column align="left" className="w-1/2">
+                    <Text className="m-0 mt-[2%] text-xs">Registration ID:</Text>
+                    <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.registrationId}</Text>
+                    <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
+                    <Text className="m-0 text-xs">{user.email}</Text>
+                    <Text className="m-0 mt-[2%] text-xs">{user.number ?? ''}</Text>
+                  </Column>
+                  <Column align="right" className="w-1/2">
+                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />
+                  </Column>
+                </Row>
+              </Section>
 
-              {event.eventType === 'ASTHRA_PASS_EVENT' ? (
-                <Text>This is an Asthra Pass event, so you can attend the event without any additional registration.</Text>
-              ) : (
-                <>
-                  <Text className="text-lg font-extrabold text-center">Transaction Details</Text>
-                  <Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[2%] px-[3%] max-w-[400px]">
-                    <Row>
-                      <Column align="left" className="w-1/2">
-                        <Text className="m-0 font-extrabold">Bank Name</Text>
-                        <Text className="m-0 mt-[2%] text-xs">Transaction ID:</Text>
-                        <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.transactionId}</Text>
-                        <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
-                        <Text className="m-0 text-xs">test@gmail.com</Text>
-                        <Text className="m-0 mt-[2%] text-xs">+918921964557</Text>
-                      </Column>
-                      <Column align="right" className="w-1/2">
-                        <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />
-                      </Column>
-                    </Row>
-                  </Section>
-                </>
-              )}
+              <Section>
+                <Row>
+                  <Column align="left">
+                    <Markdown
+                      markdownCustomStyles={{
+                        codeInline: { background: "white", opacity: "0.7", padding: "2px 4px" },
+                        codeBlock: { background: "white", opacity: "0.7", padding: "2px 4px" },
+                        blockQuote: { background: "transparent" },
+                        bold: { background: "transparent" },
+                        h1: { margin: "0", textWrap: "wrap" },
+                        h2: { margin: "0" },
+                        h3: { margin: "0" },
+                        h4: { margin: "0" },
+                        h5: { margin: "0" },
+                        h6: { margin: "0" },
+                        image: { width: "60%" },
+                      }}
+                      markdownContainerStyles={{
+                        background: "#F0F8FF",
+                        borderRadius: "8px",
+                        padding: "16px",
+                      }}
+                    >
+                      {event.secret ?? ""}
+                    </Markdown>
+                  </Column>
+                </Row>
+              </Section>
 
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
               <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>

@@ -19,10 +19,10 @@ import { Button } from '@/components/ui/button';
 export default function Page({ eventData }: { eventData: EventZodType }) {
     const { isPending, mutateAsync: addAttendance } = api.user.addAttendance.useMutation({
         onSuccess: () => {
-            toast('Payment Success')
+            toast('Attendence Succefully Taken')
         },
         onError: (error) => {
-            toast.error(`Payment Failed - ${error.data?.code}`, {
+            toast.error(`Attendence Failed - ${error.data?.code}`, {
                 description: error.message
             })
         }
@@ -32,7 +32,7 @@ export default function Page({ eventData }: { eventData: EventZodType }) {
             <Card>
                 <CardHeader>
                     <CardTitle>
-                        Coordinators - Attendence Tool
+                        Coordinators - Attendence Tool (Single Event)
                     </CardTitle>
                     <CardDescription>
                         When students came to participate at venue, scan their profile QR

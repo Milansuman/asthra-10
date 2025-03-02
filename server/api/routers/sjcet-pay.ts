@@ -171,11 +171,10 @@ export const sjcetPaymentRouter = createTRPCRouter({
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
           api.mail.asthraPass.query({
-            event: eventData[0],
-            user: ctx.user,
             transactions: currentTransation,
-            to: ctx.user.email,
+            user: ctx.user,
             userRegisteredEvent: ure[0],
+            to: ctx.user.email,
           });
         } else {
           api.mail.purchaseConfirm.query({
@@ -300,7 +299,6 @@ export const sjcetPaymentRouter = createTRPCRouter({
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
           api.mail.asthraPass.query({
-            event: eventData[0],
             user: ctx.user,
             transactions: transactionData,
             to: ctx.user.email,

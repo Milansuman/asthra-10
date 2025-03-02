@@ -60,15 +60,24 @@ export const userRouter = createTRPCRouter({
     }),
 
   editUserRole: managementProcedure
-    .input(z.object({
-      role: z.enum(["USER", "STUDENT_COORDINATOR" , "FACULTY_COORDINATOR" , "MANAGEMENT" , "ADMIN" , "DESK"]),
-      userId: z.string()
-    }))
-    .mutation(async ({ctx, input}) => {
+    .input(
+      z.object({
+        role: z.enum([
+          'USER',
+          'STUDENT_COORDINATOR',
+          'FACULTY_COORDINATOR',
+          'MANAGEMENT',
+          'ADMIN',
+          'DESK',
+        ]),
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
       return await ctx.db
         .update(user)
         .set({
-          role: input.role
+          role: input.role,
         })
         .where(eq(user.id, input.userId))
         .returning();
@@ -133,6 +142,23 @@ export const userRouter = createTRPCRouter({
             eq(userRegisteredEventTable.eventId, input.eventId),
             eq(userRegisteredEventTable.userId, input.userId)
           )
+        );
+    }),
+
+  addAttendanceWithURE: coordinatorProcedure
+    .input(
+      z.object({
+        registrationId: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db
+        .update(userRegisteredEventTable)
+        .set({
+          status: 'attended',
+        })
+        .where(
+          eq(userRegisteredEventTable.registrationId, input.registrationId)
         );
     }),
 

@@ -1,17 +1,17 @@
-import { CustomPgDrizzleAdapter } from "@/server/db/adapter";
+import { CustomPgDrizzleAdapter } from '@/server/db/adapter';
 import {
   type DefaultSession,
   type NextAuthOptions,
   getServerSession,
-} from "next-auth";
-import type { Adapter } from "next-auth/adapters";
-import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
+} from 'next-auth';
+import type { Adapter } from 'next-auth/adapters';
+import GoogleProvider, { type GoogleProfile } from 'next-auth/providers/google';
 
-import { env } from "@/env";
-import type { UserZodType } from "@/lib/validator";
-import { getDataFromMail } from "@/logic/extract";
-import { db } from "@/server/db";
-import { api } from "@/trpc/vanila";
+import { env } from '@/env';
+import type { UserZodType } from '@/lib/validator';
+import { getDataFromMail } from '@/logic/extract';
+import { db } from '@/server/db';
+import { api } from '@/trpc/vanila';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -19,13 +19,13 @@ import { api } from "@/trpc/vanila";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
       // role: UserZodType['role'];
-    } & DefaultSession["user"] &
+    } & DefaultSession['user'] &
       UserZodType;
   }
 
@@ -35,11 +35,11 @@ declare module "next-auth" {
   // }
 }
 
-declare module "@auth/core/types" {
+declare module '@auth/core/types' {
   interface Session extends DefaultSession {
     user: {
       id: string;
-    } & DefaultSession["user"] &
+    } & DefaultSession['user'] &
       UserZodType;
   }
 
@@ -64,7 +64,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  session: { strategy: "database" },
+  session: { strategy: 'database' },
   adapter: CustomPgDrizzleAdapter(db) as Adapter,
   providers: [
     GoogleProvider({
@@ -81,7 +81,7 @@ export const authOptions: NextAuthOptions = {
           image: profile.picture,
           email_verified: profile.email_verified,
           // emailVerified: profile.email_verified,
-          role: "USER",
+          role: 'USER',
           asthraPass: false,
           transactionId: null,
           asthraCredit: 0,
@@ -89,9 +89,9 @@ export const authOptions: NextAuthOptions = {
           ...(SJCET && data
             ? data
             : {
-                department: "NA",
-                year: "NA",
-                college: SJCET ? "SJCET" : "NA",
+                department: 'NA',
+                year: 'NA',
+                college: SJCET ? 'SJCET' : 'NA',
               }),
           name: profile.name ?? data?.name ?? null,
         };
@@ -106,18 +106,19 @@ export const authOptions: NextAuthOptions = {
 
       await api.mail.welcome.query({
         email: user.email,
-        name: user.name ?? "User",
+        name: user.name ?? 'User',
       });
     },
   },
   pages: {
-    newUser: "/profile",
+    newUser: '/profile',
+    signIn: '/login',
   },
   theme: {
-    colorScheme: "dark",
-    buttonText: "black",
-    brandColor: "white",
-    logo: "/asthra.svg",
+    colorScheme: 'dark',
+    buttonText: 'black',
+    brandColor: 'white',
+    logo: '/asthra.svg',
   },
   secret: env.NEXTAUTH_SECRET,
 };

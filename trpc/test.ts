@@ -1,12 +1,42 @@
 import { api } from './vanila';
+import type {
+  UserZodType,
+  EventZodType,
+  UserRegisteredEventZod,
+  TransactionZodType,
+} from '@/lib/validator';
 
-await api.mail.asthraPass.query({
-  to: 'aravindmng47@gmail.com',
+export const data: {
+  user: UserZodType;
+  event: EventZodType;
+  userRegisteredEvent: UserRegisteredEventZod;
+  transactions: TransactionZodType;
+} = {
   event: {
     id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
     name: 'CipherX',
     description: 'Good challenge',
-    secret: '',
+    secret: `## Here is your secret message
+- Do something
+
+*test*
+
+**hello**
+
+\`asdasd\`
+
+\`\`\`
+123123sadsa
+\`\`\`
+
+> asdsadasd
+
+~~strikethrough~~
+
+[Download](https://asthra.sjcetpalai.ac.in/images/asthra-glass.png)
+
+![alt](https://asthra.sjcetpalai.ac.in/images/asthra-glass.png)
+`,
     poster: '',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -59,6 +89,17 @@ await api.mail.asthraPass.query({
     remark: 'asdasd',
     registrationId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
   },
+};
+
+await api.mail.purchased.query({
+  // asthraPass: true,
+  // email: '',
+  // name: '',
+  to: 'aravindmng47@gmail.com',
+  user: data.user,
+  event: data.event,
+  userRegisteredEvent: data.userRegisteredEvent,
+  transactions: data.transactions,
 });
 
 console.log('done');
