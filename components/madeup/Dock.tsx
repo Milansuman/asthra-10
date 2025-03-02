@@ -72,7 +72,7 @@ export default function Dock({
         <>
             <button
                 type="button"
-                className="md:hidden fixed bottom-4 right-4 z-30 bg-glass p-2 rounded-full"
+                className="md:hidden fixed bottom-4 right-4 z-10 bg-glass p-2 rounded-full"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <Menu size={36} className="text-glass-foreground" />
