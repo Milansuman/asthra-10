@@ -95,13 +95,13 @@ export const AsthraStartsAt = new Date(1741231800000);
 /**
  * last date of edits
  *
- * Defualt March 01 11:59 PM "01-03-2025"
+ * Defualt March 03 11:59 AM "02-03-2025"
  *
- * Mon March 01 2025 23:59:00 GMT+0530 (India Standard Time)
+ * Mon March 03 2025 11:59:00 GMT+0530 (India Standard Time)
  * */
-export const AsthraLastEditDay = new Date(1740852059000);
+export const AsthraLastEditDay = new Date(1740996999000);
 
-// AsthraStartsAt.toLocaleString() "1/3/2025, 11:59:00 PM"
+// AsthraStartsAt.toLocaleString() "3/3/2025, 11:59:00 AM"
 
 /**
  * Venue example

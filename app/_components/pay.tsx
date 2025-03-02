@@ -47,10 +47,11 @@ export const AsthraPaymentButton = () => {
 };
 
 import { ASTHRA } from "@/logic";
-import { AlertOctagon, AlertTriangle, FileLock, LoaderIcon, Lock, QrCode, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
+import { AlertOctagon, AlertTriangle, FileLock, InfoIcon, LoaderIcon, Lock, QrCode, ShieldAlert, Ticket, TicketCheck, UserRoundCog, X } from 'lucide-react';
 import type { FunctionComponent } from "react";
 import { toast } from "sonner";
 import { Markdown } from "./md";
+import { CardHeader } from "@/components/ui/card";
 
 const ButtonMessages = {
     'Buy ASTHRA PASS': Ticket,
@@ -65,6 +66,8 @@ const ButtonMessages = {
     'Error Fetching': AlertTriangle,
     'Only for Spot Registration': X,
     'Loading': LoaderIcon,
+    'This is strictly for students from outside SJCET campus': InfoIcon,
+    'A simplified credit instead of money': InfoIcon
 } as const;
 
 export const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessages, text?: boolean }> = ({ keyType, text = true }) => {
@@ -75,6 +78,12 @@ export const ButtonText: FunctionComponent<{ keyType: keyof typeof ButtonMessage
         </>
     );
 };
+
+const customEvents = {
+    "65d0e575-aa0a-4671-b2fa-828e6d98b99a": "https://docs.google.com/forms/d/e/1FAIpQLSdYnWmLVJ6_MCvH1tf8ByaBHf9fvPrmXcIgiP-WbqRbQXgDOQ/viewform?usp=header",
+    "15749c9e-2022-43aa-91f6-ab3f375b3a88": "https://docs.google.com/forms/d/e/1FAIpQLScssYLhhOvfvUKuplDNV9A8wniJkPXQx0uRfTKiCIVRAMGx_g/viewform?usp=sharing",
+    "12c94cc5-9096-492c-8611-5c2824f93931": "https://forms.gle/3d228KJaee3aYzcS6",
+} as const
 
 export const PaymentButton = ({ event }: { event: EventZodType }) => {
     const { status, valid, data } = useSession()
@@ -88,6 +97,12 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     })
 
     const { id, eventType, eventStatus, registrationType, regLimit, regCount, secret } = event
+
+    if (id in customEvents) {
+        return (<Button link={customEvents[id as keyof typeof customEvents]} size={"glass"} variant={"glass"}>
+            Register Now
+        </Button>)
+    }
 
     if (status === "unauthenticated") {
         return (
@@ -106,20 +121,24 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     }
 
 
+
     if (isRegisteredThisEvent) {
         return (<>
-            <HoverCard>
-                <HoverCardTrigger asChild>
+            <Dialog>
+                <DialogTrigger asChild>
                     <Button size={"glass"} variant={"glass"}>
                         Show Secret Message
                     </Button>
-                </HoverCardTrigger>
-                <HoverCardContent>
+                </DialogTrigger>
+                <DialogContent>
+                    <CardHeader>
+                        Secret Message to Participant
+                    </CardHeader>
                     <Markdown full>
-                        {secret}
+                        {secret ?? "Thanks for participating in this event. We hope you'll enjoy the event."}
                     </Markdown>
-                </HoverCardContent>
-            </HoverCard>
+                </DialogContent>
+            </Dialog>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button size={"glass"} variant={"glass"}>

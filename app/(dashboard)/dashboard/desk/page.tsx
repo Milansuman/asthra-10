@@ -1,17 +1,12 @@
 "use client"
 
 import { api } from "@/trpc/react";
-import { useState } from "react";
 
-import type { eventZod } from "@/lib/validator";
 import Link from "next/link";
 import type { z } from "zod";
 import { EventCard } from "./_components/event-card";
 
-type Event = z.infer<typeof eventZod>
-
 export default function MainDesk() {
-  const [events, setEvents] = useState<Event[]>([]);
   const { data, isLoading } = api.event.getAll.useQuery();
 
   return (

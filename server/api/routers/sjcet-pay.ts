@@ -6,6 +6,7 @@ import {
   createTRPCRouter,
   frontDeskProcedure,
   protectedProcedure,
+  publicProcedure,
   validUserOnlyProcedure,
 } from '@/server/api/trpc';
 import {
@@ -19,13 +20,14 @@ import { Increment, getTrpcError } from '@/server/db/utils';
 
 import {
   type TransactionZodType,
+  UserZodType,
   eventZod,
   transactionsZod,
 } from '@/lib/validator';
 import { ASTHRA } from '@/logic';
-import { api } from '@/trpc/vanila';
+import MailAPI from './mail';
 
-export const transactionRouter = createTRPCRouter({
+export const sjcetPaymentRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
     .input(
       z.object({
@@ -170,7 +172,14 @@ export const transactionRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
-          api.mail.asthraPass.query({
+          MailAPI.asthraPass({
+            transactions: currentTransation,
+            user: ctx.user,
+            userRegisteredEvent: ure[0],
+            to: ctx.user.email,
+          });
+        } else {
+          MailAPI.purchaseConfirm({
             event: eventData[0],
             user: ctx.user,
             transactions: currentTransation,
@@ -255,19 +264,39 @@ export const transactionRouter = createTRPCRouter({
 
         const transactionData = currentTransation[0];
 
-        await tx
+        const eventData = await tx
           .update(eventsTable)
           .set({
             regCount: Increment(eventsTable.regCount, 1),
           })
-          .where(eq(eventsTable.id, transactionData.eventId));
+          .where(eq(eventsTable.id, transactionData.eventId))
+          .returning();
 
-        await tx.insert(userRegisteredEventTable).values({
-          eventId: transactionData.eventId,
-          transactionId: transactionData.id,
-          userId: transactionData.userId,
-          remark: `Forced Success on ${new Date().toLocaleString()}`,
+        const ure = await tx
+          .insert(userRegisteredEventTable)
+          .values({
+            eventId: transactionData.eventId,
+            transactionId: transactionData.id,
+            userId: transactionData.userId,
+            remark: `Forced Success on ${new Date().toLocaleString()}`,
+          })
+          .returning();
+
+        const userData = await tx.query.user.findFirst({
+          where: eq(user.id, transactionData.userId),
         });
+
+        if (eventData.length === 0 || !eventData[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (ure.length === 0 || !ure[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (!userData) {
+          throw getTrpcError('USER_NOT_FOUND');
+        }
 
         if (transactionData.eventId === ASTHRA.id) {
           await tx
@@ -277,7 +306,22 @@ export const transactionRouter = createTRPCRouter({
               asthraCredit: ASTHRA.credit,
               transactionId: transactionData.id,
             })
-            .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
+            .where(and(eq(user.id, userData.id), eq(user.asthraPass, false)));
+
+          await MailAPI.asthraPass({
+            user: userData as UserZodType,
+            transactions: transactionData,
+            to: userData.email,
+            userRegisteredEvent: ure[0],
+          });
+        } else {
+          await MailAPI.purchaseConfirm({
+            event: eventData[0],
+            user: userData as UserZodType,
+            transactions: transactionData,
+            to: userData.email,
+            userRegisteredEvent: ure[0],
+          });
         }
 
         return {

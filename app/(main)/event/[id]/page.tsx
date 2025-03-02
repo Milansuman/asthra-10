@@ -1,30 +1,17 @@
 import type { Metadata, ResolvingMetadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import { cache as reactCache } from 'react';
 
 
-import { PaymentButton } from '@/app/_components/pay';
-import { ShareButton } from '@/app/_components/share';
-import Plusbox from '@/components/madeup/box';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { allDepartments, ASTHRA } from '@/logic';
-import { cache } from '@/server/cache';
+import { allDepartments } from '@/logic';
 import { api } from '@/trpc/server';
-import { ExternalLinkIcon } from 'lucide-react';
-import { getActivityPoints } from '@/logic/points';
-import { Markdown } from '@/app/_components/md';
-import { dataFocusVisibleClasses } from '@heroui/theme';
-import { TRPCError } from '@trpc/server';
+import { EventParent } from '../_components/event';
 
 type Props = {
   params: Promise<{ id: string }>;
 };
 
 const getEventData = reactCache(async (id: string) => {
-  const event = await api.event.getSpecific({
+  const event = await api.event.getSpecificCached({
     id: id,
   });
   return event;
@@ -32,7 +19,7 @@ const getEventData = reactCache(async (id: string) => {
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const id = (await params).id;
-  const { data: event, error, isSuccess } = await cache.run(`event:${id}`, () => getEventData(id));
+  const { data: event, error, isSuccess } = await getEventData(id);
 
   const previousImages = (await parent).openGraph?.images ?? [];
 
@@ -41,7 +28,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     return {}
   };
 
-  const department = event.department === 'NA' ? "" : allDepartments[event.department as keyof typeof allDepartments];
+  const department = event.department === 'NA' ? "General SJCET Events" : allDepartments[event.department as keyof typeof allDepartments];
 
   return {
     metadataBase: new URL('https://asthra.sjcetpalai.ac.in/'),
@@ -69,124 +56,8 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function Event({ params }: Props) {
   const { id } = await params;
-  const event = await getEventData(id);
 
-  if (!event) {
-    return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <h2>This event does not exist!</h2>
-        <Link href="/events">
-          <Button variant={"glass"} size={"glass"}>Choose another event</Button>
-        </Link>
-      </div>
-    );
-  }
+  console.log('id', id);
 
-  const shortURLResult = await api.shortner.shorten({
-    name: event.name!.replaceAll(" ", "_"),
-    url: `https://asthra.sjcetpalai.ac.in/event/${event.id}`
-  });
-
-  if (shortURLResult instanceof TRPCError) {
-    console.error(shortURLResult);
-    return {}
-  }
-
-
-  const department = event.department === 'NA' ? "SJCET" : allDepartments[event.department as keyof typeof allDepartments];
-
-  return (
-    <div className="min-h-screen flex flex-col justify-center gap-4">
-      <div className="flex flex-col md:flex-row gap-4 container items-start py-4">
-        <Plusbox className="flex-1 p-2">
-          <Image src={event.poster} width={400} height={500} alt={event.name ?? ""} className="w-full h-auto" />
-        </Plusbox>
-        <div className='flex-1 flex flex-col gap-4 w-full'>
-          <Card className='relative'>
-            <ShareButton shortUrl={shortURLResult.url} />
-            <CardHeader>
-              <Badge variant={"glass"} className="w-fit relative mb-3">
-                Created by {department}
-                <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
-              </Badge>
-              <CardTitle>
-                {event.name ?? "Event"}
-              </CardTitle>
-              <br />
-              <Markdown full>
-                {event.description}
-              </Markdown>
-            </CardHeader>
-            <CardContent className='flex flex-row gap-3 flex-wrap font-bold capitalize'>
-              <div className='relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Venue</p>
-                {event.venue}
-              </div>
-
-              <div className='relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Registration Type</p>
-                {event.registrationType === 'both' ? 'Both Spot & Online' : `${event.registrationType} only`}
-              </div>
-
-              {event.eventType !== "ASTHRA_PASS" && <div className='relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Registration Limit</p>
-                approx. {event.regLimit} Seats
-              </div>}
-
-              {event.dateTimeStarts && (
-                <div className='relative bg-glass py-2 px-3 border-glass border'>
-                  <p className='opacity-70 text-sm font-normal'>Event starts at</p>
-                  {event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
-                </div>
-              )}
-
-              <div className='relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Duration of event</p>
-                {event.dateTimeEnd}
-              </div>
-
-              <div className='relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>
-                  {event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}
-                </p>
-                {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}{!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
-              </div>
-
-              {event.eventType === "ASTHRA_PASS" && (<div className='relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Credits</p>
-                {ASTHRA.credit}
-              </div>)}
-
-              {event.eventType !== "ASTHRA_PASS_EVENT" && (<div className='lowercase relative bg-glass py-2 px-3 border-glass border'>
-                <p className='opacity-70 text-sm font-normal capitalize'>KTU Activity Points</p>
-                {getActivityPoints(event.eventType)}
-              </div>)}
-
-            </CardContent>
-            <CardFooter className='justify-between gap-4 flex-wrap'>
-              {
-                (
-                  event.id === "12c94cc5-9096-492c-8611-5c2824f93931" ||
-                  event.id === "15749c9e-2022-43aa-91f6-ab3f375b3a88"
-                ) ? <></>
-                  :
-                  <PaymentButton event={event} />
-              }
-              {
-                event.id === "12c94cc5-9096-492c-8611-5c2824f93931" &&
-                <Button link='https://forms.gle/3d228KJaee3aYzcS6' variant="outline">
-                  Register Now
-                </Button>
-              }
-            </CardFooter>
-          </Card>
-
-          <Button variant={"glass"} link={`/events?department=${event.department}`} className="w-full overflow-hidden text-wrap h-20">
-            Show more events from {department}
-            <ExternalLinkIcon />
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
+  return <EventParent id={id} />
 }

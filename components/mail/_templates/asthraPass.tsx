@@ -15,16 +15,12 @@ import {
   Text,
 } from "@react-email/components";
 import { baseUrl } from "../utils";
-import type { UserRegisteredEventZod, UserZodType, EventZodType, TransactionZodType } from "@/lib/validator";
+import { ASTHRA } from "@/logic";
+import TransactionSection from "./_components/transactionSection";
+import FooterSection from "./_components/footerSection";
+import type { AsthraPassProps } from '../types';
 
-type AsthraPassProps = {
-  event: EventZodType,
-  userRegisteredEvent: UserRegisteredEventZod,
-  user: UserZodType,
-  transactions: TransactionZodType
-};
-
-export default function AsthraPassEmail({ event, userRegisteredEvent, user, transactions }: AsthraPassProps) {
+export default function AsthraPassEmail({ user, userRegisteredEvent, transactions }: AsthraPassProps) {
   return (
     <Html>
       <Head>
@@ -85,7 +81,7 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
               >
                 <Row >
                   <Column align="center">
-                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[65%] min-w-[180px] rounded-md object-contain" />
+                    <Img src={`${baseUrl}/api/qr/${user.id}`} className="w-[65%] min-w-[180px] rounded-md object-contain" />
                   </Column>
                 </Row>
                 <Row>
@@ -94,6 +90,22 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
                   <Container className="h-[50px]" />
                 </Row>
               </Section>
+
+              {/* <Row className="mt-8">
+                <Column align="center">
+                  <Text>
+                    {JSON.stringify(transactions, null, 2)}
+                  </Text>
+                  <Text>
+                    {JSON.stringify(userRegisteredEvent, null, 2)}
+                  </Text>
+                  <Text>
+                    {JSON.stringify(ASTHRA, null, 2)}
+                  </Text>
+                </Column>
+              </Row> */}
+
+              <TransactionSection personName={user.name as string} personNumber={user.number as string} txid={transactions.id as string} txAmt={transactions.amount as number} regId={userRegisteredEvent.registrationId as string} />
 
               <Row className="mt-8">
                 <Column align="center">
@@ -116,45 +128,7 @@ export default function AsthraPassEmail({ event, userRegisteredEvent, user, tran
                 Asthra Team
               </Text>
 
-              <Section className="mt-10">
-                <Row>
-                  <Column align="left" className="w-28">
-                    <Text className="m-0 text-[#50c2ff] text-base font-extrabold">Follow us on:</Text>
-                    <Row>
-                      <Column>
-                        <Link href="https://asthra.sjcetpalai.ac.in">
-                          <Img src={`${baseUrl}/images/social-web.png`} width="25" height="25" alt="Globe" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://www.facebook.com/asthra.sjcet">
-                          <Img src={`${baseUrl}/images/social-facebook.png`} width="25" height="25" alt="Facebook" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://instagram.com/asthra_sjcet">
-                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://www.linkedin.com/showcase/asthra-sjcet">
-                          <Img src={`${baseUrl}/images/social-linkedin.png`} width="25" height="25" alt="LinkedIn" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d">
-                          <Img src={`${baseUrl}/images/social-whatsapp.png`} width="25" height="25" alt="Whatsapp" className="object-contain" />
-                        </Link>
-                      </Column>
-                    </Row>
-                  </Column>
-                  <Column align="right">
-                    <Link href="https://asthra.sjcetpalai.ac.in">
-                      <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
-                    </Link>
-                  </Column>
-                </Row>
-              </Section>
+              <FooterSection />
             </Container>
 
           </Container>

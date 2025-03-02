@@ -16,11 +16,12 @@ import {
 } from "@react-email/components";
 import { baseUrl } from "../utils";
 import FooterSection from "./_components/footerSection";
+import TransactionSection from "./_components/transactionSection";
 import MarkdownSection from "./_components/markdownSection";
 import EventSection from "./_components/eventSection";
-import type { EventConfirmationProps } from '../types';
+import type { PaymentConfirmationProps } from '../types';
 
-export default function EventConfirmationEmail({ user, event, userRegisteredEvent }: EventConfirmationProps) {
+export default function PaymentConfirmationEmail({ user, event, userRegisteredEvent, transactions }: PaymentConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -73,6 +74,8 @@ export default function EventConfirmationEmail({ user, event, userRegisteredEven
               <EventSection event={event} />
 
               <MarkdownSection secret={event.secret as string} />
+
+              <TransactionSection personName={user.name as string} personNumber={user.number as string} txid={transactions.id as string} txAmt={transactions.amount as number} regId={userRegisteredEvent.registrationId as string} />
 
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
               <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>

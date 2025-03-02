@@ -1,16 +1,17 @@
-import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
-import { asthraRouter } from "./routers/asthraRouter";
-import { cronRouter } from "./routers/cron";
-import { dashboardRouter } from "./routers/dashboard";
-import { eventRouter } from "./routers/eventRoute";
-import { generateMailRouter } from "./routers/mailRoute";
-import { paymentRouter } from "./routers/payment";
-import { spotRegister } from "./routers/spot";
-import { transactionRouter } from "./routers/transaction";
-import { transactionRouter as sjcetPay } from "./routers/sjcet-pay";
-import { userRouter } from "./routers/userRoute";
-import { verifyRouter } from "./routers/verify";
-import { shortnerRouter } from "./routers/shortner";
+import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc';
+import { asthraRouter } from './routers/asthraRouter';
+import { cronRouter } from './routers/cron';
+import { dashboardRouter } from './routers/dashboard';
+import { eventRouter } from './routers/eventRoute';
+import { generateMailRouter } from './routers/mailRoute';
+import { paymentRouter } from './routers/payment';
+import { spotRegister } from './routers/spot';
+import { transactionRouter } from './routers/transaction';
+import { sjcetPaymentRouter } from './routers/sjcet-pay';
+import { userRouter } from './routers/userRoute';
+import { verifyRouter } from './routers/verify';
+import { shortnerRouter } from './routers/shortner';
+import { managementRouter } from './routers/managementRouter';
 
 /**
  * This is the primary router for your server.
@@ -22,17 +23,23 @@ export const appRouter = createTRPCRouter({
   event: eventRouter,
   asthra: asthraRouter,
   transaction: transactionRouter,
-  sjcetPay: sjcetPay,
+  sjcetPay: sjcetPaymentRouter,
   mail: generateMailRouter,
   verify: verifyRouter,
   dashboard: dashboardRouter,
   cron: cronRouter,
   spot: spotRegister,
   payment: paymentRouter,
-  shortner: shortnerRouter
+  shortner: shortnerRouter,
+  management: managementRouter,
 });
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+
+import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+
+export type RouterInput = inferRouterInputs<AppRouter>;
+export type RouterOutput = inferRouterOutputs<AppRouter>;
 
 export const createCaller = createCallerFactory(appRouter);

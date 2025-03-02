@@ -1,78 +1,52 @@
-import AsthraPass from '@/components/mail/_templates/asthraPass';
-import EventConfirmation from '@/components/mail/_templates/eventConfirmation';
-import WelcomeTemplate from '@/components/mail/_templates/welcome';
-import { getHTML, sentMail } from '@/lib/mail';
 import {
   eventZod,
-  generatePassMailZod,
-  userZod,
-  userRegisteredEventZod,
   transactionsZod,
+  userRegisteredEventZod,
+  userZod,
 } from '@/lib/validator';
-import { currentAsthraCount } from '@/logic';
-import {
-  createTRPCRouter,
-  managementProcedure,
-  publicProcedure,
-  validUserOnlyProcedure,
-} from '../trpc';
 import { z } from 'zod';
+import { createTRPCRouter, publicProcedure } from '../trpc';
+import MailAPI from './mail';
 
 export const generateMailRouter = createTRPCRouter({
-  asthraPass: validUserOnlyProcedure
+  asthraPass: publicProcedure
     .input(
       z.object({
-        event: eventZod,
         user: userZod,
-        transactions: transactionsZod,
         userRegisteredEvent: userRegisteredEventZod,
+        transactions: transactionsZod,
         to: z.string().email(),
       })
     )
     .query(async ({ input }) => {
-      const { to, event, user, userRegisteredEvent, transactions } = input;
-
-      const { isSuccess, error } = await sentMail({
-        to,
-        html: await getHTML(AsthraPass, {
-          event,
-          user,
-          transactions,
-          userRegisteredEvent,
-        }),
-        subject: 'Your Asthra Pass',
-        text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
-      });
-
-      if (!isSuccess) console.error(error);
+      await MailAPI.asthraPass(input);
     }),
 
-  purchased: validUserOnlyProcedure
+  eventConfirm: publicProcedure
     .input(
       z.object({
         event: eventZod,
         user: userZod,
         userRegisteredEvent: userRegisteredEventZod,
-        transactions: transactionsZod,
         to: z.string().email(),
       })
     )
     .query(async ({ input, ctx }) => {
-      const { user, to, event, transactions, userRegisteredEvent } = input;
+      await MailAPI.EventConfirm(input);
+    }),
 
-      const { isSuccess, error } = await sentMail({
-        to,
-        html: await getHTML(EventConfirmation, {
-          event,
-          transactions,
-          userRegisteredEvent,
-          user,
-        }),
-        subject: 'Your Asthra Pass',
-        text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
-      });
-
-      if (!isSuccess) console.error(error);
+  purchaseConfirm: publicProcedure
+    .input(
+      z.object({
+        user: userZod,
+        event: eventZod,
+        userRegisteredEvent: userRegisteredEventZod,
+        transactions: transactionsZod,
+        to: z.string().email(),
+      })
+    )
+    .query(async ({ input }) => {
+      await MailAPI.purchaseConfirm(input);
     }),
 
   welcome: publicProcedure
@@ -83,20 +57,10 @@ export const generateMailRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const { name, email } = input;
-      const { isSuccess, error } = await sentMail({
-        to: email,
-        html: await getHTML(WelcomeTemplate, {
-          personName: name ?? email,
-        }),
-        subject: `Welcome to Asthra ${currentAsthraCount}`,
-        text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
-      });
-
-      if (!isSuccess) console.error(error);
+      await MailAPI.welcome(input);
     }),
 
-  certificateReady: managementProcedure
+  certificateReady: publicProcedure
     .input(
       userZod.pick({
         asthraPass: true,
@@ -105,12 +69,6 @@ export const generateMailRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const { isSuccess, error } = await sentMail({
-        to: input.email,
-        subject: 'Your Certificate is Ready',
-        text: 'Your certificate is ready for download. Please visit the profile section to download it.',
-      });
-
-      if (!isSuccess) console.error(error);
+      await MailAPI.certificateReady(input);
     }),
 });
