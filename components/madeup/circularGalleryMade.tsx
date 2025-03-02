@@ -21,7 +21,7 @@ const CircularGalleryMade: React.FC = () => {
     return (
         <div>
             {data && data.length > 0 ?
-                <div className="container mt-20 flex flex-row flex-wrap gap-4 justify-center">
+                <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
                     {data.map((event, index) => (
                         <Link key={index} href={`/event/${event.id}`}>
                             <EventCard data={event} />

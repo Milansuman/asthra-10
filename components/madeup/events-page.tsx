@@ -54,7 +54,7 @@ export function EventPage({
                 </Select>
             </div>
 
-            <div className="container my-8 flex flex-row flex-wrap gap-4 justify-center px-4">
+            <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
                 {events
                     .filter((event) => event.department === department || department === "all")
                     .map((event) => (

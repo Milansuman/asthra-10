@@ -4,7 +4,6 @@ import type { eventZod } from "@/lib/validator";
 import type { z } from "zod";
 import { Label } from "@/components/ui/label";
 import Plusbox from "./box";
-import Image from "next/image";
 import { CheckCircleIcon } from "lucide-react";
 import { type AllDepartments, allDepartments } from "@/logic";
 import { Markdown } from "@/app/_components/md";
@@ -17,8 +16,8 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ data }) => {
 	return (
-		<Plusbox className="p-2 relative group w-[98%] md:w-[400px] max-h-[400px] overflow-hidden">
-			<Image width={400} height={400} className="aspect-square w-full max-h-[370px]" src={data.poster} alt={data.name ?? "SJCET Events"} />
+		<Plusbox className="p-2 relative group">
+			<img className="w-full" src={data.poster} alt={data.name ?? "SJCET Events"} />
 			<div className="absolute top-0 left-0 right-0 bottom-0 bg-glass p-4 opacity-0 group-hover:opacity-100 transition-all">
 				<div className="flex flex-col items-center justify-around h-full gap-2">
 					<div className="flex flex-col items-center gap-2">

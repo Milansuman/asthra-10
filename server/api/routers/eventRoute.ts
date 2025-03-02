@@ -20,6 +20,7 @@ import { Decrement, Increment, getTrpcError } from '@/server/db/utils';
 
 import { eventEditAccessZod, eventZod } from '@/lib/validator';
 import { api } from '@/trpc/vanila';
+import { cache } from '@/server/cache';
 
 export const eventRouter = createTRPCRouter({
   /**
@@ -175,10 +176,24 @@ export const eventRouter = createTRPCRouter({
         id: true,
       })
     )
-    .query(({ ctx, input }) => {
-      return ctx.db.query.eventsTable.findFirst({
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.eventsTable.findFirst({
         where: eq(eventsTable.id, input.id),
       });
+    }),
+
+  getSpecificCached: publicProcedure
+    .input(
+      eventZod.pick({
+        id: true,
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await cache.run(`event:${input.id}`, () =>
+        ctx.db.query.eventsTable.findFirst({
+          where: eq(eventsTable.id, input.id),
+        })
+      );
     }),
 
   getRoleSpecific: protectedProcedure.query(async ({ ctx }) => {

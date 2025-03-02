@@ -16,7 +16,7 @@ import {
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-export default function Page({ eventData }: { eventData: EventZodType }) {
+export default function Page({ eventData }: { eventData: Pick<EventZodType, "id" | "name" | "department" | "eventType" | "venue"> }) {
     const { isPending, mutateAsync: addAttendance } = api.user.addAttendance.useMutation({
         onSuccess: () => {
             toast('Attendence Succefully Taken')

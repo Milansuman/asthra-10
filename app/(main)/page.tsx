@@ -100,19 +100,15 @@ export default function Page() {
       </section>
 
       <section className="flex flex-col justify-center items-center min-h-screen gap-8">
-        <div className="relative">
-          <div className='ambit mb-[-20px] flex flex-col gap-4 items-center justify-center w-full text-center'>
-            <Plusbox className='opacity-100 w-auto'>
-              <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
-            </Plusbox>
+        <Plusbox className='opacity-100 w-auto'>
+          <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
+        </Plusbox>
 
-            <Button size={"thin"} variant={"glass"} link='/events'>
-              View More
-            </Button>
-          </div>
-          {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}
-          <CircularGalleryMade />
-        </div>
+        <Button size={"thin"} variant={"glass"} link='/events'>
+          View More
+        </Button>
+        {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}
+        <CircularGalleryMade />
       </section>
       <section className="flex flex-col justify-center items-center min-h-screen gap-8">
         <div className="flex flex-col items-center justify-center p-8 gap-5">
@@ -128,6 +124,6 @@ export default function Page() {
         </div>
       </section>
       <FAQ />
-    </main>
+    </main >
   );
 }

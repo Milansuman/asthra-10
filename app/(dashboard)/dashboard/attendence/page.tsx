@@ -41,6 +41,11 @@ export default function Page() {
             Each scan atleast required 2sec gap
           </CardDescription>
         </CardHeader>
+        <CardContent>
+          <Button link="/dashboard/attendence/asthra" variant='glass' size={"glass"}>
+            Go to Asthra Only Attendence
+          </Button>
+        </CardContent>
         <CardFooter>
           <Dialog>
             <DialogTrigger asChild>

@@ -23,16 +23,20 @@ const Items: DockItemData[] = [
   },
   {
     link: "/dashboard/users",
-    label: "Users"
-  }
+    label: "User-Manage"
+  },
+  // {
+  //   link: "/dashboard/attendence",
+  //   label: "Attendence",
+  // },
   // {
   //   link: "/dashboard/desk",
-  //   label: "Desk",
+  //   label: "Desk-Participants",
   // },
   // {
   //   link: "/dashboard/desk/scan",
-  //   label: "Desk Scan",
-  // }
+  //   label: "Spot Registration",
+  // },
 ]
 
 export default function RootLayout({
