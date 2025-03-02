@@ -16,12 +16,11 @@ import {
   createTRPCRouter,
   managementProcedure,
   publicProcedure,
-  validUserOnlyProcedure,
 } from '../trpc';
 import { z } from 'zod';
 
 export const generateMailRouter = createTRPCRouter({
-  asthraPass: validUserOnlyProcedure
+  asthraPass: publicProcedure
     .input(
       z.object({
         user: userZod,
@@ -47,7 +46,7 @@ export const generateMailRouter = createTRPCRouter({
       if (!isSuccess) console.error(error);
     }),
 
-  eventConfirm: validUserOnlyProcedure
+  eventConfirm: publicProcedure
     .input(
       z.object({
         event: eventZod,
@@ -73,7 +72,7 @@ export const generateMailRouter = createTRPCRouter({
       if (!isSuccess) console.error(error);
     }),
 
-  purchaseConfirm: validUserOnlyProcedure
+  purchaseConfirm: publicProcedure
     .input(
       z.object({
         user: userZod,
