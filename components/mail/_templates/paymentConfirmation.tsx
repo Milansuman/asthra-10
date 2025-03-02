@@ -13,18 +13,14 @@ import {
   Link,
   Row,
   Column,
-} from "@react-email/components"
+} from "@react-email/components";
 import { baseUrl } from "../utils";
-import type { UserZodType, EventZodType, UserRegisteredEventZod, TransactionZodType } from '@/lib/validator';
+import FooterSection from "./_components/footerSection";
+import TransactionSection from "./_components/transactionSection";
+import MarkdownSection from "./_components/markdownSection";
+import type { PaymentConfirmationProps } from '../types';
 
-type EventConfirmationProps = {
-  event: EventZodType,
-  userRegisteredEvent: UserRegisteredEventZod,
-  user: UserZodType,
-  transactions: TransactionZodType
-};
-
-export default function PaymentConfirmationEmail({ event, userRegisteredEvent, user }: EventConfirmationProps) {
+export default function PaymentConfirmationEmail({ user, event, userRegisteredEvent, transactions }: PaymentConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -73,22 +69,10 @@ export default function PaymentConfirmationEmail({ event, userRegisteredEvent, u
               <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Text>We’re excited to confirm your registration for {event.name}! Your registration was successful and we can’t wait to have you join us.</Text>
-              <Text className="text-lg font-extrabold text-center">Transaction Details</Text>
-              <Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[2%] px-[3%] max-w-[400px]">
-                <Row>
-                  <Column align="left" className="w-1/2">
-                    <Text className="m-0 font-extrabold">Bank Name</Text>
-                    <Text className="m-0 mt-[2%] text-xs">Transaction ID:</Text>
-                    <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.transactionId}</Text>
-                    <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
-                    <Text className="m-0 text-xs">{user.email}</Text>
-                    <Text className="m-0 mt-[2%] text-xs">{user.number}</Text>
-                  </Column>
-                  <Column align="right" className="w-1/2">
-                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />
-                  </Column>
-                </Row>
-              </Section>
+
+              <MarkdownSection secret={event.secret as string} />
+
+              <TransactionSection personName={user.name as string} personNumber={user.number as string} txid={transactions.id as string} txAmt={transactions.amount as number} regId={userRegisteredEvent.registrationId as string} />
 
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
               <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>
@@ -99,45 +83,7 @@ export default function PaymentConfirmationEmail({ event, userRegisteredEvent, u
                 Asthra Team
               </Text>
 
-              <Section className="mt-10">
-                <Row>
-                  <Column align="left" className="w-28">
-                    <Text className="m-0 text-[#50c2ff] text-base font-extrabold">Follow us on:</Text>
-                    <Row>
-                      <Column>
-                        <Link href="https://asthra.sjcetpalai.ac.in">
-                          <Img src={`${baseUrl}/images/social-web.png`} width="25" height="25" alt="Globe" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://www.facebook.com/asthra.sjcet">
-                          <Img src={`${baseUrl}/images/social-facebook.png`} width="25" height="25" alt="Facebook" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://instagram.com/asthra_sjcet">
-                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://www.linkedin.com/showcase/asthra-sjcet">
-                          <Img src={`${baseUrl}/images/social-linkedin.png`} width="25" height="25" alt="LinkedIn" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d">
-                          <Img src={`${baseUrl}/images/social-whatsapp.png`} width="25" height="25" alt="Whatsapp" className="object-contain" />
-                        </Link>
-                      </Column>
-                    </Row>
-                  </Column>
-                  <Column align="right">
-                    <Link href="https://asthra.sjcetpalai.ac.in">
-                      <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
-                    </Link>
-                  </Column>
-                </Row>
-              </Section>
+              <FooterSection />
             </Container>
 
           </Container>
