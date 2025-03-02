@@ -46,7 +46,7 @@ export default function RootLayout({
             className="relative h-full w-full bg-[url(/spline-backup-dark.png)] bg-black/60"
           />}
       </div>
-      <main className="z-10 relative overflow-auto h-screen">
+      <main className="z-10 relative min-h-screen">
         {children}
         <Footer />
       </main>
