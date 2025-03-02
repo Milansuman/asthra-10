@@ -29,5 +29,7 @@ export const getHTML = async <T extends (data: any) => React.JSX.Element>(
 };
 
 export const sentMail = async (mailOptions: MailOptions) => {
-  return await triedAsync(transporter.sendMail(mailOptions));
+  return await triedAsync(
+    transporter.sendMail({ from: `Asthra <${env.NM_EMAIL}>`, ...mailOptions })
+  );
 };

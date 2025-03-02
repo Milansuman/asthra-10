@@ -17,31 +17,28 @@ import {
   validUserOnlyProcedure,
 } from '../trpc';
 import { z } from 'zod';
+import CertificateReadyEmail from '@/components/mail/_templates/certificateReady';
 
 export const generateMailRouter = createTRPCRouter({
   asthraPass: validUserOnlyProcedure
     .input(
       z.object({
-        event: eventZod,
         user: userZod,
-        transactions: transactionsZod,
         userRegisteredEvent: userRegisteredEventZod,
         to: z.string().email(),
       })
     )
     .query(async ({ input }) => {
-      const { to, event, user, userRegisteredEvent, transactions } = input;
+      const { to, user, userRegisteredEvent } = input;
 
       const { isSuccess, error } = await sentMail({
         to,
         html: await getHTML(AsthraPass, {
-          event,
           user,
-          transactions,
           userRegisteredEvent,
         }),
         subject: 'Your Asthra Pass',
-        text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
+        text: `Here is your Asthra Pass for ASTHRA ${currentAsthraCount}.`,
       });
 
       if (!isSuccess) console.error(error);
@@ -50,26 +47,26 @@ export const generateMailRouter = createTRPCRouter({
   purchased: validUserOnlyProcedure
     .input(
       z.object({
-        event: eventZod,
         user: userZod,
+        event: eventZod,
         userRegisteredEvent: userRegisteredEventZod,
         transactions: transactionsZod,
         to: z.string().email(),
       })
     )
     .query(async ({ input, ctx }) => {
-      const { user, to, event, transactions, userRegisteredEvent } = input;
+      const { to, user, event, userRegisteredEvent, transactions } = input;
 
       const { isSuccess, error } = await sentMail({
         to,
         html: await getHTML(EventConfirmation, {
-          event,
-          transactions,
-          userRegisteredEvent,
           user,
+          event,
+          userRegisteredEvent,
+          transactions,
         }),
-        subject: 'Your Asthra Pass',
-        text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
+        subject: 'Event Confirmation',
+        text: `You have successfully registered for ${event.name} on ASTHRA ${currentAsthraCount}.`,
       });
 
       if (!isSuccess) console.error(error);
@@ -107,6 +104,9 @@ export const generateMailRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const { isSuccess, error } = await sentMail({
         to: input.email,
+        html: await getHTML(CertificateReadyEmail, {
+          personName: input.name ?? '',
+        }),
         subject: 'Your Certificate is Ready',
         text: 'Your certificate is ready for download. Please visit the profile section to download it.',
       });

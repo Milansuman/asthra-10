@@ -171,11 +171,11 @@ export const transactionRouter = createTRPCRouter({
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
           api.mail.asthraPass.query({
-            event: eventData[0],
+            // event: eventData[0],
+            // transactions: currentTransation,
             user: ctx.user,
-            transactions: currentTransation,
-            to: ctx.user.email,
             userRegisteredEvent: ure[0],
+            to: ctx.user.email,
           });
         }
 
