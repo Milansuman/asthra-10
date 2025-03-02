@@ -91,15 +91,15 @@ export const data: {
   },
 };
 
-// await api.mail.certificateReady.query({
-// asthraPass: true,
-// email: '',
-// name: '',
-// to: '',
-// user: data.user,
-// event: data.event,
-// userRegisteredEvent: data.userRegisteredEvent,
-// transactions: data.transactions,
-// });
+await api.mail.purchased.query({
+  // asthraPass: true,
+  // email: '',
+  // name: '',
+  to: 'aravindmng47@gmail.com',
+  user: data.user,
+  event: data.event,
+  userRegisteredEvent: data.userRegisteredEvent,
+  transactions: data.transactions,
+});
 
 console.log('done');
