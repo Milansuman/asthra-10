@@ -107,7 +107,6 @@ export default function Page() {
         <Button size={"thin"} variant={"glass"} link='/events'>
           View More
         </Button>
-        {/* <CircularGallery bend={1} textColor="#ffffff" borderRadius={0.05} /> */}
         <CircularGalleryMade />
       </section>
       <section className="flex flex-col justify-center items-center min-h-screen gap-8">

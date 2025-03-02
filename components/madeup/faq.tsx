@@ -33,6 +33,10 @@ export const faqItems: FAQItems = [
         content: "Some events allow spot registration, but availability is not guaranteed. To secure your spot, we recommend registering in advance before the event begins.",
     },
     {
+        title: "Is ASTHRA Pass mandatory for Team Events? Everyone in the team should have ASTHRA Pass?",
+        content: "Yes, ASTHRA Pass is mandatory for all participants in team events. Then team leader should update the team name & member details at venue coordinator.",
+    },
+    {
         title: "Will food and accommodation be provided to the participants?",
         content: "Food and accommodation would not be provided for the participants. However, food stalls and canteen are available on campus.",
     },
