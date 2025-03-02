@@ -333,12 +333,12 @@ export const eventRouter = createTRPCRouter({
           throw getTrpcError('EVENT_NOT_FOUND');
         }
 
-        await api.mail.eventConfirm.query({
-          event: updatedEventData[0],
-          user: ctx.user,
-          userRegisteredEvent: ure[0],
-          to: ctx.user.email,
-        });
+        // await api.mail.eventConfirm.query({
+        //   event: updatedEventData[0],
+        //   user: ctx.user,
+        //   userRegisteredEvent: ure[0],
+        //   to: ctx.user.email,
+        // });
 
         return {
           event: updatedEventData[0],
