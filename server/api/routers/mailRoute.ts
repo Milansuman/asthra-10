@@ -1,5 +1,6 @@
 import AsthraPass from '@/components/mail/_templates/asthraPass';
 import EventConfirmation from '@/components/mail/_templates/eventConfirmation';
+import PaymentConfirmationEmail from '@/components/mail/_templates/paymentConfirmation';
 import WelcomeTemplate from '@/components/mail/_templates/welcome';
 import { getHTML, sentMail } from '@/lib/mail';
 import {
@@ -47,7 +48,33 @@ export const generateMailRouter = createTRPCRouter({
       if (!isSuccess) console.error(error);
     }),
 
-  purchased: validUserOnlyProcedure
+  eventConfirm: validUserOnlyProcedure
+    .input(
+      z.object({
+        event: eventZod,
+        user: userZod,
+        userRegisteredEvent: userRegisteredEventZod,
+        to: z.string().email(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { user, to, event, userRegisteredEvent } = input;
+
+      const { isSuccess, error } = await sentMail({
+        to,
+        html: await getHTML(EventConfirmation, {
+          event,
+          userRegisteredEvent,
+          user,
+        }),
+        subject: 'Your Asthra Pass',
+        text: `Welcome to ASTHRA ${currentAsthraCount} on SJCET.`,
+      });
+
+      if (!isSuccess) console.error(error);
+    }),
+
+  purchaseConfirm: validUserOnlyProcedure
     .input(
       z.object({
         event: eventZod,
@@ -62,7 +89,7 @@ export const generateMailRouter = createTRPCRouter({
 
       const { isSuccess, error } = await sentMail({
         to,
-        html: await getHTML(EventConfirmation, {
+        html: await getHTML(PaymentConfirmationEmail, {
           event,
           transactions,
           userRegisteredEvent,

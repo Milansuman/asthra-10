@@ -19,6 +19,7 @@ import {
 import { Decrement, Increment, getTrpcError } from '@/server/db/utils';
 
 import { eventEditAccessZod, eventZod } from '@/lib/validator';
+import { api } from '@/trpc/vanila';
 
 export const eventRouter = createTRPCRouter({
   /**
@@ -30,7 +31,7 @@ export const eventRouter = createTRPCRouter({
       eventRouteRules(ctx.role);
 
       await ctx.db.insert(eventsTable).values({
-        department: ctx.user.department ?? 'NA',
+        // department: ctx.user.department ?? 'NA',
         createdById: ctx.user.id,
         ...input,
       });
@@ -51,8 +52,6 @@ export const eventRouter = createTRPCRouter({
     .input(eventEditAccessZod.merge(z.object({ id: z.string() })))
     .mutation(async ({ ctx, input }) => {
       const newInput = extractInput(input);
-
-      eventRouteRules(ctx.user.role);
 
       if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db
@@ -98,8 +97,6 @@ export const eventRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      eventRouteRules(ctx.user.role);
-
       if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db
           .update(eventsTable)
@@ -135,10 +132,7 @@ export const eventRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      eventRouteRules(ctx.user.role);
-
       if (ctx.user.role === 'MANAGEMENT') {
-        console.log(ctx.user);
         return await ctx.db
           .delete(eventsTable)
           .where(
@@ -223,15 +217,18 @@ export const eventRouter = createTRPCRouter({
     }),
 
   getEventParticipants: coordinatorProcedure
-    .input(eventZod.pick({id: true}))
-    .query(({ctx, input}) => {
+    .input(eventZod.pick({ id: true }))
+    .query(({ ctx, input }) => {
       return ctx.db
-      .select()
-      .from(userRegisteredEventTable)
-      .leftJoin(user, eq(userRegisteredEventTable.userId, user.id))
-      .leftJoin(eventsTable, eq(userRegisteredEventTable.eventId, eventsTable.id))
-      .where(eq(userRegisteredEventTable.eventId, input.id))
-      .orderBy(user.name);
+        .select()
+        .from(userRegisteredEventTable)
+        .leftJoin(user, eq(userRegisteredEventTable.userId, user.id))
+        .leftJoin(
+          eventsTable,
+          eq(userRegisteredEventTable.eventId, eventsTable.id)
+        )
+        .where(eq(userRegisteredEventTable.eventId, input.id))
+        .orderBy(user.name);
     }),
   /**
    * Register non price events
@@ -275,13 +272,16 @@ export const eventRouter = createTRPCRouter({
           throw getTrpcError('YOUR_ASTHRA_CREDIT_EXECEDED');
         }
 
-        await tx.insert(userRegisteredEventTable).values({
-          registrationId: uuid(),
-          eventId: input.id,
-          userId: ctx.user.id,
-          transactionId: ctx.user.transactionId ?? uuid(),
-          remark: `Registered on ${new Date().toLocaleString()}`,
-        });
+        const ure = await tx
+          .insert(userRegisteredEventTable)
+          .values({
+            registrationId: uuid(),
+            eventId: input.id,
+            userId: ctx.user.id,
+            transactionId: ctx.user.transactionId ?? uuid(),
+            remark: `Registered on ${new Date().toLocaleString()}`,
+          })
+          .returning();
 
         await tx
           .update(user)
@@ -297,6 +297,21 @@ export const eventRouter = createTRPCRouter({
           })
           .where(eq(eventsTable.id, eventData.id))
           .returning();
+
+        if (updatedEventData.length === 0 || !updatedEventData[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (ure.length === 0 || !ure[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        api.mail.eventConfirm.query({
+          event: updatedEventData[0],
+          user: ctx.user,
+          userRegisteredEvent: ure[0],
+          to: ctx.user.email,
+        });
 
         return {
           event: updatedEventData[0],

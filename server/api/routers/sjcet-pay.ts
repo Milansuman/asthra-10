@@ -25,7 +25,7 @@ import {
 import { ASTHRA } from '@/logic';
 import { api } from '@/trpc/vanila';
 
-export const transactionRouter = createTRPCRouter({
+export const sjcetPaymentRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
     .input(
       z.object({
@@ -177,6 +177,14 @@ export const transactionRouter = createTRPCRouter({
             to: ctx.user.email,
             userRegisteredEvent: ure[0],
           });
+        } else {
+          api.mail.purchaseConfirm.query({
+            event: eventData[0],
+            user: ctx.user,
+            transactions: currentTransation,
+            to: ctx.user.email,
+            userRegisteredEvent: ure[0],
+          });
         }
 
         return {
@@ -255,19 +263,31 @@ export const transactionRouter = createTRPCRouter({
 
         const transactionData = currentTransation[0];
 
-        await tx
+        const eventData = await tx
           .update(eventsTable)
           .set({
             regCount: Increment(eventsTable.regCount, 1),
           })
-          .where(eq(eventsTable.id, transactionData.eventId));
+          .where(eq(eventsTable.id, transactionData.eventId))
+          .returning();
 
-        await tx.insert(userRegisteredEventTable).values({
-          eventId: transactionData.eventId,
-          transactionId: transactionData.id,
-          userId: transactionData.userId,
-          remark: `Forced Success on ${new Date().toLocaleString()}`,
-        });
+        const ure = await tx
+          .insert(userRegisteredEventTable)
+          .values({
+            eventId: transactionData.eventId,
+            transactionId: transactionData.id,
+            userId: transactionData.userId,
+            remark: `Forced Success on ${new Date().toLocaleString()}`,
+          })
+          .returning();
+
+        if (eventData.length === 0 || !eventData[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (ure.length === 0 || !ure[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
 
         if (transactionData.eventId === ASTHRA.id) {
           await tx
@@ -278,6 +298,22 @@ export const transactionRouter = createTRPCRouter({
               transactionId: transactionData.id,
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
+
+          api.mail.asthraPass.query({
+            event: eventData[0],
+            user: ctx.user,
+            transactions: transactionData,
+            to: ctx.user.email,
+            userRegisteredEvent: ure[0],
+          });
+        } else {
+          api.mail.purchaseConfirm.query({
+            event: eventData[0],
+            user: ctx.user,
+            transactions: transactionData,
+            to: ctx.user.email,
+            userRegisteredEvent: ure[0],
+          });
         }
 
         return {

@@ -101,7 +101,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
         onChangeEvent();
       },
       onError: (e) => {
-        toast('Error', {
+        toast.error('Error', {
           description: e.message,
           //   variant: 'destructive',
         });
@@ -115,7 +115,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
       onChangeEvent();
     },
     onError: (e) => {
-      toast('Error', {
+      toast.error('Error', {
         description: e.message,
         // variant: 'destructive',
       });
