@@ -13,18 +13,13 @@ import {
   Link,
   Row,
   Column,
-  Markdown
-} from "@react-email/components"
+} from "@react-email/components";
 import { baseUrl } from "../utils";
-import type { UserZodType, EventZodType, UserRegisteredEventZod } from '@/lib/validator';
+import FooterSection from "./_components/footerSection";
+import MarkdownSection from "./_components/markdownSection";
+import type { EventConfirmationProps } from '../types';
 
-type EventConfirmationProps = {
-  user: UserZodType,
-  event: EventZodType,
-  userRegisteredEvent: UserRegisteredEventZod,
-};
-
-export default function EventConfirmationEmail({ user, event, userRegisteredEvent }: EventConfirmationProps) {
+export default function EventConfirmationEmail({ user, event }: EventConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -73,50 +68,8 @@ export default function EventConfirmationEmail({ user, event, userRegisteredEven
               <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Text>We’re excited to confirm your registration for {event.name}! Your registration was successful and we can’t wait to have you join us.</Text>
-              <Text className="text-lg font-extrabold text-center">Transaction Details</Text>
-              <Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[2%] px-[3%] max-w-[400px] mb-10">
-                <Row>
-                  <Column align="left" className="w-1/2">
-                    <Text className="m-0 mt-[2%] text-xs">Registration ID:</Text>
-                    <Text className="m-0 mt-[2%] text-xs">{userRegisteredEvent.registrationId}</Text>
-                    <Text className="m-0 font-extrabold mt-[8%]">{user.name}</Text>
-                    <Text className="m-0 text-xs">{user.email}</Text>
-                    <Text className="m-0 mt-[2%] text-xs">{user.number ?? ''}</Text>
-                  </Column>
-                  <Column align="right" className="w-1/2">
-                    <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[80%] object-contain" />
-                  </Column>
-                </Row>
-              </Section>
 
-              <Section>
-                <Row>
-                  <Column align="left">
-                    <Markdown
-                      markdownCustomStyles={{
-                        codeInline: { background: "white", opacity: "0.7", padding: "2px 4px" },
-                        codeBlock: { background: "white", opacity: "0.7", padding: "2px 4px" },
-                        blockQuote: { background: "transparent" },
-                        bold: { background: "transparent" },
-                        h1: { margin: "0", textWrap: "wrap" },
-                        h2: { margin: "0" },
-                        h3: { margin: "0" },
-                        h4: { margin: "0" },
-                        h5: { margin: "0" },
-                        h6: { margin: "0" },
-                        image: { width: "60%" },
-                      }}
-                      markdownContainerStyles={{
-                        background: "#F0F8FF",
-                        borderRadius: "8px",
-                        padding: "16px",
-                      }}
-                    >
-                      {event.secret ?? ""}
-                    </Markdown>
-                  </Column>
-                </Row>
-              </Section>
+              <MarkdownSection secret={event.secret as string} />
 
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
               <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>
@@ -127,45 +80,7 @@ export default function EventConfirmationEmail({ user, event, userRegisteredEven
                 Asthra Team
               </Text>
 
-              <Section className="mt-10">
-                <Row>
-                  <Column align="left" className="w-28">
-                    <Text className="m-0 text-[#50c2ff] text-base font-extrabold">Follow us on:</Text>
-                    <Row>
-                      <Column>
-                        <Link href="https://asthra.sjcetpalai.ac.in">
-                          <Img src={`${baseUrl}/images/social-web.png`} width="25" height="25" alt="Globe" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://www.facebook.com/asthra.sjcet">
-                          <Img src={`${baseUrl}/images/social-facebook.png`} width="25" height="25" alt="Facebook" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://instagram.com/asthra_sjcet">
-                          <Img src={`${baseUrl}/images/social-instagram.png`} width="25" height="25" alt="Instagram" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://www.linkedin.com/showcase/asthra-sjcet">
-                          <Img src={`${baseUrl}/images/social-linkedin.png`} width="25" height="25" alt="LinkedIn" className="object-contain" />
-                        </Link>
-                      </Column>
-                      <Column>
-                        <Link href="https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d">
-                          <Img src={`${baseUrl}/images/social-whatsapp.png`} width="25" height="25" alt="Whatsapp" className="object-contain" />
-                        </Link>
-                      </Column>
-                    </Row>
-                  </Column>
-                  <Column align="right">
-                    <Link href="https://asthra.sjcetpalai.ac.in">
-                      <Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
-                    </Link>
-                  </Column>
-                </Row>
-              </Section>
+              <FooterSection />
             </Container>
 
           </Container>

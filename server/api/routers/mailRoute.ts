@@ -2,6 +2,7 @@ import AsthraPass from '@/components/mail/_templates/asthraPass';
 import EventConfirmation from '@/components/mail/_templates/eventConfirmation';
 import PaymentConfirmationEmail from '@/components/mail/_templates/paymentConfirmation';
 import WelcomeTemplate from '@/components/mail/_templates/welcome';
+import CertificateReadyEmail from '@/components/mail/_templates/certificateReady';
 import { getHTML, sentMail } from '@/lib/mail';
 import {
   eventZod,
@@ -18,7 +19,6 @@ import {
   validUserOnlyProcedure,
 } from '../trpc';
 import { z } from 'zod';
-import CertificateReadyEmail from '@/components/mail/_templates/certificateReady';
 
 export const generateMailRouter = createTRPCRouter({
   asthraPass: validUserOnlyProcedure
@@ -62,9 +62,8 @@ export const generateMailRouter = createTRPCRouter({
       const { isSuccess, error } = await sentMail({
         to,
         html: await getHTML(EventConfirmation, {
-          event,
-          userRegisteredEvent,
           user,
+          event,
         }),
         subject: `Event Confirmation - ${event.name}`,
         text: `You have successfully registered for ${event.name} on ASTHRA ${currentAsthraCount}.`,

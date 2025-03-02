@@ -16,27 +16,9 @@ export const data: {
     id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
     name: 'CipherX',
     description: 'Good challenge',
-    secret: `## Here is your secret message
-- Do something
-
-*test*
-
-**hello**
-
-\`asdasd\`
-
-\`\`\`
-123123sadsa
-\`\`\`
-
-> asdsadasd
-
-~~strikethrough~~
-
-[Download](https://asthra.sjcetpalai.ac.in/images/asthra-glass.png)
-
-![alt](https://asthra.sjcetpalai.ac.in/images/asthra-glass.png)
-`,
+    secret: `secret message
+*hey world*
+    `,
     poster: '',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -57,7 +39,7 @@ export const data: {
     name: 'Aravind Manoj',
     email: 'aravindmanoj2027@cy.sjcetpalai.ac.in',
     image: 'imagelink',
-    number: 'adasd',
+    number: '+918921964557',
     KTU: 'adasd',
     role: 'USER',
     department: 'ce',
@@ -72,13 +54,13 @@ export const data: {
   },
   transactions: {
     id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
-    amount: 0,
+    amount: 200,
     status: 'success',
     orderId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
     userName: 'aravindmanoj',
     userId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
     eventId: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
-    eventName: 'adasd',
+    eventName: 'ECU Tuning',
     remark: 'adasd',
   },
   userRegisteredEvent: {
@@ -91,15 +73,15 @@ export const data: {
   },
 };
 
-await api.mail.purchased.query({
-  // asthraPass: true,
-  // email: '',
-  // name: '',
-  to: 'aravindmng47@gmail.com',
-  user: data.user,
-  event: data.event,
-  userRegisteredEvent: data.userRegisteredEvent,
-  transactions: data.transactions,
-});
+// await api.mail.purchaseConfirm.query({
+// asthraPass: true,
+// email: '',
+// name: '',
+//   to: 'aravindmng47@gmail.com',
+//   user: data.user,
+//   event: data.event,
+//   userRegisteredEvent: data.userRegisteredEvent,
+//   transactions: data.transactions,
+// });
 
 console.log('done');
