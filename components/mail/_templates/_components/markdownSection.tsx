@@ -7,7 +7,7 @@ import {
 
 export default function MarkdownSection({ secret }: { secret: string }) {
 	return (
-		<Section>
+		<Section className="mt-4">
 			<Row>
 				<Column align="left">
 					<Markdown
@@ -25,7 +25,7 @@ export default function MarkdownSection({ secret }: { secret: string }) {
 							image: { width: "60%" },
 						}}
 						markdownContainerStyles={{
-							background: "#F0F8FF",
+							background: "transparent",
 							borderRadius: "8px",
 							padding: "16px",
 						}}

@@ -17,9 +17,10 @@ import {
 import { baseUrl } from "../utils";
 import FooterSection from "./_components/footerSection";
 import MarkdownSection from "./_components/markdownSection";
+import EventSection from "./_components/eventSection";
 import type { EventConfirmationProps } from '../types';
 
-export default function EventConfirmationEmail({ user, event }: EventConfirmationProps) {
+export default function EventConfirmationEmail({ user, event, userRegisteredEvent }: EventConfirmationProps) {
   return (
     <Html>
       <Head>
@@ -68,6 +69,8 @@ export default function EventConfirmationEmail({ user, event }: EventConfirmatio
               <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Text>We’re excited to confirm your registration for {event.name}! Your registration was successful and we can’t wait to have you join us.</Text>
+
+              <EventSection event={event} />
 
               <MarkdownSection secret={event.secret as string} />
 

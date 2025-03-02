@@ -14,16 +14,16 @@ export const data: {
 } = {
   event: {
     id: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
-    name: 'CipherX',
+    name: 'CipheriX GRAND CHALLENGE',
     description: 'Good challenge',
     secret: `secret message
-*hey world*
-    `,
-    poster: '',
+*hey world*`,
+    poster:
+      'https://res.cloudinary.com/db2u2juse/image/upload/v1740819840/9/elysium_vcxhu9.webp',
     createdAt: new Date(),
     updatedAt: new Date(),
     createdById: 'c509deee-cf79-42f9-ad4e-7b47b85263e0',
-    department: 'NA',
+    department: 'mba',
     venue: 'SJCET',
     dateTimeStarts: new Date(),
     dateTimeEnd: 'ALL DAY',
@@ -73,15 +73,15 @@ export const data: {
   },
 };
 
-// await api.mail.purchaseConfirm.query({
-// asthraPass: true,
-// email: '',
-// name: '',
-//   to: 'aravindmng47@gmail.com',
-//   user: data.user,
-//   event: data.event,
-//   userRegisteredEvent: data.userRegisteredEvent,
-//   transactions: data.transactions,
-// });
+await api.mail.asthraPass.query({
+  // asthraPass: true,
+  // email: '',
+  // name: '',
+  to: 'aravindmng47@gmail.com',
+  user: data.user,
+  // event: data.event,
+  userRegisteredEvent: data.userRegisteredEvent,
+  transactions: data.transactions,
+});
 
 console.log('done');
