@@ -17,8 +17,16 @@ export const faqItems: FAQItems = [
         content: "The Asthra Pass grants access to exclusive events and exhibitions. Make sure to scan your Asthra Pass to generate certificates for these events. You can purchase the Asthra pass for ₹250 from the website.",
     },
     {
+        title: "What is this Credit System? is this KTU points?",
+        content: "NO, that a common limit given to all ASTHRA Pass users, which can be used to register for events. Each event has a different credit value. If your credit limit is exhausted, you have to pay extra for refilling the credits.",
+    },
+    {
         title: "Im an SJCET Student, Can I purchase the PASS?",
         content: "NO, ASTHRA is strictly for outside SJCET campus students. But you can participate workshops and view exibitions.",
+    },
+    {
+        title: "What about KTU points?",
+        content: "Anyone who registered for ASTHRA PASS will get 40 KTU points. Make sure participate some workshops and competitions to get extra points.",
     },
     {
         title: "Can I register for any events on the spot?",
