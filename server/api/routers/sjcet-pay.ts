@@ -24,7 +24,7 @@ import {
   transactionsZod,
 } from '@/lib/validator';
 import { ASTHRA } from '@/logic';
-import { api } from '@/trpc/vanila';
+import MailAPI from './mail';
 
 export const sjcetPaymentRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
@@ -171,20 +171,20 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
-          // await api.mail.asthraPass.query({
-          //   transactions: currentTransation,
-          //   user: ctx.user,
-          //   userRegisteredEvent: ure[0],
-          //   to: ctx.user.email,
-          // });
+          MailAPI.asthraPass({
+            transactions: currentTransation,
+            user: ctx.user,
+            userRegisteredEvent: ure[0],
+            to: ctx.user.email,
+          });
         } else {
-          // await api.mail.purchaseConfirm.query({
-          //   event: eventData[0],
-          //   user: ctx.user,
-          //   transactions: currentTransation,
-          //   to: ctx.user.email,
-          //   userRegisteredEvent: ure[0],
-          // });
+          MailAPI.purchaseConfirm({
+            event: eventData[0],
+            user: ctx.user,
+            transactions: currentTransation,
+            to: ctx.user.email,
+            userRegisteredEvent: ure[0],
+          });
         }
 
         return {
@@ -299,20 +299,20 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
-          // await api.mail.asthraPass.query({
-          //   user: ctx.user,
-          //   transactions: transactionData,
-          //   to: ctx.user.email,
-          //   userRegisteredEvent: ure[0],
-          // });
+          await MailAPI.asthraPass({
+            user: ctx.user,
+            transactions: transactionData,
+            to: ctx.user.email,
+            userRegisteredEvent: ure[0],
+          });
         } else {
-          // await api.mail.purchaseConfirm.query({
-          //   event: eventData[0],
-          //   user: ctx.user,
-          //   transactions: transactionData,
-          //   to: ctx.user.email,
-          //   userRegisteredEvent: ure[0],
-          // });
+          await MailAPI.purchaseConfirm({
+            event: eventData[0],
+            user: ctx.user,
+            transactions: transactionData,
+            to: ctx.user.email,
+            userRegisteredEvent: ure[0],
+          });
         }
 
         return {

@@ -11,6 +11,7 @@ import { sjcetPaymentRouter } from './routers/sjcet-pay';
 import { userRouter } from './routers/userRoute';
 import { verifyRouter } from './routers/verify';
 import { shortnerRouter } from './routers/shortner';
+import { managementRouter } from './routers/managementRouter';
 
 /**
  * This is the primary router for your server.
@@ -30,9 +31,15 @@ export const appRouter = createTRPCRouter({
   spot: spotRegister,
   payment: paymentRouter,
   shortner: shortnerRouter,
+  management: managementRouter,
 });
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+
+import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+
+export type RouterInput = inferRouterInputs<AppRouter>;
+export type RouterOutput = inferRouterOutputs<AppRouter>;
 
 export const createCaller = createCallerFactory(appRouter);

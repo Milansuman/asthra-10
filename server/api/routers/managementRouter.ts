@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { coordinatorProcedure, createTRPCRouter } from '@/server/api/trpc';
 import {
@@ -7,31 +7,32 @@ import {
   userRegisteredEventTable,
 } from '@/server/db/schema';
 
-import { verifyPassZod } from '@/lib/validator';
+import { userZod, verifyPassZod } from '@/lib/validator';
+import { getTrpcError } from '@/server/db/utils';
 
 export const managementRouter = createTRPCRouter({
-  verifyAsthraPass: coordinatorProcedure
-    .input(verifyPassZod)
-    .query(({ ctx, input }) => {
-      return ctx.db.query.user.findFirst({
-        where: eq(user.id, input.id),
-      });
-    }),
-
-  verifyEventPass: coordinatorProcedure
-    .input(verifyPassZod)
+  getUserAndOrders: coordinatorProcedure
+    .input(
+      userZod.pick({
+        email: true,
+      })
+    )
     .query(async ({ ctx, input }) => {
-      const validTransaction = await ctx.db.query.transactionsTable.findFirst({
-        where: eq(transactionsTable.id, input.id),
+      const userData = await ctx.db.query.user.findFirst({
+        where: eq(user.email, input.email),
       });
 
-      if (validTransaction) {
-        await ctx.db
-          .update(userRegisteredEventTable)
-          .set({
-            status: 'attended',
-          })
-          .where(eq(userRegisteredEventTable.userId, validTransaction.userId));
-      }
+      if (!userData) throw getTrpcError('USER_NOT_FOUND');
+
+      const transactionsData = await ctx.db.query.transactionsTable.findMany({
+        where: eq(transactionsTable.userId, userData.id),
+      });
+
+      if (transactionsData.length === 0)
+        throw getTrpcError('TRANSACTION_NOT_FOUND');
+      return {
+        user: userData,
+        transactions: transactionsData,
+      };
     }),
 });

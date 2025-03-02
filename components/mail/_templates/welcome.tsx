@@ -21,6 +21,14 @@ import type { WelcomeEmailProps } from '../types';
 const coordinators = [
   { name: "Allen Sanjai", phone: "+917907369056" },
   { name: "Basil Babu", phone: "+918590013252" },
+  {
+    name: "Shabeeha K P",
+    phone: "+919778765008",
+  },
+  {
+    name: "Sona Binu",
+    phone: "+918590221705",
+  }
 ]
 
 export default function WelcomeEmail({ personName }: WelcomeEmailProps) {

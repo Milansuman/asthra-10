@@ -11,7 +11,7 @@ import { env } from '@/env';
 import type { UserZodType } from '@/lib/validator';
 import { getDataFromMail } from '@/logic/extract';
 import { db } from '@/server/db';
-import { api } from '@/trpc/vanila';
+import MailAPI from '@/server/api/routers/mail';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -104,7 +104,7 @@ export const authOptions: NextAuthOptions = {
 
       if (!user || !user.email) return;
 
-      await api.mail.welcome.query({
+      await MailAPI.welcome({
         email: user.email,
         name: user.name ?? 'User',
       });
