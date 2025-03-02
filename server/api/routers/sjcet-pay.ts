@@ -170,14 +170,14 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
-          api.mail.asthraPass.query({
+          await api.mail.asthraPass.query({
             transactions: currentTransation,
             user: ctx.user,
             userRegisteredEvent: ure[0],
             to: ctx.user.email,
           });
         } else {
-          api.mail.purchaseConfirm.query({
+          await api.mail.purchaseConfirm.query({
             event: eventData[0],
             user: ctx.user,
             transactions: currentTransation,
@@ -298,14 +298,14 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
-          api.mail.asthraPass.query({
+          await api.mail.asthraPass.query({
             user: ctx.user,
             transactions: transactionData,
             to: ctx.user.email,
             userRegisteredEvent: ure[0],
           });
         } else {
-          api.mail.purchaseConfirm.query({
+          await api.mail.purchaseConfirm.query({
             event: eventData[0],
             user: ctx.user,
             transactions: transactionData,
