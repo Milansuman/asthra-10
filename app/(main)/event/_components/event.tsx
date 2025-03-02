@@ -1,7 +1,7 @@
 "use client"
 
 import { Markdown } from "@/app/_components/md";
-import { PaymentButton } from "@/app/_components/pay";
+import { ButtonText, PaymentButton } from "@/app/_components/pay";
 import { ShareButton } from "@/app/_components/share";
 import Plusbox from "@/components/madeup/box";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,12 @@ import { getActivityPoints } from "@/logic/points";
 import { api } from "@/trpc/react"
 import { ExternalLinkIcon, InfoIcon, LoaderIcon } from "lucide-react";
 import Link from "next/link";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 
 export const EventParent = ({ id }: { id: string }) => {
@@ -97,14 +103,28 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                         </div>
 
                         <div className='relative bg-glass py-2 px-3 border-glass border'>
-                            <p className='opacity-70 text-sm font-normal'>{event.eventType === "ASTHRA_PASS_EVENT" ? "Credit Required" : "Fee"}</p>
-                            {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}{!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
+                            <p className='opacity-70 text-sm font-normal'>{event.eventType === "ASTHRA_PASS_EVENT" ? "Asthra Credit" : "Fee"}</p>
+                            {event.eventType === "ASTHRA_PASS_EVENT" ? "" : "₹"}
+                            {!event.amount || event.amount === 0 ? 'FREE' : `${event.amount}`}
+                            {event.eventType === "ASTHRA_PASS_EVENT" ? " Required" : ""}
                         </div>
 
-                        {event.eventType === "ASTHRA_PASS" && (<div className='relative bg-glass py-2 px-3 border-glass border'>
-                            <p className='opacity-70 text-sm font-normal'>Credits</p>
-                            {ASTHRA.credit}
-                        </div>)}
+                        {event.eventType === "ASTHRA_PASS" && (
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div className='relative bg-glass py-2 px-3 border-glass border'>
+                                            <p className='opacity-70 text-sm font-normal'>Asthra Credits</p>
+                                            {ASTHRA.credit} <InfoIcon className="w-4 ms-1 inline-block" />
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent className="max-w-64">
+                                        Common limit given to all ASTHRA Pass users, which can be used to register for events. Each event has a different credit value. If your credit limit is exhausted, you have to pay extra for refilling the credits.
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+
+                        )}
 
                         {event.eventType !== "ASTHRA_PASS_EVENT" && (<div className='lowercase relative bg-glass py-2 px-3 border-glass border'>
                             <p className='opacity-70 text-sm font-normal capitalize'>KTU Activity Points</p>
