@@ -29,4 +29,5 @@ export type PaymentConfirmationProps = {
 export type EventConfirmationProps = {
   user: UserZodType;
   event: EventZodType;
+  userRegisteredEvent: UserRegisteredEventZod;
 };

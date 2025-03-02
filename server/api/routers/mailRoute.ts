@@ -1,8 +1,8 @@
 import AsthraPass from '@/components/mail/_templates/asthraPass';
 import EventConfirmation from '@/components/mail/_templates/eventConfirmation';
 import PaymentConfirmationEmail from '@/components/mail/_templates/paymentConfirmation';
-import WelcomeTemplate from '@/components/mail/_templates/welcome';
 import CertificateReadyEmail from '@/components/mail/_templates/certificateReady';
+import WelcomeTemplate from '@/components/mail/_templates/welcome';
 import { getHTML, sentMail } from '@/lib/mail';
 import {
   eventZod,
@@ -64,6 +64,7 @@ export const generateMailRouter = createTRPCRouter({
         html: await getHTML(EventConfirmation, {
           user,
           event,
+          userRegisteredEvent,
         }),
         subject: `Event Confirmation - ${event.name}`,
         text: `You have successfully registered for ${event.name} on ASTHRA ${currentAsthraCount}.`,

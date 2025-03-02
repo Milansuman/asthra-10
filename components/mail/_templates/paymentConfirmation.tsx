@@ -18,6 +18,7 @@ import { baseUrl } from "../utils";
 import FooterSection from "./_components/footerSection";
 import TransactionSection from "./_components/transactionSection";
 import MarkdownSection from "./_components/markdownSection";
+import EventSection from "./_components/eventSection";
 import type { PaymentConfirmationProps } from '../types';
 
 export default function PaymentConfirmationEmail({ user, event, userRegisteredEvent, transactions }: PaymentConfirmationProps) {
@@ -69,6 +70,8 @@ export default function PaymentConfirmationEmail({ user, event, userRegisteredEv
               <Text className="text-lg pb-4">Hello {user.name},</Text>
 
               <Text>We’re excited to confirm your registration for {event.name}! Your registration was successful and we can’t wait to have you join us.</Text>
+
+              <EventSection event={event} />
 
               <MarkdownSection secret={event.secret as string} />
 
