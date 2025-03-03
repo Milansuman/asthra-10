@@ -16,7 +16,7 @@ const Items: DockItemData[] = [
   },
   {
     link: "/events",
-    label: "Workshops & Events",
+    label: "All Events",
   },
   {
     link: "/profile",
@@ -40,10 +40,10 @@ export default function RootLayout({
             className="h-full w-full object-cover"
           />*/}
         {isMobileDevice() ?
-          <div className="relative h-full w-full bg-[url(/spline-backup-dark-mobile.png)] bg-blend-soft-light bg-black/10" /> :
+          <div className="relative h-full w-full bg-[url(/spline-backup-dark-mobile.png)] bg-blend-soft-light bg-black/5" /> :
           <SplineViewer
             url="https://prod.spline.design/eeFdLAQHPt2utu3p/scene.splinecode"
-            className="relative h-full w-full bg-[url(/spline-backup-dark.png)] bg-black/60"
+            className="relative h-full w-full bg-[url(/spline-backup-dark.png)] bg-black/50"
           />}
       </div>
       <main className="relative overflow-y-auto h-screen">

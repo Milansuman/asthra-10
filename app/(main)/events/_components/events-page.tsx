@@ -65,11 +65,14 @@ export function EventPage({
     };
 
     const isGeneralEvent = (event: Event) => {
+        console.log(event.id)
         if (
-            event.department === 'NA' &&
-            filter === 'GENERAL' &&
-            event.registrationType !== 'spot' &&
-            event.eventStatus !== 'cancel'
+            // event.department === 'NA' &&
+            // filter === 'GENERAL' &&
+            // event.registrationType !== 'spot' &&
+            event.eventStatus !== 'cancel' &&
+            ["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4"].includes(event.id) &&
+            filter == "GENERAL"
         ) {
             return true;
         }
@@ -78,10 +81,12 @@ export function EventPage({
 
     const isSpotEvent = (event: Event) => {
         if (
-            event.registrationType === 'spot' &&
-            filter === 'INFORMAL' &&
-            event.department === 'NA' &&
-            event.eventStatus !== 'cancel'
+            ((event.registrationType === 'spot' ||
+                event.id === "95cea129-1752-4ddc-ab9a-d609e625b4cc"
+            ) &&
+                filter === 'INFORMAL' &&
+                event.department === 'NA' &&
+                event.eventStatus !== 'cancel')
         ) {
             return true;
         }
@@ -94,6 +99,19 @@ export function EventPage({
         }
         return false;
     };
+
+    const isOtherEvent = (event: Event) => {
+        if (
+            event.department === 'NA' &&
+            event.registrationType !== 'spot' &&
+            event.eventStatus !== 'cancel' &&
+            !(["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4", "95cea129-1752-4ddc-ab9a-d609e625b4cc"].includes(event.id)) &&
+            filter == "OTHER"
+        ) {
+            return true;
+        }
+        return false;
+    }
 
     return (
         <>
@@ -155,7 +173,8 @@ export function EventPage({
                         ((isDepartment(event) && isEventType(event)) ||
                             isGeneralEvent(event) ||
                             isSpotEvent(event) ||
-                            isCancelled(event))
+                            isCancelled(event) ||
+                            isOtherEvent(event))
                     )
                     .map((event) => (
                         <motion.div key={event.id}>
