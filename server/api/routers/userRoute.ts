@@ -14,6 +14,7 @@ import {
   isValidUserDetails,
   userAccessZod,
   userCreateMailZod,
+  userZod,
 } from '@/lib/validator';
 
 import {
@@ -31,9 +32,19 @@ export const userRouter = createTRPCRouter({
   /**
    * user with role USER can't access other user list
    */
-  getUserList: frontDeskProcedure.query(async ({ ctx }) => {
-    return await ctx.db.query.user.findMany();
-  }),
+  getUserList: frontDeskProcedure
+    .input(
+      userZod
+        .pick({
+          role: true,
+        })
+        .optional()
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.user.findMany({
+        where: input?.role ? eq(user.role, input.role) : undefined,
+      });
+    }),
 
   /**
    * user with role USER can't access other user

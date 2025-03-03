@@ -101,9 +101,9 @@ export const generatePassMailZod = z.object({
 });
 export const userDataFillZod = userAccessZod.refine(
   (user) => {
-    if (user.college === 'NA') {
-      return false;
-    }
+    // if (user.college === '') {
+    //   return false;
+    // }
 
     if (user.name === '') {
       return false;
