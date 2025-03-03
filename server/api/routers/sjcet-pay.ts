@@ -24,7 +24,7 @@ import {
   eventZod,
   transactionsZod,
 } from '@/lib/validator';
-import { ASTHRA } from '@/logic';
+import { ASTHRA, getTimeUtils } from '@/logic';
 import MailAPI from './mail';
 import { createOrder } from '@/logic/payment';
 
@@ -96,7 +96,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
         userName: userData.name ?? 'NA',
         status: 'initiated',
         amount: workshop.amount,
-        remark: `Initiated ${workshop.eventType} purchase on ${new Date().toLocaleString()}`,
+        remark: `${userData.email}, ${userData.number}, Initiated ${workshop.eventType} purchase on ${getTimeUtils(new Date())}`,
       };
 
       return await ctx.db.transaction(async (tx) => {
@@ -173,7 +173,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
             eventId: currentTransation.eventId,
             transactionId: currentTransation.id,
             userId: ctx.user.id,
-            remark: `Success on ${new Date().toLocaleString()}`,
+            remark: `Success on ${getTimeUtils(new Date())}`,
           })
           .returning();
 
@@ -316,7 +316,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
             eventId: transactionData.eventId,
             transactionId: transactionData.id,
             userId: transactionData.userId,
-            remark: `Forced Success on ${new Date().toLocaleString()}`,
+            remark: `Forced Success on ${getTimeUtils(new Date())}`,
           })
           .returning();
 

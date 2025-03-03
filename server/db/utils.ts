@@ -1,4 +1,4 @@
-import { AsthraLastEditDay } from '@/logic';
+import { AsthraLastEditDay, getTimeUtils } from '@/logic';
 import { TRPCError } from '@trpc/server';
 import type { TRPC_ERROR_CODE_KEY } from '@trpc/server/rpc';
 import { sql } from 'drizzle-orm';
@@ -33,7 +33,7 @@ export const errorList = {
     code: 'UNAUTHORIZED',
   },
   EDIT_AFTER_LIMIT: {
-    message: `You can't update/edit this data after ${AsthraLastEditDay.toLocaleString()}`,
+    message: `You can't update/edit this data after ${getTimeUtils(AsthraLastEditDay)}`,
     code: 'PRECONDITION_FAILED',
   },
   EDIT_AFTER_ASTHRA: {

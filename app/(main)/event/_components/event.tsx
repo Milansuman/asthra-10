@@ -8,10 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import type { EventZodType } from "@/lib/validator";
-import { type AllDepartments, allDepartments, ASTHRA } from "@/logic";
+import { type AllDepartments, allDepartments, ASTHRA, getTimeUtils } from "@/logic";
 import { getActivityPoints } from "@/logic/points";
 import { api } from "@/trpc/react"
-import { ExternalLinkIcon, InfoIcon, LoaderIcon } from "lucide-react";
+import { AlertCircle, ExternalLinkIcon, InfoIcon, LoaderIcon } from "lucide-react";
 import Link from "next/link";
 import {
     Tooltip,
@@ -104,7 +104,7 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                         {event.dateTimeStarts && (
                             <div className='relative bg-glass py-2 px-3 border-glass border'>
                                 <p className='opacity-70 text-sm font-normal'>Event starts at</p>
-                                {(new Date(event.dateTimeStarts)).toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
+                                {getTimeUtils(event.dateTimeStarts)}
                             </div>
                         )}
 
@@ -152,6 +152,10 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                     </Button>}
                 </Card>
 
+                {(!event.secret || event.secret !== "") && <Button disabled size={"thin"} variant={"glass"} className="w-full overflow-hidden text-wrap min-h-10 h-fit">
+                    Complete details now, then come back to see special message for participants.
+                    <AlertCircle />
+                </Button>}
                 <Button size={"thin"} variant={"glass"} link={`/events?department=${event.department}`} className="w-full overflow-hidden text-wrap min-h-10 h-fit">
                     Show more events from {department}
                     <ExternalLinkIcon />

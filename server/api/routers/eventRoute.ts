@@ -21,6 +21,7 @@ import { Decrement, Increment, getTrpcError } from '@/server/db/utils';
 import { eventEditAccessZod, eventZod } from '@/lib/validator';
 import { api } from '@/trpc/vanila';
 import { cache } from '@/server/cache';
+import { getTimeUtils } from '@/logic';
 
 export const eventRouter = createTRPCRouter({
   /**
@@ -306,7 +307,7 @@ export const eventRouter = createTRPCRouter({
             eventId: input.id,
             userId: ctx.user.id,
             transactionId: ctx.user.transactionId ?? uuid(),
-            remark: `Registered on ${new Date().toLocaleString()}`,
+            remark: `Registered on ${getTimeUtils(new Date())}`,
           })
           .returning();
 

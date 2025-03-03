@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { allDepartments } from '@/logic';
+import { allDepartments, getTimeUtils } from '@/logic';
 import { motion } from 'framer-motion';
 import { CheckCircle, Copy, LinkIcon, XCircleIcon } from 'lucide-react';
 import type { z } from 'zod';
@@ -317,8 +317,7 @@ function EventCard({
                   : `${event.regCount} / ${event.regLimit} Registered`}
               </h4>
 
-              <p>{event.dateTimeStarts.toLocaleDateString()}</p>
-              <p>{event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}</p>
+              <p>{getTimeUtils(event.dateTimeStarts)}</p>
             </div>
             {dashboard && (
               // <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">

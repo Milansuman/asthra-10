@@ -5,7 +5,7 @@ import {
 	Row,
 	Column,
 } from "@react-email/components";
-import { allDepartments } from "@/logic";
+import { allDepartments, getTimeUtils } from "@/logic";
 import type { EventZodType } from '@/lib/validator';
 
 export default function EventSection({ event }: { event: EventZodType }) {
@@ -20,7 +20,7 @@ export default function EventSection({ event }: { event: EventZodType }) {
 						<Text className="m-0 mb-[4%] text-[15px] underline font-extrabold">Event Details</Text>
 						<Text className="m-0"><strong>Name:</strong> {event.name}</Text>
 						<Text className="m-0 mt-[1%]"><strong>Venue:</strong> {event.venue}</Text>
-						<Text className="m-0 mt-[1%]"><strong>Date:</strong> {new Date(event.dateTimeStarts).toLocaleDateString()}</Text>
+						<Text className="m-0 mt-[1%]"><strong>Date:</strong> {getTimeUtils(event.dateTimeStarts)}</Text>
 						{event.department === "NA" ?
 							<>
 								<Text className="m-0 mt-[1%]"><strong>Dept:</strong> General</Text>
