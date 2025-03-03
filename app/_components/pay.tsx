@@ -87,7 +87,11 @@ const customEvents = {
 
 export const PaymentButton = ({ event }: { event: EventZodType }) => {
     const { status, valid, data } = useSession()
-    const { data: isRegisteredThisEvent } = api.user.isRegisteredThisEvent.useQuery({ eventId: event.id })
+    const { data: isRegisteredThisEvent } = api.user.isRegisteredThisEvent.useQuery({
+        eventId: event.id
+    }, {
+        enabled: status === "authenticated" && valid,
+    })
     const { mutateAsync, isPending, isSuccess } = api.event.registerEvent.useMutation({
         onError: (error) => {
             toast.error(error.data?.code, {

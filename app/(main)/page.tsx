@@ -88,7 +88,6 @@ export default function Page() {
           <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl md:text-2xl">
             <li>40 events</li>
             <li>10 workshops</li>
-            <li>2 hackathons</li>
           </ul>
         </div>
         <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">

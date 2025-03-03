@@ -99,7 +99,7 @@ export function ProfileEdit() {
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="John Doe"
+                  placeholder="John Doe (required)"
                   {...field}
                   value={field?.value ?? ("" as string)}
                 />
@@ -117,7 +117,7 @@ export function ProfileEdit() {
               <FormControl>
                 <Input
                   type="tel"
-                  placeholder="0123456789"
+                  placeholder="0123456789 (required)"
                   {...field}
                   value={field?.value ?? ("" as string)}
                 />
@@ -134,12 +134,12 @@ export function ProfileEdit() {
               <FormLabel>College / School</FormLabel>
               <FormControl>
                 <SuggestionsInput
-                  placeholder="Enter your college's name"
+                  placeholder="Enter your college's name (required)"
                   {...field}
                   value={
                     field?.value ?? "NA"
                   }
-                  required
+                  required={false}
                   suggestions={["SJCET", "SAINTGITS", "MANGALAM", "AMAL JYOTHI", "RIT", "TOMS COLLEGE", "CE POONJAR", "CE KIDANGOOR", "KITS", "GISAT", "GREGORIAN INSTITUTE"]}
                 />
               </FormControl>
@@ -181,7 +181,7 @@ export function ProfileEdit() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a department">
+                    <SelectValue placeholder="Select a department (optional)">
                       {field.value === "NA"
                         ? "Other"
                         : allDepartments[
@@ -214,7 +214,7 @@ export function ProfileEdit() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a year">
+                    <SelectValue placeholder="Select a year (optional)">
                       {field.value === "NA" ? "Other" : field.value}
                     </SelectValue>
                   </SelectTrigger>
