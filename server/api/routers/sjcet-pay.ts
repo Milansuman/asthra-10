@@ -332,7 +332,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
             userRegisteredEvent: ure[0],
           });
         } else {
-          /**
+          
           await MailAPI.purchaseConfirm({
             event: eventData[0],
             user: userData as UserZodType,
@@ -340,7 +340,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
             to: userData.email,
             userRegisteredEvent: ure[0],
           });
-          **/
+          
         }
 
         return {
