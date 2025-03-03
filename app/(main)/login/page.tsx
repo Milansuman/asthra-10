@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-import { signIn, useSession } from "next-auth/react";
 import Plusbox from "@/components/madeup/box";
 import {
     Card,
@@ -13,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { signIn, useSession } from "@/hooks/session";
 
 const GOOGLE_SVG: React.FC = () => {
     return (
@@ -50,7 +50,7 @@ const GOOGLE_SVG: React.FC = () => {
 
 const LoginPage = () => {
     const router = useRouter();
-    const { data: session, status } = useSession();
+    const { status } = useSession();
 
     if (status === "authenticated") {
         return router.push("/profile");

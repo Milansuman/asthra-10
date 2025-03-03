@@ -18,7 +18,7 @@ const Middleware = (props: { children: React.ReactNode }) => {
   const matches = pathname.match(/\/(dashboard|profile|payment)/);
   if (matches) {
     if (status === "unauthenticated") {
-      return redirect("/");
+      return redirect("/login");
     }
 
     if (status === "authenticated") {

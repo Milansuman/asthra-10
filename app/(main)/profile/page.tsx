@@ -13,16 +13,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import { ChevronRight, QrCodeIcon, Terminal, TicketIcon } from "lucide-react";
+import { ChevronRight, QrCodeIcon, Terminal, TicketIcon, VerifiedIcon } from "lucide-react";
 import QRCode from "react-qr-code";
 
+import LoginButton from "@/app/_components/login";
+import { ButtonText } from "@/app/_components/pay";
 import Plusbox from "@/components/madeup/box";
+import { ModelViewer } from "@/components/madeup/model";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import {
-  isValidUserDetails,
-  type EventZodType,
-  type UserZodType,
-} from "@/lib/validator";
 import {
   Dialog,
   DialogContent,
@@ -31,16 +29,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ProfileEdit } from "./_componetns/edit";
-import { useSession, signOut } from "@/hooks/session";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import { ShoppingBag } from "lucide-react";
-import { ModelViewer } from "@/components/madeup/model";
+import { signOut, useSession } from "@/hooks/session";
+import type {
+  UserZodType
+} from "@/lib/validator";
+import { ASTHRA, allDepartments } from "@/logic";
 import { api } from "@/trpc/react";
-import LoginButton from "@/app/_components/login";
-import { allDepartments, ASTHRA } from "@/logic";
-import { ButtonText } from "@/app/_components/pay";
+import { ProfileEdit } from "./_componetns/edit";
 
 export default function ProfilePage() {
   const { status, data, valid } = useSession();
@@ -54,7 +49,7 @@ export default function ProfilePage() {
 
   return (
     <main className="flex flex-col md:flex-row gap-6 justify-start p-6 min-h-screen ambit relative">
-      <Card className="flex-1 flex-col flex">
+      <Card className="max-w-2xl flex-col flex">
         <CardHeader>
           <div className="flex flex-row gap-3 items-center">
             <Avatar className="h-20 w-20 rounded-sm">
@@ -65,7 +60,7 @@ export default function ProfilePage() {
               <CardTitle>
                 {user.name}
               </CardTitle>
-              <CardDescription>{user.email}</CardDescription>
+              <CardDescription>{user.email} {user.email.endsWith(".ac.in") && <VerifiedIcon className="inline-flex h-4" />}</CardDescription>
             </div>
           </div>
         </CardHeader>
