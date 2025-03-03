@@ -43,7 +43,7 @@ export default function Page() {
         <div className="col-span-1 h-48 md:hidden" />
 
         <div className="col-span-1 flex items-center border border-glass p-8 bg-glass md:col-span-2">
-          <p className="ambit text-balance px-4 text-left font-extralight text-lg md:text-xl lg:text-2xl">
+          <p className="ambit text-justify px-4 font-extralight text-lg md:text-xl lg:text-2xl">
             ASTHRA, the national-level technical fest of St. Joseph's College of
             Engineering and Technology, Palai, is a premier inter-college event
             in Kerala. With 5,000+ annual visitors, it features professional
@@ -75,9 +75,11 @@ export default function Page() {
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             MISSION
           </p>
-          <p className="ambit px-4 text-center font-thin text-md md:text-md">
+          <p className="ambit px-4 text-justify font-thin text-md md:text-md">
             To maintain a conducive infrastructure and learning environment for world class education.
+            <br />
             To nurture a team of dedicated, competent and research oriented faculty.
+            <br />
             To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
           </p>
         </div>
