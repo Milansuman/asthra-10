@@ -104,7 +104,7 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                         {event.dateTimeStarts && (
                             <div className='relative bg-glass py-2 px-3 border-glass border'>
                                 <p className='opacity-70 text-sm font-normal'>Event starts at</p>
-                                {event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
+                                {(new Date(event.dateTimeStarts)).toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}
                             </div>
                         )}
 
