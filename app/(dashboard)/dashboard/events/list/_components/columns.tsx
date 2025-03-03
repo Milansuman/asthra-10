@@ -33,6 +33,7 @@ export const columns: ColumnDef<TableType>[] = [
     cell: ({ row }) => {
       const userId = row.original.user?.id || "";
       const userName = row.original.user?.name || "Unknown";
+      const user = row.original.user;
 
       return (
         <Dialog>
@@ -41,20 +42,74 @@ export const columns: ColumnDef<TableType>[] = [
               {userName} <QrCodeIcon size={16} />
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-glass">
+          <DialogContent className="bg-glass max-w-3xl">
             <DialogHeader>
-              <DialogTitle>{userName}'s QR Code</DialogTitle>
+              <DialogTitle>{userName}'s Profile</DialogTitle>
               <DialogDescription className="text-white">
-                Use this QR code to verify the user's identity or track attendance.
+                User details and QR code for verification
               </DialogDescription>
             </DialogHeader>
-            <div className="p-4 rounded-md bg-white">
-              <QRCode
-                size={256}
-                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                value={userId}
-                viewBox={"0 0 256 256"}
-              />
+
+            <div className="flex flex-col md:flex-row gap-6 mt-4">
+              {/* User Details Section */}
+              <div className="flex-1 space-y-4 text-white">
+                <h3 className="text-lg font-medium border-b pb-2">User Information</h3>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="font-medium">Name:</span>
+                    <span>{user?.name || "Not provided"}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Email:</span>
+                    <span>{user?.email || "Not provided"}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Phone:</span>
+                    <span>{user?.number || "Not provided"}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">College:</span>
+                    <span>{user?.college || "Not provided"}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Department:</span>
+                    <span>{user?.department || "Not provided"}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Year:</span>
+                    <span>{user?.year || "Not provided"}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">KTU ID:</span>
+                    <span>{user?.KTU || "Not provided"}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Asthra Pass:</span>
+                    <span>{user?.asthraPass ? "Yes" : "No"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* QR Code Section */}
+              <div className="flex-1 flex flex-col items-center">
+                <h3 className="text-lg font-medium text-white mb-4">QR Code</h3>
+                <div className="p-4 rounded-md bg-white">
+                  <QRCode
+                    size={256}
+                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                    value={userId}
+                    viewBox={"0 0 256 256"}
+                  />
+                </div>
+              </div>
             </div>
           </DialogContent>
         </Dialog>

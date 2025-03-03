@@ -20,6 +20,8 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+import LoginButton from "../../../_components/login";
+
 
 export const EventParent = ({ id }: { id: string }) => {
     const { data: event, isLoading, isError } = api.event.getSpecificCached.useQuery({
@@ -35,6 +37,15 @@ export const EventParent = ({ id }: { id: string }) => {
     }
 
     if (!event || !event.data || isError) {
+        if (isError) {
+            return (
+                <div className="flex flex-col justify-center items-center">
+                    <h2>{event?.error?.message}</h2>
+                    <LoginButton />
+                </div>
+            )
+        }
+
         return (
             <div className="flex flex-col justify-center items-center">
                 <h2>This event does not exist!</h2>
