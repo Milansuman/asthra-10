@@ -13,18 +13,18 @@ export type AllRoles = keyof typeof allRoles;
 
 export const allDepartments = {
   NA: 'NA',
-  ai: 'Artificial Intelligence & DS',
-  ec: 'Electronics and Communication',
-  cs: 'Computer Science',
-  cy: 'Cyber Security',
-  ct: 'Computer Technology (AI)',
-  ecs: 'Electronics and Computer Science',
-  ee: 'Electrical Engineering',
+  ai: 'Artificial Intelligence & Data Science',
+  ec: 'Electronics & Communication Engineering',
+  cs: 'Computer Science & Engineering',
+  cy: 'Computer Science & Engineering (Cyber Security)',
+  ct: 'Computer Science & Engineering (Artificial Intelligence)',
+  ecs: 'Electronics & Computer Science',
+  ee: 'Electrical & Electronical Engineering',
   ce: 'Civil Engineering',
   me: 'Mechanical Engineering',
   mca: 'Master of Computer Applications',
   mba: 'Master of Business Administration',
-  es: 'Electronics and Computer Science',
+  es: 'Electronics & Computer Science',
   ei: 'Electronic & Instrumentation',
 } as const; // + "NA" for other users/managements
 

@@ -61,7 +61,11 @@ export default function Footer() {
           <div className="flex flex-col items-center justify-center">
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4">Mission</h3>
             <p className="text-xs sm:text-sm md:text-base lg:text-xl text-[#6E72A0] w-full sm:w-3/4">
-              To maintain a conducive infrastructure and learning environment for world class education. To nurture a team of dedicated, competent and research oriented faculty. To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
+              To maintain a conducive infrastructure and learning environment for world class education.
+              <br />
+              To nurture a team of dedicated, competent and research oriented faculty.
+              <br />
+              To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
             </p>
           </div>
         </div>
@@ -106,7 +110,7 @@ export default function Footer() {
               <Github className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
           </div>
-          <p className="text-xs sm:text-sm text-gray-400 text-center">@2025 ASTHRA 9.0, All Rights Reserved</p>
+          <p className="text-xs sm:text-sm text-gray-400 text-center">© 2025 ASTHRA 9.0, All Rights Reserved</p>
         </div>
       </div>
     </footer>
