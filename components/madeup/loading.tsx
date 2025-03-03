@@ -42,7 +42,7 @@ export function AsthraLoader() {
   return (
     <AnimatePresence>
       <motion.main
-        className="absolute w-screen h-screen z-50 bg-black flex justify-center items-center"
+        className="fixed w-screen h-screen z-50 bg-black flex justify-center items-center"
         variants={containerVariants}
         initial="initial"
         animate={animationPhase === "fadeOut" ? "fadeOut" : "initial"}
