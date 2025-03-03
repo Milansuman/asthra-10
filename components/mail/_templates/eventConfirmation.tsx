@@ -72,7 +72,7 @@ export default function EventConfirmationEmail({ user, event, userRegisteredEven
 
               <EventSection event={event} />
 
-              <MarkdownSection secret={event.secret as string} />
+              <MarkdownSection secret={event.secret ?? ""} />
 
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
               <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>

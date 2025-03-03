@@ -73,7 +73,7 @@ export default function PaymentConfirmationEmail({ user, event, userRegisteredEv
 
               <EventSection event={event} />
 
-              <MarkdownSection secret={event.secret as string} />
+              <MarkdownSection secret={event.secret ?? ""} />
 
               <TransactionSection personName={user.name as string} personNumber={user.number as string} txid={transactions.id as string} txAmt={transactions.amount as number} regId={userRegisteredEvent.registrationId as string} />
 

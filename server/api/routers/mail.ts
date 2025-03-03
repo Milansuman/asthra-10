@@ -13,7 +13,6 @@ export type MailRouter = inferRouterInputs<typeof generateMailRouter>;
 
 const purchaseConfirm = async (input: MailRouter['purchaseConfirm']) => {
   const { to, user, event, userRegisteredEvent, transactions } = input;
-
   const { isSuccess, error } = await sentMail({
     to,
     html: await getHTML(PaymentConfirmationEmail, {
