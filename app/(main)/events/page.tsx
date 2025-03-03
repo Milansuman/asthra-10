@@ -84,6 +84,8 @@ function Page() {
     additionalCategories.push("CANCELLED");
   }
 
+  additionalCategories.push("OTHER");
+
   const categories = ["ALL"].concat(
     [...new Set(data.filter((event) => event.eventType !== "COMPETITION").map((event) => event.eventType as string))]
       .concat(additionalCategories)
