@@ -65,7 +65,7 @@ export default function Page() {
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             VISION
           </p>
-          <p className="ambit max-w-2xl px-4 text-center font-thin text-md md:text-xl lg:text-2xl">
+          <p className="ambit max-w-2xl px-4 text-center font-thin text-md md:text-xl lg:text-2xl text-balance">
             Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society.
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function Page() {
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             MISSION
           </p>
-          <p className="ambit px-4 text-center font-thin text-md md:text-md">
+          <p className="ambit px-4 text-center font-thin text-md md:text-md text-balance">
             To maintain a conducive infrastructure and learning environment for world class education.
             To nurture a team of dedicated, competent and research oriented faculty.
             To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
@@ -91,10 +91,15 @@ export default function Page() {
           </ul>
         </div>
         <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
-          <p className="ambit text-left font-thin text-xl md:w-3/4 md:text-3xl">
-            SJCET Palai, managed by the Syro-Malabar Catholic Diocese of Pala,
-            is an AICTE-approved private college in Kerala, offering engineering
-            and management programs.
+          <p className="ambit text-left font-thin  md:w-3/4 text-md md:text-xl lg:text-2xl  break-words ">
+            St. Joseph’s College of Engineering and Technology, Palai, established by the Diocesan
+            Technical Education Trust, is a premier institution offering quality technical education.
+            With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications,
+            it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness,
+            and innovative teaching methods, supported by state-of-the-art infrastructure and a dedicated faculty.
+            Its strong placement and training cell, along with skill development initiatives, ensure rewarding careers for students.
+            Recognized among Kerala’s top engineering colleges, SJCET is committed to continuous improvement, providing a world-class
+            learning experience.
           </p>
         </div>
         <div className="col-span-1 h-48 md:hidden" />
