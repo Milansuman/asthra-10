@@ -95,16 +95,16 @@ function PreCheckOut({ eventId }: { eventId: string }) {
     </CardHeader>;
   }
 
-  const { transaction, event } = data;
+  const { transaction, event, orderId } = data;
 
 
-  const getPaymentURL = (transactionId: string, amount: number) => {
+  const getPaymentURL = (orderId: string, amount: number) => {
 
     if (amount === 0) {
-      return `/payment/success/${transactionId}`
+      return `/payment/success/${orderId}`
     }
 
-    const redirectUrl = new URL(`/payment/success/${transactionId}`, window.location.origin)
+    const redirectUrl = new URL(`/payment/success/${orderId}`, window.location.origin)
 
     const url = new URL("/asthra", env.NEXT_PUBLIC_SJCET_PAYMENT_LINK)
 
@@ -122,6 +122,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
   }
 
   const notSpot = asthraNotStarted() || event.registrationType === "online"
+  const paymentLink = getPaymentURL(orderId, event.amount);
 
   return (
 
@@ -133,9 +134,9 @@ function PreCheckOut({ eventId }: { eventId: string }) {
         <CardDescription>
           Pay ₹{event.amount} INR for the {event.eventType}.
         </CardDescription>
-        {/* <CardDescription>
-          Transaction ID: {transaction.id}
-        </CardDescription> */}
+        <CardDescription>
+          Order ID: {transaction.orderId}
+        </CardDescription>
         <CardDescription>
           User ID: {transaction.userId}
         </CardDescription>
@@ -194,7 +195,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
       </p>
       <CardFooter className="justify-between gap-4 flex-row-reverse">
 
-        <Button variant={"glass"} size={"glass"} link={getPaymentURL(transaction.id, event.amount)}>Pay ₹{event.amount} Now</Button>
+        <Button variant={"glass"} size={"glass"} link={paymentLink}>Pay ₹{event.amount} Now</Button>
         <Dialog>
           <DialogTrigger asChild>
             <Button disabled={notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>

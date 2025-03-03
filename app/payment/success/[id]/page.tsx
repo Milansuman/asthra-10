@@ -42,7 +42,7 @@ export default async function Page({
   // }
 
   const { isSuccess, data, error } = await triedAsync(api.sjcetPay.successPurchase({
-    id: id,
+    orderId: id,
   }));
 
   if (!isSuccess || !data) {

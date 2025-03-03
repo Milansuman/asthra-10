@@ -20,12 +20,13 @@ import { Increment, getTrpcError } from '@/server/db/utils';
 
 import {
   type TransactionZodType,
-  UserZodType,
+  type UserZodType,
   eventZod,
   transactionsZod,
 } from '@/lib/validator';
 import { ASTHRA } from '@/logic';
 import MailAPI from './mail';
+import { createOrder } from '@/logic/payment';
 
 export const sjcetPaymentRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
@@ -71,11 +72,26 @@ export const sjcetPaymentRouter = createTRPCRouter({
       }
 
       const transactionId = uuid();
+      let orderId: string;
 
-      const insertTransaction: Omit<TransactionZodType, 'orderId'> = {
+      if (workshop.amount !== 0) {
+        const { data, error, isSuccess } = await createOrder(workshop.amount);
+
+        if (!isSuccess) {
+          console.error('Error in creating order', error);
+          throw getTrpcError('PAYMENT_INITIALISATION_FAILED');
+        }
+
+        orderId = data.id;
+      } else {
+        orderId = transactionId;
+      }
+
+      const insertTransaction: TransactionZodType = {
         eventId: workshop.id,
         eventName: workshop.name ?? 'Unknown Workshop/Competiton Name',
         id: transactionId,
+        orderId,
         userId: userData.id,
         userName: userData.name ?? 'NA',
         status: 'initiated',
@@ -86,7 +102,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
       return await ctx.db.transaction(async (tx) => {
         const finalData = await tx
           .insert(transactionsTable)
-          .values({ ...insertTransaction, orderId: transactionId })
+          .values({ ...insertTransaction })
           .returning();
 
         if (input.referral) {
@@ -104,6 +120,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
         return {
           transaction: finalData[0],
           event: workshop,
+          orderId,
         };
       });
     }),
@@ -111,7 +128,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
   successPurchase: validUserOnlyProcedure
     .input(
       transactionsZod.pick({
-        id: true,
+        orderId: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -121,7 +138,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
           .set({ status: 'success' })
           .where(
             and(
-              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.orderId, input.orderId),
               eq(transactionsTable.status, 'initiated'),
               eq(transactionsTable.userId, ctx.user.id)
             )
@@ -131,7 +148,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
         if (transactiondata.length === 0 || !transactiondata[0]) {
           const transactiondata = await tx.query.transactionsTable.findFirst({
             where: and(
-              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.orderId, input.orderId),
               eq(transactionsTable.userId, ctx.user.id)
             ),
           });
@@ -214,7 +231,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
   failedPurchase: protectedProcedure
     .input(
       transactionsZod.pick({
-        id: true,
+        orderId: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -226,7 +243,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
           })
           .where(
             and(
-              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.orderId, input.orderId),
               eq(transactionsTable.status, 'initiated'),
               eq(transactionsTable.userId, ctx.user.id)
             )
