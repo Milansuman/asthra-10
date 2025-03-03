@@ -1,4 +1,4 @@
-import { eventRouteRules, extractInput } from '@/logic/moods';
+import { eventRouteRules } from '@/logic/moods';
 import { and, eq } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
@@ -52,7 +52,7 @@ export const eventRouter = createTRPCRouter({
   updateEvent: eventsManageProcedure
     .input(eventEditAccessZod.merge(z.object({ id: z.string() })))
     .mutation(async ({ ctx, input }) => {
-      const newInput = extractInput(input);
+      const newInput = input;
 
       if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db
