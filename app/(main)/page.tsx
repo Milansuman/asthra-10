@@ -92,9 +92,13 @@ export default function Page() {
         </div>
         <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
           <p className="ambit text-left font-thin text-xl md:w-3/4 md:text-3xl">
-            SJCET Palai, managed by the Syro-Malabar Catholic Diocese of Pala,
-            is an AICTE-approved private college in Kerala, offering engineering
-            and management programs.
+            St. Joseph’s College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust,
+            is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs,
+            NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development.
+            The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art
+            infrastructure and a dedicated faculty. Its strong placement and training cell, along with skill development initiatives,
+            ensure rewarding careers for students. Recognized among Kerala’s top engineering colleges, SJCET is committed to continuous
+            improvement, providing a world-class learning experience.
           </p>
         </div>
         <div className="col-span-1 h-48 md:hidden" />
