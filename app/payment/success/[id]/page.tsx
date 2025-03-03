@@ -1,6 +1,4 @@
-import { verifySignature } from "@/logic/payment";
 import { api } from "@/trpc/server";
-import { z } from "zod";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -9,37 +7,39 @@ import { Button } from "@/components/ui/button";
 import { triedAsync } from "@/lib/utils";
 
 
-const razorQueryZod = z.object({
-  razorpayOrderId: z.string(),
-  razorpayPaymentId: z.string(),
-  razorpaySignature: z.string(),
-});
+// const razorQueryZod = z.object({
+//   razorpayOrderId: z.string(),
+//   razorpayPaymentId: z.string(),
+//   razorpaySignature: z.string(),
+// });
 
-type RazorQueryZod = z.infer<typeof razorQueryZod>;
+// type RazorQueryZod = z.infer<typeof razorQueryZod>;
 
 export default async function Page({
   params,
-  searchParams,
+  // searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{
-    [key in keyof RazorQueryZod]: string | string[] | undefined
-  }>;
+  // searchParams: Promise<{
+  //   [key in keyof RazorQueryZod]: string | string[] | undefined
+  // }>;
 }) {
   const { id } = await params;
-  const queryParams = await searchParams;
+  // const queryParams = await searchParams;
 
-  const { data: razorData, success } = razorQueryZod.safeParse(queryParams);
+  // console.log(queryParams);
 
-  if (success) {
-    const isSuccess = verifySignature({
-      ...razorData,
-    });
+  // const { data: razorData, success } = razorQueryZod.safeParse(queryParams);
 
-    if (!isSuccess) {
-      return "Payment verification failed";
-    }
-  }
+  // if (success) {
+  //   const isSuccess = verifySignature({
+  //     ...razorData,
+  //   });
+
+  //   if (!isSuccess) {
+  //     return "Payment verification failed";
+  //   }
+  // }
 
   const { isSuccess, data, error } = await triedAsync(api.sjcetPay.successPurchase({
     id: id,
