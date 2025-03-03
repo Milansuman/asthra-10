@@ -129,6 +129,21 @@ export const sjcetPaymentRouter = createTRPCRouter({
           .returning();
 
         if (transactiondata.length === 0 || !transactiondata[0]) {
+          const transactiondata = await tx.query.transactionsTable.findFirst({
+            where: and(
+              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.userId, ctx.user.id)
+            ),
+          });
+
+          if (transactiondata) {
+            if (transactiondata.status === 'success')
+              throw getTrpcError('ALREADY_PURCHASED');
+
+            if (transactiondata.status === 'failed')
+              throw getTrpcError('TRANSACTION_FAILED');
+          }
+
           throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
 

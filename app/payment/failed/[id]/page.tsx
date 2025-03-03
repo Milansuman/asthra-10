@@ -1,8 +1,9 @@
 import { api } from "@/trpc/server";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Plusbox from "@/components/madeup/box";
-import FailureActions from "../../components/FailuteActions";
+import { triedAsync } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export default async function Page({
   params,
@@ -11,9 +12,30 @@ export default async function Page({
 }) {
   const { id } = await params;
 
-  const data = await api.sjcetPay.failedPurchase({
+  const { isSuccess, data, error } = await triedAsync(api.sjcetPay.failedPurchase({
     id: id,
-  });
+  }));
+
+  if (!isSuccess || !data) {
+    console.error(error);
+    return (
+      <div className="container h-screen flex items-center justify-center">
+        <Card>
+          <CardHeader className="p-6">
+            <CardTitle>
+              {error?.name ?? "Error"}
+            </CardTitle>
+            <CardDescription>
+              {error?.message ?? "Something went wrong!"}
+            </CardDescription>
+            <CardDescription>
+              Please contact the event organizer for further assistance.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="container h-screen flex items-center justify-center max-w-5xl">
@@ -23,10 +45,10 @@ export default async function Page({
             <CardTitle>
               Oops! Payment of ₹{data.transaction.amount} Failed
             </CardTitle>
-            <p>
+            <CardDescription>
               Something went wrong with your{" "}
               <span className="font-semibold">{data.event?.name}</span> pass.
-            </p>
+            </CardDescription>
           </CardHeader>
           <CardContent className="pt-8 pb-6 px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -60,7 +82,11 @@ export default async function Page({
               </div>
             </div>
           </CardContent>
-          {data.event?.name && <FailureActions eventName={data.event?.name} />}
+          <CardFooter>
+            <Button link="/profile" variant="glass">
+              Back to Profile
+            </Button>
+          </CardFooter>
         </Card>
       </Plusbox>
     </div>

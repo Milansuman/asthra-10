@@ -100,6 +100,9 @@ export const errorList = {
 
 export const getTrpcError = (key: keyof typeof errorList, error?: Error) => {
   const currentError = errorList[key];
+
+  console.error('Error:', key, currentError, error);
+
   return new TRPCError({
     code: currentError?.code ?? 'INTERNAL_SERVER_ERROR',
     message: currentError?.message ?? 'Wrong Error found',

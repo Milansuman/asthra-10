@@ -2,11 +2,11 @@ import { verifySignature } from "@/logic/payment";
 import { api } from "@/trpc/server";
 import { z } from "zod";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import QRCode from "react-qr-code";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Plusbox from "@/components/madeup/box";
-import SuccessActions from "../../components/SuccessActions";
+import { Button } from "@/components/ui/button";
+import { triedAsync } from "@/lib/utils";
 
 
 const razorQueryZod = z.object({
@@ -41,74 +41,95 @@ export default async function Page({
     }
   }
 
-  const data = await api.sjcetPay.successPurchase({
+  const { isSuccess, data, error } = await triedAsync(api.sjcetPay.successPurchase({
     id: id,
-  });
+  }));
 
-
+  if (!isSuccess || !data) {
+    console.error(error);
+    return (
+      <div className="container h-screen flex items-center justify-center">
+        <Card>
+          <CardHeader className="p-6">
+            <CardTitle>
+              {error?.name ?? "Error"}
+            </CardTitle>
+            <CardDescription>
+              {error?.message ?? "Something went wrong!"}
+            </CardDescription>
+            <CardDescription>
+              Please contact the event organizer for further assistance.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    )
+  }
 
   return (
-    <div className="container h-screen flex items-center justify-center max-w-5xl">
+    <div className="container h-screen flex items-center justify-center max-w-3xl">
       <Plusbox className="p-2 w-fit">
         <Card>
           <CardHeader className="p-6">
             <CardTitle>
               ₹{data.transaction.amount} Payment Successful!
             </CardTitle>
-            <p className="text-md font-light italic">
-              Your <span className="font-semibold">{data.event?.name}</span> pass is
+            <CardDescription>
+              Your <span className="font-semibold">{data.event.name}</span> pass is
               locked and loaded!
-            </p>
+            </CardDescription>
           </CardHeader>
           <CardContent className="pt-8 pb-6 px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="">
               <div className="space-y-5">
-                <Plusbox className="p-2">
+                <Plusbox className="p-2 w-fit">
                   <div className="flex gap-2 flex-row">
                     <Image
                       width={80}
                       height={100}
-                      src={data.event?.poster || "/assets/poster.png"}
-                      alt={data.event?.name ?? "Asthra Event"}
+                      src={data.event.poster || "/assets/poster.png"}
+                      alt={data.event.name ?? "Asthra Event"}
                     />
                     <div>
-                      <h4>{data.event?.name}</h4>
+                      <h4>{data.event.name}</h4>
+                      <p>{data.event.id}</p>
+                      <p>{data.event.secret}</p>
                     </div>
                   </div>
                 </Plusbox>
                 <div className="space-y-3 text-sm font-medium">
                   <p className="flex flex-col">
                     <span className="text-xs uppercase tracking-wider">Launch Zone</span>
-                    <span className="text-lg font-semibold">{data.event?.venue}</span>
+                    <span className="text-lg font-semibold">{data.event.venue}</span>
                   </p>
                   <p className="flex flex-col">
                     <span className="text-xs uppercase tracking-wider">Blast-Off</span>
                     <span className="text-lg font-semibold">
-                      {data.event?.dateTimeStarts &&
-                        new Date(data.event?.dateTimeStarts).toLocaleString()} –{" "}
-                      <span className="italic">Runs {data.event?.dateTimeEnd}</span>
+                      {data.event.dateTimeStarts &&
+                        new Date(data.event.dateTimeStarts).toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })} –{" "}
+                      <span className="italic">Runs {data.event.dateTimeEnd}</span>
                     </span>
                   </p>
                   <p className="text-md font-light leading-relaxed">
                     Welcome aboard! Your journey kicks off now – brace for an epic
-                    ride! Your {data.event?.name} pass has been sent to your email –
+                    ride! Your {data.event.name} pass has been sent to your email –
                     check your inbox!
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-6">
-                <div className="p-4 bg-white">
-                  <QRCode
-                    size={160}
-                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                    value={data.event?.id || ""}
-                    viewBox="0 0 256 256"
-                  />
-                </div>
-              </div>
+
             </div>
           </CardContent>
-          {data.event?.name && <SuccessActions eventName={data.event.name} />}
+          <CardFooter className="justify-between">
+            <Button
+              link={`/event/${data.event.id}`} variant="glass"
+            >
+              Show Ticket
+            </Button>
+            <Button link={"/profile"} variant="glass">
+              Back to Profile
+            </Button>
+          </CardFooter>
         </Card>
       </Plusbox>
     </div>
