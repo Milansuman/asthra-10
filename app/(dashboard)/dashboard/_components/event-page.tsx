@@ -273,7 +273,7 @@ function EventCard({
         src={event.poster ?? '/sjcet/1.jpeg'}
         width={400}
         height={400}
-        alt={event.name!}
+        alt={event.name ?? "poster"}
         className="w-full aspect-square rounded-t-md"
       />
       <CardContent>
