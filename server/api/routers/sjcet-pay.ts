@@ -132,8 +132,9 @@ export const sjcetPaymentRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async (tx) => {
-        const transactiondata = await tx
+      let isASTHRA = false;
+      const returnData = await ctx.db.transaction(async (tx) => {
+        const transactionData = await tx
           .update(transactionsTable)
           .set({ status: 'success' })
           .where(
@@ -145,30 +146,26 @@ export const sjcetPaymentRouter = createTRPCRouter({
           )
           .returning();
 
-        if (transactiondata.length === 0 || !transactiondata[0]) {
-          const transactiondata = await tx.query.transactionsTable.findFirst({
+        if (transactionData.length === 0 || !transactionData[0]) {
+          const newTransaction = await tx.query.transactionsTable.findFirst({
             where: and(
               eq(transactionsTable.orderId, input.orderId),
               eq(transactionsTable.userId, ctx.user.id)
             ),
           });
 
-          if (transactiondata) {
-            if (transactiondata.status === 'success')
+          if (newTransaction) {
+            if (newTransaction.status === 'success')
               throw getTrpcError('ALREADY_PURCHASED');
 
-            if (transactiondata.status === 'failed')
+            if (newTransaction.status === 'failed')
               throw getTrpcError('TRANSACTION_FAILED');
           }
 
           throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
 
-        const currentTransation = transactiondata[0];
-
-        tx.update(referalsTable)
-          .set({ status: true })
-          .where(eq(referalsTable.transactionId, currentTransation.id));
+        const currentTransation = transactionData[0];
 
         const ure = await tx
           .insert(userRegisteredEventTable)
@@ -204,30 +201,37 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
-          MailAPI.asthraPass({
-            transactions: currentTransation,
-            user: ctx.user,
-            userRegisteredEvent: ure[0],
-            to: ctx.user.email,
-          });
+          isASTHRA = true;
         } else {
-          
-          MailAPI.purchaseConfirm({
-            event: eventData[0],
-            user: ctx.user,
-            transactions: currentTransation,
-            to: ctx.user.email,
-            userRegisteredEvent: ure[0],
-          });
-          
+          isASTHRA = false;
         }
 
         return {
           event: eventData[0],
           transaction: currentTransation,
           status: currentTransation.status,
+          userRegisteredEvent: ure[0],
         };
       });
+
+      if (isASTHRA) {
+        await MailAPI.asthraPass({
+          transactions: returnData.transaction,
+          user: ctx.user,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+          to: ctx.user.email,
+        });
+      } else {
+        await MailAPI.purchaseConfirm({
+          event: returnData.event,
+          user: ctx.user,
+          transactions: returnData.transaction,
+          to: ctx.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+        });
+      }
+
+      return returnData;
     }),
 
   failedPurchase: protectedProcedure
@@ -349,7 +353,6 @@ export const sjcetPaymentRouter = createTRPCRouter({
             userRegisteredEvent: ure[0],
           });
         } else {
-          /**
           await MailAPI.purchaseConfirm({
             event: eventData[0],
             user: userData as UserZodType,
@@ -357,7 +360,6 @@ export const sjcetPaymentRouter = createTRPCRouter({
             to: userData.email,
             userRegisteredEvent: ure[0],
           });
-          **/
         }
 
         return {
