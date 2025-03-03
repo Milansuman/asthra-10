@@ -147,13 +147,13 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                         <PaymentButton event={event} />
                     </CardFooter>
 
-                    {event.eventType !== "WORKSHOP" && <Button disabled size={"thin"} variant={"glass"} className="w-full overflow-hidden text-wrap min-h-10 h-fit border-x-0 border-b-0">
+                    {event.eventType === "ASTHRA_PASS_EVENT" || event.eventType === "ASTHRA_PASS" && <Button disabled size={"thin"} variant={"glass"} className="w-full overflow-hidden text-wrap min-h-10 h-fit border-x-0 border-b-0">
                         NB: This event is strictly for outside SJCET campus students <InfoIcon />
                     </Button>}
                 </Card>
 
-                {(!event.secret || event.secret !== "") && <Button disabled size={"thin"} variant={"glass"} className="w-full overflow-hidden text-wrap min-h-10 h-fit">
-                    Complete details now, then come back to see special message for participants.
+                {<Button disabled size={"thin"} variant={"glass"} className="w-full overflow-hidden text-wrap min-h-10 h-fit">
+                    Complete Purchase now, then come back her to view ticket confirmation and special message for participants.
                     <AlertCircle />
                 </Button>}
                 <Button size={"thin"} variant={"glass"} link={`/events?department=${event.department}`} className="w-full overflow-hidden text-wrap min-h-10 h-fit">

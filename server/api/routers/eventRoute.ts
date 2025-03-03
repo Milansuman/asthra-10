@@ -162,6 +162,18 @@ export const eventRouter = createTRPCRouter({
       });
     }),
 
+  getLatestCached: publicProcedure
+    .input(z.number().optional())
+    .query(async ({ ctx, input }) => {
+      return await cache.run('events', () =>
+        ctx.db.query.eventsTable.findMany({
+          where: eq(eventsTable.eventStatus, 'approved'),
+          orderBy: (events, { desc }) => [desc(events.createdAt)],
+          limit: input,
+        })
+      );
+    }),
+
   getGeneral: publicProcedure
     .input(z.number().optional())
     .query(({ ctx, input }) => {
