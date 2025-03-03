@@ -72,7 +72,7 @@ export default function Dock({
         <>
             <button
                 type="button"
-                className="md:hidden fixed bottom-4 right-4 z-10 bg-glass p-2 rounded-full"
+                className="md:hidden fixed bottom-4 left-4 z-10 bg-glass p-2 rounded-full"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <Menu size={36} className="text-glass-foreground" />
@@ -112,7 +112,7 @@ export default function Dock({
                     </motion.div>
                 )}
             </AnimatePresence>
-            <div className="hidden md:block fixed z-20 sm:left-auto left-0 sm:overflow-x-auto p-2 no-scrollbar overflow-y-hidden overflow-x-scroll bottom-[6px] right-[6px] w-auto">
+            <div className="hidden md:block fixed z-20 left-1/2 -translate-x-1/2 sm:overflow-x-auto p-2 no-scrollbar overflow-hidden bottom-[6px] w-auto">
                 <Plusbox className="w-max">
                     <motion.div
                         className={`${className} bg-glass text-glass-foreground flex items-end w-max gap-4 py-0 px-3`}
