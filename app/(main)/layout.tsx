@@ -16,7 +16,7 @@ const Items: DockItemData[] = [
   },
   {
     link: "/events",
-    label: "Workshops & Events",
+    label: "All Events",
   },
   {
     link: "/profile",

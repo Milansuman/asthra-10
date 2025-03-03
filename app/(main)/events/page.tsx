@@ -84,8 +84,10 @@ function Page() {
     additionalCategories.push("CANCELLED");
   }
 
+  additionalCategories.push("OTHER");
+
   const categories = ["ALL"].concat(
-    [...new Set(data.map((event) => event.eventType as string))]
+    [...new Set(data.filter((event) => event.eventType !== "COMPETITION").map((event) => event.eventType as string))]
       .concat(additionalCategories)
       .filter((et) => et !== "ASTHRA_PASS"),
   );
