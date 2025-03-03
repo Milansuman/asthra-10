@@ -91,7 +91,7 @@ function EventContent() {
   }
 
   const categories: string[] = ['ALL'].concat(
-    [...new Set(events.map((event) => event.eventType as string))]
+    [...new Set(events.filter((event) => event.eventType !== "COMPETITION").map((event) => event.eventType as string))]
       .concat(additionalCategories)
       .filter((et) => et !== 'ASTHRA_PASS')
   );
