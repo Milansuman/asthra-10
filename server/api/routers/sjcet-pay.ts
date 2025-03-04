@@ -289,10 +289,8 @@ export const sjcetPaymentRouter = createTRPCRouter({
             status: 'success',
           })
           .where(
-            and(
-              eq(transactionsTable.orderId, input.orderId),
-              eq(transactionsTable.status, 'initiated')
-            )
+            eq(transactionsTable.orderId, input.orderId)
+            // eq(transactionsTable.status, 'initiated')
           )
           .returning();
 
@@ -397,10 +395,8 @@ export const sjcetPaymentRouter = createTRPCRouter({
             orderId: input.orderId,
           })
           .where(
-            and(
-              eq(transactionsTable.id, input.id),
-              eq(transactionsTable.status, 'initiated')
-            )
+            eq(transactionsTable.id, input.id)
+            // eq(transactionsTable.status, 'initiated')
           )
           .returning();
 
