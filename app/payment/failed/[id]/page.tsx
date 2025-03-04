@@ -4,6 +4,7 @@ import Image from "next/image";
 import Plusbox from "@/components/madeup/box";
 import { triedAsync } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import ReportButton from "../../_components/ReportButton";
 
 export default async function Page({
   params,
@@ -15,6 +16,8 @@ export default async function Page({
   const { isSuccess, data, error } = await triedAsync(api.sjcetPay.failedPurchase({
     orderId: id,
   }));
+
+
 
   if (!isSuccess || !data) {
     console.error(error);
@@ -32,6 +35,17 @@ export default async function Page({
               Please contact the event organizer for further assistance.
             </CardDescription>
           </CardHeader>
+          <CardFooter>
+            <Button
+              link={`https://api.whatsapp.com/send?phone=+919846101882&text=${encodeURIComponent(
+                `Hi Team, 
+                   I recently attempted to book my pass for Asthra 2025, but some error occured. Could you please check this for me at the earliest? I’d love to be a part of the event. Looking forward to your support. Thanks!`
+              )}`}
+              variant="glass"
+            >
+              Report Issue
+            </Button>
+          </CardFooter>
         </Card>
       </div>
     )
@@ -69,6 +83,9 @@ export default async function Page({
                     Mission aborted! Payment didn’t go through – no worries, hit retry
                     and secure your {data.event?.name} spot!
                   </p>
+                  <p>
+
+                  </p>
                 </div>
               </div>
 
@@ -86,6 +103,7 @@ export default async function Page({
             <Button link="/profile" variant="glass">
               Back to Profile
             </Button>
+            <ReportButton data={data} />
           </CardFooter>
         </Card>
       </Plusbox>
