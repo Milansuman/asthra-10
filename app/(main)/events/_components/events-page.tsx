@@ -119,7 +119,7 @@ export function EventPage({
             <div className="w-full flex flex-col gap-4 justify-center">
                 {isMobileDevice() ? (
                     <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
-                        <SelectTrigger className="w-[380px] self-center">
+                        <SelectTrigger className="w-[380px] self-center text-left">
                             <SelectValue placeholder="Category" />
                         </SelectTrigger>
                         <SelectContent className="w-[380px]">
@@ -170,7 +170,7 @@ export function EventPage({
                 )}
 
                 <Select onValueChange={(selectedDepartment) => setDepartment(selectedDepartment)}>
-                    <SelectTrigger className="w-[380px] self-center">
+                    <SelectTrigger className="w-[380px] self-center text-left">
                         <SelectValue placeholder="Department" />
                     </SelectTrigger>
                     <SelectContent className="w-[380px]">
