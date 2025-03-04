@@ -4,8 +4,7 @@ import Image from "next/image";
 import Plusbox from "@/components/madeup/box";
 import { triedAsync } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { authOptions, getServerAuthSession } from "@/server/auth";
-import { useSession } from "next-auth/react";
+import { getServerAuthSession } from "@/server/auth";
 
 export default async function Page({
   params,
