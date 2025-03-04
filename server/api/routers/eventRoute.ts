@@ -18,7 +18,11 @@ import {
 } from '@/server/db/schema';
 import { Decrement, Increment, getTrpcError } from '@/server/db/utils';
 
-import { eventEditAccessZod, eventZod, UserZodType } from '@/lib/validator';
+import {
+  eventEditAccessZod,
+  eventZod,
+  type UserZodType,
+} from '@/lib/validator';
 import { api } from '@/trpc/vanila';
 import { cache } from '@/server/cache';
 import { getTimeUtils } from '@/logic';

@@ -153,7 +153,7 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                 </Card>
 
                 {<Button disabled size={"thin"} variant={"glass"} className="w-full overflow-hidden text-wrap min-h-10 h-fit">
-                    Complete Purchase now, then come back her to view ticket confirmation and special message for participants.
+                    Complete Purchase now, then come back here to view ticket confirmation and special message for participants.
                     <AlertCircle />
                 </Button>}
                 <Button size={"thin"} variant={"glass"} link={`/events?department=${event.department}`} className="w-full overflow-hidden text-wrap min-h-10 h-fit">

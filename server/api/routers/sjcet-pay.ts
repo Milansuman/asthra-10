@@ -31,22 +31,21 @@ import { createOrder } from '@/logic/payment';
 export const sjcetPaymentRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
     .input(
-      z.object({
-        eventId: eventZod.shape.id,
-        referral: z.string().max(50).optional(),
+      eventZod.pick({
+        id: true,
       })
     )
 
     .query(async ({ ctx, input }) => {
       const userData = ctx.user;
 
-      if (userData.asthraPass && input.eventId === ASTHRA.id) {
+      if (userData.asthraPass && input.id === ASTHRA.id) {
         throw getTrpcError('ALREADY_PURCHASED');
       }
 
       const workshop = await ctx.db.query.eventsTable.findFirst({
         where: and(
-          eq(eventsTable.id, input.eventId),
+          eq(eventsTable.id, input.id),
           ne(eventsTable.eventType, 'ASTHRA_PASS_EVENT')
         ),
       });
@@ -104,14 +103,6 @@ export const sjcetPaymentRouter = createTRPCRouter({
           .insert(transactionsTable)
           .values({ ...insertTransaction })
           .returning();
-
-        if (input.referral) {
-          tx.insert(referalsTable).values({
-            id: uuid(),
-            referralCode: input.referral,
-            transactionId: transactionId,
-          });
-        }
 
         if (!finalData.length || !finalData[0]) {
           throw getTrpcError('TRANSACTION_NOT_FOUND');
