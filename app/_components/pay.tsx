@@ -132,7 +132,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
             <Dialog>
                 <DialogTrigger asChild>
                     <Button size={"glass"} variant={"glass"}>
-                        Show Secret Message
+                        Show Message for Participants
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
