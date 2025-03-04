@@ -96,7 +96,7 @@ export function FAQ() {
                         <a href="https://www.instagram.com/asthra_sjcet?igsh=MWM3YWhwcjRhNXhpOQ==">@asthra_sject</a>
                     </div>
                     <div className="flex gap-4">
-                        <Image src={'/images/linkedin.svg'} width={25} height={25} />
+                        <Image src={'/images/linkedin.svg'} width={25} height={25} alt="asthra-linkedin" />
 
                         <a href="https://www.linkedin.com/showcase/asthra-sjcet">asthra-sjcet</a>
                     </div>

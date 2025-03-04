@@ -69,6 +69,9 @@ export default async function Page({
                     Mission aborted! Payment didn’t go through – no worries, hit retry
                     and secure your {data.event?.name} spot!
                   </p>
+                  <p>
+
+                  </p>
                 </div>
               </div>
 
@@ -85,6 +88,23 @@ export default async function Page({
           <CardFooter>
             <Button link="/profile" variant="glass">
               Back to Profile
+            </Button>
+            <Button
+              link={`https://api.whatsapp.com/send?phone=+919846101882&text=${encodeURIComponent(
+                `Hi Team, 
+                   I recently attempted to book my pass for ${data.transaction.eventName}, but my payment didn’t go through. 
+                                           Here are my details for reference:  
+                                           🔹 Event Name: ${data.transaction.eventName}  
+                                           🔹 Event ID: ${data.transaction.eventId}  
+                                           🔹 Transaction ID: ${data.transaction.orderId}  
+                                           🔹 Username: ${data.transaction.userName}  
+                                           🔹 Order ID: ${data.transaction.orderId}  
+                   Could you please check this for me at the earliest? I’d love to be a part of the event. Looking forward to your support.  
+                                           Thanks!`
+              )}`}
+              variant="glass"
+            >
+              Report Payment Issue
             </Button>
           </CardFooter>
         </Card>
