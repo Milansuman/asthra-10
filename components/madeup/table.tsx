@@ -64,10 +64,10 @@ export function DataTable<T>({ data, columns }: { data: T[], columns: ColumnDef<
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter eventNames..."
-                    value={(table.getColumn("eventName")?.getFilterValue() as string) ?? ""}
+                    placeholder="Filter orderid..."
+                    value={(table.getColumn("orderId")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("eventName")?.setFilterValue(event.target.value)
+                        table.getColumn("orderId")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />

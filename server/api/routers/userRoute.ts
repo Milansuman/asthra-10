@@ -197,25 +197,25 @@ export const userRouter = createTRPCRouter({
   }),
 
   getRegisteredEventList: validUserOnlyProcedure.query(async ({ ctx }) => {
-    // return await ctx.db
-    //   .select()
-    //   .from(userRegisteredEventTable)
-    //   .leftJoin(
-    //     eventsTable,
-    //     eq(userRegisteredEventTable.eventId, eventsTable.id)
-    //   )
-    //   .where(eq(userRegisteredEventTable.userId, ctx.session.user.id));
+    return await ctx.db
+      .select()
+      .from(userRegisteredEventTable)
+      .leftJoin(
+        eventsTable,
+        eq(userRegisteredEventTable.eventId, eventsTable.id)
+      )
+      .where(eq(userRegisteredEventTable.userId, ctx.session.user.id));
 
-    return await ctx.db.query.userRegisteredEventTable.findMany({
-      where: eq(userRegisteredEventTable.userId, ctx.session.user.id),
-      // with: {
-      //   event: {
-      //     columns: {
-      //       name: true,
-      //     },
-      //   },
-      // },
-    });
+    // return await ctx.db.query.userRegisteredEventTable.findMany({
+    //   where: eq(userRegisteredEventTable.userId, ctx.session.user.id),
+    //   // with: {
+    //   //   event: {
+    //   //     columns: {
+    //   //       name: true,
+    //   //     },
+    //   //   },
+    //   // },
+    // });
   }),
 
   isRegisteredThisEvent: validUserOnlyProcedure

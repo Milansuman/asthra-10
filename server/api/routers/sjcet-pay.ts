@@ -31,22 +31,21 @@ import { createOrder } from '@/logic/payment';
 export const sjcetPaymentRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
     .input(
-      z.object({
-        eventId: eventZod.shape.id,
-        referral: z.string().max(50).optional(),
+      eventZod.pick({
+        id: true,
       })
     )
 
     .query(async ({ ctx, input }) => {
       const userData = ctx.user;
 
-      if (userData.asthraPass && input.eventId === ASTHRA.id) {
+      if (userData.asthraPass && input.id === ASTHRA.id) {
         throw getTrpcError('ALREADY_PURCHASED');
       }
 
       const workshop = await ctx.db.query.eventsTable.findFirst({
         where: and(
-          eq(eventsTable.id, input.eventId),
+          eq(eventsTable.id, input.id),
           ne(eventsTable.eventType, 'ASTHRA_PASS_EVENT')
         ),
       });
@@ -104,14 +103,6 @@ export const sjcetPaymentRouter = createTRPCRouter({
           .insert(transactionsTable)
           .values({ ...insertTransaction })
           .returning();
-
-        if (input.referral) {
-          tx.insert(referalsTable).values({
-            id: uuid(),
-            referralCode: input.referral,
-            transactionId: transactionId,
-          });
-        }
 
         if (!finalData.length || !finalData[0]) {
           throw getTrpcError('TRANSACTION_NOT_FOUND');
@@ -276,23 +267,21 @@ export const sjcetPaymentRouter = createTRPCRouter({
   forceSuccessPurchase: frontDeskProcedure
     .input(
       transactionsZod.pick({
-        id: true,
         orderId: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async (tx) => {
+      let isASTHRA = false;
+
+      const returnData = await ctx.db.transaction(async (tx) => {
         const currentTransation = await tx
           .update(transactionsTable)
           .set({
             status: 'success',
-            orderId: input.orderId,
           })
           .where(
-            and(
-              eq(transactionsTable.id, input.id),
-              eq(transactionsTable.status, 'initiated')
-            )
+            eq(transactionsTable.orderId, input.orderId)
+            // eq(transactionsTable.status, 'initiated')
           )
           .returning();
 
@@ -346,27 +335,144 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, userData.id), eq(user.asthraPass, false)));
 
-          await MailAPI.asthraPass({
-            user: userData as UserZodType,
-            transactions: transactionData,
-            to: userData.email,
-            userRegisteredEvent: ure[0],
-          });
-        } else {          
-          await MailAPI.purchaseConfirm({
-            event: eventData[0],
-            user: userData as UserZodType,
-            transactions: transactionData,
-            to: userData.email,
-            userRegisteredEvent: ure[0],
-          });
+          isASTHRA = true;
+        } else {
+          isASTHRA = false;
         }
 
         return {
           transaction: transactionData,
           status: transactionData.status,
+          event: eventData[0],
+          userRegisteredEvent: ure[0],
+          user: userData,
         };
       });
+
+      if (isASTHRA) {
+        await MailAPI.asthraPass({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+        });
+      } else {
+        await MailAPI.purchaseConfirm({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+          event: returnData.event,
+        });
+      }
+
+      return returnData;
+    }),
+  spotForceSuccess: frontDeskProcedure
+    .input(
+      transactionsZod.pick({
+        id: true,
+        orderId: true,
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      let isASTHRA = false;
+
+      const returnData = await ctx.db.transaction(async (tx) => {
+        const currentTransation = await tx
+          .update(transactionsTable)
+          .set({
+            status: 'success',
+            orderId: input.orderId,
+          })
+          .where(
+            eq(transactionsTable.id, input.id)
+            // eq(transactionsTable.status, 'initiated')
+          )
+          .returning();
+
+        if (currentTransation.length === 0 || !currentTransation[0]) {
+          throw getTrpcError('TRANSACTION_NOT_FOUND');
+        }
+
+        const transactionData = currentTransation[0];
+
+        const eventData = await tx
+          .update(eventsTable)
+          .set({
+            regCount: Increment(eventsTable.regCount, 1),
+          })
+          .where(eq(eventsTable.id, transactionData.eventId))
+          .returning();
+
+        const ure = await tx
+          .insert(userRegisteredEventTable)
+          .values({
+            eventId: transactionData.eventId,
+            transactionId: transactionData.id,
+            userId: transactionData.userId,
+            remark: `Forced Success on ${getTimeUtils(new Date())}`,
+          })
+          .returning();
+
+        const userData = await tx.query.user.findFirst({
+          where: eq(user.id, transactionData.userId),
+        });
+
+        if (eventData.length === 0 || !eventData[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (ure.length === 0 || !ure[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (!userData) {
+          throw getTrpcError('USER_NOT_FOUND');
+        }
+
+        if (transactionData.eventId === ASTHRA.id) {
+          await tx
+            .update(user)
+            .set({
+              asthraPass: true,
+              asthraCredit: ASTHRA.credit,
+              transactionId: transactionData.id,
+            })
+            .where(and(eq(user.id, userData.id), eq(user.asthraPass, false)));
+
+          isASTHRA = true;
+        } else {
+          isASTHRA = false;
+        }
+
+        return {
+          transaction: transactionData,
+          status: transactionData.status,
+          event: eventData[0],
+          userRegisteredEvent: ure[0],
+          user: userData,
+        };
+      });
+
+      if (isASTHRA) {
+        await MailAPI.asthraPass({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+        });
+      } else {
+        await MailAPI.purchaseConfirm({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+          event: returnData.event,
+        });
+      }
+
+      return returnData;
     }),
 
   getAllTransactions: validUserOnlyProcedure.query(async ({ ctx }) => {

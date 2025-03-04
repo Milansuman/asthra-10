@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog"
 
 export default function Page() {
-  const { isPending, mutateAsync } = api.sjcetPay.forceSuccessPurchase.useMutation({
+  const { isPending, mutateAsync, isSuccess: forceSuccess } = api.sjcetPay.spotForceSuccess.useMutation({
     onSuccess: () => {
       toast('Payment Success')
     },
@@ -64,6 +64,9 @@ export default function Page() {
               <DialogHeader>
                 <DialogTitle>Scan the QR</DialogTitle>
               </DialogHeader>
+              <DialogDescription>
+                {isPending ? "Forcing" : forceSuccess ? "Payment Success" : "Payment Failed"}
+              </DialogDescription>
               <div className='w-96 aspect-square'>
                 <Scanner
                   formats={

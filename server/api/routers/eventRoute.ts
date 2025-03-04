@@ -18,10 +18,15 @@ import {
 } from '@/server/db/schema';
 import { Decrement, Increment, getTrpcError } from '@/server/db/utils';
 
-import { eventEditAccessZod, eventZod } from '@/lib/validator';
+import {
+  eventEditAccessZod,
+  eventZod,
+  type UserZodType,
+} from '@/lib/validator';
 import { api } from '@/trpc/vanila';
 import { cache } from '@/server/cache';
 import { getTimeUtils } from '@/logic';
+import MailAPI from './mail';
 
 export const eventRouter = createTRPCRouter({
   /**
@@ -276,7 +281,7 @@ export const eventRouter = createTRPCRouter({
   registerEvent: validUserOnlyProcedure
     .input(eventZod.pick({ id: true }))
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async (tx) => {
+      const returnData = await ctx.db.transaction(async (tx) => {
         const eventData = await tx.query.eventsTable.findFirst({
           where: eq(eventsTable.id, input.id),
         });
@@ -346,18 +351,22 @@ export const eventRouter = createTRPCRouter({
           throw getTrpcError('EVENT_NOT_FOUND');
         }
 
-        // await api.mail.eventConfirm.query({
-        //   event: updatedEventData[0],
-        //   user: ctx.user,
-        //   userRegisteredEvent: ure[0],
-        //   to: ctx.user.email,
-        // });
-
         return {
           event: updatedEventData[0],
           transactionId: ctx.user.transactionId,
           status: 'success',
+          user: ctx.user,
+          userRegisteredEvent: ure[0],
         };
       });
+
+      await MailAPI.EventConfirm({
+        event: returnData.event,
+        user: returnData.user as UserZodType,
+        to: returnData.user.email,
+        userRegisteredEvent: returnData.userRegisteredEvent,
+      });
+
+      return returnData;
     }),
 });

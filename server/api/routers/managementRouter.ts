@@ -7,7 +7,7 @@ import {
   userRegisteredEventTable,
 } from '@/server/db/schema';
 
-import { userZod, verifyPassZod } from '@/lib/validator';
+import { transactionsZod, userZod, verifyPassZod } from '@/lib/validator';
 import { getTrpcError } from '@/server/db/utils';
 
 export const managementRouter = createTRPCRouter({
@@ -33,6 +33,30 @@ export const managementRouter = createTRPCRouter({
       return {
         user: userData,
         transactions: transactionsData,
+      };
+    }),
+  getOrderAndUser: coordinatorProcedure
+    .input(
+      transactionsZod.pick({
+        orderId: true,
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const transactionsData = await ctx.db.query.transactionsTable.findFirst({
+        where: eq(transactionsTable.orderId, input.orderId),
+      });
+
+      if (!transactionsData) throw getTrpcError('TRANSACTION_NOT_FOUND');
+
+      const userData = await ctx.db.query.user.findFirst({
+        where: eq(user.id, transactionsData.userId),
+      });
+
+      if (!userData) throw getTrpcError('USER_NOT_FOUND');
+
+      return {
+        user: userData,
+        transactions: [transactionsData],
       };
     }),
 });

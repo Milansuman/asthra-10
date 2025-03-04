@@ -19,8 +19,9 @@ import { DataTable } from '@/components/madeup/table';
 
 export default function Page() {
   const [email, setEmail] = useState('')
+  const [orderId, setOrderId] = useState('')
   return (
-    <div className="container min-h-screen flex flex-col justify-center items-center">
+    <div className="container h-screen flex flex-col justify-center items-center">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -37,14 +38,20 @@ export default function Page() {
             className='h-16 md:text-xl'
             onChange={(e) => setEmail(e.target.value)}
           />
+          <Input
+            placeholder='OrderId ID'
+            value={orderId}
+            className='h-16 md:text-xl'
+            onChange={(e) => setOrderId(e.target.value)}
+          />
         </CardContent>
         <CardFooter>
           <Dialog>
             <DialogTrigger>
               <Button>Search</Button>
             </DialogTrigger>
-            <DialogContent className='max-w-screen'>
-              <DialogCard email={email} />
+            <DialogContent className='max-w-screen h-screen'>
+              <DialogCard orderId={orderId} email={email} />
             </DialogContent>
           </Dialog>
         </CardFooter>
@@ -53,18 +60,57 @@ export default function Page() {
   )
 }
 
-const DialogCard = ({ email }: { email: string }) => {
+const DialogCard = ({ email, orderId }: { email: string, orderId: string }) => {
   return (
     <>
       <DialogHeader>
         <DialogTitle>Transactions</DialogTitle>
       </DialogHeader>
-      <SuccessCard email={email} />
+      {email && email.length > 0 && <SuccessCardEmail email={email} />}
+      {orderId && orderId.length > 0 && <SuccessCardOrder orderId={orderId} />}
     </>
   );
 }
 
-function SuccessCard({ email }: { email: string }) {
+function SuccessCardOrder({ orderId }: { orderId: string }) {
+  const { data, isLoading, error, refetch } = api.management.getOrderAndUser.useQuery({
+    orderId
+  })
+
+  const { isPending, mutateAsync, data: paymentSuccess } = api.sjcetPay.forceSuccessPurchase.useMutation({
+    onSuccess: () => {
+      toast('Payment Success')
+      refetch()
+    },
+    onError: (error) => {
+      toast.error(`Payment Failed - ${error.data?.code}`, {
+        description: error.message
+      })
+    }
+  });
+
+  if (isLoading) return ("loading")
+  if (isPending) return ("force successing")
+
+  if (!data || error) return "Not Found"
+
+  return (
+    <>
+      <CardDescription>
+        {JSON.stringify(data.user, null, 2)}
+      </CardDescription>
+      {paymentSuccess && <CardDescription>
+        {JSON.stringify(paymentSuccess, null, 2)}
+      </CardDescription>}
+      <CardContent className='max-h-screen overflow-y-scroll'>
+        <DataTable data={data.transactions} columns={
+          columns((id) => mutateAsync({ orderId: id }))
+        } />
+      </CardContent>
+    </>
+  )
+}
+function SuccessCardEmail({ email }: { email: string }) {
   const { data, isLoading, error, refetch } = api.management.getUserAndOrders.useQuery({
     email
   })
@@ -96,7 +142,7 @@ function SuccessCard({ email }: { email: string }) {
       </CardDescription>}
       <CardContent className='max-h-screen overflow-y-scroll'>
         <DataTable data={data.transactions} columns={
-          columns((id) => mutateAsync({ id, orderId: id }))
+          columns((id) => mutateAsync({ orderId: id }))
         } />
       </CardContent>
     </>

@@ -4,6 +4,7 @@ import Footer from '@/components/madeup/footer';
 import { SplineViewer } from '@/components/madeup/spline-viewer';
 import Dock, { type DockItemData } from '@/components/madeup/Dock';
 import { isMobileDevice } from '@/hooks/mobile';
+import { AsthraLoader } from '@/components/madeup/loading';
 
 const Items: DockItemData[] = [
   {
@@ -29,6 +30,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <>
       <div className="fixed top-0 left-0 h-screen w-screen -z-10">
@@ -47,6 +49,7 @@ export default function RootLayout({
           />}
       </div>
       <main className="relative overflow-y-auto h-screen">
+        <AsthraLoader />
         {children}
         <Footer />
       </main>

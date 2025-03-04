@@ -59,7 +59,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
   const [pdfUrl, setPdfUrl] = useState("");
   const { data, error, isLoading } = api.sjcetPay.initiatePurchase.useQuery(
     {
-      eventId,
+      id: eventId,
     },
     {
       refetchOnWindowFocus: false,

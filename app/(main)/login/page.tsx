@@ -8,11 +8,14 @@ import {
     CardTitle,
     CardDescription,
     CardContent,
+    CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { signIn, useSession } from "@/hooks/session";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const GOOGLE_SVG: React.FC = () => {
     return (
@@ -51,10 +54,18 @@ const GOOGLE_SVG: React.FC = () => {
 const LoginPage = () => {
     const router = useRouter();
     const { status } = useSession();
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
 
     if (status === "authenticated") {
         return router.push("/profile");
     }
+
+    const handleEmailLogin = async () => {
+        setLoading(true);
+        await signIn("email", { email, callbackUrl: "/profile" });
+        setLoading(false);
+    };
 
     return (
         <div className="flex justify-center items-center h-screen ">
@@ -77,23 +88,41 @@ const LoginPage = () => {
                         <CardDescription>
                             Join the adventure—complete your profile after signing up to personalize your Asthra experience!
                         </CardDescription>
-
-
+                        <Input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full"
+                        />
+                        <Button
+                            variant="glass"
+                            size="lg"
+                            onClick={handleEmailLogin}
+                            className="bg-primary/80"
+                            disabled={loading}
+                        >
+                            {loading ? "Sending..." : "Login with Email"}
+                        </Button>
+                        <CardDescription className="text-xs">
+                            Confirmation email will be sent to this address
+                            <br />
+                            Use your college email ID for a smoother experience
+                        </CardDescription>
+                    </CardContent>
+                    <CardFooter className="justify-center border-t relative before:-top-3 before:bg-white before:px-3 before:text-black before:content-['or'] before:absolute">
                         <Button
                             variant="glass"
                             size="lg"
                             onClick={() =>
                                 signIn("google", { callbackUrl: "/profile" })
                             }
-                            className="   bg-white text-gray-600 "
+                            className="bg-white text-gray-600"
                         >
                             <GOOGLE_SVG />
                             <span className="text-sm font-medium">Sign in with Google</span>
                         </Button>
-                        <CardDescription className="text-xs ">
-                            Use your college email ID for a smoother experience
-                        </CardDescription>
-                    </CardContent>
+                    </CardFooter>
                 </Card>
             </Plusbox>
         </div>
