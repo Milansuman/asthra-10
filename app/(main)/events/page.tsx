@@ -22,7 +22,7 @@ export default function Home() {
     <div className="w-full min-h-screen ambit p-2 flex flex-col gap-4 ">
       <div className='mt-20 w-full gap-3 flex flex-col justify-center items-center'>
         <img src='/asthra.svg' alt="SJCET Logo" className='w-64' />
-        <Plusbox className='relative p-2 border  border-white/20 w-auto'>
+        <Plusbox className='relative p-2 border border-white/20 w-auto'>
           <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
         </Plusbox>
       </div>

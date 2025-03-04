@@ -7,13 +7,9 @@ import { TextRotatingAnimation } from '@/components/madeup/text-animate';
 import { Button } from '@/components/ui/button';
 import WhatsApp from '@/components/icons/whatsapp';
 
-import { AsthraLoader } from '@/components/madeup/loading';
-
-
 export default function Page() {
   return (
     <main className="z-10 relative">
-      <AsthraLoader />
       <section className="grid min-h-screen grid-cols-1 md:grid-cols-3 gap-4 md:gap-0">
         <div className="col-span-1 flex items-center border border-glass p-8 md:col-span-2">
           <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
@@ -65,7 +61,7 @@ export default function Page() {
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             VISION
           </p>
-          <p className="ambit max-w-2xl px-4 text-center font-thin text-md md:text-xl lg:text-2xl">
+          <p className="ambit max-w-2xl px-4 text-center font-thin text-md md:text-xl lg:text-2xl text-balance">
             Developing into a world-class, pace-setting Institute of Engineering and Technology with distinct identity and character, meeting the goals and aspirations of the society.
           </p>
         </div>
@@ -75,7 +71,7 @@ export default function Page() {
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             MISSION
           </p>
-          <p className="ambit px-4 text-center font-thin text-md md:text-md">
+          <p className="ambit px-4 text-center font-thin text-md md:text-md text-balance">
             To maintain a conducive infrastructure and learning environment for world class education.
             To nurture a team of dedicated, competent and research oriented faculty.
             To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
