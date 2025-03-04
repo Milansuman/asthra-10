@@ -6,6 +6,7 @@ import {
 } from 'next-auth';
 import type { Adapter } from 'next-auth/adapters';
 import GoogleProvider, { type GoogleProfile } from 'next-auth/providers/google';
+import EmailProvider from 'next-auth/providers/email';
 
 import { env } from '@/env';
 import type { UserZodType } from '@/lib/validator';
@@ -67,6 +68,17 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: 'database' },
   adapter: CustomPgDrizzleAdapter(db) as Adapter,
   providers: [
+    EmailProvider({
+      server: {
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+          user: env.NM_EMAIL,
+          pass: env.NM_PASS,
+        },
+      },
+      from: env.NM_EMAIL,
+    }),
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
