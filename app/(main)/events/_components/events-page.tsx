@@ -12,6 +12,7 @@ import { allDepartments } from '@/logic';
 import EventCard from '@/components/madeup/event-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Link from 'next/link';
+import { isMobileDevice } from '@/hooks/mobile';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -72,7 +73,7 @@ export function EventPage({
             // event.registrationType !== 'spot' &&
             event.eventStatus !== 'cancel' &&
             ["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4"].includes(event.id) &&
-            filter == "GENERAL"
+            filter === "GENERAL"
         ) {
             return true;
         }
@@ -106,7 +107,7 @@ export function EventPage({
             event.registrationType !== 'spot' &&
             event.eventStatus !== 'cancel' &&
             !(["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4", "95cea129-1752-4ddc-ab9a-d609e625b4cc"].includes(event.id)) &&
-            filter == "OTHER"
+            filter === "OTHER"
         ) {
             return true;
         }
@@ -116,43 +117,60 @@ export function EventPage({
     return (
         <>
             <div className="w-full flex flex-col gap-4 justify-center">
-                <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 bg-glass border border-glass overflow-auto scrollbar-none self-center">
-                    {categories.map((category) => (
-                        <div
-                            key={`${category}.div`}
-                            className="flex p-1"
-                            onClick={() => handleFilter(category)}
-                        >
-                            <motion.div
-                                key={category}
-                                initial={false}
-                                animate={{
-                                    color: filter === category ? '#111111' : '#ffffff',
-                                }}
-                                className="relative py-1 px-4"
+                {isMobileDevice() ? (
+                    <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
+                        <SelectTrigger className="w-[380px] self-center text-left">
+                            <SelectValue placeholder="Category" />
+                        </SelectTrigger>
+                        <SelectContent className="w-[380px]">
+                            {categories.map((category) => (
+                                <SelectItem value={category} key={category}>
+                                    {category.replaceAll('_', ' ').split(' ').map(word =>
+                                        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                                    ).join(' ')}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                ) : (
+                    <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 bg-glass border border-glass overflow-auto scrollbar-none self-center">
+                        {categories.map((category) => (
+                            <div
+                                key={`${category}.div`}
+                                className="flex p-1"
+                                onClick={() => handleFilter(category)}
                             >
-                                {filter === category && (
-                                    <motion.div
-                                        layoutId="pill_event"
-                                        transition={{
-                                            duration: 0.75,
-                                            type: 'tween',
-                                            ease: [0.76, 0, 0.24, 1],
-                                            delay: 0.2,
-                                        }}
-                                        className="absolute inset-0 bg-white"
-                                    />
-                                )}
-                                <span className="relative whitespace-nowrap">
-                                    {category.replaceAll('_', ' ')}
-                                </span>
-                            </motion.div>
-                        </div>
-                    ))}
-                </div>
+                                <motion.div
+                                    key={category}
+                                    initial={false}
+                                    animate={{
+                                        color: filter === category ? '#111111' : '#ffffff',
+                                    }}
+                                    className="relative py-1 px-4"
+                                >
+                                    {filter === category && (
+                                        <motion.div
+                                            layoutId="pill_event"
+                                            transition={{
+                                                duration: 0.75,
+                                                type: 'tween',
+                                                ease: [0.76, 0, 0.24, 1],
+                                                delay: 0.2,
+                                            }}
+                                            className="absolute inset-0 bg-white"
+                                        />
+                                    )}
+                                    <span className="relative whitespace-nowrap">
+                                        {category.replaceAll('_', ' ')}
+                                    </span>
+                                </motion.div>
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 <Select onValueChange={(selectedDepartment) => setDepartment(selectedDepartment)}>
-                    <SelectTrigger className="w-[380px] self-center">
+                    <SelectTrigger className="w-[380px] self-center text-left">
                         <SelectValue placeholder="Department" />
                     </SelectTrigger>
                     <SelectContent className="w-[380px]">
