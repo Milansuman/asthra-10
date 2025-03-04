@@ -5,6 +5,7 @@ import Image from "next/image";
 import Plusbox from "@/components/madeup/box";
 import { Button } from "@/components/ui/button";
 import { triedAsync } from "@/lib/utils";
+import { getTimeUtils } from "@/logic";
 
 
 // const razorQueryZod = z.object({
@@ -42,7 +43,7 @@ export default async function Page({
   // }
 
   const { isSuccess, data, error } = await triedAsync(api.sjcetPay.successPurchase({
-    id: id,
+    orderId: id,
   }));
 
   if (!isSuccess || !data) {
@@ -106,13 +107,13 @@ export default async function Page({
                     <span className="text-xs uppercase tracking-wider">Blast-Off</span>
                     <span className="text-lg font-semibold">
                       {data.event.dateTimeStarts &&
-                        new Date(data.event.dateTimeStarts).toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })} –{" "}
+                        getTimeUtils(data.event.dateTimeStarts)} -{" "}
                       <span className="italic">Runs {data.event.dateTimeEnd}</span>
                     </span>
                   </p>
                   <p className="text-md font-light leading-relaxed">
-                    Welcome aboard! Your journey kicks off now – brace for an epic
-                    ride! Your {data.event.name} pass has been sent to your email –
+                    Welcome aboard! Your journey kicks off now - brace for an epic
+                    ride! Your {data.event.name} pass has been sent to your email -
                     check your inbox!
                   </p>
                 </div>

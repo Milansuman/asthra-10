@@ -101,7 +101,18 @@ export const AsthraStartsAt = new Date(1741231800000);
  * */
 export const AsthraLastEditDay = new Date(1740996999000);
 
-// AsthraStartsAt.toLocaleString() "3/3/2025, 11:59:00 AM"
+export const getTimeUtils = (date: Date) => {
+  if (date instanceof Date) {
+    return date.toLocaleString('en-IN', {
+      timeZone: 'Asia/Calcutta',
+    });
+  }
+  return new Date(date).toLocaleString('en-IN', {
+    timeZone: 'Asia/Calcutta',
+  });
+};
+
+// console.log(getTimeUtils(AsthraStartsAt));
 
 /**
  * Venue example
