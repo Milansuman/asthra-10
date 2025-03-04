@@ -41,7 +41,7 @@ export default function Footer() {
               <p className="text-xs sm:text-sm md:text-base lg:text-xl">Ms. Sona Binu +91 85902 21705</p>
               <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 text-white" >For any web or payment related issues</h3>
               <p className="text-xs sm:text-sm md:text-base lg:text-xl">Mr. Rajat Sandeep +91 98461 01882</p>
-              <p className="text-xs sm:text-sm md:text-base lg:text-xl">Mr. Milan Suman +91 98461 01882</p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-xl">Mr. Milan Suman +91 89219 64884</p>
 
 
             </div>
