@@ -276,12 +276,120 @@ export const sjcetPaymentRouter = createTRPCRouter({
   forceSuccessPurchase: frontDeskProcedure
     .input(
       transactionsZod.pick({
+        orderId: true,
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      let isASTHRA = false;
+
+      const returnData = await ctx.db.transaction(async (tx) => {
+        const currentTransation = await tx
+          .update(transactionsTable)
+          .set({
+            status: 'success',
+          })
+          .where(
+            and(
+              eq(transactionsTable.orderId, input.orderId),
+              eq(transactionsTable.status, 'initiated')
+            )
+          )
+          .returning();
+
+        if (currentTransation.length === 0 || !currentTransation[0]) {
+          throw getTrpcError('TRANSACTION_NOT_FOUND');
+        }
+
+        const transactionData = currentTransation[0];
+
+        const eventData = await tx
+          .update(eventsTable)
+          .set({
+            regCount: Increment(eventsTable.regCount, 1),
+          })
+          .where(eq(eventsTable.id, transactionData.eventId))
+          .returning();
+
+        const ure = await tx
+          .insert(userRegisteredEventTable)
+          .values({
+            eventId: transactionData.eventId,
+            transactionId: transactionData.id,
+            userId: transactionData.userId,
+            remark: `Forced Success on ${getTimeUtils(new Date())}`,
+          })
+          .returning();
+
+        const userData = await tx.query.user.findFirst({
+          where: eq(user.id, transactionData.userId),
+        });
+
+        if (eventData.length === 0 || !eventData[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (ure.length === 0 || !ure[0]) {
+          throw getTrpcError('EVENT_NOT_FOUND');
+        }
+
+        if (!userData) {
+          throw getTrpcError('USER_NOT_FOUND');
+        }
+
+        if (transactionData.eventId === ASTHRA.id) {
+          await tx
+            .update(user)
+            .set({
+              asthraPass: true,
+              asthraCredit: ASTHRA.credit,
+              transactionId: transactionData.id,
+            })
+            .where(and(eq(user.id, userData.id), eq(user.asthraPass, false)));
+
+          isASTHRA = true;
+        } else {
+          isASTHRA = false;
+        }
+
+        return {
+          transaction: transactionData,
+          status: transactionData.status,
+          event: eventData[0],
+          userRegisteredEvent: ure[0],
+          user: userData,
+        };
+      });
+
+      if (isASTHRA) {
+        await MailAPI.asthraPass({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+        });
+      } else {
+        await MailAPI.purchaseConfirm({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+          event: returnData.event,
+        });
+      }
+
+      return returnData;
+    }),
+  spotForceSuccess: frontDeskProcedure
+    .input(
+      transactionsZod.pick({
         id: true,
         orderId: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async (tx) => {
+      let isASTHRA = false;
+
+      const returnData = await ctx.db.transaction(async (tx) => {
         const currentTransation = await tx
           .update(transactionsTable)
           .set({
@@ -346,27 +454,38 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, userData.id), eq(user.asthraPass, false)));
 
-          await MailAPI.asthraPass({
-            user: userData as UserZodType,
-            transactions: transactionData,
-            to: userData.email,
-            userRegisteredEvent: ure[0],
-          });
-        } else {          
-          await MailAPI.purchaseConfirm({
-            event: eventData[0],
-            user: userData as UserZodType,
-            transactions: transactionData,
-            to: userData.email,
-            userRegisteredEvent: ure[0],
-          });
+          isASTHRA = true;
+        } else {
+          isASTHRA = false;
         }
 
         return {
           transaction: transactionData,
           status: transactionData.status,
+          event: eventData[0],
+          userRegisteredEvent: ure[0],
+          user: userData,
         };
       });
+
+      if (isASTHRA) {
+        await MailAPI.asthraPass({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+        });
+      } else {
+        await MailAPI.purchaseConfirm({
+          user: returnData.user as UserZodType,
+          transactions: returnData.transaction,
+          to: returnData.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+          event: returnData.event,
+        });
+      }
+
+      return returnData;
     }),
 
   getAllTransactions: validUserOnlyProcedure.query(async ({ ctx }) => {

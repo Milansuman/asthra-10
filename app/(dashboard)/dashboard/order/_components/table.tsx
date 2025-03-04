@@ -19,7 +19,7 @@ import type { TransactionZodType } from "@/lib/validator"
 
 export type Payment = TransactionZodType
 
-export const columns = (forceSuccess: (id: string) => void) => [
+export const columns = (forceSuccess: (orderId: string) => void) => [
     {
         id: "select",
         header: ({ table }) => (
@@ -43,6 +43,13 @@ export const columns = (forceSuccess: (id: string) => void) => [
         enableHiding: false,
     },
     {
+        accessorKey: "orderId",
+        header: "OrderId",
+        cell: ({ row }) => (
+            <div>{row.getValue("orderId")}</div>
+        ),
+    },
+    {
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => (
@@ -52,7 +59,7 @@ export const columns = (forceSuccess: (id: string) => void) => [
     {
         accessorKey: "remark",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("remark")}</div>
+            <div>{row.getValue("remark")}</div>
         ),
         enableSorting: true,
         header: ({ column }) => {
@@ -127,13 +134,13 @@ export const columns = (forceSuccess: (id: string) => void) => [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => navigator.clipboard.writeText(payment.orderId)}
                         >
                             Copy payment ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                            onClick={() => forceSuccess(payment.id)}
+                            onClick={() => forceSuccess(payment.orderId)}
                         >
                             Success
                         </DropdownMenuItem>

@@ -165,6 +165,7 @@ export default function ProfilePage() {
 
             </DialogContent>
           </Dialog>
+
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="destructive">Sign Out</Button>
@@ -202,7 +203,10 @@ const ListOfEvents = () => {
 
   if (!data) return null
 
-  const listOfEvents = data;
+  const listOfEvents = data.map(e => ({
+    ...e.userRegisteredEvent,
+    name: e?.event?.name ?? "Unknown Event",
+  }));
 
   return (<>
     {
@@ -214,7 +218,7 @@ const ListOfEvents = () => {
               <TableBody>
                 {listOfEvents.map((event, i) => (
                   <TableRow key={event.eventId}>
-                    {/* <TableCell>{event.}</TableCell> */}
+                    <TableCell>{event.name}</TableCell>
                     <TableCell>{event.status}</TableCell>
                     <TableCell className="text-right">
                       <Dialog>
