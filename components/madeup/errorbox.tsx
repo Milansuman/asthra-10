@@ -34,7 +34,7 @@ const ErrorCard: React.FC<ErrorCardProps> = ({
 
     const handleReportError = () => {
         const userEmail = session?.user?.email || "Unknown User"
-        const message = `Error Report\n\nUser Email: ${userEmail}\nError: ${error.name} - ${error.message}\nStack: ${error.stack || 'No stack trace'}\nData:\n${formatJsonToText(data)}`
+        const message = `Error Report\n\nUser Email: ${userEmail}\nError: ${error.name} -\nData:\n${formatJsonToText(data)}`
         const encodedMessage = encodeURIComponent(message)
         const phoneNumber = "+919846101882"
         const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`
