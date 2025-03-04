@@ -43,7 +43,7 @@ export default function Page() {
         <div className="col-span-1 h-48 md:hidden" />
 
         <div className="col-span-1 flex items-center border border-glass p-8 bg-glass md:col-span-2">
-          <p className="ambit text-balance px-4 text-left font-extralight text-lg md:text-xl lg:text-2xl">
+          <p className="ambit text-balance px-4 font-extralight text-lg md:text-xl lg:text-2xl">
             ASTHRA, the national-level technical fest of St. Joseph's College of
             Engineering and Technology, Palai, is a premier inter-college event
             in Kerala. With 5,000+ annual visitors, it features professional
@@ -91,15 +91,14 @@ export default function Page() {
           </ul>
         </div>
         <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
-          <p className="ambit text-left font-thin  md:w-3/4 text-md md:text-xl lg:text-2xl  break-words ">
-            St. Joseph’s College of Engineering and Technology, Palai, established by the Diocesan
-            Technical Education Trust, is a premier institution offering quality technical education.
-            With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications,
-            it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness,
-            and innovative teaching methods, supported by state-of-the-art infrastructure and a dedicated faculty.
-            Its strong placement and training cell, along with skill development initiatives, ensure rewarding careers for students.
-            Recognized among Kerala’s top engineering colleges, SJCET is committed to continuous improvement, providing a world-class
-            learning experience.
+          <p className="ambit text-justify font-thin text-xl md:w-3/4 md:text-3xl md:my-14">
+            St. Joseph’s College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust,
+            is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs,
+            NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development.
+            The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art
+            infrastructure and a dedicated faculty. Its strong placement and training cell, along with skill development initiatives,
+            ensure rewarding careers for students. Recognized among Kerala’s top engineering colleges, SJCET is committed to continuous
+            improvement, providing a world-class learning experience.
           </p>
         </div>
         <div className="col-span-1 h-48 md:hidden" />

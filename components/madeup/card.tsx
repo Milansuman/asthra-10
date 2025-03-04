@@ -37,6 +37,7 @@ import { api } from '@/trpc/react';
 import { TRPCError } from '@trpc/server';
 import { Input } from '../ui/input';
 import { Markdown } from '@/app/_components/md';
+import { ASTHRA, AsthraStartsAt, getTimeUtils } from '@/logic';
 
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
@@ -255,7 +256,7 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
         <p>Event type: {data.eventType}</p>
         <p>Event status: {data.eventStatus}</p>
         <p>Venue: {data.venue}</p>
-        <p>Starts at: {data.dateTimeStarts?.toLocaleString("en-GB", { timeZone: "Asia/Calcutta" })}</p>
+        <p>Starts at: {getTimeUtils(data.dateTimeStarts ?? AsthraStartsAt)}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
         <p>Secret Message:</p>
         <div className='max-h-96 overflow-auto'>

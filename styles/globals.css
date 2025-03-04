@@ -123,7 +123,7 @@ h4 {
 
 p {
   font-family: "Ambit", Poppins, sans-serif;
-  @apply tracking-wide text-sm md:text-medium break-all;
+  @apply tracking-wide text-sm md:text-medium;
 }
 
 blockquote {

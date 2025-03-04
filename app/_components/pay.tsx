@@ -83,6 +83,7 @@ const customEvents = {
     "65d0e575-aa0a-4671-b2fa-828e6d98b99a": "https://docs.google.com/forms/d/e/1FAIpQLSdYnWmLVJ6_MCvH1tf8ByaBHf9fvPrmXcIgiP-WbqRbQXgDOQ/viewform?usp=header",
     "15749c9e-2022-43aa-91f6-ab3f375b3a88": "https://docs.google.com/forms/d/e/1FAIpQLScssYLhhOvfvUKuplDNV9A8wniJkPXQx0uRfTKiCIVRAMGx_g/viewform?usp=sharing",
     "12c94cc5-9096-492c-8611-5c2824f93931": "https://forms.gle/3d228KJaee3aYzcS6",
+    "51aaa8a0-6393-4124-a02a-3f4650e6f0a5": "https://makemypass.com/sdr-workshop"
 } as const
 
 export const PaymentButton = ({ event }: { event: EventZodType }) => {
@@ -131,7 +132,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
             <Dialog>
                 <DialogTrigger asChild>
                     <Button size={"glass"} variant={"glass"}>
-                        Show Secret Message
+                        Show Message for Participants
                     </Button>
                 </DialogTrigger>
                 <DialogContent>

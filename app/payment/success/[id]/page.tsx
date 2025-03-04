@@ -1,48 +1,49 @@
-import { verifySignature } from "@/logic/payment";
 import { api } from "@/trpc/server";
-import { z } from "zod";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Plusbox from "@/components/madeup/box";
 import { Button } from "@/components/ui/button";
 import { triedAsync } from "@/lib/utils";
+import { getTimeUtils } from "@/logic";
 
 
-const razorQueryZod = z.object({
-  razorpayOrderId: z.string(),
-  razorpayPaymentId: z.string(),
-  razorpaySignature: z.string(),
-});
+// const razorQueryZod = z.object({
+//   razorpayOrderId: z.string(),
+//   razorpayPaymentId: z.string(),
+//   razorpaySignature: z.string(),
+// });
 
-type RazorQueryZod = z.infer<typeof razorQueryZod>;
+// type RazorQueryZod = z.infer<typeof razorQueryZod>;
 
 export default async function Page({
   params,
-  searchParams,
+  // searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{
-    [key in keyof RazorQueryZod]: string | string[] | undefined
-  }>;
+  // searchParams: Promise<{
+  //   [key in keyof RazorQueryZod]: string | string[] | undefined
+  // }>;
 }) {
   const { id } = await params;
-  const queryParams = await searchParams;
+  // const queryParams = await searchParams;
 
-  const { data: razorData, success } = razorQueryZod.safeParse(queryParams);
+  // console.log(queryParams);
 
-  if (success) {
-    const isSuccess = verifySignature({
-      ...razorData,
-    });
+  // const { data: razorData, success } = razorQueryZod.safeParse(queryParams);
 
-    if (!isSuccess) {
-      return "Payment verification failed";
-    }
-  }
+  // if (success) {
+  //   const isSuccess = verifySignature({
+  //     ...razorData,
+  //   });
+
+  //   if (!isSuccess) {
+  //     return "Payment verification failed";
+  //   }
+  // }
 
   const { isSuccess, data, error } = await triedAsync(api.sjcetPay.successPurchase({
-    id: id,
+    orderId: id,
   }));
 
   if (!isSuccess || !data) {
@@ -106,13 +107,13 @@ export default async function Page({
                     <span className="text-xs uppercase tracking-wider">Blast-Off</span>
                     <span className="text-lg font-semibold">
                       {data.event.dateTimeStarts &&
-                        new Date(data.event.dateTimeStarts).toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })} –{" "}
+                        getTimeUtils(data.event.dateTimeStarts)} -{" "}
                       <span className="italic">Runs {data.event.dateTimeEnd}</span>
                     </span>
                   </p>
                   <p className="text-md font-light leading-relaxed">
-                    Welcome aboard! Your journey kicks off now – brace for an epic
-                    ride! Your {data.event.name} pass has been sent to your email –
+                    Welcome aboard! Your journey kicks off now - brace for an epic
+                    ride! Your {data.event.name} pass has been sent to your email -
                     check your inbox!
                   </p>
                 </div>

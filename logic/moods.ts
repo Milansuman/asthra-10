@@ -8,7 +8,7 @@ import { type AllRoles, AsthraLastEditDay, AsthraStartsAt } from './index';
 /**
  *  Function that extract less input attributes depending on `AsthraLastEditDay`
  */
-export const extractInput = (input: z.infer<typeof eventAccessZod>) => {
+const extractInput = (input: z.infer<typeof eventAccessZod>) => {
   if (allowEditing()) {
     return input;
   }

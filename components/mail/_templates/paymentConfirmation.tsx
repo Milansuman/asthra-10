@@ -73,9 +73,9 @@ export default function PaymentConfirmationEmail({ user, event, userRegisteredEv
 
               <EventSection event={event} />
 
-              <MarkdownSection secret={event.secret as string} />
+              <MarkdownSection secret={event.secret ?? ""} />
 
-              <TransactionSection personName={user.name as string} personNumber={user.number as string} txid={transactions.id as string} txAmt={transactions.amount as number} regId={userRegisteredEvent.registrationId as string} />
+              <TransactionSection personName={user.name ?? ""} personNumber={user.number ?? ""} txid={transactions.id ?? ""} txAmt={transactions.amount as number} regId={userRegisteredEvent.registrationId ?? ""} />
 
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
               <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>

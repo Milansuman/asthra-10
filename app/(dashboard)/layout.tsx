@@ -44,7 +44,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="bg-[url(/spline-backup-dark.png)] bg-blend-soft-light bg-black/70 h-screen overflow-auto">
+  return <div className="bg-[url(/spline-backup-dark.png)] bg-blend-soft-light bg-black/70 h-screen overflow-auto pb-24">
     {children}
     <Dock items={Items} className='z-0' />
   </div>;

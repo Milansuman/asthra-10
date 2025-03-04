@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { allDepartments } from '@/logic';
+import { allDepartments, getTimeUtils } from '@/logic';
 import { motion } from 'framer-motion';
 import { CheckCircle, Copy, LinkIcon, XCircleIcon } from 'lucide-react';
 import type { z } from 'zod';
@@ -100,30 +100,6 @@ export function EventPage({
     return false;
   };
 
-  const isGeneralEvent = (event: Event) => {
-    if (
-      event.department === 'NA' &&
-      filter === 'GENERAL' &&
-      event.registrationType !== 'spot' &&
-      event.eventStatus !== 'cancel'
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  const isSpotEvent = (event: Event) => {
-    if (
-      event.registrationType === 'spot' &&
-      filter === 'INFORMAL' &&
-      event.department === 'NA' &&
-      event.eventStatus !== 'cancel'
-    ) {
-      return true;
-    }
-    return false;
-  };
-
   const isEventStatus = (event: Event) => {
     if (eventStatus === 'all' || event.eventStatus === eventStatus) {
       return true;
@@ -151,6 +127,48 @@ export function EventPage({
     }
     return false;
   };
+
+  const isGeneralEvent = (event: Event) => {
+    console.log(event.id)
+    if (
+      // event.department === 'NA' &&
+      // filter === 'GENERAL' &&
+      // event.registrationType !== 'spot' &&
+      event.eventStatus !== 'cancel' &&
+      ["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4"].includes(event.id) &&
+      filter == "GENERAL"
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const isSpotEvent = (event: Event) => {
+    if (
+      ((event.registrationType === 'spot' ||
+        event.id === "95cea129-1752-4ddc-ab9a-d609e625b4cc"
+      ) &&
+        filter === 'INFORMAL' &&
+        event.department === 'NA' &&
+        event.eventStatus !== 'cancel')
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const isOtherEvent = (event: Event) => {
+    if (
+      event.department === 'NA' &&
+      event.registrationType !== 'spot' &&
+      event.eventStatus !== 'cancel' &&
+      !(["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4", "95cea129-1752-4ddc-ab9a-d609e625b4cc"].includes(event.id)) &&
+      filter == "OTHER"
+    ) {
+      return true;
+    }
+    return false;
+  }
 
   return (
     <div className="w-full min-h-screen p-2 flex flex-col gap-4">
@@ -215,7 +233,9 @@ export function EventPage({
               ((isDepartment(event) && isEventType(event)) ||
                 isGeneralEvent(event) ||
                 isSpotEvent(event) ||
-                isCancelled(event)) &&
+                isCancelled(event) ||
+                isOtherEvent(event)
+              ) &&
               isEventStatus(event) &&
               !isUploaded(event)
           )
@@ -273,7 +293,7 @@ function EventCard({
         src={event.poster ?? '/sjcet/1.jpeg'}
         width={400}
         height={400}
-        alt={event.name!}
+        alt={event.name ?? "poster"}
         className="w-full aspect-square rounded-t-md"
       />
       <CardContent>
@@ -297,8 +317,7 @@ function EventCard({
                   : `${event.regCount} / ${event.regLimit} Registered`}
               </h4>
 
-              <p>{event.dateTimeStarts.toLocaleDateString()}</p>
-              <p>{event.dateTimeStarts.toLocaleTimeString("en-IN", { timeZone: "Asia/Calcutta" })}</p>
+              <p>{getTimeUtils(event.dateTimeStarts)}</p>
             </div>
             {dashboard && (
               // <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">

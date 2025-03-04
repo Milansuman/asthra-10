@@ -20,12 +20,13 @@ import { Increment, getTrpcError } from '@/server/db/utils';
 
 import {
   type TransactionZodType,
-  UserZodType,
+  type UserZodType,
   eventZod,
   transactionsZod,
 } from '@/lib/validator';
-import { ASTHRA } from '@/logic';
+import { ASTHRA, getTimeUtils } from '@/logic';
 import MailAPI from './mail';
+import { createOrder } from '@/logic/payment';
 
 export const sjcetPaymentRouter = createTRPCRouter({
   initiatePurchase: validUserOnlyProcedure
@@ -71,22 +72,37 @@ export const sjcetPaymentRouter = createTRPCRouter({
       }
 
       const transactionId = uuid();
+      let orderId: string;
 
-      const insertTransaction: Omit<TransactionZodType, 'orderId'> = {
+      if (workshop.amount !== 0) {
+        const { data, error, isSuccess } = await createOrder(workshop.amount);
+
+        if (!isSuccess) {
+          console.error('Error in creating order', error);
+          throw getTrpcError('PAYMENT_INITIALISATION_FAILED');
+        }
+
+        orderId = data.id;
+      } else {
+        orderId = transactionId;
+      }
+
+      const insertTransaction: TransactionZodType = {
         eventId: workshop.id,
         eventName: workshop.name ?? 'Unknown Workshop/Competiton Name',
         id: transactionId,
+        orderId,
         userId: userData.id,
         userName: userData.name ?? 'NA',
         status: 'initiated',
         amount: workshop.amount,
-        remark: `Initiated ${workshop.eventType} purchase on ${new Date().toLocaleString()}`,
+        remark: `${userData.email}, ${userData.number}, Initiated ${workshop.eventType} purchase on ${getTimeUtils(new Date())}`,
       };
 
       return await ctx.db.transaction(async (tx) => {
         const finalData = await tx
           .insert(transactionsTable)
-          .values({ ...insertTransaction, orderId: transactionId })
+          .values({ ...insertTransaction })
           .returning();
 
         if (input.referral) {
@@ -104,6 +120,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
         return {
           transaction: finalData[0],
           event: workshop,
+          orderId,
         };
       });
     }),
@@ -111,47 +128,44 @@ export const sjcetPaymentRouter = createTRPCRouter({
   successPurchase: validUserOnlyProcedure
     .input(
       transactionsZod.pick({
-        id: true,
+        orderId: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async (tx) => {
-        const transactiondata = await tx
+      let isASTHRA = false;
+      const returnData = await ctx.db.transaction(async (tx) => {
+        const transactionData = await tx
           .update(transactionsTable)
           .set({ status: 'success' })
           .where(
             and(
-              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.orderId, input.orderId),
               eq(transactionsTable.status, 'initiated'),
               eq(transactionsTable.userId, ctx.user.id)
             )
           )
           .returning();
 
-        if (transactiondata.length === 0 || !transactiondata[0]) {
-          const transactiondata = await tx.query.transactionsTable.findFirst({
+        if (transactionData.length === 0 || !transactionData[0]) {
+          const newTransaction = await tx.query.transactionsTable.findFirst({
             where: and(
-              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.orderId, input.orderId),
               eq(transactionsTable.userId, ctx.user.id)
             ),
           });
 
-          if (transactiondata) {
-            if (transactiondata.status === 'success')
+          if (newTransaction) {
+            if (newTransaction.status === 'success')
               throw getTrpcError('ALREADY_PURCHASED');
 
-            if (transactiondata.status === 'failed')
+            if (newTransaction.status === 'failed')
               throw getTrpcError('TRANSACTION_FAILED');
           }
 
           throw getTrpcError('TRANSACTION_NOT_FOUND');
         }
 
-        const currentTransation = transactiondata[0];
-
-        tx.update(referalsTable)
-          .set({ status: true })
-          .where(eq(referalsTable.transactionId, currentTransation.id));
+        const currentTransation = transactionData[0];
 
         const ure = await tx
           .insert(userRegisteredEventTable)
@@ -159,7 +173,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
             eventId: currentTransation.eventId,
             transactionId: currentTransation.id,
             userId: ctx.user.id,
-            remark: `Success on ${new Date().toLocaleString()}`,
+            remark: `Success on ${getTimeUtils(new Date())}`,
           })
           .returning();
 
@@ -187,34 +201,43 @@ export const sjcetPaymentRouter = createTRPCRouter({
             })
             .where(and(eq(user.id, ctx.user.id), eq(user.asthraPass, false)));
 
-          MailAPI.asthraPass({
-            transactions: currentTransation,
-            user: ctx.user,
-            userRegisteredEvent: ure[0],
-            to: ctx.user.email,
-          });
+          isASTHRA = true;
         } else {
-          MailAPI.purchaseConfirm({
-            event: eventData[0],
-            user: ctx.user,
-            transactions: currentTransation,
-            to: ctx.user.email,
-            userRegisteredEvent: ure[0],
-          });
+          isASTHRA = false;
         }
 
         return {
           event: eventData[0],
           transaction: currentTransation,
           status: currentTransation.status,
+          userRegisteredEvent: ure[0],
         };
       });
+
+      if (isASTHRA) {
+        await MailAPI.asthraPass({
+          transactions: returnData.transaction,
+          user: ctx.user,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+          to: ctx.user.email,
+        });
+      } else {
+        await MailAPI.purchaseConfirm({
+          event: returnData.event,
+          user: ctx.user,
+          transactions: returnData.transaction,
+          to: ctx.user.email,
+          userRegisteredEvent: returnData.userRegisteredEvent,
+        });
+      }
+
+      return returnData;
     }),
 
   failedPurchase: protectedProcedure
     .input(
       transactionsZod.pick({
-        id: true,
+        orderId: true,
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -226,7 +249,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
           })
           .where(
             and(
-              eq(transactionsTable.id, input.id),
+              eq(transactionsTable.orderId, input.orderId),
               eq(transactionsTable.status, 'initiated'),
               eq(transactionsTable.userId, ctx.user.id)
             )
@@ -293,7 +316,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
             eventId: transactionData.eventId,
             transactionId: transactionData.id,
             userId: transactionData.userId,
-            remark: `Forced Success on ${new Date().toLocaleString()}`,
+            remark: `Forced Success on ${getTimeUtils(new Date())}`,
           })
           .returning();
 
@@ -329,7 +352,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
             to: userData.email,
             userRegisteredEvent: ure[0],
           });
-        } else {
+        } else {          
           await MailAPI.purchaseConfirm({
             event: eventData[0],
             user: userData as UserZodType,

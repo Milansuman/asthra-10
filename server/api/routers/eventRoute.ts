@@ -1,4 +1,4 @@
-import { eventRouteRules, extractInput } from '@/logic/moods';
+import { eventRouteRules } from '@/logic/moods';
 import { and, eq } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
@@ -21,6 +21,7 @@ import { Decrement, Increment, getTrpcError } from '@/server/db/utils';
 import { eventEditAccessZod, eventZod } from '@/lib/validator';
 import { api } from '@/trpc/vanila';
 import { cache } from '@/server/cache';
+import { getTimeUtils } from '@/logic';
 
 export const eventRouter = createTRPCRouter({
   /**
@@ -52,7 +53,7 @@ export const eventRouter = createTRPCRouter({
   updateEvent: eventsManageProcedure
     .input(eventEditAccessZod.merge(z.object({ id: z.string() })))
     .mutation(async ({ ctx, input }) => {
-      const newInput = extractInput(input);
+      const newInput = input;
 
       if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db
@@ -159,6 +160,18 @@ export const eventRouter = createTRPCRouter({
         orderBy: (events, { desc }) => [desc(events.createdAt)],
         limit: input,
       });
+    }),
+
+  getLatestCached: publicProcedure
+    .input(z.number().optional())
+    .query(async ({ ctx, input }) => {
+      return await cache.run('events', () =>
+        ctx.db.query.eventsTable.findMany({
+          where: eq(eventsTable.eventStatus, 'approved'),
+          orderBy: (events, { desc }) => [desc(events.createdAt)],
+          limit: input,
+        })
+      );
     }),
 
   getGeneral: publicProcedure
@@ -306,7 +319,7 @@ export const eventRouter = createTRPCRouter({
             eventId: input.id,
             userId: ctx.user.id,
             transactionId: ctx.user.transactionId ?? uuid(),
-            remark: `Registered on ${new Date().toLocaleString()}`,
+            remark: `Registered on ${getTimeUtils(new Date())}`,
           })
           .returning();
 

@@ -13,7 +13,7 @@ export default async function Page({
   const { id } = await params;
 
   const { isSuccess, data, error } = await triedAsync(api.sjcetPay.failedPurchase({
-    id: id,
+    orderId: id,
   }));
 
   if (!isSuccess || !data) {

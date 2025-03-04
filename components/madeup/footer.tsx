@@ -3,7 +3,7 @@ import Image from "next/image"
 import Plusbox from "./box"
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-30  p-2 py-4 m-0  -bottom-7">
+    <footer className="w-full bg-[#0A0A19] font-[350] text-white z-30 p-2 py-4 m-0 -bottom-7 overflow-x-hidden">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0">
         <div className="col-span-1 sm:col-span-2 md:col-start-1 md:col-span-2 md:row-start-1 flex items-center justify-center border-b border-white/50 p-4">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wide font-bold">Asthra 9.0</h2>
@@ -61,7 +61,9 @@ export default function Footer() {
           <div className="flex flex-col items-center justify-center">
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4">Mission</h3>
             <p className="text-xs sm:text-sm md:text-base lg:text-xl text-[#6E72A0] w-full sm:w-3/4">
-              To maintain a conducive infrastructure and learning environment for world class education. To nurture a team of dedicated, competent and research oriented faculty. To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
+              To maintain a conducive infrastructure and learning environment for world class education.
+              To nurture a team of dedicated, competent and research oriented faculty.
+              To develop students with moral & ethical values, for their successful career by offering variety of programmes and services.
             </p>
           </div>
         </div>
@@ -106,7 +108,7 @@ export default function Footer() {
               <Github className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
           </div>
-          <p className="text-xs sm:text-sm text-gray-400 text-center">@2025 ASTHRA 9.0, All Rights Reserved</p>
+          <p className="text-xs sm:text-sm text-gray-400 text-center">© 2025 ASTHRA 9.0, All Rights Reserved</p>
         </div>
       </div>
     </footer>
