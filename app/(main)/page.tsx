@@ -106,10 +106,10 @@ export default function Page() {
           <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
         </Plusbox>
 
-        <Button size={"thin"} variant={"glass"} link='/events'>
+        <CircularGalleryMade />
+        <Button size={"default"} variant={"glass"} link='/events'>
           View More
         </Button>
-        <CircularGalleryMade />
       </section>
       <section className="flex flex-col justify-center items-center min-h-screen gap-8">
         <div className="flex flex-col items-center justify-center p-8 gap-5">

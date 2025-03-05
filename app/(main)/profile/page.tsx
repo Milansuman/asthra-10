@@ -52,19 +52,23 @@ export default function ProfilePage() {
       <Card className="max-w-2xl flex-col flex">
         <CardHeader>
           <div className="flex flex-row gap-3 items-center">
-            <Avatar className="h-20 w-20 rounded-sm">
+            <Avatar className="h-11 w-11 md:h-20 md:w-20 rounded-sm">
               <AvatarImage src={user.image ?? ""} />
               <AvatarFallback className="rounded-sm">{user.name}</AvatarFallback>
             </Avatar>
             <div>
-              <CardTitle>
+              <CardTitle className="text-xl md:text-2xl">
                 {user.name}
               </CardTitle>
-              <CardDescription>{user.email} {user.email.endsWith(".ac.in") && <VerifiedIcon className="inline-flex h-4" />}</CardDescription>
+              <CardDescription
+                className="text-sm md:text-base break-all"
+              >
+                {user.email} {user.email.endsWith(".ac.in") && <VerifiedIcon className="inline-flex h-4" />}
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="py-0">
+        <CardContent className="py-4 md:py-0">
           <div className="flex-row gap-2 flex-wrap flex">
             <Button size={"thin"} variant="glass">
               {user.role}
@@ -78,9 +82,11 @@ export default function ProfilePage() {
             <Button size={"thin"} variant="glass">
               {user.college}
             </Button>
-            <Button size={"thin"} variant="glass">
-              {user.KTU}
-            </Button>
+            {user.KTU &&
+              <Button size={"thin"} variant="glass">
+                {user.KTU}
+              </Button>
+            }
           </div>
         </CardContent>
         {!valid && (
@@ -215,10 +221,10 @@ export default function ProfilePage() {
           </Dialog>
         </CardFooter>
       </Card>
-      <div className="flex-[1_auto] flex flex-col gap-6 items-center justify-center relative">
+      <div className="flex-[1_auto] flex flex-col gap-6 items-center justify-center relative overflow-hidden">
         <div className="group">
           <ModelViewer className={`group-hover:blur-0 transition-all ${user.asthraPass ? "" : "blur"}`} />
-          {!user.asthraPass && <Button variant={"glass"} size={"glass"} className="absolute top-1/2 left-1/2 -translate-x-1/2" link={`/event/${ASTHRA.id}`}>
+          {!user.asthraPass && <Button variant={"glass"} size={"glass"} className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]" link={`/event/${ASTHRA.id}`}>
             <ButtonText keyType={"Buy ASTHRA PASS"} />
           </Button>}
         </div>
