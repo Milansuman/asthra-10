@@ -54,7 +54,7 @@ export default function ProfilePage() {
           <div className="flex flex-row gap-3 items-center">
             <Avatar className="h-20 w-20 rounded-sm">
               <AvatarImage src={user.image ?? ""} />
-              <AvatarFallback>{user.name}</AvatarFallback>
+              <AvatarFallback className="rounded-sm">{user.name}</AvatarFallback>
             </Avatar>
             <div>
               <CardTitle>
@@ -143,9 +143,36 @@ export default function ProfilePage() {
               </div>
             </DialogContent>
           </Dialog>
-          {user.asthraPass && <Button size={"glass"} variant="glass">
-            Show Pass <TicketIcon />
-          </Button>}
+          {user.asthraPass && <Dialog>
+            <DialogTrigger asChild>
+              <Button size={"glass"} variant="glass">
+                Show Pass <TicketIcon />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Here is your ASTHRA PASS</DialogTitle>
+                <DialogDescription>
+                  Get your attendance marked by showing this QR code at Front Desk.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="relative">
+                <img src="/images/pass.png" alt="Asthra Pass" className="max-w-80 mx-auto" />
+                <div className="p-6 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2">
+                  <QRCode
+                    size={256}
+                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                    value={user.id}
+                    viewBox={"0 0 256 256"}
+                  />
+                </div>
+                <div className="absolute top-2/3 left-5 md:translate-x-1/2 -translate-y-1/2 text-start">
+                  <h4 className="text-black">{user.name}</h4>
+                  <p className="text-black">{user.email}</p>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>}
         </CardContent>
 
         <ListOfEvents />

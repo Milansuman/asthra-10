@@ -1,10 +1,10 @@
 import Dock, { type DockItemData } from '@/components/madeup/Dock';
 
 const Items: DockItemData[] = [
-  {
-    link: "/",
-    label: "Home",
-  },
+  // {
+  //   link: "/",
+  //   label: "Home",
+  // },
   {
     link: "/dashboard",
     label: "Dashboard",
@@ -13,10 +13,10 @@ const Items: DockItemData[] = [
     link: "/dashboard/events",
     label: "Events",
   },
-  {
-    link: "/dashboard/upload",
-    label: "Upload",
-  },
+  // {
+  //   link: "/dashboard/upload",
+  //   label: "Upload",
+  // },
   {
     link: "/dashboard/events/edit",
     label: "Edit Events",
@@ -25,18 +25,18 @@ const Items: DockItemData[] = [
     link: "/dashboard/users",
     label: "User-Manage"
   },
-  // {
-  //   link: "/dashboard/attendence",
-  //   label: "Attendence",
-  // },
-  // {
-  //   link: "/dashboard/desk",
-  //   label: "Desk-Participants",
-  // },
-  // {
-  //   link: "/dashboard/desk/scan",
-  //   label: "Spot Registration",
-  // },
+  {
+    link: "/dashboard/attendence",
+    label: "Attendence",
+  },
+  {
+    link: "/dashboard/desk",
+    label: "Desk-Participants",
+  },
+  {
+    link: "/dashboard/desk/scan",
+    label: "Spot Registration",
+  },
 ]
 
 export default function RootLayout({

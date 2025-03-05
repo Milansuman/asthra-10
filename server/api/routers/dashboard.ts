@@ -1,4 +1,4 @@
-import { count, eq } from 'drizzle-orm';
+import { and, count, eq, ne } from 'drizzle-orm';
 
 import {
   coordinatorProcedure,
@@ -15,43 +15,93 @@ import {
 import { getTrpcError } from '@/server/db/utils';
 
 import { eventAccessZod } from '@/lib/validator';
+import { ASTHRA } from '@/logic';
 
 export const dashboardRouter = createTRPCRouter({
-  allManagementCounts: managementProcedure.query(async ({ ctx }) => {
-    return await ctx.db.transaction(async (tx) => {
-      const totalRegistedAndAttended = await tx
-        .select({
-          value: count(),
-        })
-        .from(userRegisteredEventTable)
-        .where(eq(userRegisteredEventTable.status, 'attended'));
+  asthraCount: managementProcedure.query(async ({ ctx }) => {
+    const totalRegistedAndAttended = await ctx.db
+      .select({
+        value: count(),
+      })
+      .from(userRegisteredEventTable)
+      .where(
+        and(
+          eq(userRegisteredEventTable.status, 'attended'),
+          eq(userRegisteredEventTable.eventId, ASTHRA.id)
+        )
+      );
 
-      const totalRegistered = await tx
-        .select({
-          value: count(),
-        })
-        .from(userRegisteredEventTable);
+    const totalRegistered = await ctx.db
+      .select({
+        value: count(),
+      })
+      .from(userRegisteredEventTable)
+      .where(
+        and(
+          eq(userRegisteredEventTable.status, 'registered'),
+          eq(userRegisteredEventTable.eventId, ASTHRA.id)
+        )
+      );
 
-      const totalTransactions = await tx
-        .select({
-          value: count(),
-        })
-        .from(transactionsTable);
+    const totalTransactions = await ctx.db
+      .select({
+        value: count(),
+      })
+      .from(transactionsTable)
+      .where(eq(transactionsTable.eventId, ASTHRA.id));
 
-      const totalAsthraPass = await tx
-        .select({
-          value: count(),
-        })
-        .from(user)
-        .where(eq(user.asthraPass, true));
+    const totalAsthraPass = await ctx.db
+      .select({
+        value: count(),
+      })
+      .from(user)
+      .where(eq(user.asthraPass, true));
 
-      return {
-        totalRegistedAndAttended,
-        totalRegistered,
-        totalTransactions,
-        totalAsthraPass,
-      };
-    });
+    return {
+      totalRegistedAndAttended,
+      totalRegistered,
+      totalTransactions,
+      totalAsthraPass,
+    };
+  }),
+
+  workshopCount: managementProcedure.query(async ({ ctx }) => {
+    const totalRegistedAndAttended = await ctx.db
+      .select({
+        value: count(),
+      })
+      .from(userRegisteredEventTable)
+      .where(
+        and(
+          eq(userRegisteredEventTable.status, 'attended'),
+          ne(userRegisteredEventTable.eventId, ASTHRA.id)
+        )
+      );
+
+    const totalRegistered = await ctx.db
+      .select({
+        value: count(),
+      })
+      .from(userRegisteredEventTable)
+      .where(
+        and(
+          eq(userRegisteredEventTable.status, 'registered'),
+          ne(userRegisteredEventTable.eventId, ASTHRA.id)
+        )
+      );
+
+    const totalTransactions = await ctx.db
+      .select({
+        value: count(),
+      })
+      .from(transactionsTable)
+      .where(ne(transactionsTable.eventId, ASTHRA.id));
+
+    return {
+      totalRegistedAndAttended,
+      totalRegistered,
+      totalTransactions,
+    };
   }),
 
   departmentWiseData: coordinatorProcedure

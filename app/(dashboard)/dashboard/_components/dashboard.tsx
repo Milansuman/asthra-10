@@ -1,189 +1,185 @@
 'use client';
 
-import Image from 'next/image';
-import React from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+
+
+import { TrendingUp } from "lucide-react";
+
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import type { RouterOutput } from '@/server/api/root';
 
-interface DepartmentData {
-  asthra_pass: number;
-  workshop: number;
-  competition: number;
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
+import { api } from '@/trpc/react';
+
+
+
+
+const chartConfig = {
+  count: {
+    label: "Count",
+    color: "hsl(var(--chart-1))",
+  },
+} satisfies ChartConfig
+
+type Props = {
+  asthra: RouterOutput["dashboard"]["asthraCount"];
 }
 
-type Department = Record<string, DepartmentData>;
-type Props = {
-  data?: {
-    totalRegistedAndAttended: {
-      value: number;
-    }[];
-    totalRegistered: {
-      value: number;
-    }[];
-    totalTransactions: {
-      value: number;
-    }[];
-    totalAsthraPass: {
-      value: number;
-    }[];
-  };
-};
 
-const Dashboard = ({ data }: Props) => {
-  const [selectedDept, setSelectedDept] =
-    React.useState<keyof Department>('cs');
+export function Asthra() {
+  const { data: asthra, isLoading } = api.dashboard.asthraCount.useQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!asthra) return <div>No Data of Asthra</div>;
+
+  console.log(asthra);
+
+  const chartData = [
+    { label: "RegistedAndAttended", count: asthra.totalRegistedAndAttended[0]?.value ?? 0 },
+    { label: "Registered Only", count: asthra.totalRegistered[0]?.value ?? 0 },
+    { label: "Transactions", count: asthra.totalTransactions[0]?.value ?? 0 },
+    { label: "AsthraPass", count: asthra.totalAsthraPass[0]?.value ?? 0 },
+  ]
   return (
-    <div className="flex-col md:flex pt-20 text-white h-screen">
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-          <div className="flex items-center space-x-2">
-            <Button onClick={() => window.print()}>Download</Button>
-          </div>
-        </div>
-        <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="dept">Department</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 justify-center align-middle grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              <Card className="flex flex-col items-center">
-                <Image
-                  src={
-                    'https://res.cloudinary.com/db2u2juse/image/upload/v1709054688/passes/asthra_xcrlr1.png'
-                  }
-                  alt="ASTHRA Pass"
-                  className="mt-5 print:hidden"
-                  width={200}
-                  height={300}
-                />
-                <div className="self-start">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium tracking-wider">
-                      Total Asthra Pass
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{ }</div>
-                    <p className="text-xs text-muted-foreground">
-                      Passes are Sold
-                    </p>
-                  </CardContent>
-                </div>
-              </Card>
-              <Card className="flex flex-col items-center">
-                <Image
-                  src={
-                    'https://res.cloudinary.com/db2u2juse/image/upload/v1709054688/passes/workshop_x443mz.png'
-                  }
-                  alt={'Workshop Event Poster'}
-                  className="mt-5 print:hidden"
-                  width={200}
-                  height={300}
-                />
-                <div className="self-start">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium tracking-wider">
-                      Total Workshop Pass
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{ }</div>
-                    <p className="text-xs text-muted-foreground">
-                      Passes are Sold
-                    </p>
-                  </CardContent>
-                </div>
-              </Card>
-              <Card className="flex flex-col items-center">
-                <Image
-                  src={
-                    'https://res.cloudinary.com/db2u2juse/image/upload/v1709094374/passes/Competition_vc5moi.png'
-                  }
-                  alt="Event Poster"
-                  className="mt-5 print:hidden"
-                  width={200}
-                  height={300}
-                />
-                <div className="self-start">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium tracking-wider">
-                      Total Competition Pass
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{ }</div>
-                    <p className="text-xs text-muted-foreground">
-                      Passes are Sold
-                    </p>
-                  </CardContent>
-                </div>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="dept" className="space-y-4">
-            <Select
-              value={selectedDept}
-              onValueChange={(value) => {
-                setSelectedDept(value);
+    <Card className='w-6/12'>
+      <CardHeader>
+        <CardTitle>Asthra - Count</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className=''>
+          <ChartContainer config={chartConfig}>
+            <BarChart
+              accessibilityLayer
+              data={chartData}
+              layout="vertical"
+              margin={{
+                right: 16,
               }}
             >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a Department" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {/* {Object.keys().map((dept) => (
-                    <SelectItem key={dept} value={dept}>
-                      <SelectLabel>{dept}</SelectLabel>
-                    </SelectItem>
-                  ))} */}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Total Asthra Pass</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{ }</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Total Workshop Pass</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{ }</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Total Competition Pass</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{ }</div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </div>
-  );
-};
+              <CartesianGrid horizontal={false} />
+              <YAxis
+                dataKey="label"
+                type="category"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value}
+                hide
+              />
+              <XAxis dataKey="count" type="number" hide />
+              <ChartTooltip
+                cursor={false}
+                labelClassName='text-black'
+                content={<ChartTooltipContent indicator="line" />}
+              />
+              <Bar
+                dataKey="count"
+                layout="vertical"
+                fill="var(--color-count)"
+                radius={4}
+              >
+                <LabelList
+                  dataKey="label"
+                  position="insideLeft"
+                  offset={8}
+                  className="fill-[--color-label] text-white"
+                  fontSize={12}
+                />
+                <LabelList
+                  dataKey="count"
+                  position="right"
+                  offset={8}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        </div>
+      </CardContent>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+      </CardFooter>
+    </Card>
+  )
+}
+export function Workshop() {
+  const { data: asthra, isLoading } = api.dashboard.workshopCount.useQuery();
 
-export default Dashboard;
+  if (isLoading) return <div>Loading...</div>;
+  if (!asthra) return <div>No Data of Asthra</div>;
+
+  console.log(asthra);
+
+  const chartData = [
+    { label: "RegistedAndAttended", count: asthra.totalRegistedAndAttended[0]?.value ?? 0 },
+    { label: "Registered Only", count: asthra.totalRegistered[0]?.value ?? 0 },
+    { label: "Transactions", count: asthra.totalTransactions[0]?.value ?? 0 },
+  ]
+  return (
+    <Card className='w-6/12'>
+      <CardHeader>
+        <CardTitle>Events - Count</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className=''>
+          <ChartContainer config={chartConfig}>
+            <BarChart
+              accessibilityLayer
+              data={chartData}
+              layout="vertical"
+              margin={{
+                right: 16,
+              }}
+            >
+              <CartesianGrid horizontal={false} />
+              <YAxis
+                dataKey="label"
+                type="category"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value}
+                hide
+              />
+              <XAxis dataKey="count" type="number" hide />
+              <ChartTooltip
+                cursor={false}
+                labelClassName='text-black'
+                content={<ChartTooltipContent indicator="line" />}
+              />
+              <Bar
+                dataKey="count"
+                layout="vertical"
+                fill="var(--color-count)"
+                radius={4}
+              >
+                <LabelList
+                  dataKey="label"
+                  position="insideLeft"
+                  offset={8}
+                  className="fill-[--color-label] text-white"
+                  fontSize={12}
+                />
+                <LabelList
+                  dataKey="count"
+                  position="right"
+                  offset={8}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        </div>
+      </CardContent>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+      </CardFooter>
+    </Card>
+  )
+}

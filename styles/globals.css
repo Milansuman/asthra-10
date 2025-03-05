@@ -24,6 +24,12 @@
     --input: 212 30% 50%;
     --ring: 212 100% 46.7%;
     --radius: 0.5rem;
+
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 212 95% 68%;
+    --chart-3: 216 92% 60%;
+    --chart-4: 210 98% 78%;
+    --chart-5: 212 97% 87%;
   }
 
   .dark {
@@ -47,6 +53,12 @@
     --input: 212 30% 50%;
     --ring: 212 100% 46.7%;
     --radius: 0.5rem;
+
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 212 95% 68%;
+    --chart-3: 216 92% 60%;
+    --chart-4: 210 98% 78%;
+    --chart-5: 212 97% 87%;
   }
 }
 
@@ -168,7 +180,7 @@ blockquote {
     outline: none;
   }
 
-  & * > h1 {
+  & *>h1 {
     font-size: 20px;
   }
 }
@@ -232,16 +244,17 @@ input[type="button"]:active,
   aspect-ratio: 1 / 1;
 }
 
-button.bg-glass.glass-button > .lucide {
+button.bg-glass.glass-button>.lucide {
   @apply !w-7 !h-7;
 }
 
-.qr-container > * > * > svg {
+.qr-container>*>*>svg {
   width: 100%;
 }
 
 .md-container {
   @apply space-y-2;
+
   a {
     @apply bg-black/20 rounded-md px-2 py-1 before:content-['🔗_'];
   }
