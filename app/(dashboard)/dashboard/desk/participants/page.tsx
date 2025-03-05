@@ -7,12 +7,13 @@ import { z } from "zod"
 import { userRegisteredEventZod } from "@/lib/validator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
 
 function ParticipantsPage() {
   const searchParams = useSearchParams()
   const eventId = searchParams.get("id") || ""
 
-  const { data: participants, isLoading: isLoadingParticipants } = api.event.getParticipants.useQuery({ id: eventId })
+  const { data: participants, isLoading: isLoadingParticipants, refetch } = api.event.getParticipants.useQuery({ id: eventId })
 
   if (isLoadingParticipants) {
     return <p>Loading...</p>
@@ -24,6 +25,7 @@ function ParticipantsPage() {
         <TabsTrigger value="participants">Participants</TabsTrigger>
         <TabsTrigger value="attendees">Attendees</TabsTrigger>
       </TabsList>
+      <Button className="ms-10" onClick={() => refetch()}>Refresh</Button>
       <TabsContent value="participants">
         <Table>
           <TableHeader>

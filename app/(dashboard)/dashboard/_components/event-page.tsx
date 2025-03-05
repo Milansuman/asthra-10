@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { allDepartments, getTimeUtils } from '@/logic';
+import { ASTHRA, allDepartments, getTimeUtils } from '@/logic';
 import { motion } from 'framer-motion';
-import { CheckCircle, Copy, LinkIcon, XCircleIcon } from 'lucide-react';
+import { Copy, LinkIcon } from 'lucide-react';
 import type { z } from 'zod';
 
 import type { eventZod } from '@/lib/validator';
@@ -33,16 +33,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { api } from 'trpc/react';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { TRPCError } from '@trpc/server';
 
 type Event = z.infer<typeof eventZod>;
@@ -136,7 +127,7 @@ export function EventPage({
       // event.registrationType !== 'spot' &&
       event.eventStatus !== 'cancel' &&
       ["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4"].includes(event.id) &&
-      filter == "GENERAL"
+      filter === "GENERAL"
     ) {
       return true;
     }
@@ -163,7 +154,7 @@ export function EventPage({
       event.registrationType !== 'spot' &&
       event.eventStatus !== 'cancel' &&
       !(["043f6971-14f7-40db-81ed-3fd2c8e7c0c5", "536526b7-1883-43b3-99f1-932ba52b0253", "7797da37-e74a-428a-8c2d-25217fdcf23c", "8bd2123d-e8ab-4462-8563-60e6111673d4", "95cea129-1752-4ddc-ab9a-d609e625b4cc"].includes(event.id)) &&
-      filter == "OTHER"
+      filter === "OTHER"
     ) {
       return true;
     }
@@ -302,7 +293,7 @@ function EventCard({
             {event.name}
           </h3>
 
-          <div className="flex justify-between align-bottom">
+          <div className="flex flex-col justify-between align-bottom">
             <div className="flex flex-col">
               <h4 className="tracking-wider">
                 {' '}
@@ -319,74 +310,13 @@ function EventCard({
 
               <p>{getTimeUtils(event.dateTimeStarts)}</p>
             </div>
-            {dashboard && (
-              // <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">
-              //   <AlertDialog>
-              //     <AlertDialogTrigger>
-
-              //     </AlertDialogTrigger>
-              //     <AlertDialogContent className="w-full bg-neutral-200/10 rounded-none backdrop-blur-xl">
-              //       <AlertDialogHeader>
-              //         <AlertDialogTitle>
-              //           Participants for {event.name}
-              //         </AlertDialogTitle>
-              //       </AlertDialogHeader>
-              //       <ScrollArea className="max-h-80 w-full">
-              //         <Table>
-              //           <TableHeader>
-              //             <TableHead className="w-[100px]">Name</TableHead>
-              //             {/* <TableHead>Department</TableHead> */}
-              //             <TableHead>College</TableHead>
-              //             <TableHead>Status</TableHead>
-              //           </TableHeader>
-              //           <TableBody className="max-h-20 overflow-auto">
-              //             {registeredUsers?.map((participant) => (
-              //               <TableRow key={participant.email}>
-              //                 <TableCell>{participant.name}</TableCell>
-              //                 {/* <TableCell>{participant.department}</TableCell> */}
-              //                 <TableCell>{participant.college}</TableCell>
-              //                 <TableCell className="flex flex-row gap-2">
-              //                   {participant.status}
-              //                   {participant.status === 'attended' ? (
-              //                     <XCircleIcon
-              //                       onClick={() =>
-              //                         handleAttendance(
-              //                           participant.userId,
-              //                           participant.eventId,
-              //                           false
-              //                         )
-              //                       }
-              //                     />
-              //                   ) : (
-              //                     <CheckCircle
-              //                       onClick={() =>
-              //                         handleAttendance(
-              //                           participant.userId,
-              //                           participant.eventId,
-              //                           true
-              //                         )
-              //                       }
-              //                     />
-              //                   )}
-              //                 </TableCell>
-              //               </TableRow>
-              //             ))}
-              //           </TableBody>
-              //         </Table>
-              //       </ScrollArea>
-              //       <AlertDialogFooter>
-              //         <AlertDialogCancel>Close</AlertDialogCancel>
-              //       </AlertDialogFooter>
-              //     </AlertDialogContent>
-              //   </AlertDialog>
-              // </div>
-              <div className="self-end max-h-80 overflow-auto flex flex-col gap-1">
-                <Button link={`/dashboard/events/list?eventId=${event.id}`} className="h-[30px] uppercase font-black self-end">
-                  Participants
-                </Button>
-              </div>
-            )}
-            <div className='flex flex-row gap-2'>
+            <div className="overflow-auto flex flex-wrap mt-5 gap-1">
+              <Button link={`/dashboard/events/list?eventId=${event.id}`} className="h-[30px] uppercase font-black self-end">
+                Participants
+              </Button>
+              <Button link={event.id === ASTHRA.id ? "/dashboard/attendence/asthra" : `/dashboard/attendence/${event.id}`} className="h-[30px] uppercase font-black self-end">
+                Take Attendence
+              </Button>
               <Button className="h-[30px] uppercase font-black self-end">
                 {event.department}
               </Button>
