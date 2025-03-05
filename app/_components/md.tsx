@@ -8,7 +8,7 @@ export const Markdown = ({ children, full = false }: { children?: string | null,
     if (!children || children.length === 0) { return null }
 
     return (
-        <div className={full ? "" : "max-h-24 overflow-hidden"}>
+        <div className={full ? "" : "max-h-36 overflow-hidden text-justify"}>
             <MDEditor.Markdown
                 remarkPlugins={[remarkGfm]}
                 className={"md-container"}
