@@ -66,22 +66,12 @@ export const asthraRouter = createTRPCRouter({
         console.error(error);
         throw getTrpcError('PAYMENT_INITIALISATION_FAILED');
       }
+      const finalData = await ctx.db
+        .insert(transactionsTable)
+        .values({ ...insertTransaction, orderId: order.id })
+        .returning();
 
-      return await ctx.db.transaction(async (tx) => {
-        const finalData = await tx
-          .insert(transactionsTable)
-          .values({ ...insertTransaction, orderId: order.id })
-          .returning();
-
-        if (input.referral) {
-          tx.insert(referalsTable).values({
-            referralCode: input.referral,
-            transactionId: transactionId,
-          });
-        }
-
-        return finalData[0];
-      });
+      return finalData[0];
     }),
 
   successPurchaseAsthraPass: validUserOnlyProcedure
@@ -229,17 +219,19 @@ export const asthraRouter = createTRPCRouter({
   getMyAsthraPass: validUserOnlyProcedure.query(({ ctx }) => {
     return ctx.user;
   }),
-  editAsthraCredits: managementProcedure.
-    input(z.object({
-      credits: z.number(),
-      userId: z.string()
-    }))
-    .mutation(async ({ctx, input}) => {
+  editAsthraCredits: managementProcedure
+    .input(
+      z.object({
+        credits: z.number(),
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
       return ctx.db
         .update(user)
         .set({
-          asthraCredit: input.credits
+          asthraCredit: input.credits,
         })
         .where(eq(user.id, input.userId));
-    })
+    }),
 });

@@ -236,10 +236,8 @@ export const userRouter = createTRPCRouter({
   getRegisterationId: validUserOnlyProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async (trx) => {
-        return await trx.query.userRegisteredEventTable.findFirst({
-          where: eq(userRegisteredEventTable.transactionId, input.id),
-        });
+      return await ctx.db.query.userRegisteredEventTable.findFirst({
+        where: eq(userRegisteredEventTable.transactionId, input.id),
       });
     }),
 

@@ -363,6 +363,8 @@ export const eventRouter = createTRPCRouter({
           throw getTrpcError('EVENT_NOT_FOUND');
         }
 
+        await tx.execute(sql`commit`);
+
         return {
           event: updatedEventData[0],
           transactionId: ctx.user.transactionId,

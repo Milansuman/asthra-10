@@ -194,7 +194,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
           isASTHRA = false;
         }
 
-        // await tx.execute(sql`commit`);
+        await tx.execute(sql`commit`);
 
         return {
           event: eventData[0],
@@ -255,7 +255,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
           .from(eventsTable)
           .where(eq(eventsTable.id, currentTransation[0]?.eventId ?? ''));
 
-        // await tx.execute(sql`commit`);
+        await tx.execute(sql`commit`);
 
         return {
           transaction: currentTransation[0],
@@ -451,7 +451,7 @@ export const sjcetPaymentRouter = createTRPCRouter({
           isASTHRA = false;
         }
 
-        // await tx.execute(sql`commit`);
+        await tx.execute(sql`commit`);
 
         return {
           transaction: transactionData,
