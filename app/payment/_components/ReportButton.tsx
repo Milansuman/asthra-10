@@ -5,6 +5,7 @@ import type React from "react";
 
 interface TransactionData {
     transaction: {
+        id: string;
         eventName: string;
         eventId: string;
         userName: string;
@@ -20,18 +21,27 @@ const ReportButton: React.FC<{ data: TransactionData }> = ({ data }) => {
     return (
         <Button
             link={`https://api.whatsapp.com/send?phone=+919846101882&text=${encodeURIComponent(
-                `Hi Team, I recently attempted to book my pass for ${data.transaction.eventName}, but my payment didn’t go through.  
-        Here are my details for reference:  
-        🔹 Event Name: ${data.transaction.eventName}  
-        🔹 Event ID: ${data.transaction.eventId}  
-        🔹 Username: ${data.transaction.userName}  
-        🔹 Email ID: ${userEmail}  
-        🔹 Amount: ₹${data.transaction.amount}  
-        🔹 Transaction ID: ${data.transaction.orderId}  
-        🔹 Order ID: ${data.transaction.orderId}  
-        
-        Could you please check this for me at the earliest? I’d love to be a part of the event. Looking forward to your support.  
-        Thanks!`
+                `Hi, 
+I recently attempted to book my pass for ${data.transaction.eventName}, but unfortunately, the payment didn’t go through.  
+I’d really appreciate your assistance in resolving this issue. Here are my transaction details:  
+---
+
+📌 Event Name:       ${data.transaction.eventName}  
+
+📌 Event ID:           ${data.transaction.eventId}  
+
+📌 Transaction ID:  ${data.transaction.id}  
+
+📌 Username:         ${data.transaction.userName}
+
+📌 Email:                ${userEmail}
+
+📌 Amount:            ₹${data.transaction.amount}
+
+📌 Order ID:          ${data.transaction.orderId}  
+
+---
+Thanks in advance! `
             )}`}
             variant="glass"
         >
