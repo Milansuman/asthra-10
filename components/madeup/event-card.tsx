@@ -20,7 +20,7 @@ const EventCard: React.FC<EventCardProps> = ({ data }) => {
 	return (
 		<Plusbox className="p-2 relative group">
 			<img
-				className={`w-full ${imageLoading ? 'hidden' : 'block'}`}
+				className={`w-full aspect-[3.2/4] ${imageLoading ? 'hidden' : 'block'}`}
 				src={data.poster}
 				alt={data.name ?? "SJCET Events"}
 				onLoad={() => setImageLoading(false)}
@@ -29,16 +29,17 @@ const EventCard: React.FC<EventCardProps> = ({ data }) => {
 				<div className="w-full aspect-[3.2/4] bg-glass" />
 			) : (
 				<div className="absolute top-0 left-0 right-0 bottom-0 bg-glass p-4 opacity-0 group-hover:opacity-100 transition-all">
-					<div className="flex flex-col items-center justify-between h-full gap-2 py-5">
-						<div className="flex flex-col items-center gap-2">
-							<Label variant={'glass'} className="text-sm font-thin">
+					<div className="flex flex-col items-center justify-between h-full gap-1 lg:gap-2 py-5">
+						<div className="flex flex-col items-center gap-3 xl:gap-4 mb-[5%] overflow-hidden">
+							<Label variant={'glass'} className="text-sm font-thin text-center">
 								{data.department === "NA" ? (data.registrationType === "spot" ? "Informal Event" : "General Event") : allDepartments[data.department as AllDepartments]}
 							</Label>
 							<h4 className="mt-[4%]">{data.name}</h4>
-							<div className="mt-[4%]">
+							<div className="mt-[4%] overflow-hidden">
 								<Markdown>
 									{data.description}
 								</Markdown>
+								<p className="text-center font-bold">...</p>
 							</div>
 						</div>
 						<div className="flex gap-2 flex-wrap flex-row items-center justify-center">
