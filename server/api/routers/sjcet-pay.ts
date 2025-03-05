@@ -97,22 +97,20 @@ export const sjcetPaymentRouter = createTRPCRouter({
         remark: `${userData.email}, ${userData.number}, Initiated ${workshop.eventType} purchase on ${getTimeUtils(new Date())}`,
       };
 
-      return await ctx.db.transaction(async (tx) => {
-        const finalData = await tx
-          .insert(transactionsTable)
-          .values({ ...insertTransaction })
-          .returning();
+      const finalData = await ctx.db
+        .insert(transactionsTable)
+        .values({ ...insertTransaction })
+        .returning();
 
-        if (!finalData.length || !finalData[0]) {
-          throw getTrpcError('TRANSACTION_NOT_FOUND');
-        }
+      if (!finalData.length || !finalData[0]) {
+        throw getTrpcError('TRANSACTION_NOT_FOUND');
+      }
 
-        return {
-          transaction: finalData[0],
-          event: workshop,
-          orderId,
-        };
-      });
+      return {
+        transaction: finalData[0],
+        event: workshop,
+        orderId,
+      };
     }),
 
   successPurchase: validUserOnlyProcedure
