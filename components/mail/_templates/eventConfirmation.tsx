@@ -74,6 +74,9 @@ export default function EventConfirmationEmail({ user, event, userRegisteredEven
 
               <MarkdownSection secret={event.secret ?? ""} />
 
+              <Text>{userRegisteredEvent.registrationId}</Text>
+              <Img src={`${baseUrl}/api/qr/${userRegisteredEvent.registrationId}`} className="w-[90%] max-w-[140px] object-contain" />
+
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
               <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>
 

@@ -35,7 +35,6 @@ export const sjcetPaymentRouter = createTRPCRouter({
         id: true,
       })
     )
-
     .query(async ({ ctx, input }) => {
       const userData = ctx.user;
 

@@ -24,7 +24,7 @@ export const shortnerRouter = createTRPCRouter({
 
       if (!response.ok) {
         console.log(await response.text());
-        return getTrpcError('SHORT_URL_NOT_FOUND');
+        throw getTrpcError('SHORT_URL_NOT_FOUND');
       }
 
       const { url }: { url: string } = await response.json();

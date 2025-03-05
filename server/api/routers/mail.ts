@@ -3,6 +3,7 @@ import CertificateReadyEmail from '@/components/mail/_templates/certificateReady
 import EventConfirmation from '@/components/mail/_templates/eventConfirmation';
 import PaymentConfirmationEmail from '@/components/mail/_templates/paymentConfirmation';
 import WelcomeTemplate from '@/components/mail/_templates/welcome';
+import ReminderTemplate from '@/components/mail/_templates/reminder';
 import { getHTML, sentMail } from '@/lib/mail';
 import { currentAsthraCount } from '@/logic';
 
@@ -23,6 +24,22 @@ const purchaseConfirm = async (input: MailRouter['purchaseConfirm']) => {
     }),
     subject: `Event Confirmation - ${event.name}`,
     text: `You have successfully registered for ${event.name} on ASTHRA ${currentAsthraCount}.`,
+  });
+
+  if (!isSuccess) console.error(error);
+};
+
+const Reminder = async (input: Parameters<typeof ReminderTemplate>[0]) => {
+  const { user, data } = input;
+
+  const { isSuccess, error } = await sentMail({
+    to: user.email,
+    html: await getHTML(ReminderTemplate, {
+      user,
+      data,
+    }),
+    subject: 'Event Reminder - ASTHRA 9',
+    text: `It's time for the event. Don't forget to join us.`,
   });
 
   if (!isSuccess) console.error(error);
@@ -95,4 +112,5 @@ export default {
   asthraPass,
   certificateReady,
   welcome,
+  Reminder,
 };

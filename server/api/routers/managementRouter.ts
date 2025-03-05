@@ -1,7 +1,12 @@
 import { and, eq } from 'drizzle-orm';
 
-import { coordinatorProcedure, createTRPCRouter } from '@/server/api/trpc';
 import {
+  coordinatorProcedure,
+  createTRPCRouter,
+  publicProcedure,
+} from '@/server/api/trpc';
+import {
+  eventsTable,
   transactionsTable,
   user,
   userRegisteredEventTable,
@@ -57,6 +62,49 @@ export const managementRouter = createTRPCRouter({
       return {
         user: userData,
         transactions: [transactionsData],
+      };
+    }),
+
+  getRegisteredEventList: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db
+      .select()
+      .from(userRegisteredEventTable)
+      .leftJoin(
+        eventsTable,
+        eq(userRegisteredEventTable.eventId, eventsTable.id)
+      )
+      .leftJoin(user, eq(userRegisteredEventTable.userId, user.id));
+
+    return data;
+  }),
+
+  getUsers: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db.query.user.findMany();
+
+    return data;
+  }),
+
+  getRegisteredEventListofUser: publicProcedure
+    .input(userZod.pick({ id: true }))
+    .query(async ({ ctx, input }) => {
+      const userData = await ctx.db.query.user.findFirst({
+        where: eq(user.id, input.id),
+      });
+
+      if (!userData) throw getTrpcError('USER_NOT_FOUND');
+
+      const data = await ctx.db
+        .select()
+        .from(userRegisteredEventTable)
+        .leftJoin(
+          eventsTable,
+          eq(userRegisteredEventTable.eventId, eventsTable.id)
+        )
+        .where(eq(userRegisteredEventTable.userId, input.id));
+
+      return {
+        user: userData,
+        data,
       };
     }),
 });

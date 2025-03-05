@@ -92,7 +92,7 @@ function SuccessCardOrder({ orderId }: { orderId: string }) {
   if (isLoading) return ("loading")
   if (isPending) return ("force successing")
 
-  if (!data || error) return "Not Found"
+  if (!data || error) return error?.message ?? "Not Found"
 
   return (
     <>
@@ -130,7 +130,7 @@ function SuccessCardEmail({ email }: { email: string }) {
   if (isLoading) return ("loading")
   if (isPending) return ("force successing")
 
-  if (!data || error) return "Not Found"
+  if (!data || error) return error?.message ?? "Not Found"
 
   return (
     <>

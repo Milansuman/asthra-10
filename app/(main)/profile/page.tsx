@@ -83,8 +83,8 @@ export default function ProfilePage() {
             </Button>
           </div>
         </CardContent>
-        <CardContent>
-          {!valid && (
+        {!valid && (
+          <CardContent>
             <Alert className="relative text-black">
               <Terminal className="h-4 w-4" />
               <AlertTitle>Complete Profile</AlertTitle>
@@ -93,8 +93,10 @@ export default function ProfilePage() {
               </AlertDescription>
               <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
             </Alert>
-          )}
-          {user.number === null && (
+          </CardContent>
+        )}
+        {user.number === null && (
+          <CardContent>
             <Alert className="relative text-black">
               <Terminal className="h-4 w-4" />
               <AlertTitle>Add Phone Number</AlertTitle>
@@ -103,8 +105,8 @@ export default function ProfilePage() {
               </AlertDescription>
               <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
             </Alert>
-          )}
-        </CardContent>
+          </CardContent>
+        )}
         <CardContent className="flex justify-start flex-row flex-wrap gap-4">
           {user.asthraPass && (
             <>

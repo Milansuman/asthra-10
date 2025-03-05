@@ -5,16 +5,17 @@ import {
 	Row,
 	Column,
 } from "@react-email/components";
-import { allDepartments, getTimeUtils } from "@/logic";
+import { allDepartments, ASTHRA, getTimeUtils } from "@/logic";
 import type { EventZodType } from '@/lib/validator';
 
 export default function EventSection({ event }: { event: EventZodType }) {
+	const imgUrl = event.id === ASTHRA.id ? `https://asthra.sjcetpalai.ac.in/${event.poster}` : event.poster;
 	return (
 		<Section className="bg-white border-2 border-solid border-[#5B9BE6] py-[3%] px-[1%] max-w-[350px] mt-8 rounded-lg">
 			<Row>
 				<Row>
 					<Column align="center" className="w-1/2">
-						<Img src={event.poster} className="w-[90%] max-w-[120px] object-contain rounded-lg" />
+						<Img src={imgUrl} className="w-[90%] max-w-[120px] object-contain rounded-lg" />
 					</Column>
 					<Column align="left" className="w-1/2">
 						<Text className="m-0 mb-[4%] text-[15px] underline font-extrabold">Event Details</Text>

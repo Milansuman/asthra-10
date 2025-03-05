@@ -1,9 +1,8 @@
 "use client";
 
+import Plusbox from "@/components/madeup/box";
 import { Button } from "@/components/ui/button";
-import { api } from "@/trpc/react";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogClose,
@@ -14,18 +13,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import QRCode from "react-qr-code";
 import { env } from "@/env";
-import { Card, CardDescription, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import Plusbox from "@/components/madeup/box";
-import Image from "next/image";
 import { asthraNotStarted } from "@/logic/moods";
+import { api } from "@/trpc/react";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import QRCode from "react-qr-code";
 
 // ?eventId=""
 export default function Home() {
   return (
     <div className="container min-h-screen flex flex-col justify-center items-center">
       <Card>
+        <PDFDialog />
         <Suspense fallback={
           <CardHeader>
             <CardTitle>
@@ -52,11 +53,10 @@ function Page() {
     </CardHeader>;
   }
 
-  return <>{eventId && <PreCheckOut eventId={eventId} />}</>;
+  return <PreCheckOut eventId={eventId} />;
 }
 
 function PreCheckOut({ eventId }: { eventId: string }) {
-  const [pdfUrl, setPdfUrl] = useState("");
   const { data, error, isLoading } = api.sjcetPay.initiatePurchase.useQuery(
     {
       id: eventId,
@@ -152,49 +152,8 @@ function PreCheckOut({ eventId }: { eventId: string }) {
           </div>
         </Plusbox>
       </CardContent>
-      <p className="p-4 text-sm text-center">
-        By completing this purchase, you agree to our{" "}
-        <Dialog>
-          <DialogTrigger asChild>
-            <button
-              type="button"
-              onClick={() => setPdfUrl("/Mandatory_policy_sjcet.pdf")}
-              className=" underline"
-            >
-              Privacy Policy
-            </button>
-          </DialogTrigger>
-          <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
-            <iframe
-              src={`${pdfUrl}`}
-              className="w-full h-full p-4"
-              title="pdf-viewer"
-            />
-
-          </DialogContent>
-        </Dialog>{" "}
-        and{" "}
-        <Dialog>
-          <DialogTrigger asChild>
-            <button
-              type="button"
-              onClick={() => setPdfUrl("/REFUND_POLICY_SJCET.pdf")}
-              className="underline"
-            >
-              Refund Policy
-            </button>
-          </DialogTrigger>
-          <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
-            <iframe
-              src={`${pdfUrl}`}
-              className="w-full h-full p-4"
-              title="pdf-viewer"
-            />
-          </DialogContent>
-        </Dialog>
-      </p>
+      <PDFDialog />
       <CardFooter className="justify-between gap-4 flex-row-reverse">
-
         <Button variant={"glass"} size={"glass"} link={paymentLink}>Pay ₹{event.amount} Now</Button>
         <Dialog>
           <DialogTrigger asChild>
@@ -226,4 +185,48 @@ function PreCheckOut({ eventId }: { eventId: string }) {
       </CardFooter>
     </>
   );
+}
+
+const PDFDialog = () => {
+  return (
+    <p className="p-4 text-sm text-center">
+      By completing this purchase, you agree to our{" "}
+      <Dialog>
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            className=" underline"
+          >
+            Privacy Policy
+          </button>
+        </DialogTrigger>
+        <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
+          <iframe
+            src={"/Mandatory_policy_sjcet.pdf"}
+            className="w-full h-full p-4"
+            title="pdf-viewer"
+          />
+
+        </DialogContent>
+      </Dialog>{" "}
+      and{" "}
+      <Dialog>
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            className="underline"
+          >
+            Refund Policy
+          </button>
+        </DialogTrigger>
+        <DialogContent className="max-w-3xl w-full h-[80vh] flex flex-col">
+          <iframe
+            src={"/REFUND_POLICY_SJCET.pdf"}
+            className="w-full h-full p-4"
+            title="pdf-viewer"
+          />
+        </DialogContent>
+      </Dialog>
+    </p>
+  )
 }
