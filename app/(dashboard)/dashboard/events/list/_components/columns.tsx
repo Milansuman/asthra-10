@@ -95,6 +95,11 @@ export const columns: ColumnDef<TableType>[] = [
                     <span className="font-medium">Asthra Pass:</span>
                     <span>{user?.asthraPass ? "Yes" : "No"}</span>
                   </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Available Credits:</span>
+                    <span>{user?.asthraCredit ?? 0}</span>
+                  </div>
                 </div>
               </div>
 
