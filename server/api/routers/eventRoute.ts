@@ -1,5 +1,5 @@
 import { eventRouteRules } from '@/logic/moods';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 
@@ -210,6 +210,18 @@ export const eventRouter = createTRPCRouter({
       return await ctx.db.query.eventsTable.findFirst({
         where: eq(eventsTable.id, input.id),
       });
+    }),
+
+  getSpecificWithName: publicProcedure
+    .input(
+      eventZod.pick({
+        name: true,
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.execute(
+        sql`select * from ${eventsTable} where ${eventsTable.name} LIKE '%${input.name}%'`
+      );
     }),
 
   getSpecificCached: publicProcedure

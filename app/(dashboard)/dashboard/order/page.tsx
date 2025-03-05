@@ -30,6 +30,9 @@ export default function Page() {
           <CardDescription>
             Check Payments & Force Success
           </CardDescription>
+          <Button variant={"ghost"} link="/dashboard/order/create">
+            Initiate Transactions &gt;
+          </Button>
         </CardHeader>
         <CardContent>
           <Input
@@ -50,7 +53,7 @@ export default function Page() {
             <DialogTrigger>
               <Button>Search</Button>
             </DialogTrigger>
-            <DialogContent className='max-w-screen h-screen'>
+            <DialogContent className='max-w-screen max-h-screen overflow-scroll'>
               <DialogCard orderId={orderId} email={email} />
             </DialogContent>
           </Dialog>

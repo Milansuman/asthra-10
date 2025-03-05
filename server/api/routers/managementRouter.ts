@@ -12,8 +12,15 @@ import {
   userRegisteredEventTable,
 } from '@/server/db/schema';
 
-import { transactionsZod, userZod, verifyPassZod } from '@/lib/validator';
+import {
+  eventZod,
+  transactionsZod,
+  type TransactionZodType,
+  userZod,
+} from '@/lib/validator';
+import { v4 as uuid } from 'uuid';
 import { getTrpcError } from '@/server/db/utils';
+import { getTimeUtils } from '@/logic';
 
 export const managementRouter = createTRPCRouter({
   getUserAndOrders: coordinatorProcedure
@@ -62,6 +69,61 @@ export const managementRouter = createTRPCRouter({
       return {
         user: userData,
         transactions: [transactionsData],
+      };
+    }),
+
+  initiateStatic: coordinatorProcedure
+    .input(userZod.pick({ email: true }).merge(eventZod.pick({ id: true })))
+    .mutation(async ({ ctx, input }) => {
+      const userData = await ctx.db.query.user.findFirst({
+        where: eq(user.email, input.email),
+      });
+
+      if (!userData) throw getTrpcError('USER_NOT_FOUND');
+
+      const event = await ctx.db.query.eventsTable.findFirst({
+        where: eq(eventsTable.id, input.id),
+      });
+
+      if (!event) throw getTrpcError('EVENT_NOT_FOUND');
+
+      const alreadyRegisteredData =
+        await ctx.db.query.userRegisteredEventTable.findFirst({
+          where: and(
+            eq(userRegisteredEventTable.eventId, input.id),
+            eq(userRegisteredEventTable.userId, userData.id)
+          ),
+        });
+
+      if (alreadyRegisteredData) {
+        throw getTrpcError('ALREADY_PURCHASED');
+      }
+
+      const transactionId = uuid();
+
+      const insertTransaction: TransactionZodType = {
+        eventId: event.id,
+        eventName: event.name ?? 'Unknown Workshop/Competiton Name',
+        id: transactionId,
+        orderId: transactionId,
+        userId: userData.id,
+        userName: userData.name ?? 'NA',
+        status: 'initiated',
+        amount: event.amount,
+        remark: `${userData.email}, ${userData.number}, Manual Initiated ${event.eventType} purchase on ${getTimeUtils(new Date())}`,
+      };
+
+      const finalData = await ctx.db
+        .insert(transactionsTable)
+        .values({ ...insertTransaction })
+        .returning();
+
+      if (!finalData.length || !finalData[0]) {
+        throw getTrpcError('TRANSACTION_NOT_FOUND');
+      }
+
+      return {
+        transaction: finalData[0],
       };
     }),
 
