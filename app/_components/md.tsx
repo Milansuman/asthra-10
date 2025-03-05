@@ -16,7 +16,8 @@ export const Markdown = ({ children, full = false }: { children?: string | null,
                 style={{
                     whiteSpace: "pre-wrap",
                     background: "transparent",
-                    color: "white"
+                    color: "white",
+                    wordBreak: 'break-word',
                 }}
                 components={{
 
