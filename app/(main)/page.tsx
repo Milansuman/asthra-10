@@ -10,6 +10,8 @@ import WhatsApp from '@/components/icons/whatsapp';
 export default function Page() {
   return (
     <main className="z-10 relative">
+      <section className="min-h-screen w-full">
+      </section>
       <section className="grid min-h-screen grid-cols-1 md:grid-cols-3 gap-4 md:gap-0">
         <div className="col-span-1 flex items-center border border-glass p-8 md:col-span-2">
           <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">

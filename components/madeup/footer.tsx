@@ -1,5 +1,4 @@
 import { Facebook, Github, Instagram, Youtube } from "lucide-react"
-import Image from "next/image"
 import Plusbox from "./box"
 export default function Footer() {
   return (
@@ -9,7 +8,7 @@ export default function Footer() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wide font-bold">Asthra 9.0</h2>
         </div>
         <Plusbox className="relative p-2 border-x border-b border-white/20 border-dashed flex items-center justify-center md:col-start-3 md:row-start-1">
-          <Image
+          <img
             src="/asthra glass.png"
             alt="Asthra Logo"
             width={200}
@@ -73,7 +72,7 @@ export default function Footer() {
           </div>
         </div>
         <Plusbox className="relative p-4 border-y border-l border-r border-b-0 border-dashed border-white/50 flex items-center justify-center md:col-start-3 md:row-start-4">
-          <Image
+          <img
             src="/sjcet.svg"
             alt="St. Joseph's College Logo"
             width={150}

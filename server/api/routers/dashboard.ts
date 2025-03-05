@@ -1,4 +1,4 @@
-import { and, count, eq, ne } from 'drizzle-orm';
+import { and, count, eq, ne, sql } from 'drizzle-orm';
 
 import {
   coordinatorProcedure,
@@ -129,6 +129,7 @@ export const dashboardRouter = createTRPCRouter({
           )
           .leftJoin(user, eq(userRegisteredEventTable.userId, user.id));
 
+        await tx.execute(sql`commit`);
         return {
           registrationList,
         };

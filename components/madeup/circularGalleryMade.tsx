@@ -8,7 +8,7 @@ import { Loader } from "lucide-react";
 
 const CircularGalleryMade: React.FC = () => {
 
-    const { data, isLoading, isPending, isError } = api.event.getGeneral.useQuery(6);
+    const { data, isLoading, isPending, isError } = api.event.getGeneral.useQuery(12);
 
     if (isLoading || isPending) {
         return (
