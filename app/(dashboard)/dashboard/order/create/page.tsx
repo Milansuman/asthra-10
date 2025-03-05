@@ -42,9 +42,19 @@ import { toast } from 'sonner';
 export default function Page() {
   const { data: events, isLoading } = api.event.getAll.useQuery()
   const [email, setEmail] = useState('')
+  const [orderId, setOrderId] = useState('')
   const [event, setEvent] = useState<string>("")
   const [open, setOpen] = useState(false)
-  const { data: transactions, mutateAsync } = api.management.initiateStatic.useMutation()
+  const { data: transactions, mutateAsync, error } = api.management.initiateStatic.useMutation({
+    onSuccess: () => {
+      toast('Payment Initiated')
+    },
+    onError: (error) => {
+      toast.error(`Payment Init Failed - ${error.data?.code}`, {
+        description: error.message
+      })
+    }
+  })
 
   return (
     <div className="container h-screen flex flex-col justify-center items-center">
@@ -56,13 +66,23 @@ export default function Page() {
           <CardDescription>
             Check Payments & Force Success
           </CardDescription>
+          <CardDescription>
+            {error?.message}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Input
             placeholder='Email ID'
             value={email}
+            required
             className='h-16 md:text-xl'
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            placeholder='Order ID'
+            value={orderId}
+            className='h-16 md:text-xl'
+            onChange={(e) => setOrderId(e.target.value)}
           />
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -73,31 +93,35 @@ export default function Page() {
                 className="h-16 w-full"
               >
                 {event && events
-                  ? events.find((framework) => framework.id === event)?.name
+                  ? events.find((e) => e.id === event)?.name
                   : "Select Event..."}
                 <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput placeholder="Search framework..." className="h-9" />
+            <PopoverContent className="p-0">
+              <Command className='text-glass'>
+                <CommandInput required placeholder="Search Events..." className="h-9" />
                 <CommandList>
-                  <CommandEmpty>No framework found.</CommandEmpty>
+                  <CommandEmpty>No event found.</CommandEmpty>
                   {events && <CommandGroup>
-                    {events.map((framework) => (
+                    {events.map((e) => (
                       <CommandItem
-                        key={framework.id}
-                        value={framework.id}
+                        className='text-glass'
+                        key={e.id}
+                        value={e.name ?? e.description ?? e.department}
                         onSelect={(currentEvent) => {
-                          setEvent(currentEvent === event ? "" : currentEvent)
+                          setEvent(e.id)
                           setOpen(false)
                         }}
                       >
-                        {framework.name}
+                        {e.name} <br />
+                        <span className='text-xs text-gray-400'>
+                          {e.department} (${e.amount})
+                        </span>
                         <Check
                           className={cn(
                             "ml-auto",
-                            event === framework.id ? "opacity-100" : "opacity-0"
+                            event === e.id ? "opacity-100" : "opacity-0"
                           )}
                         />
                       </CommandItem>

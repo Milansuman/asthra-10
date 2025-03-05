@@ -18,8 +18,6 @@ export interface Main {
   body: string;
 }
 
-export const dynamic = 'force-dynamic';
-
 type FilterQueries = {
   department: string;
   status: string;

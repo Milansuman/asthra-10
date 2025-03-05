@@ -1,4 +1,4 @@
-import { and, eq, ne, or } from 'drizzle-orm';
+import { and, eq, ne, or, sql } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
 import * as z from 'zod';
 
@@ -194,6 +194,8 @@ export const sjcetPaymentRouter = createTRPCRouter({
           isASTHRA = false;
         }
 
+        // await tx.execute(sql`commit`);
+
         return {
           event: eventData[0],
           transaction: currentTransation,
@@ -252,6 +254,8 @@ export const sjcetPaymentRouter = createTRPCRouter({
           .select()
           .from(eventsTable)
           .where(eq(eventsTable.id, currentTransation[0]?.eventId ?? ''));
+
+        // await tx.execute(sql`commit`);
 
         return {
           transaction: currentTransation[0],
@@ -337,6 +341,8 @@ export const sjcetPaymentRouter = createTRPCRouter({
           isASTHRA = false;
         }
 
+        await tx.execute(sql`commit`);
+
         return {
           transaction: transactionData,
           status: transactionData.status,
@@ -407,8 +413,10 @@ export const sjcetPaymentRouter = createTRPCRouter({
           .values({
             eventId: transactionData.eventId,
             transactionId: transactionData.id,
+            status:
+              transactionData.eventId === ASTHRA.id ? 'attended' : 'registered',
             userId: transactionData.userId,
-            remark: `Forced Success on ${getTimeUtils(new Date())}`,
+            remark: `Spot Registration on ${getTimeUtils(new Date())}`,
           })
           .returning();
 
@@ -442,6 +450,8 @@ export const sjcetPaymentRouter = createTRPCRouter({
         } else {
           isASTHRA = false;
         }
+
+        // await tx.execute(sql`commit`);
 
         return {
           transaction: transactionData,

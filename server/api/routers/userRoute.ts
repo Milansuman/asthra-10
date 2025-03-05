@@ -2,7 +2,7 @@
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
-import { allRoles } from '@/logic';
+import { allRoles, getTimeUtils } from '@/logic';
 
 import {
   eventsTable,
@@ -147,6 +147,7 @@ export const userRouter = createTRPCRouter({
         .update(userRegisteredEventTable)
         .set({
           status: 'attended',
+          remark: `Attended at ${getTimeUtils(new Date())}`,
         })
         .where(
           and(
@@ -167,6 +168,7 @@ export const userRouter = createTRPCRouter({
         .update(userRegisteredEventTable)
         .set({
           status: 'attended',
+          remark: `Attended at ${getTimeUtils(new Date())}`,
         })
         .where(
           eq(userRegisteredEventTable.registrationId, input.registrationId)

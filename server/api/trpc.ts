@@ -174,7 +174,8 @@ export const coordinatorProcedure = t.procedure.use(({ ctx, next }) => {
     role !== 'ADMIN' &&
     role !== 'MANAGEMENT' &&
     role !== 'STUDENT_COORDINATOR' &&
-    role !== 'FACULTY_COORDINATOR'
+    role !== 'FACULTY_COORDINATOR' &&
+    role !== 'DESK'
   ) {
     throw getTrpcError('NOT_AUTHORIZED');
   }
