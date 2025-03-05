@@ -229,4 +229,17 @@ export const asthraRouter = createTRPCRouter({
   getMyAsthraPass: validUserOnlyProcedure.query(({ ctx }) => {
     return ctx.user;
   }),
+  editAsthraCredits: managementProcedure.
+    input(z.object({
+      credits: z.number(),
+      userId: z.string()
+    }))
+    .mutation(async ({ctx, input}) => {
+      return ctx.db
+        .update(user)
+        .set({
+          asthraCredit: input.credits
+        })
+        .where(eq(user.id, input.userId));
+    })
 });
