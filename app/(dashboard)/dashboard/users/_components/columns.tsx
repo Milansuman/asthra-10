@@ -12,13 +12,27 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Plusbox from "@/components/madeup/box";
+
+import { Dialog, DialogHeader, DialogContent, DialogTitle, DialogClose, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
+
+import { Check, ChevronRight, QrCodeIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { api } from "@/trpc/react";
 import { useState } from "react";
 
 import { z } from "zod";
+import QRCode from "react-qr-code";
 
 export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
   {
@@ -79,6 +93,24 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
     }
   },
   {
+    header: "Registered Events",
+    cell: ({ row }) => {
+      return (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>View Events</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>View Registered Events</DialogTitle>
+            </DialogHeader>
+            <ListOfEvents userId={row.original.id} />
+          </DialogContent>
+        </Dialog>
+      )
+    }
+  },
+  {
     header: "Role",
     cell: ({ row }) => {
       const { mutate: editUser } = api.user.editUserRole.useMutation();
@@ -109,3 +141,76 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
     }
   }
 ]
+
+const ListOfEvents = ({ userId }: { userId: string }) => {
+  const { data, isPending } = api.user.getUserRegisteredEvents.useQuery({
+    userId
+  });
+
+  if (!data) return null
+
+  const listOfEvents = data.map(e => ({
+    ...e.userRegisteredEvent,
+    name: e?.event?.name ?? "Unknown Event",
+  }));
+
+  return (
+    <>
+      {
+        isPending ? <>
+          {
+            listOfEvents.length > 0 && (
+              <CardContent>
+                <CardTitle className="mb-3">Purchased Events</CardTitle>
+                <Plusbox>
+                  <Table>
+                    <TableBody>
+                      {listOfEvents.map((event, i) => (
+                        <TableRow key={event.eventId}>
+                          <TableCell>{event.name}</TableCell>
+                          <TableCell>{event.status}</TableCell>
+                          <TableCell className="text-right">
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button size={"thin"} variant="glass">
+                                  View QR <QrCodeIcon />
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent>
+                                <DialogHeader>
+                                  <DialogTitle>Scan this QR to get Attendence</DialogTitle>
+                                  <DialogDescription>
+                                    Show this QR code to the venue staff or student coordinator to get your attendence for your participation.
+                                  </DialogDescription>
+                                  <DialogDescription>
+                                    Certificate will be issued based on this attendence.
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <div className="p-4 bg-white">
+                                  <QRCode
+                                    size={256}
+                                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                    value={event.registrationId}
+                                    viewBox={"0 0 256 256"}
+                                  />
+                                </div>
+                              </DialogContent>
+                            </Dialog>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button link={`/event/${event.eventId}`} size={"thin"} variant="glass">
+                              Show Event <ChevronRight />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Plusbox>
+              </CardContent>
+            )
+          }
+        </> : <p>Loading...</p>
+      }
+    </>);
+}

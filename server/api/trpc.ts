@@ -201,7 +201,7 @@ export const frontDeskProcedure = t.procedure.use(({ ctx, next }) => {
 
   const role = ctx.session.user.role;
 
-  if (role !== 'DESK' && role !== 'MANAGEMENT' && role !== 'ADMIN') {
+  if (role !== 'DESK' && role !== 'STUDENT_COORDINATOR' && role !== 'MANAGEMENT' && role !== 'ADMIN') {
     throw getTrpcError('NOT_AUTHORIZED');
   }
 
