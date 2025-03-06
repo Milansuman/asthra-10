@@ -32,7 +32,7 @@ export const userRouter = createTRPCRouter({
   /**
    * user with role USER can't access other user list
    */
-  getUserList: frontDeskProcedure
+  getUserList: coordinatorProcedure
     .input(
       userZod
         .pick({
@@ -70,7 +70,7 @@ export const userRouter = createTRPCRouter({
         .returning();
     }),
 
-  editUserRole: managementProcedure
+  editUserRole: coordinatorProcedure
     .input(
       z.object({
         role: z.enum([

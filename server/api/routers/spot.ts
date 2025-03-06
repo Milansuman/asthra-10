@@ -3,7 +3,11 @@ import { and, eq } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
 import * as z from 'zod';
 
-import { createTRPCRouter, frontDeskProcedure } from '@/server/api/trpc';
+import {
+  coordinatorProcedure,
+  createTRPCRouter,
+  frontDeskProcedure,
+} from '@/server/api/trpc';
 import {
   eventsTable,
   transactionsTable,
@@ -89,16 +93,21 @@ export const spotRegister = createTRPCRouter({
         };
       });
     }),
-  updateParticipantStatus: frontDeskProcedure
+  updateParticipantStatus: coordinatorProcedure
     .input(
       z.object({
         registrationId: z.string(),
-        status: z.enum(["attended", "registered", "certified"])
+        status: z.enum(['attended', 'registered', 'certified']),
       })
     )
-    .mutation(async ({ctx, input}) => {
-      await ctx.db.update(userRegisteredEventTable).set({
-        status: input.status
-      }).where(eq(userRegisteredEventTable.registrationId, input.registrationId))
-    })
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(userRegisteredEventTable)
+        .set({
+          status: input.status,
+        })
+        .where(
+          eq(userRegisteredEventTable.registrationId, input.registrationId)
+        );
+    }),
 });

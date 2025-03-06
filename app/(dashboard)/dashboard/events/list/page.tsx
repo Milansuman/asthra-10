@@ -22,9 +22,14 @@ export default function ListPage() {
 function ParticipantsListPage() {
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
+
+  if (!eventId) {
+    return <div>Invalid Event ID</div>
+  }
+
   const [csvData, setCsvData] = useState("");
   const { data, isPending } = api.event.getEventParticipants.useQuery({
-    id: eventId!
+    id: eventId
   })
 
   // Helper function to properly format CSV fields
