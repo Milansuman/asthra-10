@@ -121,7 +121,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
     return url.toString();
   }
 
-  const notSpot = asthraNotStarted() || event.registrationType === "online"
+  const notSpot = event.registrationType === "online"
   const paymentLink = getPaymentURL(orderId, event.amount);
 
   return (
