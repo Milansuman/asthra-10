@@ -17,18 +17,18 @@ const Items: DockItemData[] = [
   //   link: "/dashboard/upload",
   //   label: "Upload",
   // },
-  {
-    link: "/dashboard/events/edit",
-    label: "Edit Events",
-  },
+  // {
+  //   link: "/dashboard/events/edit",
+  //   label: "Edit Events",
+  // },
   {
     link: "/dashboard/users",
     label: "User-Manage"
   },
-  {
-    link: "/dashboard/attendence",
-    label: "Attendence",
-  },
+  // {
+  //   link: "/dashboard/attendence",
+  //   label: "Attendence",
+  // },
   {
     link: "/dashboard/desk",
     label: "Desk-Participants",
@@ -36,6 +36,10 @@ const Items: DockItemData[] = [
   {
     link: "/dashboard/desk/scan",
     label: "Spot Registration",
+  },
+  {
+    link: "/dashboard/order",
+    label: "Payment Resolver",
   },
 ]
 
