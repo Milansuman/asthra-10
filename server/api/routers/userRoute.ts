@@ -236,6 +236,21 @@ export const userRouter = createTRPCRouter({
     // });
   }),
 
+  getUserRegisteredEvents: frontDeskProcedure
+    .input(z.object({
+      userId: z.string()
+    }))
+    .query(async ({ctx, input}) => {
+      return await ctx.db
+      .select()
+      .from(userRegisteredEventTable)
+      .leftJoin(
+        eventsTable,
+        eq(userRegisteredEventTable.eventId, eventsTable.id)
+      )
+      .where(eq(userRegisteredEventTable.userId, input.userId));
+    }),
+
   isRegisteredThisEvent: validUserOnlyProcedure
     .input(z.object({ eventId: z.string() }))
     .query(async ({ ctx, input }) => {
