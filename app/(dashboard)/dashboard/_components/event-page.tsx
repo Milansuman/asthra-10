@@ -35,6 +35,7 @@ import { api } from 'trpc/react';
 
 
 import { TRPCError } from '@trpc/server';
+import { isMobileDevice } from '@/hooks/mobile';
 
 type Event = z.infer<typeof eventZod>;
 
@@ -168,10 +169,10 @@ export function EventPage({
           onValueChange={(value) => handleSelect(value)}
           defaultValue={filterDepartment}
         >
-          <SelectTrigger className="w-fit text-center bg-glass border border-glass">
+          <SelectTrigger className="w-[380px] self-center text-left">
             <SelectValue placeholder="All" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="w-[380px]">
             <SelectItem value="all">All</SelectItem>
             {Object.entries(allDepartments)
               .map(([dep, full]) => (
@@ -181,41 +182,58 @@ export function EventPage({
               ))}
           </SelectContent>
         </Select>
-        <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 bg-glass border border-glass overflow-auto scrollbar-none">
-          {categories.map((category) => (
-            <div
-              key={`${category}.div`}
-              className="flex p-1"
-              onClick={() => handleFilter(category)}
-            >
-              <motion.div
-                key={category}
-                initial={false}
-                animate={{
-                  color: filter === category ? '#111111' : '#ffffff',
-                }}
-                className="relative py-1 px-4"
+        {isMobileDevice() ? (
+          <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
+            <SelectTrigger className="w-[380px] self-center text-left">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent className="w-[380px]">
+              {categories.map((category) => (
+                <SelectItem value={category} key={category}>
+                  {category.replaceAll('_', ' ').split(' ').map(word =>
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                  ).join(' ')}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : (
+          <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 bg-glass border border-glass overflow-auto scrollbar-none">
+            {categories.map((category) => (
+              <div
+                key={`${category}.div`}
+                className="flex p-1"
+                onClick={() => handleFilter(category)}
               >
-                {filter === category && (
-                  <motion.div
-                    layoutId="pill_event"
-                    // style={{ borderRadius: 500 }}
-                    transition={{
-                      duration: 0.75,
-                      type: 'tween',
-                      ease: [0.76, 0, 0.24, 1],
-                      delay: 0.2,
-                    }}
-                    className="absolute inset-0 bg-white"
-                  />
-                )}
-                <span className="relative whitespace-nowrap">
-                  {category.replaceAll('_', ' ')}
-                </span>
-              </motion.div>
-            </div>
-          ))}
-        </div>
+                <motion.div
+                  key={category}
+                  initial={false}
+                  animate={{
+                    color: filter === category ? '#111111' : '#ffffff',
+                  }}
+                  className="relative py-1 px-4"
+                >
+                  {filter === category && (
+                    <motion.div
+                      layoutId="pill_event"
+                      // style={{ borderRadius: 500 }}
+                      transition={{
+                        duration: 0.75,
+                        type: 'tween',
+                        ease: [0.76, 0, 0.24, 1],
+                        delay: 0.2,
+                      }}
+                      className="absolute inset-0 bg-white"
+                    />
+                  )}
+                  <span className="relative whitespace-nowrap">
+                    {category.replaceAll('_', ' ')}
+                  </span>
+                </motion.div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
         {events
