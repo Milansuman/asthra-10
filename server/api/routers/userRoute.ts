@@ -115,6 +115,22 @@ export const userRouter = createTRPCRouter({
         );
     }),
 
+  getAttendence: frontDeskProcedure
+    .input(
+      z.object({
+        eventId: z.string().min(1),
+        userId: z.string().min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.userRegisteredEventTable.findFirst({
+        where: and(
+          eq(userRegisteredEventTable.eventId, ASTHRA.id),
+          eq(userRegisteredEventTable.userId, input.userId)
+        ),
+      });
+    }),
+
   entryCheck: frontDeskProcedure
     .input(
       z.object({
