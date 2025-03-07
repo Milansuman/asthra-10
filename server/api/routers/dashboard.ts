@@ -18,7 +18,7 @@ import { eventAccessZod } from '@/lib/validator';
 import { ASTHRA } from '@/logic';
 
 export const dashboardRouter = createTRPCRouter({
-  asthraCount: managementProcedure.query(async ({ ctx }) => {
+  asthraCount: coordinatorProcedure.query(async ({ ctx }) => {
     const totalRegistedAndAttended = await ctx.db
       .select({
         value: count(),
@@ -65,7 +65,7 @@ export const dashboardRouter = createTRPCRouter({
     };
   }),
 
-  workshopCount: managementProcedure.query(async ({ ctx }) => {
+  workshopCount: coordinatorProcedure.query(async ({ ctx }) => {
     const totalRegistedAndAttended = await ctx.db
       .select({
         value: count(),
