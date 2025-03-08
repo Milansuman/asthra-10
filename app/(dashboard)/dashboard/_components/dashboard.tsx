@@ -75,7 +75,7 @@ export function Asthra() {
               <XAxis dataKey="count" type="number" hide />
               <ChartTooltip
                 cursor={false}
-                labelClassName='text-black'
+                labelClassName='text-white'
                 content={<ChartTooltipContent indicator="line" />}
               />
               <Bar
@@ -150,7 +150,7 @@ export function Workshop() {
               <XAxis dataKey="count" type="number" hide />
               <ChartTooltip
                 cursor={false}
-                labelClassName='text-black'
+                labelClassName='text-white'
                 content={<ChartTooltipContent indicator="line" />}
               />
               <Bar
