@@ -43,8 +43,15 @@ export const columns = (forceSuccess: (orderId: string) => void) => [
         enableHiding: false,
     },
     {
+        accessorKey: "id",
+        header: "Trnx Id",
+        cell: ({ row }) => (
+            <div>{row.getValue("id")}</div>
+        ),
+    },
+    {
         accessorKey: "orderId",
-        header: "OrderId",
+        header: "Order ID",
         cell: ({ row }) => (
             <div>{row.getValue("orderId")}</div>
         ),
