@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { z } from 'zod';
 import { eventZod } from '@/lib/validator';
+import { Markdown } from '@/app/_components/md';
 
 interface EventCardProps {
   event: z.infer<typeof eventZod>
@@ -17,7 +18,7 @@ export function EventCard({ event }: EventCardProps) {
         width={300}
         height={300} />
       <h4 className="mt-2 text-lg font-semibold">{event.name}</h4>
-      <p className="mt-1 text-gray-400">{event.description}</p>
+      <Markdown>{event.description}</Markdown>
     </div>
   )
 }
