@@ -1,5 +1,5 @@
 import { eventRouteRules } from '@/logic/moods';
-import { and, eq, sql } from 'drizzle-orm';
+import { and, eq, inArray, sql } from 'drizzle-orm';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 
@@ -286,6 +286,58 @@ export const eventRouter = createTRPCRouter({
         )
         .where(eq(userRegisteredEventTable.eventId, input.id))
         .orderBy(user.name);
+    }),
+
+  addParticipants: coordinatorProcedure
+    .input(
+      z.object({
+        eventId: z.string(),
+        usersEmails: z.array(z.string()),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const eventData = await ctx.db.query.eventsTable.findFirst({
+        where: eq(eventsTable.id, input.eventId),
+      });
+
+      if (!eventData) {
+        throw getTrpcError('EVENT_NOT_FOUND');
+      }
+      if (eventData.eventType !== 'ASTHRA_PASS_EVENT') {
+        throw getTrpcError('UPDATE_ATTRIBUTE_FAILED');
+      }
+
+      const userData = await ctx.db.query.user.findMany({
+        where: inArray(user.email, input.usersEmails),
+      });
+
+      console.log(userData);
+
+      if (userData.length === 0) {
+        throw getTrpcError('USER_NOT_FOUND');
+      }
+
+      for (const u of userData) {
+        const isRegistered =
+          await ctx.db.query.userRegisteredEventTable.findFirst({
+            where: and(
+              eq(userRegisteredEventTable.eventId, input.eventId),
+              eq(userRegisteredEventTable.userId, u.id)
+            ),
+          });
+
+        if (isRegistered) {
+          continue;
+        }
+
+        await ctx.db.insert(userRegisteredEventTable).values({
+          eventId: input.eventId,
+          userId: u.id,
+          transactionId: u.transactionId ?? uuid(),
+          status: 'attended',
+          remark: 'Spot registration',
+        });
+      }
     }),
   /**
    * Register non price events

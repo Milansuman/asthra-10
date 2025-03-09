@@ -3,7 +3,13 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { eventZod, userRegisteredEventZod, userZod } from "@/lib/validator";
 import { z } from "zod";
-import { Select, SelectContent, SelectTrigger, SelectItem, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import { QrCode as QrCodeIcon } from "lucide-react";
 import QRCode from "react-qr-code";
@@ -22,10 +28,10 @@ import { toast } from "sonner";
 import { api } from "@/trpc/react";
 
 export type TableType = {
-  event: z.infer<typeof eventZod> | null,
-  userRegisteredEvent: z.infer<typeof userRegisteredEventZod>,
-  user: z.infer<typeof userZod> | null
-}
+  event: z.infer<typeof eventZod> | null;
+  userRegisteredEvent: z.infer<typeof userRegisteredEventZod>;
+  user: z.infer<typeof userZod> | null;
+};
 
 export const columns: ColumnDef<TableType>[] = [
   {
@@ -38,7 +44,10 @@ export const columns: ColumnDef<TableType>[] = [
       return (
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="link" className="p-0 h-auto flex items-center gap-2 text-white">
+            <Button
+              variant="link"
+              className="p-0 h-auto flex items-center gap-2 text-white"
+            >
               {userName} <QrCodeIcon size={16} />
             </Button>
           </DialogTrigger>
@@ -53,7 +62,9 @@ export const columns: ColumnDef<TableType>[] = [
             <div className="flex flex-col md:flex-row gap-6 mt-4">
               {/* User Details Section */}
               <div className="flex-1 space-y-4 text-white">
-                <h3 className="text-lg font-medium border-b pb-2">User Information</h3>
+                <h3 className="text-lg font-medium border-b pb-2">
+                  User Information
+                </h3>
 
                 <div className="space-y-2">
                   <div className="flex justify-between">
@@ -119,43 +130,51 @@ export const columns: ColumnDef<TableType>[] = [
           </DialogContent>
         </Dialog>
       );
-    }
+    },
   },
   {
     header: "Email",
-    accessorFn: row => `${row.user?.email}`
+    accessorFn: (row) => `${row.user?.email}`,
   },
   {
     header: "Phone",
-    accessorFn: row => `${row.user?.number}`
+    accessorFn: (row) => `${row.user?.number}`,
   },
   {
     header: "Has AsthraPass",
-    accessorFn: row => `${row.user?.asthraPass}`
+    accessorFn: (row) => `${row.user?.asthraPass}`,
   },
   {
     header: "College",
-    accessorFn: row => `${row.user?.college}`
+    accessorFn: (row) => `${row.user?.college}`,
   },
   {
     header: "Status",
     cell: ({ row }) => {
-      const [status, setStatus] = useState(row.original.userRegisteredEvent.status || "registered");
-      const { mutate } = api.spot.updateParticipantStatus.useMutation()
+      const [status, setStatus] = useState(
+        row.original.userRegisteredEvent.status || "registered",
+      );
+      const { mutate } = api.spot.updateParticipantStatus.useMutation();
 
-      const handleStatusChange = async (value: "registered" | "attended" | "certified") => {
+      const handleStatusChange = async (
+        value: "registered" | "attended" | "certified",
+      ) => {
         setStatus(value);
 
         try {
-          mutate({
-            registrationId: row.original.userRegisteredEvent.registrationId,
-            status: value
-          }, {
-            onError: (error) => toast("An error occurred", {
-              description: error.message
-            }),
-            onSuccess: () => toast("Status changed successfully")
-          })
+          mutate(
+            {
+              registrationId: row.original.userRegisteredEvent.registrationId,
+              status: value,
+            },
+            {
+              onError: (error) =>
+                toast.error("An error occurred", {
+                  description: error.message,
+                }),
+              onSuccess: () => toast("Status changed successfully"),
+            },
+          );
         } catch (error) {
           console.error("Failed to update status:", error);
           // Optionally revert the status on error
@@ -164,10 +183,7 @@ export const columns: ColumnDef<TableType>[] = [
       };
 
       return (
-        <Select
-          defaultValue={status}
-          onValueChange={handleStatusChange}
-        >
+        <Select defaultValue={status} onValueChange={handleStatusChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
@@ -176,7 +192,7 @@ export const columns: ColumnDef<TableType>[] = [
             <SelectItem value="attended">Attended</SelectItem>
           </SelectContent>
         </Select>
-      )
-    }
-  }
-]
+      );
+    },
+  },
+];

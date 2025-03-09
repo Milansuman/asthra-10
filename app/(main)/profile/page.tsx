@@ -13,7 +13,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import { ChevronRight, QrCodeIcon, Terminal, TicketIcon, VerifiedIcon } from "lucide-react";
+import {
+  ChevronRight,
+  QrCodeIcon,
+  Terminal,
+  TicketIcon,
+  VerifiedIcon,
+} from "lucide-react";
 import QRCode from "react-qr-code";
 
 import LoginButton from "@/app/_components/login";
@@ -30,9 +36,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { signOut, useSession } from "@/hooks/session";
-import type {
-  UserZodType
-} from "@/lib/validator";
+import type { UserZodType } from "@/lib/validator";
 import { ASTHRA, allDepartments } from "@/logic";
 import { api } from "@/trpc/react";
 import { ProfileEdit } from "./_componetns/edit";
@@ -41,9 +45,11 @@ export default function ProfilePage() {
   const { status, data, valid } = useSession();
 
   if (!data || !data.user) {
-    return <main className="flex flex-col justify-center items-center h-screen">
-      <LoginButton />
-    </main>;
+    return (
+      <main className="flex flex-col justify-center items-center h-screen">
+        <LoginButton />
+      </main>
+    );
   }
   const user = data.user as UserZodType;
 
@@ -54,16 +60,17 @@ export default function ProfilePage() {
           <div className="flex flex-row gap-3 items-center">
             <Avatar className="h-11 w-11 md:h-20 md:w-20 rounded-sm">
               <AvatarImage src={user.image ?? ""} />
-              <AvatarFallback className="rounded-sm">{user.name}</AvatarFallback>
+              <AvatarFallback className="rounded-sm">
+                {user.name}
+              </AvatarFallback>
             </Avatar>
             <div>
-              <CardTitle className="text-xl md:text-2xl">
-                {user.name}
-              </CardTitle>
-              <CardDescription
-                className="text-sm md:text-base break-all"
-              >
-                {user.email} {user.email.endsWith(".ac.in") && <VerifiedIcon className="inline-flex h-4" />}
+              <CardTitle className="text-xl md:text-2xl">{user.name}</CardTitle>
+              <CardDescription className="text-sm md:text-base break-all">
+                {user.email}{" "}
+                {user.email.endsWith(".ac.in") && (
+                  <VerifiedIcon className="inline-flex h-4" />
+                )}
               </CardDescription>
             </div>
           </div>
@@ -82,11 +89,11 @@ export default function ProfilePage() {
             <Button size={"thin"} variant="glass">
               {user.college}
             </Button>
-            {user.KTU &&
+            {user.KTU && (
               <Button size={"thin"} variant="glass">
                 {user.KTU}
               </Button>
-            }
+            )}
           </div>
         </CardContent>
         {!valid && (
@@ -101,6 +108,17 @@ export default function ProfilePage() {
             </Alert>
           </CardContent>
         )}
+        <CardContent>
+          <Alert className="relative text-black">
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Update your Profile</AlertTitle>
+            <AlertDescription>
+              Before generating certificate, make sure to use your correct name
+              & details.
+            </AlertDescription>
+            <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
+          </Alert>
+        </CardContent>
         {user.number === null && (
           <CardContent>
             <Alert className="relative text-black">
@@ -116,12 +134,12 @@ export default function ProfilePage() {
         <CardContent className="flex justify-start flex-row flex-wrap gap-4">
           {user.asthraPass && (
             <>
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Credits</p>
+              <div className="relative bg-glass py-2 px-4 border-glass border">
+                <p className="opacity-70 text-sm font-normal">Credits</p>
                 {user.asthraCredit}
               </div>
-              <div className='relative bg-glass py-2 px-4 border-glass border'>
-                <p className='opacity-70 text-sm font-normal'>Pass</p>
+              <div className="relative bg-glass py-2 px-4 border-glass border">
+                <p className="opacity-70 text-sm font-normal">Pass</p>
                 ASTHRA
               </div>
             </>
@@ -149,36 +167,50 @@ export default function ProfilePage() {
               </div>
             </DialogContent>
           </Dialog>
-          {user.asthraPass && <Dialog>
-            <DialogTrigger asChild>
-              <Button size={"glass"} variant="glass">
-                Show Pass <TicketIcon />
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Here is your ASTHRA PASS</DialogTitle>
-                <DialogDescription>
-                  Get your attendance marked by showing this QR code at Front Desk.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="relative">
-                <img src="/images/pass.png" alt="Asthra Pass" className="max-w-80 mx-auto" />
-                <div className="p-6 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2">
-                  <QRCode
-                    size={256}
-                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                    value={user.id}
-                    viewBox={"0 0 256 256"}
+          <Button size={"glass"} disabled variant="glass">
+            Generate Certificate <TicketIcon />
+          </Button>
+          {user.asthraPass && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size={"glass"} variant="glass">
+                  Show Pass <TicketIcon />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Here is your ASTHRA PASS</DialogTitle>
+                  <DialogDescription>
+                    Get your attendance marked by showing this QR code at Front
+                    Desk.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="relative">
+                  <img
+                    src="/images/pass.png"
+                    alt="Asthra Pass"
+                    className="max-w-80 mx-auto"
                   />
+                  <div className="p-6 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2">
+                    <QRCode
+                      size={256}
+                      style={{
+                        height: "auto",
+                        maxWidth: "100%",
+                        width: "100%",
+                      }}
+                      value={user.id}
+                      viewBox={"0 0 256 256"}
+                    />
+                  </div>
+                  <div className="absolute top-2/3 left-5 md:translate-x-1/2 -translate-y-1/2 text-start">
+                    <h4 className="text-black">{user.name}</h4>
+                    <p className="text-black">{user.email}</p>
+                  </div>
                 </div>
-                <div className="absolute top-2/3 left-5 md:translate-x-1/2 -translate-y-1/2 text-start">
-                  <h4 className="text-black">{user.name}</h4>
-                  <p className="text-black">{user.email}</p>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>}
+              </DialogContent>
+            </Dialog>
+          )}
         </CardContent>
 
         <ListOfEvents />
@@ -197,7 +229,6 @@ export default function ProfilePage() {
               </DialogHeader>
 
               <ProfileEdit />
-
             </DialogContent>
           </Dialog>
 
@@ -207,14 +238,22 @@ export default function ProfilePage() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle className="text-white">Are you absolutely sure?</DialogTitle>
+                <DialogTitle className="text-white">
+                  Are you absolutely sure?
+                </DialogTitle>
                 <DialogDescription className="text-white">
-                  This action will sign you out of the application. But you can always sign back in.
+                  This action will sign you out of the application. But you can
+                  always sign back in.
                 </DialogDescription>
               </DialogHeader>
-              <Button onClick={() => signOut({
-                callbackUrl: "/",
-              })} variant="destructive">
+              <Button
+                onClick={() =>
+                  signOut({
+                    callbackUrl: "/",
+                  })
+                }
+                variant="destructive"
+              >
                 Sign Out
               </Button>
             </DialogContent>
@@ -223,10 +262,19 @@ export default function ProfilePage() {
       </Card>
       <div className="flex-[1_auto] flex flex-col gap-6 items-center justify-center relative overflow-hidden">
         <div className="group">
-          <ModelViewer className={`group-hover:blur-0 transition-all ${user.asthraPass ? "" : "blur"}`} />
-          {!user.asthraPass && <Button variant={"glass"} size={"glass"} className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]" link={`/event/${ASTHRA.id}`}>
-            <ButtonText keyType={"Buy ASTHRA PASS"} />
-          </Button>}
+          <ModelViewer
+            className={`group-hover:blur-0 transition-all ${user.asthraPass ? "" : "blur"}`}
+          />
+          {!user.asthraPass && (
+            <Button
+              variant={"glass"}
+              size={"glass"}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]"
+              link={`/event/${ASTHRA.id}`}
+            >
+              <ButtonText keyType={"Buy ASTHRA PASS"} />
+            </Button>
+          )}
         </div>
       </div>
     </main>
@@ -236,16 +284,16 @@ export default function ProfilePage() {
 const ListOfEvents = () => {
   const { data } = api.user.getRegisteredEventList.useQuery();
 
-  if (!data) return null
+  if (!data) return null;
 
-  const listOfEvents = data.map(e => ({
+  const listOfEvents = data.map((e) => ({
     ...e.userRegisteredEvent,
     name: e?.event?.name ?? "Unknown Event",
   }));
 
-  return (<>
-    {
-      listOfEvents.length > 0 && (
+  return (
+    <>
+      {listOfEvents.length > 0 && (
         <CardContent>
           <CardTitle className="mb-3">Purchased Events</CardTitle>
           <Plusbox>
@@ -264,18 +312,27 @@ const ListOfEvents = () => {
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Scan this QR to get Attendence</DialogTitle>
+                            <DialogTitle>
+                              Scan this QR to get Attendence
+                            </DialogTitle>
                             <DialogDescription>
-                              Show this QR code to the venue staff or student coordinator to get your attendence for your participation.
+                              Show this QR code to the venue staff or student
+                              coordinator to get your attendence for your
+                              participation.
                             </DialogDescription>
                             <DialogDescription>
-                              Certificate will be issued based on this attendence.
+                              Certificate will be issued based on this
+                              attendence.
                             </DialogDescription>
                           </DialogHeader>
                           <div className="p-4 bg-white">
                             <QRCode
                               size={256}
-                              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                              style={{
+                                height: "auto",
+                                maxWidth: "100%",
+                                width: "100%",
+                              }}
                               value={event.registrationId}
                               viewBox={"0 0 256 256"}
                             />
@@ -284,7 +341,11 @@ const ListOfEvents = () => {
                       </Dialog>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button link={`/event/${event.eventId}`} size={"thin"} variant="glass">
+                      <Button
+                        link={`/event/${event.eventId}`}
+                        size={"thin"}
+                        variant="glass"
+                      >
                         Show Event <ChevronRight />
                       </Button>
                     </TableCell>
@@ -294,7 +355,7 @@ const ListOfEvents = () => {
             </Table>
           </Plusbox>
         </CardContent>
-      )
-    }
-  </>);
-}
+      )}
+    </>
+  );
+};

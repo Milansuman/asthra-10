@@ -115,7 +115,7 @@ export const userRouter = createTRPCRouter({
         );
     }),
 
-  getAttendence: frontDeskProcedure
+  getAttendence: publicProcedure
     .input(
       z.object({
         eventId: z.string().min(1),
@@ -237,18 +237,20 @@ export const userRouter = createTRPCRouter({
   }),
 
   getUserRegisteredEvents: frontDeskProcedure
-    .input(z.object({
-      userId: z.string()
-    }))
-    .query(async ({ctx, input}) => {
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
       return await ctx.db
-      .select()
-      .from(userRegisteredEventTable)
-      .leftJoin(
-        eventsTable,
-        eq(userRegisteredEventTable.eventId, eventsTable.id)
-      )
-      .where(eq(userRegisteredEventTable.userId, input.userId));
+        .select()
+        .from(userRegisteredEventTable)
+        .leftJoin(
+          eventsTable,
+          eq(userRegisteredEventTable.eventId, eventsTable.id)
+        )
+        .where(eq(userRegisteredEventTable.userId, input.userId));
     }),
 
   isRegisteredThisEvent: validUserOnlyProcedure

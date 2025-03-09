@@ -17,6 +17,7 @@ import {
   transactionsZod,
   type TransactionZodType,
   userZod,
+  type UserZodType,
 } from '@/lib/validator';
 import { v4 as uuid } from 'uuid';
 import { getTrpcError } from '@/server/db/utils';
@@ -143,7 +144,7 @@ export const managementRouter = createTRPCRouter({
   getUsers: publicProcedure.query(async ({ ctx }) => {
     const data = await ctx.db.query.user.findMany();
 
-    return data;
+    return data as UserZodType[];
   }),
 
   getRegisteredEventListofUser: publicProcedure
