@@ -39,7 +39,9 @@ import { signOut, useSession } from "@/hooks/session";
 import type { UserZodType } from "@/lib/validator";
 import { ASTHRA, allDepartments } from "@/logic";
 import { api } from "@/trpc/react";
-import { ProfileEdit } from "./_componetns/edit";
+import { ProfileEdit } from "./_components/edit";
+import { CertificateRender } from "./_components/certificate";
+import { env } from "@/env";
 
 export default function ProfilePage() {
   const { status, data, valid } = useSession();
@@ -167,10 +169,7 @@ export default function ProfilePage() {
               </div>
             </DialogContent>
           </Dialog>
-          <Button size={"glass"} disabled variant="glass">
-            Generate Certificate <TicketIcon />
-          </Button>
-          {user.asthraPass && (
+          {/* {user.asthraPass && (
             <Dialog>
               <DialogTrigger asChild>
                 <Button size={"glass"} variant="glass">
@@ -210,10 +209,10 @@ export default function ProfilePage() {
                 </div>
               </DialogContent>
             </Dialog>
-          )}
+          )} */}
         </CardContent>
 
-        <ListOfEvents />
+        <ListOfEvents userName={data.user.name ?? "Unknown Name"} />
 
         <CardFooter className="justify-between mt-auto">
           <Dialog>
@@ -281,7 +280,7 @@ export default function ProfilePage() {
   );
 }
 
-const ListOfEvents = () => {
+const ListOfEvents = ({ userName }: { userName: string }) => {
   const { data } = api.user.getRegisteredEventList.useQuery();
 
   if (!data) return null;
@@ -289,6 +288,7 @@ const ListOfEvents = () => {
   const listOfEvents = data.map((e) => ({
     ...e.userRegisteredEvent,
     name: e?.event?.name ?? "Unknown Event",
+    type: e?.event?.eventType ?? "ASTHRA_PASS_EVENT",
   }));
 
   return (
@@ -307,36 +307,27 @@ const ListOfEvents = () => {
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button size={"thin"} variant="glass">
-                            View QR <QrCodeIcon />
+                            Show Certificate <TicketIcon />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
+                        <DialogContent className="max-w-md">
+                          {/* <DialogHeader>
                             <DialogTitle>
-                              Scan this QR to get Attendence
+                              Get your Certificate for {event.name}
                             </DialogTitle>
                             <DialogDescription>
-                              Show this QR code to the venue staff or student
-                              coordinator to get your attendence for your
-                              participation.
+                              Certificate will be issued based on attendence.
                             </DialogDescription>
                             <DialogDescription>
-                              Certificate will be issued based on this
-                              attendence.
+                              Your attendance status: {event.status}
                             </DialogDescription>
-                          </DialogHeader>
-                          <div className="p-4 bg-white">
-                            <QRCode
-                              size={256}
-                              style={{
-                                height: "auto",
-                                maxWidth: "100%",
-                                width: "100%",
-                              }}
-                              value={event.registrationId}
-                              viewBox={"0 0 256 256"}
-                            />
-                          </div>
+                          </DialogHeader> */}
+                          <CertificateRender data={{
+                            qrText: `https://asthra.sjcetpalai.ac.in/profile/${event.userId}`,
+                            userName,
+                            eventType: event.type,
+                            eventName: event.name,
+                          }} />
                         </DialogContent>
                       </Dialog>
                     </TableCell>
