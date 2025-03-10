@@ -39,9 +39,8 @@ import { signOut, useSession } from "@/hooks/session";
 import type { UserZodType } from "@/lib/validator";
 import { ASTHRA, allDepartments } from "@/logic";
 import { api } from "@/trpc/react";
-import { ProfileEdit } from "./_components/edit";
 import { CertificateRender } from "./_components/certificate";
-import { env } from "@/env";
+import { ProfileEdit } from "./_components/edit";
 
 export default function ProfilePage() {
   const { status, data, valid } = useSession();
