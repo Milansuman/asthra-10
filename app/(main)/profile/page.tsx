@@ -57,7 +57,7 @@ export default function ProfilePage() {
   return (
 
     <main className="flex flex-col md:flex-row gap-6 justify-start p-6 min-h-screen ambit relative">
-      <ProfilePageCard user={user} />
+      <ProfilePageCard editable user={user} />
       <div className="flex-[1_auto] flex flex-col gap-6 items-center justify-center relative overflow-hidden">
         <div className="group">
           <ModelViewer
@@ -79,7 +79,7 @@ export default function ProfilePage() {
   )
 }
 
-export function ProfilePageCard({ user }: { user: UserZodType }) {
+export function ProfilePageCard({ user, editable = false }: { user: UserZodType, editable?: boolean }) {
   return (
     <Card className="max-w-2xl flex-col flex">
       <CardHeader>
@@ -122,7 +122,7 @@ export function ProfilePageCard({ user }: { user: UserZodType }) {
           )}
         </div>
       </CardContent>
-      <CardContent>
+      {editable && <CardContent>
         <Alert className="relative text-black">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Update your Profile</AlertTitle>
@@ -132,8 +132,8 @@ export function ProfilePageCard({ user }: { user: UserZodType }) {
           </AlertDescription>
           <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
         </Alert>
-      </CardContent>
-      {user.number === null && (
+      </CardContent>}
+      {user.number === null && editable && (
         <CardContent>
           <Alert className="relative text-black">
             <Terminal className="h-4 w-4" />
@@ -226,7 +226,7 @@ export function ProfilePageCard({ user }: { user: UserZodType }) {
 
       <ListOfEvents userId={user.id} userName={user.name ?? "Unknown Name"} />
 
-      <CardFooter className="justify-between mt-auto">
+      {editable && <CardFooter className="justify-between mt-auto">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="destructive">Edit Profile</Button>
@@ -269,7 +269,7 @@ export function ProfilePageCard({ user }: { user: UserZodType }) {
             </Button>
           </DialogContent>
         </Dialog>
-      </CardFooter>
+      </CardFooter>}
     </Card>
   );
 }
@@ -307,9 +307,9 @@ const ListOfEvents = ({ userName, userId }: { userName: string, userId: string }
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-md">
-                          {/* <DialogHeader>
+                          <DialogHeader>
                             <DialogTitle>
-                              Get your Certificate for {event.name}
+                              Get your Certificate for {event.type}:{event.name}
                             </DialogTitle>
                             <DialogDescription>
                               Certificate will be issued based on attendence.
@@ -317,7 +317,7 @@ const ListOfEvents = ({ userName, userId }: { userName: string, userId: string }
                             <DialogDescription>
                               Your attendance status: {event.status}
                             </DialogDescription>
-                          </DialogHeader> */}
+                          </DialogHeader>
                           <CertificateRender data={{
                             qrText: `https://asthra.sjcetpalai.ac.in/profile/${event.userId}`,
                             userName,
