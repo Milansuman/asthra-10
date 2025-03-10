@@ -46,6 +46,13 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
+  getUserForVerification: protectedProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.user.findFirst({
+        where: eq(user.id, input.id),
+      });
+    }),
   /**
    * user with role USER can't access other user
    */
@@ -236,7 +243,7 @@ export const userRouter = createTRPCRouter({
     // });
   }),
 
-  getUserRegisteredEvents: frontDeskProcedure
+  getUserRegisteredEvents: protectedProcedure
     .input(
       z.object({
         userId: z.string(),

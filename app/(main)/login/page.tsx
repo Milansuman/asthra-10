@@ -58,6 +58,7 @@ const LoginPage = () => {
     const [loading, setLoading] = useState(false);
 
     if (status === "authenticated") {
+        // @ts-ignore
         return router.push("/profile");
     }
 
