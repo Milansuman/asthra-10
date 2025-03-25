@@ -13,7 +13,7 @@ type Props = {
     }
 }
 
-const baseUrl = `https://res.cloudinary.com/${env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`;
+const baseUrl = "https://res.cloudinary.com/de3q8zas9/image/upload";
 
 export const CertificateRender = ({ data }: Props) => {
     const [output, setOutput] = useState<null | string>();
@@ -21,10 +21,10 @@ export const CertificateRender = ({ data }: Props) => {
     const { qrText, userName, eventType, eventName } = data;
 
     const certificateTemplate = {
-        ASTHRA_PASS: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_460/Asthra_participation_tljre5.png`,
-        ASTHRA_PASS_EVENT: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_280/co_rgb:000000,l_text:arial_80_bold_normal_left:${encodeURI(eventName)}/fl_layer_apply,y_540/participation_jylkxf.png`,
-        COMPETITION: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_280/co_rgb:000000,l_text:arial_80_bold_normal_left:${encodeURI(eventName)}/fl_layer_apply,y_540/participation_jylkxf.png`,
-        WORKSHOP: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_280/co_rgb:000000,l_text:arial_80_bold_normal_left:${encodeURI(eventName)}/fl_layer_apply,y_540/participation_jylkxf.png`,
+        ASTHRA_PASS: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_460/asthra.png`,
+        ASTHRA_PASS_EVENT: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_280/co_rgb:000000,l_text:arial_80_bold_normal_left:${encodeURI(eventName)}/fl_layer_apply,y_540/participation.png`,
+        COMPETITION: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_280/co_rgb:000000,l_text:arial_80_bold_normal_left:${encodeURI(eventName)}/fl_layer_apply,y_540/participation.png`,
+        WORKSHOP: `${baseUrl}/co_rgb:000000,l_text:roboto_140_bold_normal_left:${encodeURI(userName)}/fl_layer_apply,y_280/co_rgb:000000,l_text:arial_80_bold_normal_left:${encodeURI(eventName)}/fl_layer_apply,y_540/participation.png`,
     } satisfies Record<EventZodType["eventType"], string>
 
     const imageTemplate = certificateTemplate[eventType];

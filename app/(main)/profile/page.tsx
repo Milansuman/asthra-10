@@ -317,6 +317,9 @@ const ListOfEvents = ({ userName, userId }: { userName: string, userId: string }
                             <DialogDescription>
                               Your attendance status: {event.status}
                             </DialogDescription>
+                            <DialogDescription>
+                              Before generating certificate, make sure to update your correct name & details.
+                            </DialogDescription>
                           </DialogHeader>
                           <CertificateRender data={{
                             qrText: `https://asthra.sjcetpalai.ac.in/profile/${event.userId}`,
