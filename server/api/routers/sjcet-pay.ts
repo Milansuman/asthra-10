@@ -502,4 +502,26 @@ export const sjcetPaymentRouter = createTRPCRouter({
       return { transations, events: eventData };
     });
   }),
+
+  getTransactionEventParticipants: publicProcedure
+    .input(eventZod.pick({ id: true }))
+    .query(({ ctx, input }) => {
+      return ctx.db.query.transactionsTable.findMany({
+        where: and(
+          eq(transactionsTable.eventId, input.id),
+          eq(transactionsTable.status, 'success')
+        ),
+      });
+    }),
+
+  getTransactionEventUser: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db
+      .select()
+      .from(transactionsTable)
+      .leftJoin(eventsTable, eq(transactionsTable.eventId, eventsTable.id))
+      .leftJoin(user, eq(transactionsTable.userId, user.id))
+      .where(eq(transactionsTable.status, 'success'));
+
+    return data;
+  }),
 });

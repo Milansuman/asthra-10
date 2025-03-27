@@ -170,4 +170,20 @@ export const managementRouter = createTRPCRouter({
         data,
       };
     }),
+
+  isAttendedAny: publicProcedure
+    .input(userZod.pick({ id: true }))
+    .query(async ({ ctx, input }) => {
+      const userData = await ctx.db.query.user.findFirst({
+        where: eq(user.id, input.id),
+      });
+
+      if (!userData) throw getTrpcError('USER_NOT_FOUND');
+
+      const data = await ctx.db.query.userRegisteredEventTable.findMany({
+        where: eq(userRegisteredEventTable.userId, input.id),
+      });
+
+      return data;
+    }),
 });

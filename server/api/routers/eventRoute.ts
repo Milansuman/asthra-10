@@ -13,6 +13,7 @@ import {
 } from '@/server/api/trpc';
 import {
   eventsTable,
+  transactionsTable,
   user,
   userRegisteredEventTable,
 } from '@/server/db/schema';
@@ -273,7 +274,7 @@ export const eventRouter = createTRPCRouter({
         .orderBy(user.name);
     }),
 
-  getEventParticipants: coordinatorProcedure
+  getEventParticipants: publicProcedure
     .input(eventZod.pick({ id: true }))
     .query(({ ctx, input }) => {
       return ctx.db
