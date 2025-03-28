@@ -4,6 +4,7 @@ import * as React from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
 import { cn } from "@/lib/utils"
+import { Loader2Icon } from "lucide-react"
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -47,4 +48,27 @@ const AvatarFallback = React.forwardRef<
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
-export { Avatar, AvatarImage, AvatarFallback }
+function ImageLoader({ src, children, className }: { src: string, children?: React.ReactNode, className?: string }) {
+  const [loading, setLoading] = React.useState(true);
+  const imageLoaded = () => {
+    setLoading(false);
+  }
+  return <>
+    <div style={{ display: loading ? "block" : "none" }}>
+      {children ??
+        <Loader2Icon className="animate-spin text-white m-auto" width={40} height={40} />
+      }
+
+    </div>
+    <div style={{ display: loading ? "none" : "block" }}>
+      {/* biome-ignore lint/nursery/noImgElement: <explanation> */}
+      <img
+        className={className}
+        src={src}
+        alt="Failed to load"
+        onLoad={imageLoaded} />
+    </div>
+  </>;
+}
+
+export { Avatar, AvatarImage, AvatarFallback, ImageLoader }
