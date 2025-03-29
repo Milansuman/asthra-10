@@ -301,9 +301,9 @@ function EventCard({
       <Image
         src={event.poster ?? '/sjcet/1.jpeg'}
         width={400}
-        height={400}
+        height={600}
         alt={event.name ?? "poster"}
-        className="w-full aspect-square rounded-t-md"
+        className="w-full"
       />
       <CardContent>
         <div className="px-1 pt-3 pb-0 flex flex-col gap-2">
