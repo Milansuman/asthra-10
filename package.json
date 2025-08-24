@@ -18,7 +18,10 @@
     "start": "next start",
     "dev:email": "email dev --port 3003 --dir ./components/mail/_templates",
     "start:email": "concurrently \"bun run dev\" \"bun run dev:email\"",
-    "start:email:unix": "bun run dev & bun run dev:email"
+    "start:email:unix": "bun run dev & bun run dev:email",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.7.0",
@@ -30,6 +33,7 @@
     "@hookform/resolvers": "^3.10.0",
     "@internationalized/date": "^3.7.0",
     "@mdxeditor/editor": "^3.23.2",
+    "@opennextjs/cloudflare": "^1.6.5",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",
@@ -141,6 +145,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-motion": "^1.0.1",
     "typescript": "^5.7.3",
-    "ultracite": "^4.1.16"
+    "ultracite": "^4.1.16",
+    "wrangler": "^4.32.0"
   }
 }

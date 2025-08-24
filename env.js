@@ -25,18 +25,18 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
 
-    NM_EMAIL: z.string(),
-    NM_PASS: z.string(),
+    NM_EMAIL: z.string().optional(),
+    NM_PASS: z.string().optional(),
 
-    UPSTASH_REDIS_URL: z.string().url(),
-    UPSTASH_REDIS_TOKEN: z.string(),
+    UPSTASH_REDIS_URL: z.string().url().optional(),
+    UPSTASH_REDIS_TOKEN: z.string().optional(),
 
-    RAZORPAY_KEY_SECRET: z.string(),
+    RAZORPAY_KEY_SECRET: z.string().optional(),
   },
 
   shared: {
-    NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string(),
-    NEXT_PUBLIC_SJCET_PAYMENT_LINK: z.string().url(),
+    NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string().optional(),
+    NEXT_PUBLIC_SJCET_PAYMENT_LINK: z.string().url().optional(),
   },
 
   /**
@@ -46,8 +46,8 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_PRESET: z.string(),
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().optional(),
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_PRESET: z.string().optional(),
   },
 
   /**
