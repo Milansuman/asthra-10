@@ -33,7 +33,7 @@ export default function RootLayout({
 
   return (
     <>
-      <div className="fixed top-0 left-0 h-screen bg-indigo-950 w-screen -z-10 flex justify-center items-center">
+      <div className="fixed top-0 left-0 h-screen bg-white w-screen -z-10 flex justify-center items-center">
         {/* <video
             src={'/glass.mp4'}
             autoPlay={true}
