@@ -1,7 +1,7 @@
 import { env } from '@/env';
 
 export const defaultRazorpayOptions = {
-  key: env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+  key: env.NEXT_PUBLIC_RAZORPAY_KEY_ID as string,
   name: 'ASTHRA SJCET PALAI',
   description: 'Payment at ASTHRA Tech Fest',
   currency: 'INR',

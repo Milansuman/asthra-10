@@ -14,6 +14,10 @@ export const generatedSignature = (
 ) => {
   const keySecret = env.RAZORPAY_KEY_SECRET;
 
+  if (!keySecret) {
+    throw new Error('RAZORPAY_KEY_SECRET is not defined');
+  }
+
   const sig = crypto
     .createHmac('sha256', keySecret)
     .update(`${razorpayOrderId}|${razorpayPaymentId}`)
