@@ -10,8 +10,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <TRPCReactProvider>
       <Middleware>
-        <TailwindIndicator />
-        <HeroUIProvider>{children}</HeroUIProvider>
+        {children}
         <Toaster />
       </Middleware>
     </TRPCReactProvider>
