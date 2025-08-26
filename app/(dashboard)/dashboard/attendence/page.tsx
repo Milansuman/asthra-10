@@ -42,14 +42,14 @@ export default function Page() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button link="/dashboard/attendence/asthra" variant='glass' size={"glass"}>
+          <Button link="/dashboard/attendence/asthra">
             Go to Asthra Only Attendence
           </Button>
         </CardContent>
         <CardFooter>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant='glass' size={"glass"}>
+              <Button>
                 Open Scanner
               </Button>
             </DialogTrigger>

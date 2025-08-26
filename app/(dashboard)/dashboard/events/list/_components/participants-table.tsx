@@ -38,7 +38,7 @@ export function ParticipantsTable<TData, TValue>({
   console.log("data", data)
 
   return (
-    <div className="bg-glass border">
+    <div className="border overflow-x-auto">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

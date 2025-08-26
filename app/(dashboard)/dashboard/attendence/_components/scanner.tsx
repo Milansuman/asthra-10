@@ -42,22 +42,22 @@ export default function Page({ eventData }: { eventData: Pick<EventZodType, "id"
                     </CardDescription>
                 </CardHeader>
                 <CardContent className='flex flex-row flex-wrap gap-4'>
-                    <div className='relative bg-glass py-2 px-4 border-glass border'>
+                    <div className='relative py-2 px-4 border'>
                         <p className='opacity-70 text-sm font-normal'>Event Name</p>
                         {eventData.name}
                     </div>
 
-                    <div className='relative bg-glass py-2 px-4 border-glass border'>
+                    <div className='relative py-2 px-4 border'>
                         <p className='opacity-70 text-sm font-normal'>Department</p>
                         {eventData.department}
                     </div>
 
-                    <div className='relative bg-glass py-2 px-4 border-glass border'>
+                    <div className='relative py-2 px-4 border'>
                         <p className='opacity-70 text-sm font-normal'>Event Type</p>
                         {eventData.eventType}
                     </div>
 
-                    <div className='relative bg-glass py-2 px-4 border-glass border'>
+                    <div className='relative py-2 px-4 border'>
                         <p className='opacity-70 text-sm font-normal'>Event Venue</p>
                         {eventData.venue}
                     </div>
@@ -65,7 +65,7 @@ export default function Page({ eventData }: { eventData: Pick<EventZodType, "id"
                 <CardFooter>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant='glass' size={"glass"}>
+                            <Button>
                                 Open Scanner
                             </Button>
                         </DialogTrigger>
