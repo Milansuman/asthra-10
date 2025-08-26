@@ -34,6 +34,13 @@ export default function Page() {
             height={100}
             className="w-3/4 md:w-2/3 lg:w-1/2"
           />
+          <Image
+            src="/assets/final.webp"
+            alt="logo"
+            width={100}
+            height={100}
+            className="w-3/4 md:w-2/3 lg:w-1/2"
+          />
         </div>
 
         <div className="col-span-1 h-48 md:hidden" />
