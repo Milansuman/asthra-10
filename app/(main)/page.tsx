@@ -9,21 +9,22 @@ import WhatsApp from '@/components/icons/whatsapp';
 
 export default function Page() {
   return (
-    <main className="z-10 relative">
-      <section className="flex flex-col items-center">
+    <main className="z-10 relative w-screen min-h-screen overflow-x-hidden">
+      <nav className='w-screen h-20 bg-gradient-to-r from-sky-500 to-blue-500'></nav>
+      <section className="flex flex-col items-center relative min-h-screen mt-10 mb-10">
         <Image
           src="asthra.svg"
           alt="logo"
-          width={500}
-          height={500}
-          className="w-5/6"
+          width={300}
+          height={300}
+          className="w-[20%] absolute top-0"
         />
         <Image
           src="/assets/final.webp"
           alt="logo"
           width={1728}
           height={1117}
-          className="w-5/6"
+          className="w-[80%] absolute bottom-0 top-[20%]"
         />
       </section>
 
