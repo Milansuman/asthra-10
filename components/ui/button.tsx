@@ -1,36 +1,31 @@
 import { Slot } from "@radix-ui/react-slot"
-import { type VariantProps, cva } from "class-variance-authority"
-import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import type * as React from "react"
 
 import { cn } from "@/lib/utils"
-import Link from "next/link"
-import type { UrlObject } from "node:url"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-none",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 border border-neutral-200",
+        default:
+          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         destructive:
-          "ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-red-400/80 transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]",
-        primary:
-          "ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-blue-500/80 transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]",
+          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          'ambit border border-glass text-white bg-glass transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
+          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         secondary:
-          'bg-black text-white hover:bg-black/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
-        glass: 'ambit hover:-translate-y-0.5 text-[18px] border border-glass text-white bg-glass transition-all duration-300 hover:shadow-[0_12px_40px_0_rgba(31,38,135,0.45)]',
+          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "min-h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        thin: "min-h-7 rounded-none px-2",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
-        glass: "rounded-none px-6 py-3 font-thin text-xl glass-button"
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        icon: "size-9",
       },
     },
     defaultVariants: {
@@ -40,34 +35,26 @@ const buttonVariants = cva(
   }
 )
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-  pattern?: boolean;
-  link?: string
-  blank?: boolean
+function Button({
+  className,
+  variant,
+  size,
+  asChild = false,
+  ...props
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }) {
+  const Comp = asChild ? Slot : "button"
+
+  return (
+    <Comp
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, pattern, children, link, size, blank = false, asChild = false, ...props }, ref) => {
-    const Comp = (asChild) ? Slot : 'button';
-
-    if (link) {
-      return (<Link href={link as unknown as UrlObject} target={blank ? "_blank" : undefined}>
-        <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
-          {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
-          {children}
-        </Comp>
-      </Link>)
-    }
-
-    return (
-      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
-        {pattern && <div className="bg-button-noise opacity-50 h-full w-full absolute" />}
-        {children}
-      </Comp>
-    );
-  },
-);
-Button.displayName = 'Button';
-
 export { Button, buttonVariants }
+
