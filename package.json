@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.7.0",
+    "@aws-sdk/client-s3": "^3.873.0",
     "@heroui/button": "^2.2.10",
     "@heroui/card": "^2.2.10",
     "@heroui/react": "^2.6.14",
