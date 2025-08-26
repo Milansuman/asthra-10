@@ -185,46 +185,7 @@ blockquote {
   }
 }
 
-* {
-  cursor: url("/cursor/small.png") 0 0, auto;
-}
-
-a:disabled,
-button:disabled,
-.disabled,
-.invalid {
-  cursor: url("/cursor/red.png") 0 0, not-allowed;
-}
-
-.draggable,
-[draggable="true"] {
-  cursor: url("/cursor/closed.png") 0 0, grab;
-}
-
-.dragging,
-[draggable="true"]:active {
-  cursor: url("/cursor/open.png") 0 0, grabbing;
-}
-
-a,
-button:enabled,
-[role="button"],
-input[type="submit"],
-input[type="button"],
-.clickable {
-  cursor: url("/cursor/point.png") 0 0, pointer;
-}
-
-a:active,
-button:enabled:active,
-[role="button"]:active,
-input[type="submit"]:active,
-input[type="button"]:active,
-.clickable:active {
-  cursor: url("/cursor/clicked.png") 0 0, pointer;
-}
-
-@media screen {
+/*@media screen {
   :root {
     background-image: url("/cursor/small.png"), url("/cursor/red.png"),
       url("/cursor/closed.png"), url("/cursor/open.png"),
@@ -232,7 +193,7 @@ input[type="button"]:active,
       url("/cursor/text.png");
     background-image: none;
   }
-}
+}*/
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
