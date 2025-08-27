@@ -198,7 +198,7 @@ export function EventPage({
             </SelectContent>
           </Select>
         ) : (
-          <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 bg-glass border border-glass overflow-auto scrollbar-none">
+          <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 overflow-auto text-foreground">
             {categories.map((category) => (
               <div
                 key={`${category}.div`}
@@ -209,7 +209,7 @@ export function EventPage({
                   key={category}
                   initial={false}
                   animate={{
-                    color: filter === category ? '#111111' : '#ffffff',
+                    color: filter === category ? '#111111' : '#111111',
                   }}
                   className="relative py-1 px-4"
                 >
@@ -223,7 +223,7 @@ export function EventPage({
                         ease: [0.76, 0, 0.24, 1],
                         delay: 0.2,
                       }}
-                      className="absolute inset-0 bg-white"
+                      className="absolute inset-0 bg-neutral-200"
                     />
                   )}
                   <span className="relative whitespace-nowrap">
@@ -356,7 +356,7 @@ function EventCard({
                     <LinkIcon />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className='p-5 bg-glass rounded-none'>
+                <AlertDialogContent className='p-5 rounded-none'>
                   <AlertDialogHeader>
                     <AlertDialogTitle className='text-2xl'>Copy Short URL</AlertDialogTitle>
                   </AlertDialogHeader>

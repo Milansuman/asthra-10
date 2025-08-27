@@ -165,7 +165,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
             </Card>
           </AlertDialogContent>
         </AlertDialog>
-        <Button link={`/dashboard/upload?id=${data.id}`} className="flex-1">
+        <Button  className="flex-1"> {/*link={`/dashboard/upload?id=${data.id}`}*/}
           Change poster
         </Button>
         <AlertDialog onOpenChange={(open) => {
@@ -207,7 +207,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
         </AlertDialog>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button size={"glass"} variant="destructive">
+            <Button variant="destructive">
               <Trash2 size={20} />
             </Button>
           </AlertDialogTrigger>
@@ -216,10 +216,10 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
             <p>Are you sure you want to delete this event? This action cannot be undone.</p>
             <div className="flex justify-end gap-4 mt-4">
               <AlertDialogCancel asChild>
-                <Button size={"glass"} variant="outline">Cancel</Button>
+                <Button variant="outline">Cancel</Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild>
-                <Button size={"glass"} variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
+                <Button variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
               </AlertDialogAction>
             </div>
           </AlertDialogContent>

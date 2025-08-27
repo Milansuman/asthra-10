@@ -10,11 +10,11 @@ export default function MainDesk() {
   const { data, isLoading } = api.event.getAll.useQuery();
 
   return (
-    <main className="flex flex-col h-screen text-white p-4">
+    <main className="flex flex-col min-h-[calc(100vh-6rem)] text-foreground p-4 overflow-hidden">
       <h3>Front Desk</h3>
       {
         isLoading ? <></> :
-          <div className="flex flex-row flex-wrap gap-4 py-4">
+          <div className="flex flex-row flex-wrap gap-4 py-4 overflow-x-hidden">
             {
               data?.map(event => (
                 <Link key={event.id} href={`/dashboard/desk/participants?id=${event.id}`}>
