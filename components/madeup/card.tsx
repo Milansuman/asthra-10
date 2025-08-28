@@ -55,7 +55,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
   return (
-    <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-white">
+    <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-black">
       <div className="flex flex-col space-y-3">
 
         <div className="flex justify-between items-start">
@@ -66,7 +66,7 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
             </Markdown>
           </div>
           {credits && (
-            <div className="bg-white text-blue-600 px-4 py-2 rounded-lg flex-shrink-0">
+            <div className="bg-white text-black px-4 py-2 rounded-lg flex-shrink-0">
               <span className="ambit">{credits}</span>
             </div>
           )}
@@ -108,7 +108,7 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
           {footerNote && <p className="text-xl">{footerNote}</p>}
           <Button
             variant="outline"
-            className="bg-white text-blue-500 border-2 border-gray-300 px-6 py-6 text-xl rounded-lg"
+            className="bg-white text-black border-2 border-gray-300 px-6 py-6 text-xl rounded-lg"
           >
             {data.eventType === "ASTHRA_PASS" && "Buy Ticket"}
             {data.eventType === "WORKSHOP" && `Purchase for ₹${data.amount}`}
@@ -131,7 +131,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
   const [shortUrl, setShortUrl] = useState<string | null>(null); //only shorten url when user presses the button. use state as a way to not use the mutation immediately.
 
   return (
-    <Card className="m-2 flex flex-col text-white aspect-square max-w-80 p-4">
+    <Card className="m-2 flex flex-col text-black aspect-square max-w-80 p-4">
       <CardHeader className="p-0">
         {z.string().safeParse(data.poster).success && (
           <Image
@@ -152,7 +152,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent className="p-5 min-h-screen max-w-screen border-none bg-transparent">
-            <Card className="p-5 text-white bg-glass">
+            <Card className="p-5 text-black bg-glass">
               <AlertDialogTitle>Edit Event</AlertDialogTitle>
               <p>
                 Keyboard accessible, Use up & down arrows to control counts &
@@ -184,9 +184,9 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
           <AlertDialogTrigger asChild>
             <Button>Shorten Link</Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className='p-5 bg-glass rounded-none'>
+          <AlertDialogContent className='p-5 bg-glass rounded-none text-black'>
             <AlertDialogHeader>
-              <AlertDialogTitle className='text-2xl'>Copy Short URL</AlertDialogTitle>
+              <AlertDialogTitle className='text-2xl text-black'>Copy Short URL</AlertDialogTitle>
             </AlertDialogHeader>
             <div className='flex flex-row gap-2'>
               <div className="p-2 border border-neutral-400 bg-neutral-50/20 flex-1">
@@ -211,9 +211,9 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
               <Trash2 size={20} />
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-glass rounded-none">
-            <h3 className="text-lg font-semibold">Confirm Deletion</h3>
-            <p>Are you sure you want to delete this event? This action cannot be undone.</p>
+          <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-glass rounded-none text-black">
+            <h3 className="text-lg font-semibold text-black">Confirm Deletion</h3>
+            <p className="text-black">Are you sure you want to delete this event? This action cannot be undone.</p>
             <div className="flex justify-end gap-4 mt-4">
               <AlertDialogCancel asChild>
                 <Button variant="outline">Cancel</Button>
@@ -244,14 +244,14 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
       )}
     </Card>
 
-    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300 max-h-96 overflow-auto">
+    <Card className="m-2 cal p-5 relative !h-auto cal text-black border-neutral-300 max-h-96 overflow-auto">
       <CardHeader>
         <CardTitle className="mt-[20px]">{data.name}</CardTitle>
         <Markdown full>
           {data.description}
         </Markdown>
       </CardHeader>
-      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-white">
+      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-black">
         <p>Department: {data.department}</p>
         <p>Event type: {data.eventType}</p>
         <p>Event status: {data.eventStatus}</p>
@@ -285,13 +285,13 @@ export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEv
   <Card className="m-2  w-52 aspect-square rounded-none border border-neutral-200">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="m-auto flex h-full w-full flex-col justify-center text-white">
+        <CardContent className="m-auto flex h-full w-full flex-col justify-center text-black">
           <p className="mx-auto w-fit text-[5rem] leading-20">+</p>
           <p className="w-fit mx-auto">Add new</p>
         </CardContent>
       </AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[900px] p-0 border-none rounded-none bg-transparent">
-        <Card className="p-5 text-white bg-glass rounded-none">
+      <AlertDialogContent className="sm:max-w-[900px] p-0 border-none">
+        <Card className="p-5 text-black bg-glass rounded-none">
           <h3 className="cal">Create Event</h3>
           <p>
             Keyboard accessible, Use up & down arrows to control counts & dates
@@ -347,13 +347,13 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
     <CardFooter className="flex justify-between gap-4">
       <Button
         variant="outline"
-        className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-button-primary"
+        className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-black"
         onClick={onView}
       >
         <span>View</span>
       </Button>
       <Button
-        className="flex-1 rounded-lg bg-button-primary font-bold text-white hover:bg-blue-700"
+        className="flex-1 rounded-lg bg-button-primary font-bold text-black hover:bg-blue-700"
         onClick={onBuy}
       >
         {data.eventType === 'ASTHRA_PASS' && 'Buy Ticket'}
