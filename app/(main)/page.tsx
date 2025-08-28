@@ -6,11 +6,13 @@ import LoginButton from '../_components/login';
 import { TextRotatingAnimation } from '@/components/madeup/text-animate';
 import { Button } from '@/components/ui/button';
 import WhatsApp from '@/components/icons/whatsapp';
+import { NoiseTexture } from '@/components/noise-texture';
 
 export default function Page() {
   return (
     <main className="z-10 relative w-screen min-h-screen overflow-x-hidden">
-      <nav className=" w-screen h-20 mt-4 bg-transparent flex items-center justify-end md:justify-center">
+      <NoiseTexture />
+      <nav className=" fixed top-0 left-0  w-screen h-20 mt-4 bg-transparent flex items-center justify-end md:justify-center z-50">
         <div className="hidden md:flex items-center">
 
           {/* Left Logo */}
@@ -64,7 +66,7 @@ export default function Page() {
           <span className="font-extrabold text-2xl text-black">Menu</span>
         </div>
       </nav>
-      <section className="flex flex-col items-center relative min-h-screen mt-6 mb-10">
+      <section className="flex flex-col items-center relative min-h-screen mt-6 mb-10 mt-24">
         <Image
           src="asthra.svg"
           alt="logo"
