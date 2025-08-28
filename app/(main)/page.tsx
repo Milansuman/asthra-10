@@ -17,7 +17,7 @@ export default function Page() {
 
           {/* Left Logo */}
           <div className="px-14 py-2 bg-transparent border border-black rounded-full font-black tracking-widest text-black">
-            ASTHRA
+            <Image src="/assets/asthra.svg" alt="asthra" width={60} height={10} className="relative" />
           </div>
 
           {/* Connector Line */}
@@ -44,17 +44,17 @@ export default function Page() {
 
           {/* Connector Line */}
           <div className="flex items-center -ml-px">
-            <div className="w-6 h-[2px] bg-gray-600"></div>
+            <div className="w-8 h-[2px] bg-gray-600"></div>
             <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-10 h-[2px] bg-gray-600 -mx-px"></div>
+            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
             <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-2 h-[2px] bg-gray-600 -mx-px"></div>
+            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
             <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-2 h-[2px] bg-gray-600 -mx-px"></div>
+            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
             <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-10 h-[2px] bg-gray-600 -mx-px"></div>
+            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
             <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-6 h-[2px] bg-gray-600"></div>
+            <div className="w-8 h-[2px] bg-gray-600"></div>
           </div>
 
           {/* Sign In */}
@@ -66,7 +66,7 @@ export default function Page() {
           <span className="font-extrabold text-2xl text-black">Menu</span>
         </div>
       </nav>
-      <section className="flex flex-col items-center relative min-h-screen mt-6 mb-10 mt-24">
+      <section className="flex flex-col items-center relative min-h-screen mb-10 mt-24">
         <Image
           src="asthra.svg"
           alt="logo"
@@ -88,31 +88,6 @@ export default function Page() {
           />
         </picture>
       </section>
-
-      {/* <section className="flex flex-col justify-center items-center min-h-screen gap-8">
-        <Plusbox className='opacity-100 w-auto'>
-          <TextRotatingAnimation text={['Events', 'Workshops', 'Games', "Competitions", "Cultural"]} />
-        </Plusbox>
-
-        <CircularGalleryMade />
-        <Button size={"default"} variant={"glass"} link='/events'>
-          View More
-        </Button>
-      </section>
-      <section className="flex flex-col justify-center items-center min-h-screen gap-8">
-        <div className="flex flex-col items-center justify-center p-8 gap-5">
-          <p className="ambit mb-2 text-center font-thin text-2xl md:text-3xl">
-            What are you waiting for?
-            <br />
-            Mark your calendar on <b className="text-bold underline decoration-wavy">6 & 7th March 2025</b>
-          </p>
-          <LoginButton />
-          <Button size={"thin"} variant={"glass"} link='https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d'>
-            Join <WhatsApp /> for live updates
-          </Button>
-        </div>
-      </section> */}
-      {/* <FAQ /> */}
     </main >
   );
 }
