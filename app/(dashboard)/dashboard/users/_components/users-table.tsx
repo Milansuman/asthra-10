@@ -47,7 +47,7 @@ export function UsersTable<TData, TValue>({
   })
 
   return (
-    <div>
+    <div className="w-full">
       {/*WHY TF WON"T THIS WORK AHHHHHHHHHHH */}
       {/* <div className="flex items-center py-4">
         <Input
@@ -60,7 +60,7 @@ export function UsersTable<TData, TValue>({
           className="max-w-sm"
         />
       </div> */}
-      <div className="bg-glass border">
+      <div className="border overflow-x-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

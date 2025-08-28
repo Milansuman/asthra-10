@@ -99,7 +99,6 @@ function ParticipantsListPage() {
       <div className="flex gap-2">
         <Button
           className="w-fit"
-          size={"glass"}
           link={
             csvData
               ? `data:text/csv;charset=utf-8,${encodeURIComponent(csvData)}`
@@ -110,14 +109,14 @@ function ParticipantsListPage() {
           Download Participants (CSV)
         </Button>
 
-        <Button variant={"glass"} size={"glass"} onClick={() => refetch()} disabled={isPending}>
+        <Button onClick={() => refetch()} disabled={isPending}>
           {isPending ? "Loading" : "Refresh"}
         </Button>
 
         {data && (
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant={"glass"} size={"glass"} disabled={isPending}>
+              <Button disabled={isPending}>
                 Add Participants
               </Button>
             </DialogTrigger>
@@ -218,7 +217,7 @@ const ListOfUsers = ({
         <Button onClick={() => mutateAsync({
           eventId,
           usersEmails: state[0].map(e => e.email)
-        })} variant={"glass"} size={"glass"} disabled={isPending}>
+        })} disabled={isPending}>
           {isSuccess ? "Done" : isPending ? "Saving.." : "Add Participants"}
         </Button>
       </DialogFooter>

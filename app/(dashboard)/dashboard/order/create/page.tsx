@@ -88,7 +88,6 @@ export default function Page() {
             <PopoverTrigger asChild>
               <Button
                 disabled={isLoading}
-                variant="glass"
                 aria-expanded={open}
                 className="h-16 w-full"
               >
@@ -99,14 +98,13 @@ export default function Page() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0">
-              <Command className='text-glass'>
+              <Command>
                 <CommandInput required placeholder="Search Events..." className="h-9" />
                 <CommandList>
                   <CommandEmpty>No event found.</CommandEmpty>
                   {events && <CommandGroup>
                     {events.map((e) => (
                       <CommandItem
-                        className='text-glass'
                         key={e.id}
                         value={e.name ?? e.description ?? e.department}
                         onSelect={(currentEvent) => {
@@ -138,7 +136,7 @@ export default function Page() {
           </DialogContent>
         </Dialog>
         <CardFooter>
-          <Button variant={"glass"} onClick={() => mutateAsync({
+          <Button onClick={() => mutateAsync({
             email, id: event
           })}>
             Create Transactions

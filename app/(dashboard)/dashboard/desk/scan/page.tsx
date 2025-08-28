@@ -56,7 +56,7 @@ export default function Page() {
         <CardFooter>
           <Dialog>
             <DialogTrigger asChild>
-              <Button disabled={orderId.length === 0} variant='glass' size={"glass"}>
+              <Button disabled={orderId.length === 0}>
                 Open Scanner
               </Button>
             </DialogTrigger>
