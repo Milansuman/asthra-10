@@ -51,10 +51,10 @@ export default function Page() {
               Back to Desk
             </Button>
           </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Payment Scanner</h1>
-            <p className="text-muted-foreground">Process venue payments via QR code scanning</p>
-          </div>
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Payment Scanner</h1>
+          <p className="text-muted-foreground">Process venue payments via QR code scanning</p>
         </div>
 
         <div className="max-w-2xl mx-auto">
