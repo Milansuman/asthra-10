@@ -87,7 +87,7 @@ export function EventEditPage({ data, departments }: Props) {
           placeholder="Search events by title..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="bg-glass border border-glass w-72"
+          className="w-72"
         />
 
         {/* Department filter */}
@@ -95,7 +95,7 @@ export function EventEditPage({ data, departments }: Props) {
           onValueChange={(value) => setDepartment(value)}
           defaultValue="all"
         >
-          <SelectTrigger className="w-fit text-center bg-glass border border-glass">
+          <SelectTrigger className="w-fit text-center">
             <SelectValue placeholder="All Departments" />
           </SelectTrigger>
           <SelectContent>
@@ -114,7 +114,7 @@ export function EventEditPage({ data, departments }: Props) {
           onValueChange={(value) => setStatusFilter(value)}
           defaultValue="all"
         >
-          <SelectTrigger className="w-fit text-center bg-glass border border-glass">
+          <SelectTrigger className="w-fit text-center">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent>

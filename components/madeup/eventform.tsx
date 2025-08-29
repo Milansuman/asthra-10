@@ -227,7 +227,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   }}
                 />
               </FormControl>
-              <FormDescription className='text-neutral-300'>
+              <FormDescription className='text-black'>
                 Sent your secret message to registered users through email
                 (markdown supported)
               </FormDescription>
@@ -260,11 +260,11 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   }}
                 />
               </FormControl>
-              <FormDescription className='text-neutral-300'>
+              <FormDescription className='text-black'>
                 Sent your secret message to registered users through email
                 (markdown supported)
               </FormDescription>
-              <FormDescription className='text-neutral-300'>
+              <FormDescription className='text-black'>
                 Eg: Here is the G-Form to update your team details
                 [Here](https://example.com/form)
               </FormDescription>
@@ -295,7 +295,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <FormMessage />
               <Button
                 link={id ? `/dashboard/upload?id=${id}` : '/dashboard/upload'}
-                className=" gap-3 w-full h-12 mt-2 text-white"
+                className=" gap-3 w-full h-12 mt-2 text-black"
                 variant={'secondary'}
               >
                 Optional, But upload your image before editing <ExternalLink />
@@ -317,7 +317,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   value={field.value ?? ''}
                 />
               </FormControl>
-              <FormDescription className='text-neutral-300'>
+              <FormDescription className='text-black'>
                 EG: ROOM 303, BLOCK SPB, 2nd FLOOR
               </FormDescription>
               <FormMessage />{' '}
@@ -418,7 +418,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                     }}
                   />
                 </FormControl>
-                <FormDescription className='text-neutral-300'>
+                <FormDescription className='text-black'>
                   Default is ₹20
                 </FormDescription>
                 <FormMessage />
@@ -484,7 +484,7 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                   }}
                 />
               </FormControl>
-              <FormDescription className='text-neutral-300'>
+              <FormDescription className='text-black'>
                 Default is {AsthraStartsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
               </FormDescription>
               <FormMessage />
@@ -583,10 +583,10 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
                 Preview <Eye />
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-6xl rounded-none text-white">
+            <DialogContent className="max-w-6xl rounded-none text-black">
               <DialogHeader>
                 <DialogTitle>Are you absolutely about creation?</DialogTitle>
-                <DialogDescription className="text-neutral-200">
+                <DialogDescription className="text-black">
                   This action creates a new event and is irreversible.
                 </DialogDescription>
               </DialogHeader>

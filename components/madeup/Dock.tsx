@@ -72,10 +72,10 @@ export default function Dock({
         <>
             <button
                 type="button"
-                className="md:hidden fixed bottom-4 left-4 z-10 bg-glass p-2 rounded-full"
+                className="md:hidden fixed bottom-4 left-4 z-10 bg-black text-white p-2 rounded-full"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <Menu size={36} className="text-glass-foreground" />
+                <Menu size={36} />
             </button>
             <AnimatePresence>
                 {isOpen && (
@@ -84,11 +84,11 @@ export default function Dock({
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
                         transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                        className="md:hidden fixed bottom-0 left-0 right-0 z-20 bg-glass text-glass-foreground flex flex-col items-center min-h-[50vh] p-4 border border-gray-300"
+                        className="md:hidden fixed bottom-0 left-0 right-0 z-20 bg-black text-white flex flex-col items-center min-h-[50vh] p-4 border border-gray-300"
                     >
                         <button
                             type="button"
-                            className="absolute top-4 right-4 text-glass-foreground "
+                            className="absolute top-4 right-4 text-white "
                             onClick={() => setIsOpen(false)}
                         >
                             <X size={24} />
@@ -115,7 +115,7 @@ export default function Dock({
             <div className="hidden md:block fixed z-20 left-1/2 -translate-x-1/2 sm:overflow-x-auto p-2 no-scrollbar overflow-hidden bottom-[6px] w-auto">
                 <Plusbox className="w-max">
                     <motion.div
-                        className={`${className} bg-glass text-glass-foreground flex items-end w-max gap-4 py-0 px-3`}
+                        className={`${className} bg-black text-white flex items-end w-max gap-4 py-0 px-3`}
                         role="toolbar"
                         aria-label="Application dock"
                     >
