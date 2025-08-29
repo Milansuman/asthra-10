@@ -51,7 +51,7 @@ export const columns: ColumnDef<TableType>[] = [
               {userName} <QrCodeIcon size={16} />
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-glass max-w-3xl">
+          <DialogContent className="max-w-3xl">
             <DialogHeader>
               <DialogTitle>{userName}'s Profile</DialogTitle>
               <DialogDescription className="text-white">

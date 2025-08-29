@@ -15,7 +15,7 @@ function DashboardPage() {
             {/* <Button onClick={() => window.print()}>Download</Button> */}
           </div>
         </div>
-        <Tabs defaultValue="asthra" className="space-y-4">
+        <Tabs defaultValue="asthra" className="w-full space-y-4 overflow-x-auto scrollbar-hide">
           <TabsList>
             <TabsTrigger value="asthra">Asthra</TabsTrigger>
             <TabsTrigger value="events">competiton</TabsTrigger>
