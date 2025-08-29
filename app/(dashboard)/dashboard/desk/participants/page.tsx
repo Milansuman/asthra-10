@@ -1,20 +1,23 @@
 "use client"
 
 import { api } from "@/trpc/react"
-import { Suspense } from "react"
+import { Suspense, useState, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { RefreshCw, Users, UserCheck, ArrowLeft } from "lucide-react"
+import { RefreshCw, Users, UserCheck, ArrowLeft, Search } from "lucide-react"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Input } from "@/components/ui/input"
 
 function ParticipantsPage() {
   const searchParams = useSearchParams()
   const eventId = searchParams.get("id") || ""
+  const [searchTerm, setSearchTerm] = useState("")
+  const [activeTab, setActiveTab] = useState("participants")
 
   const {
     data: participants,
@@ -23,8 +26,17 @@ function ParticipantsPage() {
     isFetching,
   } = api.event.getParticipants.useQuery({ id: eventId })
 
+  const filteredParticipants = useMemo(() => {
+    if (!participants) return []
+    return participants.filter(participant =>
+      participant.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      participant.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }, [participants, searchTerm])
+
   const attendeesCount = participants?.filter((p) => p.status === "attended").length || 0
   const totalParticipants = participants?.length || 0
+  const filteredAttendeesCount = filteredParticipants.filter((p) => p.status === "attended").length
 
   if (isLoadingParticipants) {
     return (
@@ -98,72 +110,98 @@ function ParticipantsPage() {
 
         <Card>
           <CardHeader>
-            <Tabs defaultValue="participants" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="participants" className="gap-2">
-                  <Users className="h-4 w-4" />
-                  All Participants ({totalParticipants})
-                </TabsTrigger>
-                <TabsTrigger value="attendees" className="gap-2">
-                  <UserCheck className="h-4 w-4" />
-                  Attendees ({attendeesCount})
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="participants" className="mt-6">
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {participants?.map((participant) => (
-                        <TableRow key={participant.userId}>
-                          <TableCell className="font-medium">{participant.name}</TableCell>
-                          <TableCell className="text-muted-foreground">{participant.email}</TableCell>
-                          <TableCell>
-                            <Badge variant={participant.status === "attended" ? "default" : "secondary"}>
-                              {participant.status}
-                            </Badge>
-                          </TableCell>
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Search participants..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 border border-black/50"
+              />
+            </div>
+            <div className="flex justify-between items-center mb-4">
+              <Tabs defaultValue="participants" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="participants" className="gap-2">
+                    <Users className="h-4 w-4" />
+                    All Participants ({totalParticipants})
+                  </TabsTrigger>
+                  <TabsTrigger value="attendees" className="gap-2">
+                    <UserCheck className="h-4 w-4" />
+                    Attendees ({attendeesCount})
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="participants" className="mt-6">
+                  <div className="rounded-md border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Email</TableHead>
+                          <TableHead>Status</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="attendees" className="mt-6">
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {participants
-                        ?.filter((participant) => participant.status === "attended")
-                        .map((attendee) => (
-                          <TableRow key={attendee.userId}>
-                            <TableCell className="font-medium">{attendee.name}</TableCell>
-                            <TableCell className="text-muted-foreground">{attendee.email}</TableCell>
-                            <TableCell>
-                              <Badge variant="default">{attendee.status}</Badge>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredParticipants.length > 0 ? (
+                          filteredParticipants.map((participant) => (
+                            <TableRow key={participant.userId}>
+                              <TableCell className="font-medium">{participant.name}</TableCell>
+                              <TableCell className="text-muted-foreground">{participant.email}</TableCell>
+                              <TableCell>
+                                <Badge variant={participant.status === "attended" ? "default" : "secondary"}>
+                                  {participant.status}
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                              {searchTerm ? `No participants found for "${searchTerm}"` : "No participants found"}
                             </TableCell>
                           </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </TabsContent>
-            </Tabs>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="attendees" className="mt-6">
+                  <div className="rounded-md border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Email</TableHead>
+                          <TableHead>Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredParticipants.filter((participant) => participant.status === "attended").length > 0 ? (
+                          filteredParticipants
+                            .filter((participant) => participant.status === "attended")
+                            .map((attendee) => (
+                              <TableRow key={attendee.userId}>
+                                <TableCell className="font-medium">{attendee.name}</TableCell>
+                                <TableCell className="text-muted-foreground">{attendee.email}</TableCell>
+                                <TableCell>
+                                  <Badge variant="default">{attendee.status}</Badge>
+                                </TableCell>
+                              </TableRow>
+                            ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                              {searchTerm ? `No attendees found for "${searchTerm}"` : "No attendees found"}
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
           </CardHeader>
         </Card>
 
@@ -177,7 +215,7 @@ function ParticipantsPage() {
           </Card>
         )}
       </div>
-    </div>
+    </div >
   )
 }
 
