@@ -13,19 +13,19 @@ export default function Page() {
   return (
     <div className="bg-black w-full min-h-screen relative">
       {/* Place glass elements here, outside the main container */}
-      <div className="absolute -top-[8%] md:top-[39%] pointer-events-none -left-[10%] md:left-[-4%] z-40">
-        <FluidGlass mobileSize={130} desktopSize={330} />
+      <div className="absolute -top-[8%] md:top-[29%] pointer-events-none -left-[10%] md:left-[-2%] z-40">
+        <FluidGlass mobileSize={130} desktopSize={250} />
       </div>
 
-      <div className="absolute top-[5%] md:top-[8%] pointer-events-none -right-[5%] md:right-[-9%] z-40">
-        <FluidGlass mobileSize={140} desktopSize={330} />
+      <div className="absolute top-[5%] md:top-[8%] pointer-events-none -right-[5%] md:right-[-3%] z-40">
+        <FluidGlass mobileSize={140} desktopSize={250} />
       </div>
 
       <div className="absolute top-[60%] md:top-[40%] left-[55%] pointer-events-none z-40 transform -translate-x-1/2 ">
         <FluidGlass mobileSize={90} desktopSize={110} />
       </div>
 
-      <main className="z-10 relative w-[calc(100%-100px)] min-h-screen overflow-x-hidden mx-auto bg-white">
+      <main className="z-10 relative w-[calc(100%-150px)] min-h-screen overflow-x-hidden mx-auto bg-white">
         <NoiseTexture />
         <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] h-20 mt-4 bg-transparent flex items-center justify-center z-50">
           <div className="hidden md:flex items-center w-full max-w-6xl">
@@ -88,7 +88,7 @@ export default function Page() {
             alt="SAR 10.0"
             width={200}
             height={100}
-            className="w-auto h-24"
+            className="w-auto h-36"
           />
         </div>
 
