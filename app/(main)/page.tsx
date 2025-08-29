@@ -92,19 +92,19 @@ export default function Page() {
               className="w-auto h-36"
             />
           </div>
-          <div className="w-full max-w-6xl">
-
-            {/* ASTHRA Logo */}
-            <div className="flex justify-center mb-8">
-              <Image
-                src="/assets/final.webp"
-                alt="logo"
-                width={1200}
-                height={400}
-                className="w-full max-w-5xl"
-              />
-            </div>
-          </div>
+          <picture className="w-[90%] md:w-[80%] bottom-0 top-[17%] md:top-[23%]">
+            <source
+              media="(max-width: 768px)"
+              srcSet="/assets/mobile_landing.webp"
+            />
+            <Image
+              src="/assets/final.webp"
+              alt="logo"
+              width={1728}
+              height={1117}
+              style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+            />
+          </picture>
         </section>
 
       </main>
