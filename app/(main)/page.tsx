@@ -7,6 +7,7 @@ import { TextRotatingAnimation } from '@/components/madeup/text-animate';
 import { Button } from '@/components/ui/button';
 import WhatsApp from '@/components/icons/whatsapp';
 import { NoiseTexture } from '@/components/noise-texture';
+import FluidGlass from '@/components/madeup/FluidGlass';
 
 export default function Page() {
   return (
@@ -66,6 +67,21 @@ export default function Page() {
           <span className="font-extrabold text-2xl text-black">Menu</span>
         </div>
       </nav>
+      <div className="absolute -top-[18%] md:top-[25%] pointer-events-none -left-[20%] md:left-[0%] z-[9999]">
+        <FluidGlass mobileSize={100} desktopSize={200} />
+      </div>
+
+      <div className="absolute top-[10%] pointer-events-none -right-[12%] md:right-0 z-[9999]">
+        <FluidGlass mobileSize={110} desktopSize={210} />
+      </div>
+
+      <div className="absolute top-[18%] md:top-[60%] left-[50%] md:left-[60%] pointer-events-none z-[9999] transform -translate-x-1/2 ">
+        <FluidGlass mobileSize={70} desktopSize={90} />
+      </div>
+
+
+
+
       <section className="flex flex-col items-center relative min-h-screen mb-10 mt-24">
         <Image
           src="asthra.svg"
