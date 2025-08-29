@@ -17,15 +17,15 @@ export default function Page() {
         <FluidGlass mobileSize={130} desktopSize={250} />
       </div>
 
-      <div className="absolute top-[5%] md:top-[8%] pointer-events-none -right-[5%] md:right-[-3%] z-40">
+      <div className="absolute top-[5%] md:top-[8%] pointer-events-none -right-[5%] md:right-[-1%] z-40">
         <FluidGlass mobileSize={140} desktopSize={250} />
       </div>
 
-      <div className="absolute top-[60%] md:top-[40%] left-[55%] pointer-events-none z-40 transform -translate-x-1/2 ">
+      <div className="absolute top-[60%] md:top-[41%] left-[56%] pointer-events-none z-40 transform -translate-x-1/2 ">
         <FluidGlass mobileSize={90} desktopSize={110} />
       </div>
 
-      <main className="z-10 relative w-[calc(100%-150px)] min-h-screen overflow-x-hidden mx-auto bg-white">
+      <main className="z-10 relative w-full md:w-[calc(100%-150px)] min-h-screen overflow-x-hidden mx-auto bg-white">
         <NoiseTexture />
         <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] h-20 mt-4 bg-transparent flex items-center justify-center z-50">
           <div className="hidden md:flex items-center w-full max-w-6xl">
@@ -81,19 +81,17 @@ export default function Page() {
           </div>
         </nav>
 
-        {/* SAR Logo */}
-        <div className="w-full flex justify-center mt-32 mb-8">
-          <Image
-            src="/asthra.svg"
-            alt="SAR 10.0"
-            width={200}
-            height={100}
-            className="w-auto h-36"
-          />
-        </div>
-
         {/* Main ASTHRA section */}
         <section className="flex flex-col items-center relative min-h-[60vh] px-4">
+          <div className="w-full flex justify-center mt-32 mb-4">
+            <Image
+              src="/asthra.svg"
+              alt="SAR 10.0"
+              width={200}
+              height={100}
+              className="w-auto h-36"
+            />
+          </div>
           <div className="w-full max-w-6xl">
 
             {/* ASTHRA Logo */}
@@ -106,8 +104,6 @@ export default function Page() {
                 className="w-full max-w-5xl"
               />
             </div>
-
-
           </div>
         </section>
 
