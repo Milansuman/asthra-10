@@ -11,99 +11,108 @@ import FluidGlass from '@/components/madeup/FluidGlass';
 
 export default function Page() {
   return (
-    <main className="z-10 relative w-screen min-h-screen overflow-x-hidden">
-      <NoiseTexture />
-      <nav className=" fixed top-0 left-0  w-screen h-20 mt-4 bg-transparent flex items-center justify-end md:justify-center z-50">
-        <div className="hidden md:flex items-center">
-
-          {/* Left Logo */}
-          <div className="px-14 py-2 bg-transparent border border-black rounded-full font-black tracking-widest text-black">
-            <Image src="/assets/asthra.svg" alt="asthra" width={60} height={10} className="relative" />
-          </div>
-
-          {/* Connector Line */}
-          <div className="flex items-center -ml-px">
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-          </div>
-
-          {/* Center Nav Links */}
-          <div className="flex gap-6 px-48 py-3 bg-[#0B91A6] text-white rounded-full -ml-px -mr-px">
-            <a href="#" className="hover:underline">Home</a>
-            <a href="#" className="hover:underline">About</a>
-            <a href="#" className="hover:underline">Discover</a>
-          </div>
-
-          {/* Connector Line */}
-          <div className="flex items-center -ml-px">
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-          </div>
-
-          {/* Sign In */}
-          <div className="px-14 py-2 bg-black text-white rounded-full font-semibold cursor-pointer -ml-px">
-            Sign In
-          </div>
-        </div>
-        <div className="flex md:hidden px-6">
-          <span className="font-extrabold text-2xl text-black">Menu</span>
-        </div>
-      </nav>
-      <div className="absolute -top-[18%] md:top-[23%] pointer-events-none -left-[20%] md:-left-[6%] z-40">
-        <FluidGlass mobileSize={100} desktopSize={290} />
+    <div className="bg-black w-full min-h-screen relative">
+      {/* Place glass elements here, outside the main container */}
+      <div className="absolute -top-[8%] md:top-[39%] pointer-events-none -left-[10%] md:left-[-4%] z-40">
+        <FluidGlass mobileSize={130} desktopSize={330} />
       </div>
 
-      <div className="absolute top-[10%] md:top-[6%] pointer-events-none -right-[12%] md:-right-[7%] z-40">
-        <FluidGlass mobileSize={110} desktopSize={300} />
+      <div className="absolute top-[5%] md:top-[8%] pointer-events-none -right-[5%] md:right-[-9%] z-40">
+        <FluidGlass mobileSize={140} desktopSize={330} />
       </div>
 
-      <div className="absolute top-[18%] md:top-[60%] left-[50%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
-        <FluidGlass mobileSize={70} desktopSize={90} />
+      <div className="absolute top-[60%] md:top-[40%] left-[55%] pointer-events-none z-40 transform -translate-x-1/2 ">
+        <FluidGlass mobileSize={90} desktopSize={110} />
       </div>
 
+      <main className="z-10 relative w-[calc(100%-100px)] min-h-screen overflow-x-hidden mx-auto bg-white">
+        <NoiseTexture />
+        <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] h-20 mt-4 bg-transparent flex items-center justify-center z-50">
+          <div className="hidden md:flex items-center w-full max-w-6xl">
+            {/* Left Logo */}
+            <div className="px-6 py-2 bg-transparent border border-black rounded-full font-black tracking-widest text-black">
+              <Image src="/assets/asthra.svg" alt="asthra" width={60} height={10} className="relative" />
+            </div>
 
+            {/* Connector Line */}
+            <div className="flex items-center -ml-px">
+              <div className="w-8 h-[2px] bg-gray-600"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-8 h-[2px] bg-gray-600"></div>
+            </div>
 
+            {/* Center Nav Links */}
+            <div className="flex gap-12 justify-center px-8 py-3 bg-[#0B91A6] text-white rounded-full -ml-px -mr-px flex-1">
+              <a href="#" className="hover:underline">Home</a>
+              <a href="#" className="hover:underline">About</a>
+              <a href="#" className="hover:underline">Discover</a>
+            </div>
 
-      <section className="flex flex-col items-center relative min-h-screen mb-10 mt-24">
-        <Image
-          src="asthra.svg"
-          alt="logo"
-          width={300}
-          height={300}
-          className="w-[80%] md:w-[24%] absolute top-0"
-        />
-        <picture className="w-[90%] md:w-[80%] absolute bottom-0 top-[17%] md:top-[23%]">
-          <source
-            media="(max-width: 768px)"
-            srcSet="/assets/mobile_landing.webp"
-          />
+            {/* Connector Line */}
+            <div className="flex items-center -ml-px">
+              <div className="w-8 h-[2px] bg-gray-600"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
+              <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
+              <div className="w-8 h-[2px] bg-gray-600"></div>
+            </div>
+
+            {/* Sign In */}
+            <div className="px-6 py-2 bg-black text-white rounded-full font-semibold cursor-pointer -ml-px">
+              Sign In
+            </div>
+          </div>
+          <div className="flex md:hidden px-6">
+            <span className="font-extrabold text-2xl text-black">Menu</span>
+          </div>
+        </nav>
+
+        {/* SAR Logo */}
+        <div className="w-full flex justify-center mt-32 mb-8">
           <Image
-            src="/assets/final.webp"
-            alt="logo"
-            width={1728}
-            height={1117}
-            style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+            src="/asthra.svg"
+            alt="SAR 10.0"
+            width={200}
+            height={100}
+            className="w-auto h-24"
           />
-        </picture>
-      </section>
-    </main >
+        </div>
+
+        {/* Main ASTHRA section */}
+        <section className="flex flex-col items-center relative min-h-[60vh] px-4">
+          <div className="w-full max-w-6xl">
+
+            {/* ASTHRA Logo */}
+            <div className="flex justify-center mb-8">
+              <Image
+                src="/assets/final.webp"
+                alt="logo"
+                width={1200}
+                height={400}
+                className="w-full max-w-5xl"
+              />
+            </div>
+
+
+          </div>
+        </section>
+
+      </main>
+
+    </div>
   );
 }
