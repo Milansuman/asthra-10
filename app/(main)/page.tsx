@@ -67,15 +67,15 @@ export default function Page() {
           <span className="font-extrabold text-2xl text-black">Menu</span>
         </div>
       </nav>
-      <div className="absolute -top-[18%] md:top-[25%] pointer-events-none -left-[20%] md:left-[0%] z-[9999]">
-        <FluidGlass mobileSize={100} desktopSize={200} />
+      <div className="absolute -top-[18%] md:top-[23%] pointer-events-none -left-[20%] md:-left-[6%] z-40">
+        <FluidGlass mobileSize={100} desktopSize={290} />
       </div>
 
-      <div className="absolute top-[10%] pointer-events-none -right-[12%] md:right-0 z-[9999]">
-        <FluidGlass mobileSize={110} desktopSize={210} />
+      <div className="absolute top-[10%] md:top-[6%] pointer-events-none -right-[12%] md:-right-[7%] z-40">
+        <FluidGlass mobileSize={110} desktopSize={300} />
       </div>
 
-      <div className="absolute top-[18%] md:top-[60%] left-[50%] md:left-[60%] pointer-events-none z-[9999] transform -translate-x-1/2 ">
+      <div className="absolute top-[18%] md:top-[60%] left-[50%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
         <FluidGlass mobileSize={70} desktopSize={90} />
       </div>
 
