@@ -56,12 +56,7 @@ const sidebarItems: SidebarItemData[] = [
         icon: <Edit size={16} />,
         label: "Edit Events",
         link: "/dashboard/events/edit",
-      },
-      {
-        icon: <Users size={16} />,
-        label: "Event Participants",
-        link: "/dashboard/events/list",
-      },
+      }
     ],
   },
   {
@@ -153,12 +148,12 @@ function SidebarItem({ item, level = 0 }: { item: SidebarItemData; level?: numbe
   const ItemContent = () => (
     <div
       className={`
-        flex items-center justify-between w-full px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer
-        ${isActive 
-          ? "bg-primary text-primary-foreground shadow-md" 
+        flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer
+        ${isActive
+          ? "bg-slate-900 text-white shadow-md"
           : hasActiveChild
-          ? "bg-primary/10 text-primary"
-          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            ? "bg-slate-100 text-slate-900"
+            : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
         }
         ${level > 0 ? "ml-4" : ""}
       `}
@@ -187,7 +182,7 @@ function SidebarItem({ item, level = 0 }: { item: SidebarItemData; level?: numbe
       ) : (
         <ItemContent />
       )}
-      
+
       {hasChildren && isExpanded && (
         <div className="overflow-hidden">
           <div className="mt-1 space-y-1">
@@ -209,7 +204,7 @@ export default function Sidebar({ items = sidebarItems, className = "" }: Sideba
       {/* Mobile Menu Button */}
       <button
         type="button"
-        className="md:hidden fixed top-4 left-4 z-50 bg-background border border-border text-foreground p-2 rounded-lg shadow-lg"
+        className="md:hidden fixed top-4 left-4 z-50 bg-white border border-slate-300 text-slate-900 p-2 rounded-lg shadow-lg"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
         {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -225,14 +220,14 @@ export default function Sidebar({ items = sidebarItems, className = "" }: Sideba
 
       {/* Mobile Sidebar */}
       {isMobileOpen && (
-        <aside className="md:hidden fixed left-0 top-0 bottom-0 w-80 bg-background border-r border-border z-50 overflow-y-auto">
+        <aside className="md:hidden fixed left-0 top-0 bottom-0 w-80 bg-white border-r border-slate-200 z-50 overflow-y-auto shadow-lg">
           <div className="p-6">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-bold text-foreground">Dashboard</h2>
+              <h2 className="text-xl font-bold text-slate-900">Dashboard</h2>
               <button
                 type="button"
                 onClick={() => setIsMobileOpen(false)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-slate-400 hover:text-slate-900"
               >
                 <X size={24} />
               </button>
@@ -247,11 +242,11 @@ export default function Sidebar({ items = sidebarItems, className = "" }: Sideba
       )}
 
       {/* Desktop Sidebar */}
-      <aside className={`hidden md:block fixed left-0 top-0 bottom-0 w-80 bg-background border-r border-border overflow-y-auto ${className}`}>
+      <aside className={`hidden md:block left-0 top-0 bottom-0 w-80 bg-white border-r border-slate-200 overflow-y-auto shadow-lg ${className} min-w-80`}>
         <div className="p-6">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-foreground">Asthra Dashboard</h2>
-            <p className="text-sm text-muted-foreground mt-1">Management Portal</p>
+            <h2 className="text-2xl font-bold text-slate-900">Asthra Dashboard</h2>
+            <p className="text-sm text-slate-600 mt-1">Management Portal</p>
           </div>
           <nav className="space-y-2">
             {items.map((item, index) => (
