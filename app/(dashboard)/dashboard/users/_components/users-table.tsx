@@ -5,7 +5,6 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  getFilteredRowModel,
 } from "@tanstack/react-table"
 
 import {
@@ -16,11 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
-
 import { userZod } from "@/lib/validator"
 import { z } from "zod"
-import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<z.infer<typeof userZod>>[]
@@ -33,41 +29,22 @@ export function UsersTable<TData, TValue>({
   data,
   isPending
 }: DataTableProps<TData, TValue>) {
-  const [globalFilter, setGlobalFilter] = useState<any>("")
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    onGlobalFilterChange: setGlobalFilter,
-    getFilteredRowModel: getFilteredRowModel(),
-    globalFilterFn: "includesString",
-    state: {
-      globalFilter,
-    },
   })
 
   return (
-    <div className="w-full">
-      {/*WHY TF WON"T THIS WORK AHHHHHHHHHHH */}
-      {/* <div className="flex items-center py-4">
-        <Input
-          value={globalFilter}
-          onChange={e => {
-            setGlobalFilter(String(e.target.value));
-            table.setGlobalFilter(String(e.target.value))
-          }}
-          placeholder="Search..."
-          className="max-w-sm"
-        />
-      </div> */}
-      <div className="border overflow-x-auto">
-        <Table>
+    <div className="w-full min-w-0">
+      <div className="overflow-x-auto border">
+        <Table className="min-w-max">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="whitespace-nowrap">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -88,7 +65,7 @@ export function UsersTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="whitespace-nowrap">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

@@ -12,6 +12,7 @@ import { userRouter } from './routers/userRoute';
 import { verifyRouter } from './routers/verify';
 import { shortnerRouter } from './routers/shortner';
 import { managementRouter } from './routers/managementRouter';
+import { uploadRouter } from './routers/upload';
 
 /**
  * This is the primary router for your server.
@@ -32,6 +33,7 @@ export const appRouter = createTRPCRouter({
   payment: paymentRouter,
   shortner: shortnerRouter,
   management: managementRouter,
+  upload: uploadRouter,
 });
 
 // export type definition of API

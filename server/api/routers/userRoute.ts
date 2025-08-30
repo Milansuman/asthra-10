@@ -1,5 +1,5 @@
 // import { sql } from "drizzle-orm";
-import { and, eq } from 'drizzle-orm';
+import { and, eq, or, ilike, count, desc } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { allRoles, getTimeUtils } from '@/logic';
@@ -28,22 +28,85 @@ import {
 } from '../trpc';
 import { ASTHRA } from '@/logic';
 
+const roleEnumSchema = z.enum([
+  'USER',
+  'STUDENT_COORDINATOR', 
+  'FACULTY_COORDINATOR',
+  'MANAGEMENT',
+  'ADMIN',
+  'DESK'
+]);
+
 export const userRouter = createTRPCRouter({
   /**
    * user with role USER can't access other user list
    */
   getUserList: coordinatorProcedure
     .input(
-      userZod
-        .pick({
-          role: true,
-        })
-        .optional()
+      z.object({
+        role: roleEnumSchema.optional(),
+        search: z.string().optional(),
+        page: z.number().min(1).default(1),
+        limit: z.number().min(1).max(100).default(10),
+      }).optional()
     )
     .query(async ({ ctx, input }) => {
-      return await ctx.db.query.user.findMany({
-        where: input?.role ? eq(user.role, input.role) : undefined,
-      });
+      const page = input?.page ?? 1;
+      const limit = input?.limit ?? 10;
+      const offset = (page - 1) * limit;
+      const search = input?.search?.trim();
+      const roleFilter = input?.role;
+
+      // Build where conditions
+      const conditions = [];
+      
+      if (roleFilter) {
+        conditions.push(eq(user.role, roleFilter as any));
+      }
+      
+      if (search) {
+        conditions.push(
+          or(
+            ilike(user.name, `%${search}%`),
+            ilike(user.email, `%${search}%`),
+            ilike(user.college, `%${search}%`),
+            ilike(user.department, `%${search}%`),
+            ilike(user.number, `%${search}%`)
+          )
+        );
+      }
+
+      const whereCondition = conditions.length > 0 ? and(...conditions) : undefined;
+
+      // Get total count for pagination
+      const [totalCountResult] = await ctx.db
+        .select({ count: count() })
+        .from(user)
+        .where(whereCondition);
+
+      const totalCount = totalCountResult?.count ?? 0;
+      const totalPages = Math.ceil(totalCount / limit);
+
+      // Get paginated users
+      const users = await ctx.db
+        .select()
+        .from(user)
+        .where(whereCondition)
+        .orderBy(desc(user.createdAt))
+        .limit(limit)
+        .offset(offset);
+
+      return {
+        users,
+        pagination: {
+          page,
+          limit,
+          totalCount,
+          totalPages,
+          hasNextPage: page < totalPages,
+          hasPreviousPage: page > 1,
+        },
+      };
     }),
 
   getUserForVerification: protectedProcedure

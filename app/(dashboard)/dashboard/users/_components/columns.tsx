@@ -34,6 +34,17 @@ import { useState } from "react";
 import { z } from "zod";
 import QRCode from "react-qr-code";
 
+const ROLE_OPTIONS = [
+  'USER',
+  'STUDENT_COORDINATOR', 
+  'FACULTY_COORDINATOR',
+  'MANAGEMENT',
+  'ADMIN',
+  'DESK'
+] as const;
+
+type RoleType = typeof ROLE_OPTIONS[number];
+
 export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
   {
     header: "Name",
@@ -115,7 +126,7 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
     cell: ({ row }) => {
       const { mutate: editUser } = api.user.editUserRole.useMutation();
       return (
-        <Select defaultValue={row.original.role} onValueChange={(value: "USER" | "STUDENT_COORDINATOR" | "FACULTY_COORDINATOR" | "MANAGEMENT" | "ADMIN" | "DESK") => {
+        <Select defaultValue={String(row.original.role)} onValueChange={(value: RoleType) => {
           editUser({
             role: value,
             userId: row.original.id
@@ -131,7 +142,7 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
           </SelectTrigger>
           <SelectContent>
             {
-              [...Object.keys(allRoles)].map(role => (
+              ROLE_OPTIONS.map(role => (
                 <SelectItem value={role} key={role}>{role}</SelectItem>
               ))
             }

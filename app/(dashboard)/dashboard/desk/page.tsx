@@ -22,9 +22,9 @@ export default function MainDesk() {
   }, [data, searchTerm])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
+    <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-col space-y-8 flex-1 overflow-hidden">
+        <div className="flex-shrink-0">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-primary/10 rounded-lg">
               <CalendarDays className="h-6 w-6 text-primary" />
@@ -35,7 +35,7 @@ export default function MainDesk() {
         </div>
 
         {/* Search Bar */}
-        <div className="relative mb-6 max-w-md">
+        <div className="relative max-w-md flex-shrink-0">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Search events..."
@@ -45,43 +45,45 @@ export default function MainDesk() {
           />
         </div>
 
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, idx) => (
-              <Skeleton key={idx} className="h-[400px] rounded-xl" />
-            ))}
-          </div>
-        ) : (
-          <>
+        <div className="flex-1 overflow-auto">
+          {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredEvents.map((event) => (
-                <Link key={event.id} href={`/dashboard/desk/participants?id=${event.id}`} className="group">
-                  <EventCard event={event} />
-                </Link>
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <Skeleton key={idx} className="h-[400px] rounded-xl" />
               ))}
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredEvents.map((event) => (
+                  <Link key={event.id} href={`/dashboard/desk/participants?id=${event.id}`} className="group">
+                    <EventCard event={event} />
+                  </Link>
+                ))}
+              </div>
 
-            {filteredEvents.length === 0 && searchTerm && (
-              <Card className="text-center py-12 mt-8">
-                <CardContent>
-                  <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No events found</h3>
-                  <p className="text-muted-foreground">No events match your search "{searchTerm}"</p>
-                </CardContent>
-              </Card>
-            )}
-          </>
-        )}
+              {filteredEvents.length === 0 && searchTerm && (
+                <Card className="text-center py-12 mt-8">
+                  <CardContent>
+                    <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">No events found</h3>
+                    <p className="text-muted-foreground">No events match your search "{searchTerm}"</p>
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          )}
 
-        {!isLoading && (!data || data.length === 0) && !searchTerm && (
-          <Card className="text-center py-12">
-            <CardContent>
-              <CalendarDays className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No events found</h3>
-              <p className="text-muted-foreground">There are no events to display at the moment.</p>
-            </CardContent>
-          </Card>
-        )}
+          {!isLoading && (!data || data.length === 0) && !searchTerm && (
+            <Card className="text-center py-12">
+              <CardContent>
+                <CalendarDays className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">No events found</h3>
+                <p className="text-muted-foreground">There are no events to display at the moment.</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   )
