@@ -19,85 +19,134 @@ import { Button } from '@/components/ui/button';
 export default function Page() {
   const { isPending, mutateAsync: addAttendance } = api.user.addAttendanceWithURE.useMutation({
     onSuccess: () => {
-      toast('Attendence Succefully Taken')
+      toast('Attendance Successfully Recorded')
     },
     onError: (error) => {
-      toast.error(`Attendence Failed - ${error.data?.code}`, {
+      toast.error(`Attendance Failed - ${error.data?.code}`, {
         description: error.message
       })
     }
   });
+
   return (
-    <div className="container min-h-screen flex flex-col justify-center items-center">
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            Coordinators - Universal Attendence Tool
-          </CardTitle>
-          <CardDescription>
-            When students came to participate at venue, scan their QR from mail
-          </CardDescription>
-          <CardDescription>
-            Each scan atleast required 2sec gap
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button link="/dashboard/attendence/asthra">
-            Go to Asthra Only Attendence
-          </Button>
-        </CardContent>
-        <CardFooter>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>
-                Open Scanner
-              </Button>
-            </DialogTrigger>
-            <DialogContent className='w-fit'>
-              <DialogHeader>
-                <DialogTitle>Scan the QR</DialogTitle>
-              </DialogHeader>
-              <div className='w-96 aspect-square'>
-                <Scanner
-                  formats={
-                    ["qr_code"]
-                  }
-                  classNames={{
-                    container: 'p-0 qr-container',
-                    video: 'w-full h-full'
-                  }}
-                  paused={isPending}
-                  allowMultiple={true}
+    <div className="flex flex-col space-y-6 flex-1">
+      <div className="flex items-center justify-between flex-shrink-0">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Attendance Scanner</h1>
+          <p className="text-slate-600 mt-1">Universal attendance tool for event participation</p>
+        </div>
+      </div>
 
-                  scanDelay={2000}
-                  onScan={(results) => {
-                    const result = results[0]
-                    if (!result) return
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+        <Card className="bg-white border-slate-200 flex flex-col">
+          <CardHeader className="flex-shrink-0">
+            <CardTitle className="text-slate-900">Universal Attendance Tool</CardTitle>
+            <CardDescription className="text-slate-600">
+              When students come to participate at the venue, scan their QR code from email confirmation
+            </CardDescription>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
+              <p className="text-yellow-800 text-sm font-medium">
+                ⚠️ Each scan requires at least 2 seconds gap between scans
+              </p>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button
+              link="/dashboard/attendence/asthra"
+              className="w-full"
+              variant="outline"
+            >
+              Go to Asthra-Only Attendance
+            </Button>
+          </CardContent>
+          <CardFooter>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full">
+                  Start QR Scanner
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle className="text-slate-900">QR Code Scanner</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="bg-slate-50 p-4 rounded-lg">
+                    <p className="text-slate-600 text-sm">
+                      Position the QR code within the scanner frame. The scanner will automatically detect and process valid registration codes.
+                    </p>
+                  </div>
 
-                    const { isSuccess, data } = trys(() => z.string().uuid().parse(result.rawValue))
+                  <div className="w-96 aspect-square mx-auto bg-black rounded-lg overflow-hidden">
+                    <Scanner
+                      formats={["qr_code"]}
+                      classNames={{
+                        container: 'p-0 qr-container',
+                        video: 'w-full h-full object-cover'
+                      }}
+                      paused={isPending}
+                      allowMultiple={true}
+                      scanDelay={2000}
+                      onScan={(results) => {
+                        const result = results[0]
+                        if (!result) return
 
-                    if (!isSuccess) {
-                      toast.error("Invalid Registration ID", {
-                        description: "Make sure the QR code is from user's mail box"
-                      })
-                      return
-                    }
+                        const { isSuccess, data } = trys(() => z.string().uuid().parse(result.rawValue))
 
-                    addAttendance({
-                      registrationId: data
-                    })
-                  }}
-                  onError={(error) => {
-                    console.error(
-                      error
-                    )
-                  }}
-                />
-              </div>
-            </DialogContent>
-          </Dialog>
-        </CardFooter>
-      </Card>
+                        if (!isSuccess) {
+                          toast.error("Invalid Registration ID", {
+                            description: "Make sure the QR code is from user's mailbox"
+                          })
+                          return
+                        }
+
+                        addAttendance({
+                          registrationId: data
+                        })
+                      }}
+                      onError={(error) => {
+                        console.error(error)
+                        toast.error("Scanner Error", {
+                          description: "Unable to access camera. Please check permissions."
+                        })
+                      }}
+                    />
+                  </div>
+
+                  {isPending && (
+                    <div className="text-center">
+                      <div className="inline-flex items-center gap-2 text-slate-600">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-900"></div>
+                        Processing attendance...
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
+          </CardFooter>
+        </Card>
+
+        <Card className="bg-white border-slate-200">
+          <CardHeader>
+            <CardTitle className="text-slate-900">Quick Actions</CardTitle>
+            <CardDescription className="text-slate-600">
+              Common attendance management tasks
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button variant="outline" className="w-full justify-start" link="/dashboard/attendence/asthra">
+              Asthra Attendance
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              View Attendance Reports
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              Export Attendance Data
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
