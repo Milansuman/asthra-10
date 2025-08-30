@@ -19,11 +19,22 @@ import { Button } from '@/components/ui/button';
 export default function Page({ eventData }: { eventData: Pick<EventZodType, "id" | "name" | "department" | "eventType" | "venue"> }) {
     const { isPending, mutateAsync: addAttendance } = api.user.addAttendance.useMutation({
         onSuccess: () => {
-            toast('Attendence Succefully Taken')
+            toast.success('Attendance Successfully Taken', {
+                style: {
+                    background: '#10b981',
+                    color: 'white',
+                    border: '1px solid #059669',
+                },
+            })
         },
         onError: (error) => {
-            toast.error(`Attendence Failed - ${error.data?.code}`, {
-                description: error.message
+            toast.error(`Attendance Failed - ${error.data?.code}`, {
+                description: error.message,
+                style: {
+                    background: '#ef4444',
+                    color: 'white',
+                    border: '1px solid #dc2626',
+                },
             })
         }
     });

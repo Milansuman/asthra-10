@@ -6,6 +6,7 @@ import { api } from '@/trpc/react';
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import Link from 'next/link';
 import {
   Dialog,
   DialogContent,
@@ -19,11 +20,22 @@ import { Button } from '@/components/ui/button';
 export default function Page() {
   const { isPending, mutateAsync: addAttendance } = api.user.addAttendanceWithURE.useMutation({
     onSuccess: () => {
-      toast('Attendence Succefully Taken')
+      toast.success('Attendance Successfully Taken', {
+        style: {
+          background: '#10b981',
+          color: 'white',
+          border: '1px solid #059669',
+        },
+      })
     },
     onError: (error) => {
-      toast.error(`Attendence Failed - ${error.data?.code}`, {
-        description: error.message
+      toast.error(`Attendance Failed - ${error.data?.code}`, {
+        description: error.message,
+        style: {
+          background: '#ef4444',
+          color: 'white',
+          border: '1px solid #dc2626',
+        },
       })
     }
   });
@@ -32,7 +44,7 @@ export default function Page() {
       <Card>
         <CardHeader>
           <CardTitle>
-            Coordinators - Universal Attendence Tool
+            Coordinators - Universal Attendance Tool
           </CardTitle>
           <CardDescription>
             When students came to participate at venue, scan their QR from mail
@@ -41,9 +53,16 @@ export default function Page() {
             Each scan atleast required 2sec gap
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button link="/dashboard/attendence/asthra">
-            Go to Asthra Only Attendence
+        <CardContent className="flex flex-col gap-3">
+          <Button asChild>
+            <Link href="/dashboard/attendence/asthra">
+              Go to Asthra Only Attendance
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/dashboard/attendence/events">
+              Go to Event Attendance
+            </Link>
           </Button>
         </CardContent>
         <CardFooter>

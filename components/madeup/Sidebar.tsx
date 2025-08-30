@@ -57,11 +57,6 @@ const sidebarItems: SidebarItemData[] = [
         label: "Edit Events",
         link: "/dashboard/events/edit",
       },
-      {
-        icon: <Users size={16} />,
-        label: "Event Participants",
-        link: "/dashboard/events/list",
-      },
     ],
   },
   {
@@ -81,7 +76,7 @@ const sidebarItems: SidebarItemData[] = [
       {
         icon: <QrCode size={16} />,
         label: "Event Attendance",
-        link: "/dashboard/attendence",
+        link: "/dashboard/attendence/events",
       },
     ],
   },
@@ -154,11 +149,11 @@ function SidebarItem({ item, level = 0 }: { item: SidebarItemData; level?: numbe
     <div
       className={`
         flex items-center justify-between w-full px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer
-        ${isActive 
-          ? "bg-primary text-primary-foreground shadow-md" 
+        ${isActive
+          ? "bg-primary text-primary-foreground shadow-md"
           : hasActiveChild
-          ? "bg-primary/10 text-primary"
-          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            ? "bg-primary/10 text-primary"
+            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
         }
         ${level > 0 ? "ml-4" : ""}
       `}
@@ -187,7 +182,7 @@ function SidebarItem({ item, level = 0 }: { item: SidebarItemData; level?: numbe
       ) : (
         <ItemContent />
       )}
-      
+
       {hasChildren && isExpanded && (
         <div className="overflow-hidden">
           <div className="mt-1 space-y-1">

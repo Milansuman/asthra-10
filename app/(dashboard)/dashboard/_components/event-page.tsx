@@ -163,102 +163,111 @@ export function EventPage({
   }
 
   return (
-    <div className="w-full min-h-screen p-2 flex flex-col gap-4">
-      <div className="w-full flex flex-col-reverse gap-2 justify-center z-10 items-center">
-        <Select
-          onValueChange={(value) => handleSelect(value)}
-          defaultValue={filterDepartment}
-        >
-          <SelectTrigger className="w-[380px] self-center text-left">
-            <SelectValue placeholder="All" />
-          </SelectTrigger>
-          <SelectContent className="w-[380px]">
-            <SelectItem value="all">All</SelectItem>
-            {Object.entries(allDepartments)
-              .map(([dep, full]) => (
-                <SelectItem key={dep} value={dep}>
-                  {full}
-                </SelectItem>
-              ))}
-          </SelectContent>
-        </Select>
-        {isMobileDevice() ? (
-          <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
-            <SelectTrigger className="w-[380px] self-center text-left">
-              <SelectValue placeholder="Category" />
+    <div className="w-full min-h-screen p-6 flex flex-col gap-6">
+      {dashboard && (
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Event Management</h1>
+          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+            Manage your events and view participant lists. Click the "Participants" button on any event card to see registered users and manage attendance.
+          </p>
+        </div>
+      )}
+
+      {/* Filters Section */}
+      <div className="w-full max-w-4xl mx-auto space-y-4">
+        {/* Department Filter */}
+        <div className="flex flex-col items-center gap-2">
+          <label className="text-sm font-medium text-gray-700">Filter by Department</label>
+          <Select
+            onValueChange={(value) => handleSelect(value)}
+            defaultValue={filterDepartment}
+          >
+            <SelectTrigger className="w-80">
+              <SelectValue placeholder="All Departments" />
             </SelectTrigger>
-            <SelectContent className="w-[380px]">
-              {categories.map((category) => (
-                <SelectItem value={category} key={category}>
-                  {category.replaceAll('_', ' ').split(' ').map(word =>
-                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                  ).join(' ')}
-                </SelectItem>
-              ))}
+            <SelectContent>
+              <SelectItem value="all">All Departments</SelectItem>
+              {Object.entries(allDepartments)
+                .map(([dep, full]) => (
+                  <SelectItem key={dep} value={dep}>
+                    {full}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
-        ) : (
-          <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 overflow-auto text-foreground">
-            {categories.map((category) => (
-              <div
-                key={`${category}.div`}
-                className="flex p-1"
-                onClick={() => handleFilter(category)}
-              >
-                <motion.div
+        </div>
+
+        {/* Category Filter */}
+        <div className="flex flex-col items-center gap-2">
+          <label className="text-sm font-medium text-gray-700">Filter by Category</label>
+          {isMobileDevice() ? (
+            <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
+              <SelectTrigger className="w-80">
+                <SelectValue placeholder="All Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem value={category} key={category}>
+                    {category.replaceAll('_', ' ').split(' ').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                    ).join(' ')}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-2 max-w-4xl">
+              {categories.map((category) => (
+                <button
                   key={category}
-                  initial={false}
-                  animate={{
-                    color: filter === category ? '#111111' : '#111111',
-                  }}
-                  className="relative py-1 px-4"
+                  onClick={() => handleFilter(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${filter === category
+                    ? 'bg-primary text-primary-foreground shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
                 >
-                  {filter === category && (
-                    <motion.div
-                      layoutId="pill_event"
-                      // style={{ borderRadius: 500 }}
-                      transition={{
-                        duration: 0.75,
-                        type: 'tween',
-                        ease: [0.76, 0, 0.24, 1],
-                        delay: 0.2,
-                      }}
-                      className="absolute inset-0 bg-neutral-200"
-                    />
-                  )}
-                  <span className="relative whitespace-nowrap">
-                    {category.replaceAll('_', ' ')}
-                  </span>
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        )}
+                  {category.replaceAll('_', ' ')}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
-        {events
-          .filter(
-            (event: Event) =>
-              ((isDepartment(event) && isEventType(event)) ||
-                isGeneralEvent(event) ||
-                isSpotEvent(event) ||
-                isCancelled(event) ||
-                isOtherEvent(event)
-              ) &&
-              isEventStatus(event) &&
-              !isUploaded(event)
-          )
-          .map((event) => (
-            <motion.div layout key={event.id} className="w-full">
-              {dashboard ? (
-                <EventCard event={event} dashboard={dashboard} />
-              ) : (
-                <Link href={`/event/${event.id}`}>
+
+      {/* Events Grid */}
+      <div className="w-full max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {events
+            .filter(
+              (event: Event) =>
+                ((isDepartment(event) && isEventType(event)) ||
+                  isGeneralEvent(event) ||
+                  isSpotEvent(event) ||
+                  isCancelled(event) ||
+                  isOtherEvent(event)
+                ) &&
+                isEventStatus(event) &&
+                !isUploaded(event)
+            )
+            .map((event) => (
+              <motion.div
+                layout
+                key={event.id}
+                className="w-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {dashboard ? (
                   <EventCard event={event} dashboard={dashboard} />
-                </Link>
-              )}
-            </motion.div>
-          ))}
+                ) : (
+                  <Link href={`/event/${event.id}`}>
+                    <EventCard event={event} dashboard={dashboard} />
+                  </Link>
+                )}
+              </motion.div>
+            ))}
+        </div>
       </div>
     </div>
   );
@@ -329,11 +338,15 @@ function EventCard({
               <p>{getTimeUtils(event.dateTimeStarts)}</p>
             </div>
             <div className="overflow-auto flex flex-wrap mt-5 gap-1">
-              <Button link={`/dashboard/events/list?eventId=${event.id}`} className="h-[30px] uppercase font-black self-end">
-                Participants
+              <Button asChild className="h-[30px] uppercase font-black self-end">
+                <Link href={`/dashboard/events/list?eventId=${event.id}`}>
+                  Participants
+                </Link>
               </Button>
-              <Button link={event.id === ASTHRA.id ? "/dashboard/attendence/asthra" : `/dashboard/attendence/${event.id}`} className="h-[30px] uppercase font-black self-end">
-                Take Attendence
+              <Button asChild className="h-[30px] uppercase font-black self-end">
+                <Link href={event.id === ASTHRA.id ? "/dashboard/attendence/asthra" : `/dashboard/attendence/${event.id}`}>
+                  Take Attendance
+                </Link>
               </Button>
               <Button className="h-[30px] uppercase font-black self-end">
                 {event.department}
@@ -356,23 +369,38 @@ function EventCard({
                     <LinkIcon />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className='p-5 rounded-none'>
+                <AlertDialogContent className='p-6 rounded-lg border-2 border-gray-200 bg-white shadow-xl max-w-md'>
                   <AlertDialogHeader>
-                    <AlertDialogTitle className='text-2xl'>Copy Short URL</AlertDialogTitle>
+                    <AlertDialogTitle className='text-2xl font-bold text-gray-900 mb-2'>Copy Short URL</AlertDialogTitle>
                   </AlertDialogHeader>
-                  <div className='flex flex-row gap-2'>
-                    <div className="p-2 border border-neutral-400 bg-neutral-50/20 flex-1">
+                  <div className='flex flex-row gap-3 mb-4'>
+                    <div className="p-3 border-2 border-gray-300 bg-gray-50 rounded-md flex-1 text-gray-700 font-mono text-sm min-h-[40px] flex items-center">
                       {shortUrl ?? "Loading..."}
                     </div>
-                    <Button variant="outline" onClick={async () => {
-                      await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
-                    }}>
-                      <Copy />
+                    <Button
+                      variant="outline"
+                      onClick={async () => {
+                        try {
+                          await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+                          toast.success("URL copied to clipboard!", {
+                            description: "The short URL has been copied successfully."
+                          })
+                        } catch (error) {
+                          toast.error("Failed to copy URL", {
+                            description: "Please try copying manually."
+                          })
+                        }
+                      }}
+                      className="px-4 py-2 border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+                    >
+                      <Copy size={18} />
                     </Button>
                   </div>
                   <AlertDialogFooter>
                     <AlertDialogCancel asChild>
-                      <Button variant="outline">Cancel</Button>
+                      <Button variant="outline" className="border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50">
+                        Cancel
+                      </Button>
                     </AlertDialogCancel>
                   </AlertDialogFooter>
                 </AlertDialogContent>

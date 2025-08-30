@@ -1,34 +1,26 @@
 "use client"
 
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Asthra, Workshop } from './_components/dashboard';
-
+import { Overview } from './_components/dashboard';
 
 function DashboardPage() {
   return (
-    <div className="flex-col md:flex pt-20 text-black h-screen">
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-          <div className="flex items-center space-x-2">
-            {/* <Button onClick={() => window.print()}>Download</Button> */}
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex-1 space-y-6 p-8 pt-24">
+        {/* Header Section */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <p className="text-lg text-gray-600 mt-2">Welcome to your Asthra management dashboard</p>
           </div>
         </div>
-        <Tabs defaultValue="asthra" className="w-full space-y-4 overflow-x-auto scrollbar-hide">
-          <TabsList>
-            <TabsTrigger value="asthra">Asthra</TabsTrigger>
-            <TabsTrigger value="events">competiton</TabsTrigger>
-          </TabsList>
-          <TabsContent value="asthra" className="space-y-4">
-            <Asthra />
-          </TabsContent>
-          <TabsContent value="events" className="space-y-4">
-            <Workshop />
-          </TabsContent>
-        </Tabs>
+
+        {/* Overview Cards - Main Content */}
+        <div className="max-w-7xl mx-auto">
+          <Overview />
+        </div>
       </div>
     </div>
   );
 }
+
 export default DashboardPage;

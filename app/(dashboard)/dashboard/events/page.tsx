@@ -26,11 +26,19 @@ type FilterQueries = {
 
 type Event = z.infer<typeof eventZod>;
 export default function Page() {
-
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <EventContent />
-    </Suspense>
+    <div className="min-h-screen bg-gray-50">
+      <Suspense fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-lg text-gray-600">Loading events...</p>
+          </div>
+        </div>
+      }>
+        <EventContent />
+      </Suspense>
+    </div>
   );
 }
 
@@ -49,19 +57,26 @@ function EventContent() {
   }, []);
 
   if (loading) {
-    return <div className='h-screen w-screen flex justify-center items-center font-bold text-white'>
-      Loading...
-    </div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Loading events...</p>
+        </div>
+      </div>
+    );
   }
 
   if (events.length === 0) {
     return (
-      <div className="flex h-screen w-screen flex-col items-center justify-center">
-        <h2>No Events Found!</h2>
-        <p className="mb-2">Check back later</p>
-        <Link href="/">
-          <Button>Go Home</Button>
-        </Link>
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <div className="text-center max-w-md mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">No Events Found!</h2>
+          <p className="text-gray-600 mb-6">Check back later for new events</p>
+          <Button asChild>
+            <Link href="/">Go Home</Link>
+          </Button>
+        </div>
       </div>
     );
   }

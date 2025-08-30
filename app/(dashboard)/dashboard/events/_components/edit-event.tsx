@@ -76,11 +76,14 @@ export function EventEditPage({ data, departments }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-5 p-10 min-h-screen">
-      <h4>Edit Events</h4>
+    <div className="flex flex-col gap-8 p-8 min-h-screen bg-gray-50">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Edit Events</h1>
+        <p className="text-gray-600">Manage and update your events</p>
+      </div>
 
       {/* Filtering UI */}
-      <div className="flex flex-row gap-4 justify-center z-10 items-center">
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center bg-white p-6 rounded-lg shadow-sm border">
         {/* Search input */}
         <Input
           type="text"
@@ -126,13 +129,20 @@ export function EventEditPage({ data, departments }: Props) {
         </Select>
       </div>
 
-      <div className="flex flex-row gap-3 flex-wrap">
-        <AddNewCard onChangeEvent={onChangeEvent} />
-        {
-          filteredEvents.map(event => (
-            <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
-          ))
-        }
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Events ({filteredEvents.length + 1})
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
+          <AddNewCard onChangeEvent={onChangeEvent} />
+          {
+            filteredEvents.map(event => (
+              <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
+            ))
+          }
+        </div>
       </div>
     </div>
   );
