@@ -94,7 +94,7 @@ const LoginPage = () => {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full"
+                            className="w-full text-black"
                         />
                         <Button
                             variant="glass"
