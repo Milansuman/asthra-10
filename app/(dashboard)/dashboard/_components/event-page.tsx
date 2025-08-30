@@ -163,8 +163,8 @@ export function EventPage({
   }
 
   return (
-    <div className="w-full space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4 p-6 border-b border-slate-200">
+    <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col sm:flex-row gap-4 p-6 border-b border-slate-200 flex-shrink-0">
         <Select
           onValueChange={(value) => handleSelect(value)}
           defaultValue={filterDepartment}
@@ -199,14 +199,14 @@ export function EventPage({
             </SelectContent>
           </Select>
         ) : (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 flex-1">
             {categories.map((category) => (
               <motion.button
                 key={category}
                 onClick={() => handleFilter(category)}
                 className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === category
-                    ? 'bg-slate-900 text-white shadow-md'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  ? 'bg-slate-900 text-white shadow-md'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -218,7 +218,7 @@ export function EventPage({
         )}
       </div>
 
-      <div className="p-6">
+      <div className="flex-1 overflow-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {events
             .filter(
@@ -259,8 +259,8 @@ function EventCard({
   const [shortUrl, setShortUrl] = useState<string | null>(null);
 
   return (
-    <Card className="group overflow-hidden bg-white border border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-      <div className="aspect-[4/3] overflow-hidden">
+    <Card className="group overflow-hidden bg-white border border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+      <div className="aspect-[4/3] overflow-hidden flex-shrink-0">
         <Image
           src={event.poster ?? '/sjcet/1.jpeg'}
           width={400}
@@ -269,13 +269,13 @@ function EventCard({
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <CardContent className="p-4">
-        <div className="space-y-3">
+      <CardContent className="p-4 flex flex-col flex-1">
+        <div className="flex flex-col space-y-3 flex-1">
           <h3 className="font-semibold text-lg text-slate-900 line-clamp-2 leading-tight">
             {event.name}
           </h3>
 
-          <div className="space-y-2">
+          <div className="flex flex-col space-y-2 flex-1">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-slate-600">
                 {!dashboard
@@ -297,7 +297,7 @@ function EventCard({
           </div>
 
           {dashboard && (
-            <div className="flex flex-wrap gap-2 pt-2">
+            <div className="flex flex-wrap gap-2 pt-2 mt-auto">
               <Button
                 size="sm"
                 variant="outline"

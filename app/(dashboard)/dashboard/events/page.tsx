@@ -109,7 +109,7 @@ function EventContent() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col space-y-6 flex-1">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Events Management</h1>
@@ -117,7 +117,7 @@ function EventContent() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-1 overflow-hidden">
         <EventPage
           categories={categories}
           departments={departments}

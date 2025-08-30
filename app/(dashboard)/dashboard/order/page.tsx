@@ -21,8 +21,8 @@ export default function Page() {
   const [email, setEmail] = useState('')
   const [orderId, setOrderId] = useState('')
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col space-y-6 flex-1">
+      <div className="flex items-center justify-between flex-shrink-0">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Payment Management</h1>
           <p className="text-slate-600 mt-1">Check payments and manage transactions</p>
@@ -32,15 +32,15 @@ export default function Page() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white border-slate-200">
-          <CardHeader>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+        <Card className="bg-white border-slate-200 flex flex-col">
+          <CardHeader className="flex-shrink-0">
             <CardTitle className="text-slate-900">SJCET Pay Management</CardTitle>
             <CardDescription className="text-slate-600">
               Check payment status and force success for failed transactions
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="flex flex-col space-y-4 flex-1">
             <Input
               placeholder='Enter Email ID'
               value={email}

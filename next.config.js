@@ -55,6 +55,14 @@ const config = {
         protocol: 'http',
         hostname: 'lh3.googleusercontent.com',
       },
+      {
+        protocol: "https",
+        hostname: "pub-a10f925eb1f148c3a19723a42426ceb0.r2.dev"
+      },
+      {
+        protocol: "https",
+        hostname: "storage.sjcet.in"
+      }
     ],
   },
 };

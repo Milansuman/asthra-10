@@ -18,8 +18,8 @@ const Home = () => {
   const [url, setUrl] = useState<string | undefined>(undefined);
   const [copy, setCopy] = useState<boolean>(false);
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col space-y-6 flex-1">
+      <div className="flex items-center justify-between flex-shrink-0">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Media Upload</h1>
           <p className="text-slate-600 mt-1">Upload and manage media files for events</p>
@@ -46,8 +46,8 @@ const SearchParamsComponent = ({ setUrl, copy, setCopy, url }: { setUrl: React.D
     <>
       {
         searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} /> :
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-            <div className="p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex-1 flex flex-col">
+            <div className="p-6 flex-1 flex flex-col">
               {url && (
                 <div className="mb-6">
                   <div className="relative">

@@ -29,17 +29,17 @@ export default function Page() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col space-y-6 flex-1">
+      <div className="flex items-center justify-between flex-shrink-0">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Attendance Scanner</h1>
           <p className="text-slate-600 mt-1">Universal attendance tool for event participation</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white border-slate-200">
-          <CardHeader>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+        <Card className="bg-white border-slate-200 flex flex-col">
+          <CardHeader className="flex-shrink-0">
             <CardTitle className="text-slate-900">Universal Attendance Tool</CardTitle>
             <CardDescription className="text-slate-600">
               When students come to participate at the venue, scan their QR code from email confirmation
