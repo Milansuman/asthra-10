@@ -1,6 +1,6 @@
 import type { AppRouter } from '@/server/api/root';
 import { createTRPCClient } from '@trpc/client';
-import { loggerLink, httpBatchStreamLink } from '@trpc/client';
+import { loggerLink, httpBatchLink } from '@trpc/client';
 import SuperJSON from 'superjson';
 
 export const links = [
@@ -9,7 +9,7 @@ export const links = [
       process.env.NODE_ENV === 'development' ||
       (op.direction === 'down' && op.result instanceof Error),
   }),
-  httpBatchStreamLink({
+  httpBatchLink({
     transformer: SuperJSON,
     url: `${getBaseUrl()}/api/trpc`,
     headers: () => {
