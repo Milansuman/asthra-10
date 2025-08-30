@@ -35,7 +35,7 @@ export default function CertificateReadyEmail({ personName }: CertificateReadyPr
           fontStyle="normal"
         />
       </Head>
-      <Preview>ASTHRA 9.0 Certificate Download</Preview>
+      <Preview>ASTHRA 10.0 Certificate Download</Preview>
       <Tailwind>
         <Body
           style={{
@@ -60,7 +60,7 @@ export default function CertificateReadyEmail({ personName }: CertificateReadyPr
             </Section>
 
             <Heading className="text-[#ffffff] text-5xl font-extrabold text-center mt-16">
-              ASTHRA 9.0
+              ASTHRA 10.0
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
@@ -69,7 +69,7 @@ export default function CertificateReadyEmail({ personName }: CertificateReadyPr
               <Text>Greetings from SJCET!</Text>
 
               <Text>
-                We are pleased to inform you that you have successfully received your Certificate of Participation for events conducted as part of Asthra 9.0 at SJCET.
+                We are pleased to inform you that you have successfully received your Certificate of Participation for events conducted as part of ASTHRA 10.0 at SJCET.
               </Text>
 
               <Text>

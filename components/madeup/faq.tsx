@@ -10,8 +10,8 @@ type FAQItems = FAQItem[];
 
 export const faqItems: FAQItems = [
     {
-        title: "When is Asthra 9.0?",
-        content: "Asthra 9.0 will be held on March 6th and 7th, 2025, from 9:00 AM to 4:00 PM.",
+        title: "When is Asthra 10.0?",
+        content: "Asthra 10.0 will be held on March 6th and 7th, 2025, from 9:00 AM to 4:00 PM.",
     },
     {
         title: "What is the Asthra Pass?",
