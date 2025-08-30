@@ -332,12 +332,12 @@ function EventCard({
                     <LinkIcon className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="max-w-md">
+                <AlertDialogContent className="max-w-md bg-white text-black">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Share Event</AlertDialogTitle>
+                    <AlertDialogTitle className="text-black">Share Event</AlertDialogTitle>
                   </AlertDialogHeader>
                   <div className="flex gap-2">
-                    <div className="flex-1 p-3 border rounded-lg bg-slate-50 text-sm font-mono">
+                    <div className="flex-1 p-3 border rounded-lg bg-slate-50 text-sm font-mono text-black">
                       {shortUrl ?? "Loading..."}
                     </div>
                     <Button
@@ -346,13 +346,14 @@ function EventCard({
                       onClick={async () => {
                         await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
                       }}
+                      className="text-black border-black hover:bg-slate-100"
                     >
                       <Copy className="w-4 h-4" />
                     </Button>
                   </div>
-                  <AlertDialogFooter>
+                  <AlertDialogFooter className="gap-2">
                     <AlertDialogCancel asChild>
-                      <Button variant="outline">Cancel</Button>
+                      <Button variant="outline" className="text-black border-black hover:bg-slate-100">Back</Button>
                     </AlertDialogCancel>
                   </AlertDialogFooter>
                 </AlertDialogContent>

@@ -1,9 +1,6 @@
 "use client"
-
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Asthra, Workshop } from './_components/dashboard';
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Asthra, Workshop } from "./_components/dashboard"
 
 function DashboardPage() {
   return (
@@ -18,25 +15,25 @@ function DashboardPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex-1 flex flex-col">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6 flex-1 flex flex-col">
         <Tabs defaultValue="asthra" className="flex flex-col h-full">
           <TabsList className="grid w-full grid-cols-2 bg-slate-100 flex-shrink-0">
-            <TabsTrigger value="asthra" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+            <TabsTrigger value="asthra" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm sm:text-base">
               Asthra
             </TabsTrigger>
-            <TabsTrigger value="events" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+            <TabsTrigger value="events" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm sm:text-base">
               Competition
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="asthra" className="flex-1 flex flex-col mt-6">
+          <TabsContent value="asthra" className="flex-1 flex flex-col mt-4 sm:mt-6 data-[state=inactive]:hidden">
             <Asthra />
           </TabsContent>
-          <TabsContent value="events" className="flex-1 flex flex-col mt-6">
+          <TabsContent value="events" className="flex-1 flex flex-col mt-4 sm:mt-6 data-[state=inactive]:hidden">
             <Workshop />
           </TabsContent>
         </Tabs>
       </div>
     </div>
-  );
+  )
 }
-export default DashboardPage;
+export default DashboardPage

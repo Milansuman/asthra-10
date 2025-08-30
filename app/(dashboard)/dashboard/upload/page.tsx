@@ -17,6 +17,8 @@ import UploadEdit from "./_components/upload-edit";
 const Home = () => {
   const [url, setUrl] = useState<string | undefined>(undefined);
   const [copy, setCopy] = useState<boolean>(false);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   return (
     <div className="flex flex-col space-y-6 flex-1">
       <div className="flex items-center justify-between flex-shrink-0">
@@ -34,18 +36,18 @@ const Home = () => {
           </div>
         </div>
       }>
-        <SearchParamsComponent setUrl={setUrl} copy={copy} setCopy={setCopy} url={url} />
+        <SearchParamsComponent setUrl={setUrl} copy={copy} setCopy={setCopy} url={url} uploading={uploading} setUploading={setUploading} progress={progress} setProgress={setProgress} />
       </Suspense>
     </div>
   );
 };
 
-const SearchParamsComponent = ({ setUrl, copy, setCopy, url }: { setUrl: React.Dispatch<React.SetStateAction<string | undefined>>, copy: boolean, setCopy: React.Dispatch<React.SetStateAction<boolean>>, url?: string }) => {
+const SearchParamsComponent = ({ setUrl, copy, setCopy, url, uploading, setUploading, progress, setProgress }: { setUrl: React.Dispatch<React.SetStateAction<string | undefined>>, copy: boolean, setCopy: React.Dispatch<React.SetStateAction<boolean>>, url?: string, uploading: boolean, setUploading: React.Dispatch<React.SetStateAction<boolean>>, progress: number, setProgress: React.Dispatch<React.SetStateAction<number>> }) => {
   const searchParams = useSearchParams();
   return (
     <>
       {
-        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} /> :
+        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} uploading={uploading} setUploading={setUploading} progress={progress} setProgress={setProgress} /> :
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex-1 flex flex-col">
             <div className="p-6 flex-1 flex flex-col">
               {url && (

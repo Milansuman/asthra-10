@@ -97,16 +97,17 @@ function ParticipantsListPage() {
         {isPending ? "Loading" : (data?.[0]?.event?.department ?? "unknown")}
       </h4>
       <div className="flex gap-2">
-        <Button
-          className="w-fit"
-          link={
-            csvData
-              ? `data:text/csv;charset=utf-8,${encodeURIComponent(csvData)}`
-              : "#"
-          }
-          disabled={isPending}
-        >
-          Download Participants (CSV)
+        <Button asChild className="w-fit" disabled={isPending}>
+          <a
+            href={
+              csvData
+                ? `data:text/csv;charset=utf-8,${encodeURIComponent(csvData)}`
+                : "#"
+            }
+            download="participants.csv"
+          >
+            Download Participants (CSV)
+          </a>
         </Button>
 
         <Button onClick={() => refetch()} disabled={isPending}>

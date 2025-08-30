@@ -96,7 +96,7 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
               </li>
               <li className="list-item text-xl">
                 <span className="ambit">Event Type:</span>
-                {data.eventType}
+                {String(data.eventType)}
               </li>
               <li className="list-item text-xl">
                 <span className="ambit">Only {data.regLimit} seats!</span>
@@ -158,15 +158,15 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
           <p className="flex items-center gap-2">
             <span className="font-medium">Status:</span>
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${data.eventStatus === 'approved' ? 'bg-green-100 text-green-800' :
-                data.eventStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                  'bg-gray-100 text-gray-800'
+              String(data.eventStatus) === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-gray-100 text-gray-800'
               }`}>
-              {data.eventStatus}
-            </span>
+              {String(data.eventStatus)}
+            </span>   
           </p>
           <p className="flex items-center gap-2">
             <span className="font-medium">Type:</span>
-            <span>{data.eventType}</span>
+            <span>{String(data.eventType)}</span>
           </p>
         </div>
 
@@ -302,8 +302,8 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
       </CardHeader>
       <CardContent className="flex-col gap-2 !justify-start items-start w-full text-black">
         <p>Department: {data.department}</p>
-        <p>Event type: {data.eventType}</p>
-        <p>Event status: {data.eventStatus}</p>
+        <p>Event type: {String(data.eventType)}</p>
+        <p>Event status: {String(data.eventStatus)}</p>
         <p>Venue: {data.venue}</p>
         <p>Starts at: {getTimeUtils(data.dateTimeStarts ?? AsthraStartsAt)}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
@@ -321,9 +321,9 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
         </div>
         <p className="cal">
           Registration available for{' '}
-          {data.registrationType === 'both'
+          {String(data.registrationType) === 'both'
             ? 'both online & offline (spot)'
-            : data.registrationType}
+            : String(data.registrationType)}
         </p>
       </CardFooter>
     </Card>
@@ -383,7 +383,7 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
       />
       <ul className="w-full list-disc space-y-2 pl-5 text-black">
         <li className="list-item items-center gap-2">
-          <span className="text-sm">{data.eventType}</span>
+          <span className="text-sm">{String(data.eventType)}</span>
         </li>
         <li className="list-item items-center gap-2">
           <span className="text-sm">Just ₹{data.amount} per head</span>
