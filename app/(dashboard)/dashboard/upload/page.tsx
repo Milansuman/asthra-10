@@ -20,8 +20,8 @@ const Home = () => {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col space-y-6 flex-1">
+      <div className="flex items-center justify-between flex-shrink-0">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Media Upload</h1>
           <p className="text-slate-600 mt-1">Upload and manage media files for events</p>
@@ -47,7 +47,7 @@ const SearchParamsComponent = ({ setUrl, copy, setCopy, url, uploading, setUploa
   return (
     <>
       {
-        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} uploading={uploading} setUploading={setUploading} progress={progress} setProgress={setProgress} /> :
+        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} /> :
           <div className="bg-white rounded-xl shadow-sm border border-slate-200">
             <div className="p-6">
               {url && (

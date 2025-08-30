@@ -45,16 +45,16 @@ export default function Users() {
   const pagination = data?.pagination;
 
   return (
-    <div className="space-y-6 overflow-auto">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col space-y-6 flex-1 overflow-hidden">
+      <div className="flex items-center justify-between flex-shrink-0">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">User Management</h1>
           <p className="text-slate-600 mt-1">Manage user accounts and permissions</p>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-        <div className="p-6 border-b border-slate-200">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex-1 flex flex-col overflow-hidden">
+        <div className="p-6 border-b border-slate-200 flex-shrink-0">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1 min-w-0">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
@@ -132,14 +132,14 @@ export default function Users() {
           )}
         </div>
 
-        <div className="overflow-x-auto min-w-0">
-          <div className="min-w-max">
+        <div className="flex-1 overflow-hidden">
+          <div className="h-full overflow-auto">
             <UsersTable columns={columns} data={users as UserZodType[]} isPending={isPending} />
           </div>
         </div>
 
         {pagination && (
-          <div className="flex items-center justify-between p-6 border-t border-slate-200 text-sm text-slate-600">
+          <div className="flex items-center justify-between p-6 border-t border-slate-200 text-sm text-slate-600 flex-shrink-0">
             <div>
               Showing {((page - 1) * limit) + 1} to {Math.min(page * limit, pagination.totalCount)} of {pagination.totalCount} users
             </div>

@@ -7,11 +7,11 @@ export const uploadRouter = createTRPCRouter({
     .input(
       z.object({
         dataUrl: z.string(),
-        bucketName: z.string().default('posters'),
+        bucketName: z.string().default('assets'),
       })
     )
     .mutation(async ({ input }) => {
-      const result = await uploadBase64Image(input.dataUrl, input.bucketName);
+      const result = await uploadBase64Image(input.dataUrl, "assets");
       
       if (!result) {
         throw new Error('Failed to upload image');

@@ -56,12 +56,7 @@ const sidebarItems: SidebarItemData[] = [
         icon: <Edit size={16} />,
         label: "Edit Events",
         link: "/dashboard/events/edit",
-      },
-      {
-        icon: <Users size={16} />,
-        label: "Event Participants",
-        link: "/dashboard/events/list",
-      },
+      }
     ],
   },
   {
