@@ -47,12 +47,12 @@ export function Asthra() {
     { label: "AsthraPass", count: asthra.totalAsthraPass[0]?.value ?? 0 },
   ]
   return (
-    <Card className='w-6/12'>
-      <CardHeader>
+    <Card className='flex-1 flex flex-col'>
+      <CardHeader className="flex-shrink-0">
         <CardTitle>Asthra - Count</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className=''>
+      <CardContent className="flex-1 flex flex-col">
+        <div className='flex-1'>
           <ChartContainer config={chartConfig}>
             <BarChart
               accessibilityLayer

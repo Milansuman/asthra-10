@@ -28,14 +28,18 @@ export const env = createEnv({
     NM_EMAIL: z.string().optional(),
     NM_PASS: z.string().optional(),
 
-    UPSTASH_REDIS_URL: z.string().url().optional(),
-    UPSTASH_REDIS_TOKEN: z.string().optional(),
+    UPSTASH_REDIS_URL: z.string().url(),
+    UPSTASH_REDIS_TOKEN: z.string(),
 
-    RAZORPAY_KEY_SECRET: z.string().optional(),
+    RAZORPAY_KEY_SECRET: z.string(),
+    S3_ENDPOINT: z.string(),
+    S3_ACCESS_ID: z.string(),
+    S3_ACCESS_KEY: z.string(),
+    S3_PUBLIC_URL: z.string()
   },
 
   shared: {
-    NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string().optional(),
+    NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string(),
     NEXT_PUBLIC_SJCET_PAYMENT_LINK: z.string().url().optional(),
   },
 
@@ -78,6 +82,10 @@ export const env = createEnv({
     RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
 
     NEXT_PUBLIC_SJCET_PAYMENT_LINK: process.env.NEXT_PUBLIC_SJCET_PAYMENT_LINK,
+    S3_ENDPOINT: process.env.S3_ENDPOINT,
+    S3_ACCESS_ID: process.env.S3_ACCESS_ID,
+    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    S3_PUBLIC_URL: process.env.S3_PUBLIC_URL
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

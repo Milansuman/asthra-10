@@ -18,14 +18,14 @@ const Middleware = (props: { children: React.ReactNode }) => {
   const matches = pathname.match(/\/(dashboard|profile|payment)/);
   if (matches) {
     if (status === "unauthenticated") {
-      return redirect("/login");
+      //return redirect("/login");
     }
 
     if (status === "authenticated") {
       const path = matches[1] as "dashboard" | "profile" | "payment";
 
       if (data.user.role === "USER" && path === "dashboard") {
-        return redirect("/");
+        //return redirect("/");
       }
     }
   }

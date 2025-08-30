@@ -5,8 +5,8 @@ import { useState, type FC } from 'react';
 
 import { z } from 'zod';
 
-
 import type { eventZod } from '@/lib/validator';
+import { allDepartments } from '@/logic';
 
 import { type EventEdit, EventForm } from '@/components/madeup/eventform';
 import { Button } from '@/components/ui/button';
@@ -31,13 +31,14 @@ import {
 } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import { Copy, Trash2 } from 'lucide-react';
+import { Copy, Trash2, Plus } from 'lucide-react';
 
 import { api } from '@/trpc/react';
 import { TRPCError } from '@trpc/server';
 import { Input } from '../ui/input';
 import { Markdown } from '@/app/_components/md';
 import { ASTHRA, AsthraStartsAt, getTimeUtils } from '@/logic';
+import { toast } from 'sonner';
 
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
@@ -55,7 +56,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
   return (
-    <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-white">
+    <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-black">
       <div className="flex flex-col space-y-3">
 
         <div className="flex justify-between items-start">
@@ -66,7 +67,7 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
             </Markdown>
           </div>
           {credits && (
-            <div className="bg-white text-blue-600 px-4 py-2 rounded-lg flex-shrink-0">
+            <div className="bg-white text-black px-4 py-2 rounded-lg flex-shrink-0">
               <span className="ambit">{credits}</span>
             </div>
           )}
@@ -108,7 +109,7 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
           {footerNote && <p className="text-xl">{footerNote}</p>}
           <Button
             variant="outline"
-            className="bg-white text-blue-500 border-2 border-gray-300 px-6 py-6 text-xl rounded-lg"
+            className="bg-white text-black border-2 border-gray-300 px-6 py-6 text-xl rounded-lg"
           >
             {data.eventType === "ASTHRA_PASS" && "Buy Ticket"}
             {data.eventType === "WORKSHOP" && `Purchase for ₹${data.amount}`}
@@ -131,100 +132,148 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
   const [shortUrl, setShortUrl] = useState<string | null>(null); //only shorten url when user presses the button. use state as a way to not use the mutation immediately.
 
   return (
-    <Card className="m-2 flex flex-col text-white aspect-square max-w-80 p-4">
+    <Card className="flex flex-col text-slate-900 bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
       <CardHeader className="p-0">
         {z.string().safeParse(data.poster).success && (
-          <Image
-            className="h-[150px] w-full object-cover object-left-top"
-            height="600"
-            width="600"
-            src={data.poster}
-            alt={`${data.name} poster asthra 8`}
-          />
+          <div className="relative h-48 w-full overflow-hidden">
+            <Image
+              className="h-full w-full object-cover"
+              height="600"
+              width="600"
+              src={data.poster}
+              alt={`${data.name} poster`}
+            />
+          </div>
         )}
       </CardHeader>
-      <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-      <CardFooter className="flex gap-[10px] p-0 mt-auto flex-wrap">
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="secondary" className="flex-1">
-              Edit
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="p-5 min-h-screen max-w-screen border-none bg-transparent">
-            <Card className="p-5 text-white bg-glass">
-              <AlertDialogTitle>Edit Event</AlertDialogTitle>
-              <p>
-                Keyboard accessible, Use up & down arrows to control counts &
-                dates
-              </p>
 
-              <ScrollArea className="h-[80vh]">
-                <EventForm data={data as EventEdit} id={data.id} onChangeEvent={onChangeEvent} />
-              </ScrollArea>
-            </Card>
-          </AlertDialogContent>
-        </AlertDialog>
-        <Button link={`/dashboard/upload?id=${data.id}`} className="flex-1">
-          Change poster
-        </Button>
-        <AlertDialog onOpenChange={(open) => {
-          if (open && data.name !== null && shortUrl === null) {
-            shortenUrl({
-              name: data.name.replaceAll(" ", "_"),
-              url: `https://asthra.sjcetpalai.ac.in/event/${data.id}`
-            }, {
-              onSuccess(data) {
-                if (data instanceof TRPCError) return;
-                setShortUrl(data.url);
+      <div className="p-4 flex-1 flex flex-col">
+        <CardTitle className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2">{data.name}</CardTitle>
+
+        <div className="space-y-1 text-sm text-slate-600 mb-4 flex-1">
+          <p className="flex items-center gap-2">
+            <span className="font-medium">Department:</span>
+            <span>{allDepartments[data.department as keyof typeof allDepartments] || data.department}</span>
+          </p>
+          <p className="flex items-center gap-2">
+            <span className="font-medium">Status:</span>
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${data.eventStatus === 'approved' ? 'bg-green-100 text-green-800' :
+                data.eventStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-gray-100 text-gray-800'
+              }`}>
+              {data.eventStatus}
+            </span>
+          </p>
+          <p className="flex items-center gap-2">
+            <span className="font-medium">Type:</span>
+            <span>{data.eventType}</span>
+          </p>
+        </div>
+
+        <CardFooter className="p-0 flex flex-col gap-2">
+          <div className="grid grid-cols-2 gap-2 w-full">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-slate-700 border-slate-300 hover:bg-slate-50">
+                  Edit
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="max-w-4xl max-h-[90vh] p-0 border-none bg-transparent">
+                <Card className="bg-white text-slate-900 max-h-[90vh] flex flex-col">
+                  <div className="p-6 border-b border-slate-200">
+                    <AlertDialogTitle className="text-2xl font-bold text-slate-900">Edit Event</AlertDialogTitle>
+                    <p className="text-slate-600 mt-1">
+                      Update event details and settings
+                    </p>
+                  </div>
+
+                  <ScrollArea className="flex-1 p-6">
+                    <EventForm data={data as EventEdit} id={data.id} onChangeEvent={onChangeEvent} />
+                  </ScrollArea>
+                </Card>
+              </AlertDialogContent>
+            </AlertDialog>
+
+            <AlertDialog onOpenChange={(open) => {
+              if (open && data.name !== null && shortUrl === null) {
+                shortenUrl({
+                  name: data.name.replaceAll(" ", "_"),
+                  url: `https://asthra.sjcetpalai.ac.in/event/${data.id}`
+                }, {
+                  onSuccess(data) {
+                    if (data instanceof TRPCError) return;
+                    setShortUrl(data.url);
+                  }
+                })
               }
-            })
-          }
-        }}>
-          <AlertDialogTrigger asChild>
-            <Button>Shorten Link</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className='p-5 bg-glass rounded-none'>
-            <AlertDialogHeader>
-              <AlertDialogTitle className='text-2xl'>Copy Short URL</AlertDialogTitle>
-            </AlertDialogHeader>
-            <div className='flex flex-row gap-2'>
-              <div className="p-2 border border-neutral-400 bg-neutral-50/20 flex-1">
-                {shortUrl ?? "Loading..."}
-              </div>
-              <Button variant="outline" onClick={async () => {
-                await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
-              }}>
-                <Copy />
+            }}>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-slate-700 border-slate-300 hover:bg-slate-50">
+                  Share
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="max-w-md bg-white text-slate-900 border border-slate-200">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-xl font-semibold text-slate-900">Share Event</AlertDialogTitle>
+                </AlertDialogHeader>
+                <div className="space-y-4">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <p className="text-sm font-medium text-slate-700 mb-2">Short URL:</p>
+                    <div className="flex gap-2">
+                      <div className="flex-1 p-2 bg-white border border-slate-300 rounded text-sm font-mono text-slate-800">
+                        {shortUrl ?? "Generating..."}
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={async () => {
+                          await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+                          toast.success("URL copied to clipboard!")
+                        }}
+                        disabled={!shortUrl}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <AlertDialogFooter>
+                  <AlertDialogCancel asChild>
+                    <Button variant="outline">Close</Button>
+                  </AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm" className="w-full">
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete Event
               </Button>
-            </div>
-            <AlertDialogFooter>
-              <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
-              </AlertDialogCancel>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button size={"glass"} variant="destructive">
-              <Trash2 size={20} />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-glass rounded-none">
-            <h3 className="text-lg font-semibold">Confirm Deletion</h3>
-            <p>Are you sure you want to delete this event? This action cannot be undone.</p>
-            <div className="flex justify-end gap-4 mt-4">
-              <AlertDialogCancel asChild>
-                <Button size={"glass"} variant="outline">Cancel</Button>
-              </AlertDialogCancel>
-              <AlertDialogAction asChild>
-                <Button size={"glass"} variant="destructive" onClick={() => onDelete(data.id)}>Delete</Button>
-              </AlertDialogAction>
-            </div>
-          </AlertDialogContent>
-        </AlertDialog>
-      </CardFooter>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="max-w-md bg-white text-slate-900 border border-slate-200">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-xl font-semibold text-slate-900">Confirm Deletion</AlertDialogTitle>
+                <p className="text-slate-600 mt-2">
+                  Are you sure you want to delete "{data.name}"? This action cannot be undone.
+                </p>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="gap-2">
+                <AlertDialogCancel asChild>
+                  <Button variant="outline">Cancel</Button>
+                </AlertDialogCancel>
+                <AlertDialogAction asChild>
+                  <Button variant="destructive" onClick={() => onDelete(data.id)}>
+                    Delete Event
+                  </Button>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </CardFooter>
+      </div>
     </Card>
   )
 };
@@ -244,14 +293,14 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
       )}
     </Card>
 
-    <Card className="m-2 cal p-5 relative !h-auto cal text-white border-neutral-300 max-h-96 overflow-auto">
+    <Card className="m-2 cal p-5 relative !h-auto cal text-black border-neutral-300 max-h-96 overflow-auto">
       <CardHeader>
         <CardTitle className="mt-[20px]">{data.name}</CardTitle>
         <Markdown full>
           {data.description}
         </Markdown>
       </CardHeader>
-      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-white">
+      <CardContent className="flex-col gap-2 !justify-start items-start w-full text-black">
         <p>Department: {data.department}</p>
         <p>Event type: {data.eventType}</p>
         <p>Event status: {data.eventStatus}</p>
@@ -282,21 +331,26 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
 );
 
 export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEvent }) => (
-  <Card className="m-2  w-52 aspect-square rounded-none border border-neutral-200">
+  <Card className="flex flex-col text-slate-900 bg-white border-2 border-dashed border-slate-300 shadow-sm hover:shadow-md transition-all duration-200 hover:border-slate-400 cursor-pointer group">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="m-auto flex h-full w-full flex-col justify-center text-white">
-          <p className="mx-auto w-fit text-[5rem] leading-20">+</p>
-          <p className="w-fit mx-auto">Add new</p>
+        <CardContent className="flex h-full w-full flex-col justify-center items-center p-8 min-h-[300px]">
+          <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4 group-hover:bg-slate-200 transition-colors">
+            <Plus className="w-8 h-8 text-slate-600 group-hover:text-slate-700" />
+          </div>
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Create New Event</h3>
+          <p className="text-sm text-slate-600 text-center">Click to add a new event to Asthra 9</p>
         </CardContent>
       </AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[900px] p-0 border-none rounded-none bg-transparent">
-        <Card className="p-5 text-white bg-glass rounded-none">
-          <h3 className="cal">Create Event</h3>
-          <p>
-            Keyboard accessible, Use up & down arrows to control counts & dates
-          </p>
-          <ScrollArea className="h-[80vh] rounded-none p-4">
+      <AlertDialogContent className="max-w-4xl max-h-[90vh] p-0 border-none bg-transparent">
+        <Card className="bg-white text-slate-900 max-h-[90vh] flex flex-col">
+          <div className="p-6 border-b border-slate-200">
+            <AlertDialogTitle className="text-2xl font-bold text-slate-900">Create New Event</AlertDialogTitle>
+            <p className="text-slate-600 mt-1">
+              Fill in the details to create a new event for Asthra 9
+            </p>
+          </div>
+          <ScrollArea className="flex-1 p-6">
             <EventForm data={null} onChangeEvent={onChangeEvent} />
           </ScrollArea>
         </Card>
@@ -347,13 +401,13 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
     <CardFooter className="flex justify-between gap-4">
       <Button
         variant="outline"
-        className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-button-primary"
+        className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white font-semibold text-black"
         onClick={onView}
       >
         <span>View</span>
       </Button>
       <Button
-        className="flex-1 rounded-lg bg-button-primary font-bold text-white hover:bg-blue-700"
+        className="flex-1 rounded-lg bg-button-primary font-bold text-black hover:bg-blue-700"
         onClick={onBuy}
       >
         {data.eventType === 'ASTHRA_PASS' && 'Buy Ticket'}

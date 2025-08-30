@@ -34,6 +34,17 @@ import { useState } from "react";
 import { z } from "zod";
 import QRCode from "react-qr-code";
 
+const ROLE_OPTIONS = [
+  'USER',
+  'STUDENT_COORDINATOR', 
+  'FACULTY_COORDINATOR',
+  'MANAGEMENT',
+  'ADMIN',
+  'DESK'
+] as const;
+
+type RoleType = typeof ROLE_OPTIONS[number];
+
 export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
   {
     header: "Name",
@@ -70,10 +81,10 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
           {
             row.original.asthraPass ?
               <div className="flex flex-row gap-2">
-                <Input defaultValue={credits} type="number" className="min-w-28" onChange={(event) => {
+                <Input defaultValue={credits} type="number" className="min-w-28 text-foreground" onChange={(event) => {
                   setCredits(Number(event.target.value));
                 }} />
-                <Button onClick={() => {
+                <Button variant="outline" className="text-foreground" onClick={() => {
                   editAsthraCredits({
                     userId: row.original.id,
                     credits
@@ -98,7 +109,7 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
       return (
         <Dialog>
           <DialogTrigger asChild>
-            <Button>View Events</Button>
+            <Button variant="outline" className="text-foreground">View Events</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -115,7 +126,7 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
     cell: ({ row }) => {
       const { mutate: editUser } = api.user.editUserRole.useMutation();
       return (
-        <Select defaultValue={row.original.role} onValueChange={(value: "USER" | "STUDENT_COORDINATOR" | "FACULTY_COORDINATOR" | "MANAGEMENT" | "ADMIN" | "DESK") => {
+        <Select defaultValue={String(row.original.role)} onValueChange={(value: RoleType) => {
           editUser({
             role: value,
             userId: row.original.id
@@ -126,12 +137,12 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
             onSuccess: () => toast("Role changed successfully")
           })
         }}>
-          <SelectTrigger>
+          <SelectTrigger className="text-foreground">
             <SelectValue placeholder="Select a role" />
           </SelectTrigger>
           <SelectContent>
             {
-              [...Object.keys(allRoles)].map(role => (
+              ROLE_OPTIONS.map(role => (
                 <SelectItem value={role} key={role}>{role}</SelectItem>
               ))
             }
@@ -172,7 +183,7 @@ const ListOfEvents = ({ userId }: { userId: string }) => {
                           <TableCell className="text-right">
                             <Dialog>
                               <DialogTrigger asChild>
-                                <Button size={"thin"} variant="glass">
+                                <Button variant="outline" className="text-foreground">
                                   View QR <QrCodeIcon />
                                 </Button>
                               </DialogTrigger>
@@ -198,7 +209,7 @@ const ListOfEvents = ({ userId }: { userId: string }) => {
                             </Dialog>
                           </TableCell>
                           <TableCell className="text-right">
-                            <Button link={`/event/${event.eventId}`} size={"thin"} variant="glass">
+                            <Button variant="outline" className="text-foreground">
                               Show Event <ChevronRight />
                             </Button>
                           </TableCell>
