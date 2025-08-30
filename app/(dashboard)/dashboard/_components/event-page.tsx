@@ -163,17 +163,17 @@ export function EventPage({
   }
 
   return (
-    <div className="w-full min-h-screen p-2 flex flex-col gap-4">
-      <div className="w-full flex flex-col-reverse gap-2 justify-center z-10 items-center">
+    <div className="w-full space-y-6">
+      <div className="flex flex-col sm:flex-row gap-4 p-6 border-b border-slate-200">
         <Select
           onValueChange={(value) => handleSelect(value)}
           defaultValue={filterDepartment}
         >
-          <SelectTrigger className="w-[380px] self-center text-left">
-            <SelectValue placeholder="All" />
+          <SelectTrigger className="w-full sm:w-[280px] bg-white border-slate-300">
+            <SelectValue placeholder="Filter by Department" />
           </SelectTrigger>
-          <SelectContent className="w-[380px]">
-            <SelectItem value="all">All</SelectItem>
+          <SelectContent>
+            <SelectItem value="all">All Departments</SelectItem>
             {Object.entries(allDepartments)
               .map(([dep, full]) => (
                 <SelectItem key={dep} value={dep}>
@@ -182,12 +182,13 @@ export function EventPage({
               ))}
           </SelectContent>
         </Select>
+
         {isMobileDevice() ? (
           <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
-            <SelectTrigger className="w-[380px] self-center text-left">
-              <SelectValue placeholder="Category" />
+            <SelectTrigger className="w-full sm:w-[280px] bg-white border-slate-300">
+              <SelectValue placeholder="Filter by Category" />
             </SelectTrigger>
-            <SelectContent className="w-[380px]">
+            <SelectContent>
               {categories.map((category) => (
                 <SelectItem value={category} key={category}>
                   {category.replaceAll('_', ' ').split(' ').map(word =>
@@ -198,67 +199,51 @@ export function EventPage({
             </SelectContent>
           </Select>
         ) : (
-          <div className="max-w-2/3 h-full rounded-none flex flex-row gap-2 overflow-auto text-foreground">
+          <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
-              <div
-                key={`${category}.div`}
-                className="flex p-1"
+              <motion.button
+                key={category}
                 onClick={() => handleFilter(category)}
+                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === category
+                    ? 'bg-slate-900 text-white shadow-md'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <motion.div
-                  key={category}
-                  initial={false}
-                  animate={{
-                    color: filter === category ? '#111111' : '#111111',
-                  }}
-                  className="relative py-1 px-4"
-                >
-                  {filter === category && (
-                    <motion.div
-                      layoutId="pill_event"
-                      // style={{ borderRadius: 500 }}
-                      transition={{
-                        duration: 0.75,
-                        type: 'tween',
-                        ease: [0.76, 0, 0.24, 1],
-                        delay: 0.2,
-                      }}
-                      className="absolute inset-0 bg-neutral-200"
-                    />
-                  )}
-                  <span className="relative whitespace-nowrap">
-                    {category.replaceAll('_', ' ')}
-                  </span>
-                </motion.div>
-              </div>
+                {category.replaceAll('_', ' ')}
+              </motion.button>
             ))}
           </div>
         )}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
-        {events
-          .filter(
-            (event: Event) =>
-              ((isDepartment(event) && isEventType(event)) ||
-                isGeneralEvent(event) ||
-                isSpotEvent(event) ||
-                isCancelled(event) ||
-                isOtherEvent(event)
-              ) &&
-              isEventStatus(event) &&
-              !isUploaded(event)
-          )
-          .map((event) => (
-            <motion.div layout key={event.id} className="w-full">
-              {dashboard ? (
-                <EventCard event={event} dashboard={dashboard} />
-              ) : (
-                <Link href={`/event/${event.id}`}>
+
+      <div className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {events
+            .filter(
+              (event: Event) =>
+                ((isDepartment(event) && isEventType(event)) ||
+                  isGeneralEvent(event) ||
+                  isSpotEvent(event) ||
+                  isCancelled(event) ||
+                  isOtherEvent(event)
+                ) &&
+                isEventStatus(event) &&
+                !isUploaded(event)
+            )
+            .map((event) => (
+              <motion.div layout key={event.id} className="w-full">
+                {dashboard ? (
                   <EventCard event={event} dashboard={dashboard} />
-                </Link>
-              )}
-            </motion.div>
-          ))}
+                ) : (
+                  <Link href={`/event/${event.id}`}>
+                    <EventCard event={event} dashboard={dashboard} />
+                  </Link>
+                )}
+              </motion.div>
+            ))}
+        </div>
       </div>
     </div>
   );
@@ -270,51 +255,29 @@ function EventCard({
   event: z.infer<typeof eventZod>;
   dashboard: boolean;
 }) {
-  const { data: registeredUsers } = api.event.getParticipants.useQuery({
-    id: event.id,
-  });
-  console.log(event);
   const { mutate: shortenUrl } = api.shortner.shorten.useMutation();
   const [shortUrl, setShortUrl] = useState<string | null>(null);
 
-  const { mutate: removeAttendance } = api.user.removeAttendance.useMutation();
-  const { mutate: addAttendance } = api.user.addAttendance.useMutation();
-
-  const handleAttendance = (
-    userId: string,
-    eventId: string,
-    status: boolean
-  ) => {
-    status
-      ? addAttendance({
-        userId: userId,
-        eventId: eventId,
-      })
-      : removeAttendance({
-        userId: userId,
-        eventId: eventId,
-      });
-  };
-
   return (
-    <Card className="relative">
-      <Image
-        src={event.poster ?? '/sjcet/1.jpeg'}
-        width={400}
-        height={600}
-        alt={event.name ?? "poster"}
-        className="w-full"
-      />
-      <CardContent>
-        <div className="px-1 pt-3 pb-0 flex flex-col gap-2">
-          <h3 className="p-0 overflow-hidden overflow-ellipsis whitespace-nowrap w-full">
+    <Card className="group overflow-hidden bg-white border border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+      <div className="aspect-[4/3] overflow-hidden">
+        <Image
+          src={event.poster ?? '/sjcet/1.jpeg'}
+          width={400}
+          height={300}
+          alt={event.name ?? "poster"}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <CardContent className="p-4">
+        <div className="space-y-3">
+          <h3 className="font-semibold text-lg text-slate-900 line-clamp-2 leading-tight">
             {event.name}
           </h3>
 
-          <div className="flex flex-col justify-between align-bottom">
-            <div className="flex flex-col">
-              <h4 className="tracking-wider">
-                {' '}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-slate-600">
                 {!dashboard
                   ? event.regCount < event.regLimit
                     ? event.eventType === 'ASTHRA_PASS_EVENT'
@@ -323,20 +286,33 @@ function EventCard({
                         ? 'FREE'
                         : `₹${event.amount}`
                     : 'Sold Out'
-                  : `${event.regCount} / ${event.regLimit} Registered`}
-              </h4>
-
-              <p>{getTimeUtils(event.dateTimeStarts)}</p>
+                  : `${event.regCount}/${event.regLimit} Registered`}
+              </span>
+              <span className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">
+                {event.department}
+              </span>
             </div>
-            <div className="overflow-auto flex flex-wrap mt-5 gap-1">
-              <Button link={`/dashboard/events/list?eventId=${event.id}`} className="h-[30px] uppercase font-black self-end">
+
+            <p className="text-sm text-slate-600">{getTimeUtils(event.dateTimeStarts)}</p>
+          </div>
+
+          {dashboard && (
+            <div className="flex flex-wrap gap-2 pt-2">
+              <Button
+                size="sm"
+                variant="outline"
+                link={`/dashboard/events/list?eventId=${event.id}`}
+                className="text-xs"
+              >
                 Participants
               </Button>
-              <Button link={event.id === ASTHRA.id ? "/dashboard/attendence/asthra" : `/dashboard/attendence/${event.id}`} className="h-[30px] uppercase font-black self-end">
-                Take Attendence
-              </Button>
-              <Button className="h-[30px] uppercase font-black self-end">
-                {event.department}
+              <Button
+                size="sm"
+                variant="outline"
+                link={event.id === ASTHRA.id ? "/dashboard/attendence/asthra" : `/dashboard/attendence/${event.id}`}
+                className="text-xs"
+              >
+                Attendance
               </Button>
               <AlertDialog onOpenChange={(open) => {
                 if (open && event.name !== null && shortUrl === null) {
@@ -352,22 +328,26 @@ function EventCard({
                 }
               }}>
                 <AlertDialogTrigger asChild>
-                  <Button className='self-end h-[30px]'>
-                    <LinkIcon />
+                  <Button size="sm" variant="outline" className="text-xs p-2">
+                    <LinkIcon className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className='p-5 rounded-none'>
+                <AlertDialogContent className="max-w-md">
                   <AlertDialogHeader>
-                    <AlertDialogTitle className='text-2xl'>Copy Short URL</AlertDialogTitle>
+                    <AlertDialogTitle>Share Event</AlertDialogTitle>
                   </AlertDialogHeader>
-                  <div className='flex flex-row gap-2'>
-                    <div className="p-2 border border-neutral-400 bg-neutral-50/20 flex-1">
+                  <div className="flex gap-2">
+                    <div className="flex-1 p-3 border rounded-lg bg-slate-50 text-sm font-mono">
                       {shortUrl ?? "Loading..."}
                     </div>
-                    <Button variant="outline" onClick={async () => {
-                      await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
-                    }}>
-                      <Copy />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+                      }}
+                    >
+                      <Copy className="w-4 h-4" />
                     </Button>
                   </div>
                   <AlertDialogFooter>
@@ -378,7 +358,7 @@ function EventCard({
                 </AlertDialogContent>
               </AlertDialog>
             </div>
-          </div>
+          )}
         </div>
       </CardContent>
     </Card>

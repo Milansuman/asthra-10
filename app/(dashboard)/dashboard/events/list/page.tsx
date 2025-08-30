@@ -90,7 +90,7 @@ function ParticipantsListPage() {
   }, [isPending, data]);
 
   return (
-    <div className="p-6 flex flex-col gap-3">
+    <div className="p-6 flex flex-col gap-3 overflow-y-auto">
       <h3>{isPending ? "Loading" : (data?.[0]?.event?.name ?? "Unknown")}</h3>
       <h4>
         Department:{" "}
