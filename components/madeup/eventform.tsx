@@ -51,10 +51,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import MDEditor from '@uiw/react-md-editor';
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
 import UploadMediaInline from './upload-inline';
+import { TiptapEditor } from './tiptap-editor';
 
 const FormSchema = eventZod
   .omit({
@@ -226,25 +226,15 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <FormItem>
                 <FormLabel className="text-slate-700">Event Description</FormLabel>
                 <FormControl>
-                  <MDEditor
-                    height={300}
-                    preview="edit"
-                    style={{ background: "white" }}
-                    textareaProps={{
-                      placeholder: "Enter the event description..."
-                    }}
+                  <TiptapEditor
                     value={(field.value as string) ?? ''}
-                    onChange={(e) => {
-                      field.onChange({
-                        target: {
-                          value: e
-                        }
-                      })
-                    }}
+                    onChange={(value) => field.onChange(value)}
+                    placeholder="Enter the event description..."
+                    className="min-h-[300px]"
                   />
                 </FormControl>
                 <FormDescription className='text-slate-600'>
-                  Describe your event in detail. Markdown formatting is supported.
+                  Describe your event in detail. Rich text formatting is supported.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -258,28 +248,18 @@ export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChange
               <FormItem>
                 <FormLabel className="text-slate-700">Secret Message for Registered Users</FormLabel>
                 <FormControl>
-                  <MDEditor
-                    height={300}
-                    preview="edit"
-                    style={{ background: "white" }}
+                  <TiptapEditor
                     value={(field.value as string) ?? ''}
-                    textareaProps={{
-                      placeholder: "Enter a secret message for registered participants..."
-                    }}
-                    onChange={(e) => {
-                      field.onChange({
-                        target: {
-                          value: e
-                        }
-                      })
-                    }}
+                    onChange={(value) => field.onChange(value)}
+                    placeholder="Enter a secret message for registered participants..."
+                    className="min-h-[300px]"
                   />
                 </FormControl>
                 <FormDescription className='text-slate-600'>
                   This message will be sent to users via email after successful registration.
                 </FormDescription>
                 <FormDescription className='text-slate-600'>
-                  Example: Team details form link [Here](https://example.com/form)
+                  Example: Team details form link
                 </FormDescription>
                 <FormMessage />
               </FormItem>
