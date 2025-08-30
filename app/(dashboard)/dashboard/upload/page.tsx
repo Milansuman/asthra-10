@@ -47,9 +47,9 @@ const SearchParamsComponent = ({ setUrl, copy, setCopy, url, uploading, setUploa
   return (
     <>
       {
-        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} /> :
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-            <div className="p-6">
+        searchParams.get("id") ? <UploadEdit id={searchParams.get("id")!} uploading={uploading} setUploading={setUploading} progress={progress} setProgress={setProgress} /> :
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex-1 flex flex-col">
+            <div className="p-6 flex-1 flex flex-col">
               {url && (
                 <div className="mb-6">
                   <div className="relative">

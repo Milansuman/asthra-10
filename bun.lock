@@ -66,7 +66,7 @@
         "date-fns": "^4.1.0",
         "drizzle-orm": "^0.38.0",
         "drizzle-zod": "^0.7.0",
-        "framer-motion": "^12.0.6",
+        "framer-motion": "^12.23.12",
         "heroui-cli": "^1.0.0",
         "jimp": "^1.6.0",
         "jimp-compact": "^0.16.1-2",
