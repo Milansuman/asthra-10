@@ -1,55 +1,18 @@
-import Dock, { type DockItemData } from '@/components/madeup/Dock';
-
-const Items: DockItemData[] = [
-  // {
-  //   link: "/",
-  //   label: "Home",
-  // },
-  {
-    link: "/dashboard",
-    label: "Dashboard",
-  },
-  {
-    link: "/dashboard/events",
-    label: "Events",
-  },
-  // {
-  //   link: "/dashboard/upload",
-  //   label: "Upload",
-  // },
-  // {
-  //   link: "/dashboard/events/edit",
-  //   label: "Edit Events",
-  // },
-  {
-    link: "/dashboard/users",
-    label: "User-Manage"
-  },
-  // {
-  //   link: "/dashboard/attendence",
-  //   label: "Attendence",
-  // },
-  {
-    link: "/dashboard/desk",
-    label: "Desk-Participants",
-  },
-  {
-    link: "/dashboard/desk/scan",
-    label: "Spot Registration",
-  },
-  {
-    link: "/dashboard/order",
-    label: "Payment Resolver",
-  },
-]
+import Sidebar from '@/components/madeup/Sidebar';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen overflow-y-auto overflow-x-hidden pb-24 bg-white text-black">
-    {children}
-    <Dock items={Items} className='z-0' />
-  </div>;
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-900 flex flex-row w-screen overflow-hidden">
+      <Sidebar />
+      <main className="min-h-screen w-full overflow-auto">
+        <div className="p-6 md:p-8 h-full overflow-auto flex w-full">
+          {children}
+        </div>
+      </main>
+    </div>
+  );
 }

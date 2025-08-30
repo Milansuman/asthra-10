@@ -1,109 +1,112 @@
 'use client';
 
-import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { Upload, ImageIcon } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
-import { uploadBase64ToS3, fileToBase64 } from '@/lib/upload-utils';
+import { Upload } from 'lucide-react';
+import { api } from '@/trpc/react';
 
-interface UploadImageProps {
-  setUrl: (url: string) => void;
-  setUploading?: (uploading: boolean) => void;
-  setProgress?: (progress: number) => void;
-}
+type UploadMediaProps = {
+  setUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
 
-const UploadImage = ({ setUrl, setUploading, setProgress }: UploadImageProps) => {
-  const simulateProgress = useCallback(() => {
-    if (!setProgress) return;
+const UploadImage: React.FC<UploadMediaProps> = ({ setUrl }) => {
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 5;
-      setProgress(Math.min(progress, 90));
+  const uploadMutation = api.upload.uploadImage.useMutation({
+    onSuccess: (result) => {
+      setUrl(result.url);
+      toast.success("Image uploaded successfully!");
+      setUploading(false);
+    },
+    onError: (error) => {
+      toast.error("Upload failed", {
+        description: error.message || "Please try again or contact support."
+      });
+      setUploading(false);
+    },
+  });
 
-      if (progress >= 90) {
-        clearInterval(interval);
-      }
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [setProgress]);
-
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (!file) return;
 
-    if (setUploading) setUploading(true);
-    const cleanupProgress = simulateProgress();
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error("Invalid file type", {
+        description: "Please select an image file (JPG, PNG, GIF, WebP)."
+      });
+      return;
+    }
+
+    // Validate file size (8MB max)
+    const maxSize = 8 * 1024 * 1024; // 8MB in bytes
+    if (file.size > maxSize) {
+      toast.error("File too large", {
+        description: "Please select an image smaller than 8MB."
+      });
+      return;
+    }
+
+    setUploading(true);
 
     try {
       // Convert file to base64
-      const base64 = await fileToBase64(file);
-
-      // Upload to S3
-      const imageUrl = await uploadBase64ToS3(base64);
-
-      // Complete progress
-      if (setProgress) setProgress(100);
-
-      // Set the URL
-      setUrl(imageUrl);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        uploadMutation.mutate({
+          dataUrl,
+          bucketName: 'posters'
+        });
+      };
+      reader.onerror = () => {
+        toast.error("Failed to read file");
+        setUploading(false);
+      };
+      reader.readAsDataURL(file);
     } catch (error) {
-      console.error('Upload error:', error);
-      // TODO: Show error to user
-    } finally {
-      setTimeout(() => {
-        if (setUploading) setUploading(false);
-        if (setProgress) setProgress(0);
-      }, 500);
-
-      if (cleanupProgress) cleanupProgress();
+      toast.error("Upload failed", {
+        description: "An error occurred while processing the file."
+      });
+      setUploading(false);
     }
-  }, [setUrl, setUploading, setProgress, simulateProgress]);
+  };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
-    },
-    maxFiles: 1
-  });
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
-    <div
-      {...getRootProps()}
-      className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive
-          ? 'border-primary bg-primary/10'
-          : 'border-muted-foreground/25 hover:border-muted-foreground/50'
-        }`}
-    >
-      <input {...getInputProps()} />
-      <div className="flex flex-col items-center justify-center gap-4">
-        <div className="p-3 rounded-full bg-muted">
-          {isDragActive ? (
-            <Upload className="h-8 w-8 text-muted-foreground" />
-          ) : (
-            <ImageIcon className="h-8 w-8 text-muted-foreground" />
-          )}
-        </div>
+    <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileSelect}
+        className="hidden"
+      />
 
-        <div>
-          <p className="font-medium mb-1">
-            {isDragActive ? 'Drop the image here' : 'Upload an image'}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Drag and drop or click to browse
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">
-            Supports: JPG, PNG, GIF, WebP
-          </p>
-        </div>
-
-        <Button variant="outline" size="sm" className="mt-2">
-          Select File
-        </Button>
-      </div>
-    </div>
+      <Button
+        onClick={handleUploadClick}
+        disabled={uploading}
+        className="w-full"
+      >
+        {uploading ? (
+          <>
+            <div className="w-4 h-4 mr-2 border-2 border-current border-t-transparent animate-spin rounded-full" />
+            Uploading...
+          </>
+        ) : (
+          <>
+            <Upload className="w-4 h-4 mr-2" />
+            Upload Image
+          </>
+        )}
+      </Button>
+    </>
   );
 };
 

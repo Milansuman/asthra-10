@@ -1,16 +1,23 @@
-"use client"
+'use client';
 
-import type React from "react"
+import Image from 'next/image';
+import { useState, type FC } from 'react';
 
-import Image from "next/image"
-import { useState, type FC } from "react"
+import { z } from 'zod';
 
-import { z } from "zod"
+import type { eventZod } from '@/lib/validator';
+import { allDepartments } from '@/logic';
 
-import type { eventZod } from "@/lib/validator"
-import { type EventEdit, EventForm } from "@/components/madeup/eventform"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { type EventEdit, EventForm } from '@/components/madeup/eventform';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 import {
   AlertDialog,
@@ -20,44 +27,44 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTrigger,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { UploadPosterDialog } from "@/app/(dashboard)/dashboard/events/_components/upload-poster"
-import { Copy, Trash2 } from "lucide-react"
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-import { api } from "@/trpc/react"
-import { TRPCError } from "@trpc/server"
-import { Markdown } from "@/app/_components/md"
-import { AsthraStartsAt, getTimeUtils } from "@/logic"
+import { Copy, Trash2, Plus } from 'lucide-react';
+
+import { api } from '@/trpc/react';
+import { TRPCError } from '@trpc/server';
+import { Input } from '../ui/input';
+import { Markdown } from '@/app/_components/md';
+import { ASTHRA, AsthraStartsAt, getTimeUtils } from '@/logic';
+import { toast } from 'sonner';
 
 interface AsthraCardProps {
-  data: z.infer<typeof eventZod>
-  onDelete: (id: string) => void
+  data: z.infer<typeof eventZod>;
+  onDelete: (id: string) => void;
   onChangeEvent: () => void
 }
 interface AsthraCardPreviewProps {
-  data: Partial<z.infer<typeof eventZod>>
+  data: Partial<z.infer<typeof eventZod>>;
 }
 interface EventCardProps {
-  data: z.infer<typeof eventZod>
-  credits?: string
-  footerNote?: string
-}
-interface PurchaseCardPreviewProps {
-  data: z.infer<typeof eventZod>
-  onView: () => void
-  onBuy: () => void
+  data: z.infer<typeof eventZod>;
+  credits?: string;
+  footerNote?: string;
 }
 
 export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
   return (
     <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-black">
       <div className="flex flex-col space-y-3">
+
         <div className="flex justify-between items-start">
           <div className="flex-1 pr-4">
             <CardTitle className="text-4xl mb-3">{data.name}</CardTitle>
-            <Markdown>{data.description}</Markdown>
+            <Markdown>
+              {data.description}
+            </Markdown>
           </div>
           {credits && (
             <div className="bg-white text-black px-4 py-2 rounded-lg flex-shrink-0">
@@ -69,7 +76,11 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
         <div className="flex mt-4">
           <Card className="bg-white w-52 h-64 flex justify-center items-center rounded-md overflow-hidden flex-shrink-0">
             <CardContent className="flex flex-col justify-center items-center p-0 w-full h-full">
-              <img src={data.poster || "/placeholder.svg"} alt="Event logo" className="w-full h-full object-cover" />
+              <img
+                src={data.poster}
+                alt="Event logo"
+                className="w-full h-full object-cover"
+              />
             </CardContent>
           </Card>
 
@@ -107,133 +118,168 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
         </div>
       </div>
     </Card>
-  )
+  );
+};
+
+interface PurchaseCardPreviewProps {
+  data: Partial<z.infer<typeof eventZod>>;
+  onView: () => void;
+  onBuy: () => void;
 }
 
 export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent }) => {
-  const { mutate: shortenUrl } = api.shortner.shorten.useMutation()
-  const [shortUrl, setShortUrl] = useState<string | null>(null) //only shorten url when user presses the button. use state as a way to not use the mutation immediately.
+  const { mutate: shortenUrl } = api.shortner.shorten.useMutation();
+  const [shortUrl, setShortUrl] = useState<string | null>(null); //only shorten url when user presses the button. use state as a way to not use the mutation immediately.
 
   return (
-    <Card className="m-2 flex flex-col text-black aspect-square max-w-80 p-4">
+    <Card className="flex flex-col text-slate-900 bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
       <CardHeader className="p-0">
         {z.string().safeParse(data.poster).success && (
-          <Image
-            className="h-[150px] w-full object-cover object-left-top"
-            height="600"
-            width="600"
-            src={data.poster || "/placeholder.svg"}
-            alt={`${data.name} poster asthra 8`}
-          />
+          <div className="relative h-48 w-full overflow-hidden">
+            <Image
+              className="h-full w-full object-cover"
+              height="600"
+              width="600"
+              src={data.poster}
+              alt={`${data.name} poster`}
+            />
+          </div>
         )}
       </CardHeader>
-      <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-      <CardFooter className="flex gap-[10px] p-0 mt-auto flex-wrap">
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="secondary" className="flex-1">
-              Edit
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="p-5 min-h-screen max-w-screen border-none bg-transparent">
-            <Card className="p-5 text-black bg-glass">
-              <AlertDialogTitle>Edit Event</AlertDialogTitle>
-              <p>Keyboard accessible, Use up & down arrows to control counts & dates</p>
 
-              <ScrollArea className="h-[80vh]">
-                <EventForm data={data as EventEdit} id={data.id} onChangeEvent={onChangeEvent} />
-              </ScrollArea>
-            </Card>
-          </AlertDialogContent>
-        </AlertDialog>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button className="flex-1">Change poster</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="p-5 max-w-screen-md border-none bg-transparent">
-            <UploadPosterDialog
-              onUploaded={(url) => {
-                // You can paste this URL into the EventForm poster field.
-                // Optionally auto-open Edit to paste; we just notify here.
-                console.log("uploaded poster url:", url)
-              }}
-            />
-          </AlertDialogContent>
-        </AlertDialog>
-        <Button className="flex-1">
-          {" "}
-          {/*link={`/dashboard/upload?id=${data.id}`}*/}
-          Change poster
-        </Button>
-        <AlertDialog
-          onOpenChange={(open) => {
-            if (open && data.name !== null && shortUrl === null) {
-              shortenUrl(
-                {
-                  name: data.name.replaceAll(" ", "_"),
-                  url: `https://asthra.sjcetpalai.ac.in/event/${data.id}`,
-                },
-                {
-                  onSuccess(data) {
-                    if (data instanceof TRPCError) return
-                    setShortUrl(data.url)
-                  },
-                },
-              )
-            }
-          }}
-        >
-          <AlertDialogTrigger asChild>
-            <Button>Shorten Link</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="p-5 bg-glass rounded-none text-black">
-            <AlertDialogHeader>
-              <AlertDialogTitle className="text-2xl text-black">Copy Short URL</AlertDialogTitle>
-            </AlertDialogHeader>
-            <div className="flex flex-row gap-2">
-              <div className="p-2 border border-neutral-400 bg-neutral-50/20 flex-1">{shortUrl ?? "Loading..."}</div>
-              <Button
-                variant="outline"
-                onClick={async () => {
-                  await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
-                }}
-              >
-                <Copy />
-              </Button>
-            </div>
-            <AlertDialogFooter>
-              <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
-              </AlertDialogCancel>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">
-              <Trash2 size={20} />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="sm:max-w-[400px] p-5 border-none bg-glass rounded-none text-black">
-            <h3 className="text-lg font-semibold text-black">Confirm Deletion</h3>
-            <p className="text-black">Are you sure you want to delete this event? This action cannot be undone.</p>
-            <div className="flex justify-end gap-4 mt-4">
-              <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
-              </AlertDialogCancel>
-              <AlertDialogAction asChild>
-                <Button variant="destructive" onClick={() => onDelete(data.id)}>
-                  Delete
+      <div className="p-4 flex-1 flex flex-col">
+        <CardTitle className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2">{data.name}</CardTitle>
+
+        <div className="space-y-1 text-sm text-slate-600 mb-4 flex-1">
+          <p className="flex items-center gap-2">
+            <span className="font-medium">Department:</span>
+            <span>{allDepartments[data.department as keyof typeof allDepartments] || data.department}</span>
+          </p>
+          <p className="flex items-center gap-2">
+            <span className="font-medium">Status:</span>
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${data.eventStatus === 'approved' ? 'bg-green-100 text-green-800' :
+              String(data.eventStatus) === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-gray-100 text-gray-800'
+              }`}>
+              {String(data.eventStatus)}
+            </span>   
+          </p>
+          <p className="flex items-center gap-2">
+            <span className="font-medium">Type:</span>
+            <span>{String(data.eventType)}</span>
+          </p>
+        </div>
+
+        <CardFooter className="p-0 flex flex-col gap-2">
+          <div className="grid grid-cols-2 gap-2 w-full">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-slate-700 border-slate-300 hover:bg-slate-50">
+                  Edit
                 </Button>
-              </AlertDialogAction>
-            </div>
-          </AlertDialogContent>
-        </AlertDialog>
-      </CardFooter>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="max-w-4xl max-h-[90vh] p-0 border-none bg-transparent">
+                <Card className="bg-white text-slate-900 max-h-[90vh] flex flex-col">
+                  <div className="p-6 border-b border-slate-200">
+                    <AlertDialogTitle className="text-2xl font-bold text-slate-900">Edit Event</AlertDialogTitle>
+                    <p className="text-slate-600 mt-1">
+                      Update event details and settings
+                    </p>
+                  </div>
+
+                  <ScrollArea className="flex-1 p-6">
+                    <EventForm data={data as EventEdit} id={data.id} onChangeEvent={onChangeEvent} />
+                  </ScrollArea>
+                </Card>
+              </AlertDialogContent>
+            </AlertDialog>
+
+            <AlertDialog onOpenChange={(open) => {
+              if (open && data.name !== null && shortUrl === null) {
+                shortenUrl({
+                  name: data.name.replaceAll(" ", "_"),
+                  url: `https://asthra.sjcetpalai.ac.in/event/${data.id}`
+                }, {
+                  onSuccess(data) {
+                    if (data instanceof TRPCError) return;
+                    setShortUrl(data.url);
+                  }
+                })
+              }
+            }}>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-slate-700 border-slate-300 hover:bg-slate-50">
+                  Share
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="max-w-md bg-white text-slate-900 border border-slate-200">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-xl font-semibold text-slate-900">Share Event</AlertDialogTitle>
+                </AlertDialogHeader>
+                <div className="space-y-4">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <p className="text-sm font-medium text-slate-700 mb-2">Short URL:</p>
+                    <div className="flex gap-2">
+                      <div className="flex-1 p-2 bg-white border border-slate-300 rounded text-sm font-mono text-slate-800">
+                        {shortUrl ?? "Generating..."}
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={async () => {
+                          await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+                          toast.success("URL copied to clipboard!")
+                        }}
+                        disabled={!shortUrl}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <AlertDialogFooter>
+                  <AlertDialogCancel asChild>
+                    <Button variant="outline">Close</Button>
+                  </AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm" className="w-full">
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete Event
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="max-w-md bg-white text-slate-900 border border-slate-200">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-xl font-semibold text-slate-900">Confirm Deletion</AlertDialogTitle>
+                <p className="text-slate-600 mt-2">
+                  Are you sure you want to delete "{data.name}"? This action cannot be undone.
+                </p>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="gap-2">
+                <AlertDialogCancel asChild>
+                  <Button variant="outline">Cancel</Button>
+                </AlertDialogCancel>
+                <AlertDialogAction asChild>
+                  <Button variant="destructive" onClick={() => onDelete(data.id)}>
+                    Delete Event
+                  </Button>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </CardFooter>
+      </div>
     </Card>
   )
-}
-export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({ data }) => (
+};
+export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
+  data,
+}) => (
   <div className="flex flex-col md:flex-row w-full gap-5 items-center">
     <Card className="p-0 border-none">
       {z.string().safeParse(data.poster).success && (
@@ -241,7 +287,7 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({ data }) =>
           className="h-auto w-full object-cover rounded-[10px] border"
           height="600"
           width="600"
-          src={data.poster ?? ""}
+          src={data.poster ?? ''}
           alt={`${data.name} poster asthra 8`}
         />
       )}
@@ -250,7 +296,9 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({ data }) =>
     <Card className="m-2 cal p-5 relative !h-auto cal text-black border-neutral-300 max-h-96 overflow-auto">
       <CardHeader>
         <CardTitle className="mt-[20px]">{data.name}</CardTitle>
-        <Markdown full>{data.description}</Markdown>
+        <Markdown full>
+          {data.description}
+        </Markdown>
       </CardHeader>
       <CardContent className="flex-col gap-2 !justify-start items-start w-full text-black">
         <p>Department: {data.department}</p>
@@ -260,57 +308,79 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({ data }) =>
         <p>Starts at: {getTimeUtils(data.dateTimeStarts ?? AsthraStartsAt)}</p>
         <p>Ends in: {data.dateTimeEnd}</p>
         <p>Secret Message:</p>
-        <div className="max-h-96 overflow-auto">
-          <Markdown>{data.secret}</Markdown>
+        <div className='max-h-96 overflow-auto'>
+          <Markdown>
+            {data.secret}
+          </Markdown>
         </div>
       </CardContent>
       <CardFooter className="px-0 flex-col w-full items-start">
         <div className="flex gap-[10px] p-0 mt-[20px] justify-between">
-          <h3>
-            {data.eventType !== "ASTHRA_PASS_EVENT" ? "₹" : ""}
-            {data.amount}
-          </h3>
+          <h3>{data.eventType !== "ASTHRA_PASS_EVENT" ? "₹" : ""}{data.amount}</h3>
           <h3>for {data.regLimit ?? 0}x users</h3>
         </div>
         <p className="cal">
-          Registration available for{" "}
-          {String(data.registrationType === "both" ? "both online & offline (spot)" : data.registrationType)}
+          Registration available for{' '}
+          {String(data.registrationType) === 'both'
+            ? 'both online & offline (spot)'
+            : String(data.registrationType)}
         </p>
       </CardFooter>
     </Card>
   </div>
-)
+);
 
 export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEvent }) => (
-  <Card className="m-2  w-52 aspect-square rounded-none border border-neutral-200">
+  <Card className="flex flex-col text-slate-900 bg-white border-2 border-dashed border-slate-300 shadow-sm hover:shadow-md transition-all duration-200 hover:border-slate-400 cursor-pointer group">
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <CardContent className="m-auto flex h-full w-full flex-col justify-center text-black">
-          <p className="mx-auto w-fit text-[5rem] leading-20">+</p>
-          <p className="w-fit mx-auto">Add new</p>
+        <CardContent className="flex h-full w-full flex-col justify-center items-center p-8 min-h-[300px]">
+          <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4 group-hover:bg-slate-200 transition-colors">
+            <Plus className="w-8 h-8 text-slate-600 group-hover:text-slate-700" />
+          </div>
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Create New Event</h3>
+          <p className="text-sm text-slate-600 text-center">Click to add a new event to Asthra 9</p>
         </CardContent>
       </AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[900px] p-0 border-none">
-        <Card className="p-5 text-black bg-glass rounded-none">
-          <h3 className="cal">Create Event</h3>
-          <p>Keyboard accessible, Use up & down arrows to control counts & dates</p>
-          <ScrollArea className="h-[80vh] rounded-none p-4">
+      <AlertDialogContent className="max-w-4xl max-h-[90vh] p-0 border-none bg-transparent">
+        <Card className="bg-white text-slate-900 max-h-[90vh] flex flex-col">
+          <div className="p-6 border-b border-slate-200">
+            <AlertDialogTitle className="text-2xl font-bold text-slate-900">Create New Event</AlertDialogTitle>
+            <p className="text-slate-600 mt-1">
+              Fill in the details to create a new event for Asthra 9
+            </p>
+          </div>
+          <ScrollArea className="flex-1 p-6">
             <EventForm data={null} onChangeEvent={onChangeEvent} />
           </ScrollArea>
         </Card>
       </AlertDialogContent>
     </AlertDialog>
   </Card>
-)
+);
 
-export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({ data, onView, onBuy }) => (
+export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
+  data,
+  onView,
+  onBuy,
+}) => (
   <Card className="ambit max-w-sm rounded-none bg-white shadow-lg">
     <CardHeader>
-      <CardTitle className="font-semibold text-2xl text-black">{data.name}</CardTitle>
-      <Markdown>{data.description}</Markdown>
+      <CardTitle className="font-semibold text-2xl text-black">
+        {data.name}
+      </CardTitle>
+      <Markdown>
+        {data.description}
+      </Markdown>
     </CardHeader>
     <CardContent className="flex flex-col items-center space-y-6">
-      <Image src={data.poster ?? "/asthra glass.png"} alt="Asthra Logo" width={300} height={200} className="my-4" />
+      <Image
+        src={data.poster ?? '/asthra glass.png'}
+        alt="Asthra Logo"
+        width={300}
+        height={200}
+        className="my-4"
+      />
       <ul className="w-full list-disc space-y-2 pl-5 text-black">
         <li className="list-item items-center gap-2">
           <span className="text-sm">{String(data.eventType)}</span>
@@ -322,7 +392,9 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({ data, onView
           <span className="text-sm">Event Venue: {data.venue}</span>
         </li>
         <li className="list-item items-center gap-2">
-          <span className="text-sm">Limited Spots: Only {data.regLimit} seats available!</span>
+          <span className="text-sm">
+            Limited Spots: Only {data.regLimit} seats available!
+          </span>
         </li>
       </ul>
     </CardContent>
@@ -334,11 +406,14 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({ data, onView
       >
         <span>View</span>
       </Button>
-      <Button className="flex-1 rounded-lg bg-button-primary font-bold text-black hover:bg-blue-700" onClick={onBuy}>
-        {data.eventType === "ASTHRA_PASS" && "Buy Ticket"}
-        {data.eventType === "WORKSHOP" && `Purchase for ₹${data.amount}`}
-        {data.eventType === "ASTHRA_PASS_EVENT" && "Buy Asthra Pass First"}
+      <Button
+        className="flex-1 rounded-lg bg-button-primary font-bold text-black hover:bg-blue-700"
+        onClick={onBuy}
+      >
+        {data.eventType === 'ASTHRA_PASS' && 'Buy Ticket'}
+        {data.eventType === 'WORKSHOP' && `Purchase for ₹${data.amount}`}
+        {data.eventType === 'ASTHRA_PASS_EVENT' && 'Buy Asthra Pass First'}
       </Button>
     </CardFooter>
   </Card>
-)
+);
