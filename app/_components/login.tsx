@@ -17,7 +17,7 @@ const LoginButton = () => {
 
   if (!data) {
     return (
-      <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"}>
+      <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"} className="bg-black p-3">
         <ButtonText keyType={"Login to Register"} />
       </Button>
     );
