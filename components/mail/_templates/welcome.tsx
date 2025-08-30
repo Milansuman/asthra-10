@@ -48,7 +48,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
           fontStyle="normal"
         />
       </Head>
-      <Preview>ASTHRA 9.0 Registration Confirmation</Preview>
+      <Preview>ASTHRA 10.0 Registration Confirmation</Preview>
       <Tailwind>
         <Body
           style={{
@@ -73,7 +73,7 @@ export default function WelcomeEmail({ personName }: WelcomeEmailProps) {
             </Section>
 
             <Heading className="text-[#ffffff] text-5xl font-extrabold text-center mt-16">
-              ASTHRA 9.0
+              ASTHRA 10.0
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
