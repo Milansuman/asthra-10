@@ -67,7 +67,7 @@ export default function ProfilePage() {
             <Button
               variant={"glass"}
               size={"glass"}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]"
+              className="bg-black p-3 absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]"
               link={`/event/${ASTHRA.id}`}
             >
               <ButtonText keyType={"Buy ASTHRA PASS"} />
