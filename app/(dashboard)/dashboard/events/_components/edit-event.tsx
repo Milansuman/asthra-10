@@ -1,83 +1,100 @@
-'use client';
-import { AddNewCard, AsthraCard } from '@/components/madeup/card';
-import { useState } from 'react';
-import type { z } from 'zod';
-import { SearchIcon } from 'lucide-react';
+"use client"
+import { AddNewCard, AsthraCard } from "@/components/madeup/card"
+import { UploadPosterDialog } from "./upload-poster"
+import { useState } from "react"
+import type { z } from "zod"
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from "@/components/ui/alert-dialog"
 
-import type { eventZod } from '@/lib/validator';
-import { allDepartments } from '@/logic';
+import type { eventZod } from "@/lib/validator"
+import { allDepartments } from "@/logic"
 
-import { api } from '@/trpc/react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
+import { api } from "@/trpc/react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
-type Department = keyof typeof allDepartments;
+type Department = keyof typeof allDepartments
 
 type Props = {
-  data: z.infer<typeof eventZod>[];
-  departments: Department[];
-  categories?: string[]; // We'll keep this for compatibility but no longer use it
-};
+  data: z.infer<typeof eventZod>[]
+  departments: Department[]
+  categories?: string[] // We'll keep this for compatibility but no longer use it
+}
 
 export function EventEditPage({ data, departments }: Props) {
-  const deleteEventMutation = api.event.deleteEvent.useMutation();
-  const latestEventsQuery = api.event.getAll.useQuery();
-  const [localData, setLocalData] = useState(data);
+  const deleteEventMutation = api.event.deleteEvent.useMutation()
+  const latestEventsQuery = api.event.getAll.useQuery()
+  const [localData, setLocalData] = useState(data)
 
   // Filtering states
-  const [department, setDepartment] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [department, setDepartment] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [statusFilter, setStatusFilter] = useState("all")
 
   const onDelete = (id: string) => {
-    deleteEventMutation.mutate({ id }, {
-      onSuccess: (data) => {
-        if (!data) return;
-        setLocalData(prevData => prevData.filter(event => event.id !== data[0]?.deletedId))
-      }
-    })
+    deleteEventMutation.mutate(
+      { id },
+      {
+        onSuccess: (data) => {
+          if (!data) return
+          setLocalData((prevData) => prevData.filter((event) => event.id !== data[0]?.deletedId))
+        },
+      },
+    )
   }
 
   const onChangeEvent = async () => {
     const data = await latestEventsQuery.refetch()
-    setLocalData(data.data ?? []);
+    setLocalData(data.data ?? [])
   }
 
   // Filter by department
   const isDepartment = (event: z.infer<typeof eventZod>) => {
-    if (department === 'all' || event.department === department) {
-      return true;
+    if (department === "all" || event.department === department) {
+      return true
     }
-    return false;
-  };
+    return false
+  }
 
   // Filter by search query
   const matchesSearchQuery = (event: z.infer<typeof eventZod>) => {
-    if (!searchQuery.trim()) return true;
+    if (!searchQuery.trim()) return true
 
-    return event.name?.toLowerCase().includes(searchQuery.toLowerCase());
-  };
+    return event.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  }
 
   // Filter by status
   const matchesStatusFilter = (event: z.infer<typeof eventZod>) => {
-    if (statusFilter === 'all') return true;
-    return event.eventStatus === statusFilter;
-  };
+    if (statusFilter === "all") return true
+    return event.eventStatus === statusFilter
+  }
 
   // Filter the events based on department, search query, and status
   const filteredEvents = localData.filter(
-    (event) => isDepartment(event) && matchesSearchQuery(event) && matchesStatusFilter(event)
-  );
+    (event) => isDepartment(event) && matchesSearchQuery(event) && matchesStatusFilter(event),
+  )
 
   return (
     <div className="flex flex-col gap-5 p-10 min-h-screen">
       <h4>Edit Events</h4>
+
+      {/* Quick poster upload helper */}
+      <div className="rounded-md border p-4 bg-background/40">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <p className="text-sm text-foreground/80">
+            Need a poster URL? Upload an image and copy the generated link. Paste it into the Poster field when creating
+            or editing events.
+          </p>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="secondary">Upload Poster</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="p-5 max-w-screen-md border-none bg-transparent">
+              <UploadPosterDialog />
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </div>
 
       {/* Filtering UI */}
       <div className="flex flex-row gap-4 justify-center z-10 items-center">
@@ -91,29 +108,22 @@ export function EventEditPage({ data, departments }: Props) {
         />
 
         {/* Department filter */}
-        <Select
-          onValueChange={(value) => setDepartment(value)}
-          defaultValue="all"
-        >
+        <Select onValueChange={(value) => setDepartment(value)} defaultValue="all">
           <SelectTrigger className="w-fit text-center">
             <SelectValue placeholder="All Departments" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Departments</SelectItem>
-            {Object.entries(allDepartments)
-              .map(([dep, full]) => (
-                <SelectItem key={dep} value={dep}>
-                  {full}
-                </SelectItem>
-              ))}
+            {Object.entries(allDepartments).map(([dep, full]) => (
+              <SelectItem key={dep} value={dep}>
+                {full}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
         {/* Status filter */}
-        <Select
-          onValueChange={(value) => setStatusFilter(value)}
-          defaultValue="all"
-        >
+        <Select onValueChange={(value) => setStatusFilter(value)} defaultValue="all">
           <SelectTrigger className="w-fit text-center">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
@@ -128,20 +138,18 @@ export function EventEditPage({ data, departments }: Props) {
 
       <div className="flex flex-row gap-3 flex-wrap">
         <AddNewCard onChangeEvent={onChangeEvent} />
-        {
-          filteredEvents.map(event => (
-            <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
-          ))
-        }
+        {filteredEvents.map((event) => (
+          <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
+        ))}
       </div>
     </div>
-  );
+  )
 }
 
 export const EditEvent = () => {
-  return <div>EditEvent</div>;
-};
+  return <div>EditEvent</div>
+}
 
 export const DeleteEvent = () => {
-  return <div>DeleteEvent</div>;
-};
+  return <div>DeleteEvent</div>
+}
