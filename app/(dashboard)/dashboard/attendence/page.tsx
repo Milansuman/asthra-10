@@ -6,6 +6,7 @@ import { api } from '@/trpc/react';
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import Link from 'next/link';
 import {
   Dialog,
   DialogContent,
@@ -19,11 +20,22 @@ import { Button } from '@/components/ui/button';
 export default function Page() {
   const { isPending, mutateAsync: addAttendance } = api.user.addAttendanceWithURE.useMutation({
     onSuccess: () => {
-      toast('Attendance Successfully Recorded')
+      toast.success('Attendance Successfully Taken', {
+        style: {
+          background: '#10b981',
+          color: 'white',
+          border: '1px solid #059669',
+        },
+      })
     },
     onError: (error) => {
       toast.error(`Attendance Failed - ${error.data?.code}`, {
-        description: error.message
+        description: error.message,
+        style: {
+          background: '#ef4444',
+          color: 'white',
+          border: '1px solid #dc2626',
+        },
       })
     }
   });

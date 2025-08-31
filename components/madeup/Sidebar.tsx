@@ -56,7 +56,7 @@ const sidebarItems: SidebarItemData[] = [
         icon: <Edit size={16} />,
         label: "Edit Events",
         link: "/dashboard/events/edit",
-      }
+      },
     ],
   },
   {
@@ -76,7 +76,7 @@ const sidebarItems: SidebarItemData[] = [
       {
         icon: <QrCode size={16} />,
         label: "Event Attendance",
-        link: "/dashboard/attendence",
+        link: "/dashboard/attendence/events",
       },
     ],
   },

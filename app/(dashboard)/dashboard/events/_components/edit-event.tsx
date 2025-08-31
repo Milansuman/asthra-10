@@ -2,7 +2,6 @@
 import { AddNewCard, AsthraCard } from '@/components/madeup/card';
 import { useState } from 'react';
 import type { z } from 'zod';
-import { SearchIcon } from 'lucide-react';
 
 import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
@@ -76,89 +75,72 @@ export function EventEditPage({ data, departments }: Props) {
   );
 
   return (
-    <div className="space-y-6 p-6 md:p-8 min-h-screen">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Event Management</h1>
-          <p className="text-slate-600 mt-1">Create and manage events for Asthra 9</p>
-        </div>
+    <div className="flex flex-col gap-8 p-8 min-h-screen bg-gray-50">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Edit Events</h1>
+        <p className="text-gray-600">Manage and update your events</p>
       </div>
 
       {/* Filtering UI */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex flex-col lg:flex-row gap-4">
-          <div className="relative flex-1 min-w-0">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
-            <Input
-              type="text"
-              placeholder="Search events by title..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white border-slate-300"
-            />
-          </div>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center bg-white p-6 rounded-lg shadow-sm border">
+        {/* Search input */}
+        <Input
+          type="text"
+          placeholder="Search events by title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-72"
+        />
 
-          <div className="flex gap-2 shrink-0">
-            {/* Department filter */}
-            <Select
-              onValueChange={(value) => setDepartment(value)}
-              defaultValue="all"
-            >
-              <SelectTrigger className="w-48 bg-white border-slate-300">
-                <SelectValue placeholder="All Departments" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Departments</SelectItem>
-                {Object.entries(allDepartments)
-                  .map(([dep, full]) => (
-                    <SelectItem key={dep} value={dep}>
-                      {full}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
+        {/* Department filter */}
+        <Select
+          onValueChange={(value) => setDepartment(value)}
+          defaultValue="all"
+        >
+          <SelectTrigger className="w-fit text-center">
+            <SelectValue placeholder="All Departments" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Departments</SelectItem>
+            {Object.entries(allDepartments)
+              .map(([dep, full]) => (
+                <SelectItem key={dep} value={dep}>
+                  {full}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
 
-            {/* Status filter */}
-            <Select
-              onValueChange={(value) => setStatusFilter(value)}
-              defaultValue="all"
-            >
-              <SelectTrigger className="w-32 bg-white border-slate-300">
-                <SelectValue placeholder="All Statuses" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="approved">Approved</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {filteredEvents.length > 0 && (
-          <div className="mt-4 text-sm text-slate-600">
-            Showing {filteredEvents.length} of {localData.length} events
-          </div>
-        )}
+        {/* Status filter */}
+        <Select
+          onValueChange={(value) => setStatusFilter(value)}
+          defaultValue="all"
+        >
+          <SelectTrigger className="w-fit text-center">
+            <SelectValue placeholder="All Statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="approved">Approved</SelectItem>
+            <SelectItem value="cancelled">Cancelled</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      {/* Events Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <AddNewCard onChangeEvent={onChangeEvent} />
-        {
-          filteredEvents.map(event => (
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Events ({filteredEvents.length + 1})
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
+          <AddNewCard onChangeEvent={onChangeEvent} />
+          {filteredEvents.map(event => (
             <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
-          ))
-        }
-      </div>
-
-      {filteredEvents.length === 0 && searchQuery && (
-        <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-slate-200">
-          <p className="text-slate-500 text-lg">No events found matching "{searchQuery}"</p>
-          <p className="text-slate-400 text-sm mt-1">Try adjusting your search or filters</p>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }

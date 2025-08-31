@@ -1,626 +1,665 @@
 'use client';
 
 import {
-  AsthraStartsAt,
-  allDepartments,
-  endTime,
-  eventStatus,
-  eventType,
-  registrationTypeEnum,
+    AsthraStartsAt,
+    allDepartments,
+    endTime,
+    eventStatus,
+    eventType,
+    registrationTypeEnum,
 } from '@/logic';
 import { api } from '@/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronRight, ExternalLink, Eye, Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { eventZod } from '@/lib/validator';
-import {
-  TimePicker,
-  TimePickerSegment,
-  TimePickerSeparator,
-} from '@/components/date-time/timescape';
-import { AlertDialogCancel } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from '@/components/ui/dialog';
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
 import UploadMediaInline from './upload-inline';
 import { TiptapEditor } from './tiptap-editor';
 
-const FormSchema = eventZod
-  .omit({
-    createdAt: true,
-    createdById: true,
-    id: true,
-    regCount: true,
-    regLimit: true,
-    updatedAt: true,
-    amount: true,
-  })
-  .strict()
-  .merge(
-    z.object({
-      poster: z.string().optional(),
-      name: z.string().min(3),
-      description: z.string().nullable().default(null),
-      secret: z.string().nullable().default(null),
 
-      venue: z.string().min(3),
-      dateTimeStarts: z.date().refine((date) => date > AsthraStartsAt, {
-        message: 'Date must be in the future',
-      }),
-      regLimit: z.number().nonnegative().default(0),
-      amount: z.number().nonnegative().default(0),
+const FormSchema = eventZod
+    .omit({
+        createdAt: true,
+        createdById: true,
+        id: true,
+        regCount: true,
+        updatedAt: true,
     })
-  );
+    .strict()
+    .merge(
+        z.object({
+            poster: z.string().optional(),
+            name: z.string().min(3),
+            description: z.string().nullable().default(null),
+            secret: z.string().nullable().default(null),
+            venue: z.string().min(3),
+            dateTimeStarts: z.date().refine((date) => date > AsthraStartsAt, {
+                message: 'Date must be in the future',
+            }),
+            regLimit: z.number().nonnegative().default(0),
+            amount: z.number().nonnegative().default(0),
+        })
+    );
 
 export type EventEdit = z.infer<typeof FormSchema>;
 
-export const EventForm: React.FC<{ data: EventEdit | null; id?: string, onChangeEvent: () => void }> = ({
-  data,
-  id,
-  onChangeEvent
+export const EventForm: React.FC<{
+    data: EventEdit | null;
+    id?: string;
+    onChangeEvent: () => void;
+    isModal?: boolean;
+    onClose?: () => void;
+}> = ({
+    data,
+    id,
+    onChangeEvent,
+    isModal = false,
+    onClose
 }) => {
-  const [previewData, setPreviewData] = useState<EventEdit | null>(data);
+        const [previewData, setPreviewData] = useState<EventEdit | null>(data);
 
-  console.log(data);
-  const { mutateAsync: createEvent, isPending } =
-    api.event.createEvent.useMutation({
-      onSuccess: () => {
-        toast('Event Created', {
-          description: 'Event has been created successfully',
+        const { mutateAsync: createEvent, isPending } =
+            api.event.createEvent.useMutation({
+                onSuccess: () => {
+                    toast.success('Event Created', {
+                        style: {
+                            background: '#10b981',
+                            color: 'white',
+                            border: '1px solid #059669',
+                        },
+                    });
+                    onChangeEvent();
+                },
+                onError: (error) => {
+                    toast.error(`Event Creation Failed - ${error.data?.code}`, {
+                        description: error.message,
+                        style: {
+                            background: '#ef4444',
+                            color: 'white',
+                            border: '1px solid #dc2626',
+                        },
+                    });
+                }
+            });
+
+        const { mutateAsync: updateEvent, isPending: isUpdating } =
+            api.event.updateEvent.useMutation({
+                onSuccess: () => {
+                    toast.success('Event Updated', {
+                        style: {
+                            background: '#10b981',
+                            color: 'white',
+                            border: '1px solid #059669',
+                        },
+                    });
+                    onChangeEvent();
+                },
+                onError: (error) => {
+                    toast.error(`Event Update Failed - ${error.data?.code}`, {
+                        description: error.message,
+                        style: {
+                            background: '#ef4444',
+                            color: 'white',
+                            border: '1px solid #dc2626',
+                        },
+                    });
+                }
+            });
+
+        const form = useForm<EventEdit>({
+            resolver: zodResolver(FormSchema),
+            defaultValues: data ?? {
+                name: '',
+                description: null,
+                secret: null,
+                poster: '',
+                venue: '',
+                dateTimeStarts: new Date(),
+                regLimit: 0,
+                amount: 0,
+                eventStatus: 'pending',
+                eventType: 'WORKSHOP',
+                department: 'NA',
+                registrationType: 'both',
+                dateTimeEnd: null,
+            },
         });
-        onChangeEvent();
-      },
-      onError: (e) => {
-        toast.error('Error', {
-          description: e.message,
-          //   variant: 'destructive',
-        });
-      },
-    });
-  const { mutateAsync: updateEvent } = api.event.updateEvent.useMutation({
-    onSuccess: () => {
-      toast('Event Updated', {
-        description: 'Event has been updated successfully',
-      });
-      onChangeEvent();
-    },
-    onError: (e) => {
-      toast.error('Error', {
-        description: e.message,
-        // variant: 'destructive',
-      });
-    },
-  });
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      venue: 'SJCET',
-      eventStatus: 'uploaded',
-      amount: 20,
-      department: 'NA',
-      regLimit: 0,
-      eventType: 'ASTHRA_PASS_EVENT',
-      dateTimeStarts: AsthraStartsAt,
-      dateTimeEnd: 'NA',
-      registrationType: 'both',
-      poster: '/assets/poster.jpg',
-      secret: null,
 
-      ...(data ? data : {}),
-    },
-  });
+        // Watch all form fields and update preview automatically
+        useEffect(() => {
+            const subscription = form.watch((value) => {
+                console.log('Form values changed:', value);
+                setPreviewData(value as EventEdit);
+            });
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data)
-    id !== undefined
-      ? await updateEvent({ ...data, id })
-      : await createEvent(data);
-  };
+            return () => subscription.unsubscribe();
+        }, [form]);
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Basic Information */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
-            Basic Information
-          </h3>
+        const onSubmit = async (values: EventEdit) => {
+            console.log('Form submitted with values:', values);
+            console.log('Form validation state:', form.formState);
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-slate-700">Event Name *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter event name"
-                      {...field}
-                      value={field.value ?? ''}
-                      className="border-slate-300 focus:border-slate-500"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            try {
+                if (id) {
+                    console.log('Updating event with ID:', id);
+                    await updateEvent({ id, ...values });
+                } else {
+                    console.log('Creating new event');
+                    await createEvent(values);
+                }
+                // Close dialog after successful submission if onClose is provided
+                if (onClose) {
+                    onClose();
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+            }
+        };
 
-            <FormField
-              control={form.control}
-              name="eventStatus"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-slate-700">Event Status *</FormLabel>
-                  <Select
-                    {...field}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="border-slate-300 focus:border-slate-500">
-                        <SelectValue>{field.value}</SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Status</SelectLabel>
-                        {Object.keys(eventStatus).map((type) => (
-                          <SelectItem key={type} value={type}>
-                            {eventStatus[type]}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
+        return (
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    {/* Basic Information */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
+                            Basic Information
+                        </h3>
 
-        {/* Event Details */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
-            Event Details
-          </h3>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Event Name *</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Enter event name"
+                                                {...field}
+                                                value={field.value ?? ''}
+                                                onChange={(e) => {
+                                                    console.log('Event name changed:', e.target.value);
+                                                    field.onChange(e.target.value);
+                                                }}
+                                                className="border-slate-300 focus:border-slate-500"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-slate-700">Event Description</FormLabel>
-                <FormControl>
-                  <TiptapEditor
-                    value={(field.value as string) ?? ''}
-                    onChange={(value) => field.onChange(value)}
-                    placeholder="Enter the event description..."
-                    className="min-h-[300px]"
-                  />
-                </FormControl>
-                <FormDescription className='text-slate-600'>
-                  Describe your event in detail. Rich text formatting is supported.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                            <FormField
+                                control={form.control}
+                                name="eventStatus"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Status</FormLabel>
+                                        <Select
+                                            {...field}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue>{field.value}</SelectValue>
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Status</SelectLabel>
+                                                    {Object.keys(eventStatus).map((type) => (
+                                                        <SelectItem key={type} value={type}>
+                                                            {eventStatus[type]}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-          <FormField
-            control={form.control}
-            name="secret"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-slate-700">Secret Message for Registered Users</FormLabel>
-                <FormControl>
-                  <TiptapEditor
-                    value={(field.value as string) ?? ''}
-                    onChange={(value) => field.onChange(value)}
-                    placeholder="Enter a secret message for registered participants..."
-                    className="min-h-[300px]"
-                  />
-                </FormControl>
-                <FormDescription className='text-slate-600'>
-                  This message will be sent to users via email after successful registration.
-                </FormDescription>
-                <FormDescription className='text-slate-600'>
-                  Example: Team details form link
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-slate-700">Description</FormLabel>
+                                    <FormControl>
+                                        <TiptapEditor
+                                            value={field.value ?? ''}
+                                            onChange={field.onChange}
+                                            placeholder="Enter event description..."
+                                        />
+                                    </FormControl>
+                                    <FormDescription className="text-slate-600">
+                                        Provide a detailed description of your event
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-        {/* Media Section */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
-            Event Media
-          </h3>
+                        <FormField
+                            control={form.control}
+                            name="secret"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-slate-700">Secret Message</FormLabel>
+                                    <FormControl>
+                                        <TiptapEditor
+                                            value={field.value ?? ''}
+                                            onChange={field.onChange}
+                                            placeholder="Enter secret message for registered users..."
+                                        />
+                                    </FormControl>
+                                    <FormDescription className="text-slate-600">
+                                        This message will be sent to registered users via email
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
-          <FormField
-            control={form.control}
-            name="poster"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-slate-700">Event Poster</FormLabel>
-                <FormControl>
-                  <UploadMediaInline
-                    value={field.value}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange(undefined)}
-                  />
-                </FormControl>
-                <FormDescription className="text-slate-600">
-                  Upload a high-quality poster for your event. This will be displayed on the event cards and pages.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+                    {/* Event Details */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
+                            Event Details
+                        </h3>
 
-        {/* Event Configuration */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
-            Event Configuration
-          </h3>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="venue"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Venue *</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Enter venue (minimum 3 characters)"
+                                                {...field}
+                                                value={field.value ?? ''}
+                                                className={`border-slate-300 focus:border-slate-500 ${form.formState.errors.venue ? 'border-red-500' : ''
+                                                    }`}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="venue"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-slate-700">Venue *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter venue"
-                      {...field}
-                      value={field.value ?? ''}
-                      className="border-slate-300 focus:border-slate-500"
-                    />
-                  </FormControl>
-                  <FormDescription className='text-slate-600'>
-                    Example: ROOM 303, BLOCK SPB, 2nd FLOOR
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                            <FormField
+                                control={form.control}
+                                name="eventType"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Event Type</FormLabel>
+                                        <Select
+                                            {...field}
+                                            onValueChange={(event) => {
+                                                field.onChange(event);
+                                            }}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue>{field.value}</SelectValue>
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Type</SelectLabel>
+                                                    {Object.keys(eventType)
+                                                        .filter((e) => e !== 'ASTHRA_PASS')
+                                                        .map((time) => (
+                                                            <SelectItem key={time} value={time}>
+                                                                {time}
+                                                            </SelectItem>
+                                                        ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-            <FormField
-              control={form.control}
-              name="department"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-slate-700">Event Department *</FormLabel>
-                  <Select
-                    {...field}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="border-slate-300 focus:border-slate-500">
-                        <SelectValue>{field.value.toUpperCase()}</SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Departments</SelectLabel>
-                        {Object.entries(allDepartments)
-                          .filter(([key, _]) => key !== 'es')
-                          .map(([short, long]) => (
-                            <SelectItem key={short} value={short}>
-                              ({short.toUpperCase()}) {long}
-                            </SelectItem>
-                          ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="department"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Department</FormLabel>
+                                        <Select
+                                            {...field}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue>{field.value}</SelectValue>
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Department</SelectLabel>
+                                                    {Object.entries(allDepartments).map(([dep, full]) => (
+                                                        <SelectItem key={dep} value={dep}>
+                                                            {full}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-            <FormField
-              control={form.control}
-              name="registrationType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-slate-700">Registration Type *</FormLabel>
-                  <Select
-                    {...field}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="border-slate-300 focus:border-slate-500">
-                        <SelectValue>{field.value}</SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Registration Type</SelectLabel>
-                        {Object.entries(registrationTypeEnum).map(
-                          ([type, text]) => (
-                            <SelectItem key={type} value={type}>
-                              {text}
-                            </SelectItem>
-                          )
-                        )}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                            <FormField
+                                control={form.control}
+                                name="registrationType"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Registration Type</FormLabel>
+                                        <Select
+                                            {...field}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue>{field.value}</SelectValue>
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Type</SelectLabel>
+                                                    {Object.keys(registrationTypeEnum).map((type) => (
+                                                        <SelectItem key={type} value={type}>
+                                                            {registrationTypeEnum[type]}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="amount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {
-                      previewData ? <>
-                        {previewData?.eventType === "ASTHRA_PASS_EVENT" ? "Credit" : "Amount"}
-                      </> : <>Credit</>
-                    }
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter amount"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange({
-                          ...e,
-                          target: { value: Number.parseInt(e.target.value) },
-                        });
-                      }}
-                    />
-                  </FormControl>
-                  <FormDescription className='text-black'>
-                    Default is ₹20
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="regLimit"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Registration Limit</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="number"
+                                                placeholder="Enter limit"
+                                                {...field}
+                                                value={field.value ?? ''}
+                                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                                className="border-slate-300 focus:border-slate-500"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-            <FormField
-              control={form.control}
-              name="regLimit"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Registration Limit</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter Limit"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange({
-                          ...e,
-                          target: { value: Number.parseInt(e.target.value) },
-                        });
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormField
-            control={form.control}
-            name="dateTimeStarts"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Start Time</FormLabel>
-                <FormControl>
-                  <Input
-                    type='datetime-local'
-                    defaultValue={
-                      field.value
-                        ? new Date(field.value.getTime() - (field.value.getTimezoneOffset() * 60000))
-                          .toISOString()
-                          .slice(0, 16)
-                        : new Date(AsthraStartsAt.getTime() - (AsthraStartsAt.getTimezoneOffset() * 60000))
-                          .toISOString()
-                          .slice(0, 16)
-                    }
-                    onChange={(event) => {
-                      const datetimeStr = event.target.value;
-                      // Create date in local timezone then adjust for Indian timezone (UTC+5:30)
-                      const localDate = new Date(datetimeStr);
+                            <FormField
+                                control={form.control}
+                                name="amount"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Amount (₹)</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="number"
+                                                placeholder="Enter amount"
+                                                {...field}
+                                                value={field.value ?? ''}
+                                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                                className="border-slate-300 focus:border-slate-500"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
 
-                      // This ensures the date is treated as being in the user's local timezone
-                      // rather than UTC, preserving the exact time the user selected
-                      field.onChange({
-                        ...event,
-                        target: {
-                          value: localDate
-                        }
-                      });
-                    }}
-                  />
-                </FormControl>
-                <FormDescription className='text-black'>
-                  Default is {AsthraStartsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="grid grid-cols-1 gap-[10px] w-full md:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="dateTimeEnd"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>End time</FormLabel>
-                  <Select
-                    {...field}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue>{field.value}</SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Time</SelectLabel>
-                        {Object.keys(endTime).map((time) => (
-                          <SelectItem key={time} value={time}>
-                            {time}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />{' '}
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="eventType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Event Type</FormLabel>
-                  <Select
-                    {...field}
-                    onValueChange={(event) => {
-                      field.onChange(event)
-                      setPreviewData(form.getValues())
-                    }}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue>{field.value}</SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Type</SelectLabel>
-                        {Object.keys(eventType)
-                          .filter((e) => e !== 'ASTHRA_PASS')
-                          .map((time) => (
-                            <SelectItem key={time} value={time}>
-                              {time}
-                            </SelectItem>
-                          ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />{' '}
-                </FormItem>
-              )}
-            />
-          </div>
+                    {/* Date & Time */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
+                            Date & Time
+                        </h3>
 
-          <div className="md:flex-row flex-col-reverse flex gap-[10px] ">
-            <AlertDialogCancel asChild>
-              <Button
-                variant="secondary"
-                className="flex-1 text-center"
-              >
-                Cancel
-              </Button>
-            </AlertDialogCancel>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="dateTimeStarts"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">Start Date & Time *</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="datetime-local"
+                                                {...field}
+                                                value={field.value && !isNaN(field.value.getTime()) ?
+                                                    // Convert to local timezone for display
+                                                    new Date(field.value.getTime() - (field.value.getTimezoneOffset() * 60000))
+                                                        .toISOString().slice(0, 16)
+                                                    : ''
+                                                }
+                                                onChange={(e) => {
+                                                    const inputValue = e.target.value;
+                                                    if (inputValue) {
+                                                        // Create date in local timezone
+                                                        const [datePart, timePart] = inputValue.split('T');
+                                                        const [year, month, day] = datePart.split('-').map(Number);
+                                                        const [hour, minute] = timePart.split(':').map(Number);
 
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  variant="secondary"
-                  className="flex-1 text-center"
-                  onClick={() => {
-                    setPreviewData(form.getValues())
-                  }}
-                >
-                  Preview <Eye />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-6xl rounded-none text-black">
-                <DialogHeader>
-                  <DialogTitle>Are you absolutely about creation?</DialogTitle>
-                  <DialogDescription className="text-black">
-                    This action creates a new event and is irreversible.
-                  </DialogDescription>
-                </DialogHeader>
-                <div>
-                  <AsthraCardPreview data={previewData!} />
-                </div>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button
-                      variant="secondary"
-                      className="flex-1 text-center"
-                    >
-                      Back to Edit
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+                                                        // Create date in local timezone (not UTC)
+                                                        const localDate = new Date(year, month - 1, day, hour, minute);
+                                                        field.onChange(localDate);
+                                                    }
+                                                }}
+                                                className="border-slate-300 focus:border-slate-500"
+                                                min={(() => {
+                                                    const now = new Date();
+                                                    const localNow = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
+                                                    return localNow.toISOString().slice(0, 16);
+                                                })()}
+                                            />
+                                        </FormControl>
+                                        <FormDescription className="text-slate-600">
+                                            Default is {AsthraStartsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                                            {field.value && !isNaN(field.value.getTime()) && (
+                                                <span className="block mt-1 text-sm font-medium text-slate-800">
+                                                    Selected: {field.value.toLocaleString('en-IN', {
+                                                        timeZone: 'Asia/Kolkata',
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })} (IST)
+                                                </span>
+                                            )}
+                                            <span className="block mt-1 text-xs text-slate-500">
+                                                ⚠️ All times are in Indian Standard Time (IST)
+                                            </span>
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-            <Button className="flex-1 text-center rounded-none" type="submit">
-              {!isPending ? (
-                <>
-                  Continue <ChevronRight />
-                </>
-              ) : (
-                <Loader className="animate-spin" />
-              )}
-            </Button>
-          </div>
-        </div>
-      </form>
-    </Form>
-  );
-};
+                            <FormField
+                                control={form.control}
+                                name="dateTimeEnd"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-slate-700">End Time</FormLabel>
+                                        <Select
+                                            {...field}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue>{field.value}</SelectValue>
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Time</SelectLabel>
+                                                    {Object.keys(endTime).map((time) => (
+                                                        <SelectItem key={time} value={time}>
+                                                            {time}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
 
-export default EventForm;
+                    {/* Media */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
+                            Media & Assets
+                        </h3>
+
+                        <FormField
+                            control={form.control}
+                            name="poster"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-slate-700">Poster Image</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter poster image URL"
+                                            {...field}
+                                            value={field.value ?? ''}
+                                            className="border-slate-300 focus:border-slate-500"
+                                        />
+                                    </FormControl>
+                                    <FormDescription className="text-slate-600">
+                                        Provide a URL to your event poster image
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <UploadMediaInline />
+                    </div>
+
+                    {/* Preview */}
+                    {previewData && (
+                        <div className="space-y-4">
+                            <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
+                                Preview
+                            </h3>
+                            <div className="text-xs text-slate-500 mb-2">
+                                Debug: {JSON.stringify({
+                                    name: previewData.name,
+                                    venue: previewData.venue,
+                                    dateTimeStarts: previewData.dateTimeStarts?.toISOString()
+                                })}
+                            </div>
+                            <AsthraCardPreview key={JSON.stringify(previewData)} data={previewData} />
+                        </div>
+                    )}
+
+                    {/* Form Actions */}
+                    <div className="flex justify-end gap-4 pt-6 border-t border-slate-200">
+                        <Button
+                            type="submit"
+                            disabled={isPending || isUpdating}
+                            className="bg-slate-800 hover:bg-slate-700"
+                            onClick={() => console.log('Submit button clicked, form state:', form.formState)}
+                        >
+                            {isPending || isUpdating ? (
+                                <>
+                                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                                    {id ? 'Updating...' : 'Creating...'}
+                                </>
+                            ) : (
+                                id ? 'Update Event' : 'Create Event'
+                            )}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => {
+                                // Reset form to original values
+                                if (data) {
+                                    form.reset(data);
+                                } else {
+                                    form.reset();
+                                }
+                                // Close dialog if onClose is provided
+                                if (onClose) {
+                                    onClose();
+                                }
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                </form>
+            </Form>
+        );
+    };

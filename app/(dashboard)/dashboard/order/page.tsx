@@ -121,12 +121,23 @@ function SuccessCardOrder({ orderId }: { orderId: string }) {
 
   const { isPending, mutateAsync, data: paymentSuccess } = api.sjcetPay.forceSuccessPurchase.useMutation({
     onSuccess: () => {
-      toast('Payment Success')
+      toast.success('Payment Success', {
+        style: {
+          background: '#10b981',
+          color: 'white',
+          border: '1px solid #059669',
+        },
+      })
       refetch()
     },
     onError: (error) => {
       toast.error(`Payment Failed - ${error.data?.code}`, {
-        description: error.message
+        description: error.message,
+        style: {
+          background: '#ef4444',
+          color: 'white',
+          border: '1px solid #dc2626',
+        },
       })
     }
   });
@@ -185,12 +196,23 @@ function SuccessCardEmail({ email }: { email: string }) {
 
   const { isPending, mutateAsync, data: paymentSuccess } = api.sjcetPay.forceSuccessPurchase.useMutation({
     onSuccess: () => {
-      toast('Payment Success')
+      toast.success('Payment Success', {
+        style: {
+          background: '#10b981',
+          color: 'white',
+          border: '1px solid #059669',
+        },
+      })
       refetch()
     },
     onError: (error) => {
       toast.error(`Payment Failed - ${error.data?.code}`, {
-        description: error.message
+        description: error.message,
+        style: {
+          background: '#ef4444',
+          color: 'white',
+          border: '1px solid #dc2626',
+        },
       })
     }
   });
