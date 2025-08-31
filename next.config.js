@@ -28,8 +28,8 @@ const config = {
       },
     ];
   },
+  typedRoutes: true,
   experimental: {
-    typedRoutes: true,
     reactCompiler: true,
   },
   images: {
@@ -59,6 +59,10 @@ const config = {
         protocol: 'https',
         hostname: 'pub-a10f925eb1f148c3a19723a42426ceb0.r2.dev',
       },
+      {
+        protocol: "https",
+        hostname: "storage.sjcet.in"
+      }
     ],
   },
 };

@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="w-full bg-[#0A0A19] font-[350] text-white z-30 p-2 py-4 m-0 -bottom-7 overflow-x-hidden">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0">
         <div className="col-span-1 sm:col-span-2 md:col-start-1 md:col-span-2 md:row-start-1 flex items-center justify-center border-b border-white/50 p-4">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wide font-bold">Asthra 9.0</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wide font-bold">Asthra 10.0</h2>
         </div>
         <Plusbox className="relative p-2 border-x border-b border-white/20 border-dashed flex items-center justify-center md:col-start-3 md:row-start-1">
           <img
@@ -112,7 +112,7 @@ export default function Footer() {
               <Github className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
           </div>
-          <p className="text-xs sm:text-sm text-gray-400 text-center">© 2025 ASTHRA 9.0, All Rights Reserved</p>
+          <p className="text-xs sm:text-sm text-gray-400 text-center">© 2025 ASTHRA 10.0, All Rights Reserved</p>
         </div>
       </div>
     </footer>

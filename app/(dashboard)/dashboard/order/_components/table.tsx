@@ -19,29 +19,7 @@ import type { TransactionZodType } from "@/lib/validator"
 
 export type Payment = TransactionZodType
 
-export const columns = (forceSuccess: (orderId: string) => void) => [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
+export const columns = (forceSuccess: (orderId: string) => void): ColumnDef<Payment>[] => [
     {
         accessorKey: "id",
         header: "Trnx Id",

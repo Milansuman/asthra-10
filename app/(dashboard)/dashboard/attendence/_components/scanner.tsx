@@ -65,7 +65,7 @@ export default function Page({ eventData }: { eventData: Pick<EventZodType, "id"
 
                     <div className='relative py-2 px-4 border'>
                         <p className='opacity-70 text-sm font-normal'>Event Type</p>
-                        {eventData.eventType}
+                        {String(eventData.eventType)}
                     </div>
 
                     <div className='relative py-2 px-4 border'>

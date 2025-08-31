@@ -2,7 +2,6 @@
 import { AddNewCard, AsthraCard } from '@/components/madeup/card';
 import { useState } from 'react';
 import type { z } from 'zod';
-import { SearchIcon } from 'lucide-react';
 
 import type { eventZod } from '@/lib/validator';
 import { allDepartments } from '@/logic';
@@ -137,11 +136,9 @@ export function EventEditPage({ data, departments }: Props) {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
           <AddNewCard onChangeEvent={onChangeEvent} />
-          {
-            filteredEvents.map(event => (
-              <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
-            ))
-          }
+          {filteredEvents.map(event => (
+            <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />
+          ))}
         </div>
       </div>
     </div>

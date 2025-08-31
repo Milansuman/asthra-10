@@ -272,6 +272,7 @@ export function EventPage({
     </div>
   );
 }
+
 function EventCard({
   event,
   dashboard,
@@ -279,51 +280,29 @@ function EventCard({
   event: z.infer<typeof eventZod>;
   dashboard: boolean;
 }) {
-  const { data: registeredUsers } = api.event.getParticipants.useQuery({
-    id: event.id,
-  });
-  console.log(event);
   const { mutate: shortenUrl } = api.shortner.shorten.useMutation();
   const [shortUrl, setShortUrl] = useState<string | null>(null);
 
-  const { mutate: removeAttendance } = api.user.removeAttendance.useMutation();
-  const { mutate: addAttendance } = api.user.addAttendance.useMutation();
-
-  const handleAttendance = (
-    userId: string,
-    eventId: string,
-    status: boolean
-  ) => {
-    status
-      ? addAttendance({
-        userId: userId,
-        eventId: eventId,
-      })
-      : removeAttendance({
-        userId: userId,
-        eventId: eventId,
-      });
-  };
-
   return (
-    <Card className="relative">
-      <Image
-        src={event.poster ?? '/sjcet/1.jpeg'}
-        width={400}
-        height={600}
-        alt={event.name ?? "poster"}
-        className="w-full"
-      />
-      <CardContent>
-        <div className="px-1 pt-3 pb-0 flex flex-col gap-2">
-          <h3 className="p-0 overflow-hidden overflow-ellipsis whitespace-nowrap w-full">
+    <Card className="group overflow-hidden bg-white border border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+      <div className="aspect-[4/3] overflow-hidden flex-shrink-0">
+        <Image
+          src={event.poster ?? '/sjcet/1.jpeg'}
+          width={400}
+          height={300}
+          alt={event.name ?? "poster"}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <CardContent className="p-4 flex flex-col flex-1">
+        <div className="flex flex-col space-y-3 flex-1">
+          <h3 className="font-semibold text-lg text-slate-900 line-clamp-2 leading-tight">
             {event.name}
           </h3>
 
-          <div className="flex flex-col justify-between align-bottom">
-            <div className="flex flex-col">
-              <h4 className="tracking-wider">
-                {' '}
+          <div className="flex flex-col space-y-2 flex-1">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-slate-600">
                 {!dashboard
                   ? event.regCount < event.regLimit
                     ? event.eventType === 'ASTHRA_PASS_EVENT'
@@ -332,24 +311,32 @@ function EventCard({
                         ? 'FREE'
                         : `₹${event.amount}`
                     : 'Sold Out'
-                  : `${event.regCount} / ${event.regLimit} Registered`}
-              </h4>
-
-              <p>{getTimeUtils(event.dateTimeStarts)}</p>
-            </div>
-            <div className="overflow-auto flex flex-wrap mt-5 gap-1">
-              <Button asChild className="h-[30px] uppercase font-black self-end">
-                <Link href={`/dashboard/events/list?eventId=${event.id}`}>
-                  Participants
-                </Link>
-              </Button>
-              <Button asChild className="h-[30px] uppercase font-black self-end">
-                <Link href={event.id === ASTHRA.id ? "/dashboard/attendence/asthra" : `/dashboard/attendence/${event.id}`}>
-                  Take Attendance
-                </Link>
-              </Button>
-              <Button className="h-[30px] uppercase font-black self-end">
+                  : `${event.regCount}/${event.regLimit} Registered`}
+              </span>
+              <span className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">
                 {event.department}
+              </span>
+            </div>
+            <p className="text-sm text-slate-600">{getTimeUtils(event.dateTimeStarts)}</p>
+          </div>
+
+          {dashboard && (
+            <div className="flex flex-wrap gap-2 pt-2 mt-auto">
+              <Button
+                size="sm"
+                variant="outline"
+                link={`/dashboard/events/list?eventId=${event.id}`}
+                className="text-xs"
+              >
+                Participants
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                link={event.id === ASTHRA.id ? "/dashboard/attendence/asthra" : `/dashboard/attendence/${event.id}`}
+                className="text-xs"
+              >
+                Attendance
               </Button>
               <AlertDialog onOpenChange={(open) => {
                 if (open && event.name !== null && shortUrl === null) {
@@ -365,35 +352,26 @@ function EventCard({
                 }
               }}>
                 <AlertDialogTrigger asChild>
-                  <Button className='self-end h-[30px]'>
-                    <LinkIcon />
+                  <Button size="sm" variant="outline" className="text-xs p-2">
+                    <LinkIcon className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className='p-6 rounded-lg border-2 border-gray-200 bg-white shadow-xl max-w-md'>
+                <AlertDialogContent className="max-w-md">
                   <AlertDialogHeader>
-                    <AlertDialogTitle className='text-2xl font-bold text-gray-900 mb-2'>Copy Short URL</AlertDialogTitle>
+                    <AlertDialogTitle>Share Event</AlertDialogTitle>
                   </AlertDialogHeader>
-                  <div className='flex flex-row gap-3 mb-4'>
-                    <div className="p-3 border-2 border-gray-300 bg-gray-50 rounded-md flex-1 text-gray-700 font-mono text-sm min-h-[40px] flex items-center">
+                  <div className="flex gap-2">
+                    <div className="flex-1 p-3 border rounded-lg bg-slate-50 text-sm font-mono">
                       {shortUrl ?? "Loading..."}
                     </div>
                     <Button
                       variant="outline"
+                      size="sm"
                       onClick={async () => {
-                        try {
-                          await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
-                          toast.success("URL copied to clipboard!", {
-                            description: "The short URL has been copied successfully."
-                          })
-                        } catch (error) {
-                          toast.error("Failed to copy URL", {
-                            description: "Please try copying manually."
-                          })
-                        }
+                        await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
                       }}
-                      className="px-4 py-2 border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
                     >
-                      <Copy size={18} />
+                      <Copy className="w-4 h-4" />
                     </Button>
                   </div>
                   <AlertDialogFooter>
@@ -406,7 +384,7 @@ function EventCard({
                 </AlertDialogContent>
               </AlertDialog>
             </div>
-          </div>
+          )}
         </div>
       </CardContent>
     </Card>

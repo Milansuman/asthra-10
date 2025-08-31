@@ -111,7 +111,8 @@ function ParticipantsListPage() {
   }, [isPending, data]);
 
   return (
-    <div className="p-6 flex flex-col gap-3">
+
+    <div className="p-6 flex flex-col gap-3 overflow-y-auto">
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
           <h3 className="text-red-800 font-medium">Error Loading Participants</h3>

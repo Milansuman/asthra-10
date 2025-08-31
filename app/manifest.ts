@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export const manifestData = {
-  name: 'Asthra 9.0',
+  name: 'Asthra 10.0',
   description:
     "Asthra - The national level technical fest of St. Joseph's College of Engineering and Technology, Palai, framed with a vision to explore the possibilities of tomorrow.",
 } satisfies MetadataRoute.Manifest;
