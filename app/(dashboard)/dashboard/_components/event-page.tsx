@@ -356,29 +356,33 @@ function EventCard({
                     <LinkIcon className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="max-w-md">
+                <AlertDialogContent className="max-w-md bg-white text-slate-900 border border-slate-200">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Share Event</AlertDialogTitle>
+                    <AlertDialogTitle className="text-xl font-semibold text-slate-900">Share Event</AlertDialogTitle>
                   </AlertDialogHeader>
-                  <div className="flex gap-2">
-                    <div className="flex-1 p-3 border rounded-lg bg-slate-50 text-sm font-mono">
-                      {shortUrl ?? "Loading..."}
+                  <div className="space-y-4">
+                    <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                      <p className="text-sm font-medium text-slate-700 mb-2">Short URL:</p>
+                      <div className="flex gap-2">
+                        <div className="flex-1 p-2 bg-white border border-slate-300 rounded text-sm font-mono text-slate-800">
+                          {shortUrl ?? "Loading..."}
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={async () => {
+                            await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+                          }}
+                          disabled={!shortUrl}
+                        >
+                          <Copy className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={async () => {
-                        await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
-                      }}
-                    >
-                      <Copy className="w-4 h-4" />
-                    </Button>
                   </div>
                   <AlertDialogFooter>
                     <AlertDialogCancel asChild>
-                      <Button variant="outline" className="border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50">
-                        Cancel
-                      </Button>
+                      <Button variant="outline">Cancel</Button>
                     </AlertDialogCancel>
                   </AlertDialogFooter>
                 </AlertDialogContent>

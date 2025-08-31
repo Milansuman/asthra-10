@@ -131,6 +131,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
   const { mutate: shortenUrl } = api.shortner.shorten.useMutation();
   const { mutateAsync: uploadEventImage } = api.event.uploadEventImage.useMutation();
   const [shortUrl, setShortUrl] = useState<string | null>(null); //only shorten url when user presses the button. use state as a way to not use the mutation immediately.
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   return (
     <Card className="flex flex-col text-black w-full max-w-96 p-6 shadow-lg border border-gray-200">
@@ -177,7 +178,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
 
         <CardFooter className="p-0 flex flex-col gap-2">
           <div className="grid grid-cols-2 gap-2 w-full">
-            <AlertDialog>
+            <AlertDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
               <AlertDialogTrigger asChild>
                 <Button variant="outline" size="sm" className="text-slate-700 border-slate-300 hover:bg-slate-50">
                   Edit
@@ -193,7 +194,12 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
                   </div>
 
                   <ScrollArea className="flex-1 p-6">
-                    <EventForm data={data as EventEdit} id={data.id} onChangeEvent={onChangeEvent} />
+                    <EventForm
+                      data={data as EventEdit}
+                      id={data.id}
+                      onChangeEvent={onChangeEvent}
+                      onClose={() => setIsEditDialogOpen(false)}
+                    />
                   </ScrollArea>
                 </Card>
               </AlertDialogContent>
@@ -390,11 +396,6 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
 export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEvent }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleEventChange = () => {
-    onChangeEvent();
-    setIsOpen(false); // Close dialog after successful event creation
-  };
-
   return (
     <Card className="flex flex-col text-slate-900 bg-white border-2 border-dashed border-slate-300 shadow-sm hover:shadow-md transition-all duration-200 hover:border-slate-400 cursor-pointer group">
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
@@ -416,13 +417,14 @@ export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEv
               </p>
             </div>
             <ScrollArea className="flex-1 p-6">
-              <EventForm data={null} onChangeEvent={handleEventChange} />
+              <EventForm
+                data={null}
+                onChangeEvent={onChangeEvent}
+                onClose={() => setIsOpen(false)}
+                isModal={true}
+              />
             </ScrollArea>
-            <div className="p-6 border-t border-slate-200">
-              <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
-              </AlertDialogCancel>
-            </div>
+
           </Card>
         </AlertDialogContent>
       </AlertDialog>

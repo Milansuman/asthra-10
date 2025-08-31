@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronRight, ExternalLink, Eye, Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { eventZod } from '@/lib/validator';
 import { Button } from '@/components/ui/button';
 import {
@@ -50,6 +50,7 @@ import { AsthraCardPreview } from './card';
 import UploadMediaInline from './upload-inline';
 import { TiptapEditor } from './tiptap-editor';
 
+
 const FormSchema = eventZod
     .omit({
         createdAt: true,
@@ -80,12 +81,14 @@ export const EventForm: React.FC<{
     data: EventEdit | null;
     id?: string;
     onChangeEvent: () => void;
-    isModal?: boolean
+    isModal?: boolean;
+    onClose?: () => void;
 }> = ({
     data,
     id,
     onChangeEvent,
-    isModal = false
+    isModal = false,
+    onClose
 }) => {
         const [previewData, setPreviewData] = useState<EventEdit | null>(data);
 
@@ -156,12 +159,31 @@ export const EventForm: React.FC<{
             },
         });
 
+        // Watch all form fields and update preview automatically
+        useEffect(() => {
+            const subscription = form.watch((value) => {
+                console.log('Form values changed:', value);
+                setPreviewData(value as EventEdit);
+            });
+
+            return () => subscription.unsubscribe();
+        }, [form]);
+
         const onSubmit = async (values: EventEdit) => {
+            console.log('Form submitted with values:', values);
+            console.log('Form validation state:', form.formState);
+
             try {
                 if (id) {
+                    console.log('Updating event with ID:', id);
                     await updateEvent({ id, ...values });
                 } else {
+                    console.log('Creating new event');
                     await createEvent(values);
+                }
+                // Close dialog after successful submission if onClose is provided
+                if (onClose) {
+                    onClose();
                 }
             } catch (error) {
                 console.error('Form submission error:', error);
@@ -189,6 +211,10 @@ export const EventForm: React.FC<{
                                                 placeholder="Enter event name"
                                                 {...field}
                                                 value={field.value ?? ''}
+                                                onChange={(e) => {
+                                                    console.log('Event name changed:', e.target.value);
+                                                    field.onChange(e.target.value);
+                                                }}
                                                 className="border-slate-300 focus:border-slate-500"
                                             />
                                         </FormControl>
@@ -288,10 +314,11 @@ export const EventForm: React.FC<{
                                         <FormLabel className="text-slate-700">Venue *</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Enter venue"
+                                                placeholder="Enter venue (minimum 3 characters)"
                                                 {...field}
                                                 value={field.value ?? ''}
-                                                className="border-slate-300 focus:border-slate-500"
+                                                className={`border-slate-300 focus:border-slate-500 ${form.formState.errors.venue ? 'border-red-500' : ''
+                                                    }`}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -309,7 +336,6 @@ export const EventForm: React.FC<{
                                             {...field}
                                             onValueChange={(event) => {
                                                 field.onChange(event);
-                                                setPreviewData(form.getValues());
                                             }}
                                             defaultValue={field.value}
                                         >
@@ -465,13 +491,50 @@ export const EventForm: React.FC<{
                                             <Input
                                                 type="datetime-local"
                                                 {...field}
-                                                value={field.value ? field.value.toISOString().slice(0, 16) : ''}
-                                                onChange={(e) => field.onChange(new Date(e.target.value))}
+                                                value={field.value && !isNaN(field.value.getTime()) ?
+                                                    // Convert to local timezone for display
+                                                    new Date(field.value.getTime() - (field.value.getTimezoneOffset() * 60000))
+                                                        .toISOString().slice(0, 16)
+                                                    : ''
+                                                }
+                                                onChange={(e) => {
+                                                    const inputValue = e.target.value;
+                                                    if (inputValue) {
+                                                        // Create date in local timezone
+                                                        const [datePart, timePart] = inputValue.split('T');
+                                                        const [year, month, day] = datePart.split('-').map(Number);
+                                                        const [hour, minute] = timePart.split(':').map(Number);
+
+                                                        // Create date in local timezone (not UTC)
+                                                        const localDate = new Date(year, month - 1, day, hour, minute);
+                                                        field.onChange(localDate);
+                                                    }
+                                                }}
                                                 className="border-slate-300 focus:border-slate-500"
+                                                min={(() => {
+                                                    const now = new Date();
+                                                    const localNow = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
+                                                    return localNow.toISOString().slice(0, 16);
+                                                })()}
                                             />
                                         </FormControl>
                                         <FormDescription className="text-slate-600">
                                             Default is {AsthraStartsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                                            {field.value && !isNaN(field.value.getTime()) && (
+                                                <span className="block mt-1 text-sm font-medium text-slate-800">
+                                                    Selected: {field.value.toLocaleString('en-IN', {
+                                                        timeZone: 'Asia/Kolkata',
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })} (IST)
+                                                </span>
+                                            )}
+                                            <span className="block mt-1 text-xs text-slate-500">
+                                                ⚠️ All times are in Indian Standard Time (IST)
+                                            </span>
                                         </FormDescription>
                                         <FormMessage />
                                     </FormItem>
@@ -549,25 +612,24 @@ export const EventForm: React.FC<{
                             <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
                                 Preview
                             </h3>
-                            <AsthraCardPreview data={previewData} />
+                            <div className="text-xs text-slate-500 mb-2">
+                                Debug: {JSON.stringify({
+                                    name: previewData.name,
+                                    venue: previewData.venue,
+                                    dateTimeStarts: previewData.dateTimeStarts?.toISOString()
+                                })}
+                            </div>
+                            <AsthraCardPreview key={JSON.stringify(previewData)} data={previewData} />
                         </div>
                     )}
 
                     {/* Form Actions */}
                     <div className="flex justify-end gap-4 pt-6 border-t border-slate-200">
                         <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => {
-                                // Handle cancel
-                            }}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
                             type="submit"
                             disabled={isPending || isUpdating}
-                            className="bg-slate-900 hover:bg-slate-800"
+                            className="bg-slate-800 hover:bg-slate-700"
+                            onClick={() => console.log('Submit button clicked, form state:', form.formState)}
                         >
                             {isPending || isUpdating ? (
                                 <>
@@ -577,6 +639,24 @@ export const EventForm: React.FC<{
                             ) : (
                                 id ? 'Update Event' : 'Create Event'
                             )}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => {
+                                // Reset form to original values
+                                if (data) {
+                                    form.reset(data);
+                                } else {
+                                    form.reset();
+                                }
+                                // Close dialog if onClose is provided
+                                if (onClose) {
+                                    onClose();
+                                }
+                            }}
+                        >
+                            Cancel
                         </Button>
                     </div>
                 </form>
