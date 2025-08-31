@@ -1,5 +1,5 @@
 // import { sql } from "drizzle-orm";
-import { and, eq, or, ilike, count, desc } from 'drizzle-orm';
+import { and, eq, or, ilike, count, desc, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { allRoles, getTimeUtils } from '@/logic';
@@ -51,62 +51,77 @@ export const userRouter = createTRPCRouter({
       }).optional()
     )
     .query(async ({ ctx, input }) => {
-      const page = input?.page ?? 1;
-      const limit = input?.limit ?? 10;
-      const offset = (page - 1) * limit;
-      const search = input?.search?.trim();
-      const roleFilter = input?.role;
+      try {
+        const page = input?.page ?? 1;
+        const limit = input?.limit ?? 10;
+        const offset = (page - 1) * limit;
+        const search = input?.search?.trim();
+        const roleFilter = input?.role;
 
-      // Build where conditions
-      const conditions = [];
-      
-      if (roleFilter) {
-        conditions.push(eq(user.role, roleFilter as any));
+        // Build where conditions
+        const conditions = [];
+        
+        if (roleFilter) {
+          conditions.push(eq(user.role, roleFilter as any));
+        }
+        
+        if (search) {
+          // Log search parameters for debugging
+          console.log('Search parameters:', { search, roleFilter });
+          
+          conditions.push(
+            or(
+              ilike(user.name, `%${search}%`),
+              ilike(user.email, `%${search}%`),
+              ilike(user.college, `%${search}%`),
+              // Handle enum fields properly - convert to text for search
+              sql`${user.department}::text ILIKE ${`%${search}%`}`,
+              sql`${user.year}::text ILIKE ${`%${search}%`}`,
+              // Search by role (convert enum to text)
+              sql`${user.role}::text ILIKE ${`%${search}%`}`,
+              // Search by KTU number if available
+              sql`CASE WHEN ${user.KTU} IS NOT NULL AND ${user.KTU} != '' THEN ${ilike(user.KTU, `%${search}%`)} ELSE false END`,
+              // Only search number if it's not null and not empty
+              sql`CASE WHEN ${user.number} IS NOT NULL AND ${user.number} != '' THEN ${ilike(user.number, `%${search}%`)} ELSE false END`
+            )
+          );
+        }
+
+        const whereCondition = conditions.length > 0 ? and(...conditions) : undefined;
+
+        // Get total count for pagination
+        const [totalCountResult] = await ctx.db
+          .select({ count: count() })
+          .from(user)
+          .where(whereCondition);
+
+        const totalCount = totalCountResult?.count ?? 0;
+        const totalPages = Math.ceil(totalCount / limit);
+
+        // Get paginated users
+        const users = await ctx.db
+          .select()
+          .from(user)
+          .where(whereCondition)
+          .orderBy(desc(user.createdAt))
+          .limit(limit)
+          .offset(offset);
+
+        return {
+          users,
+          pagination: {
+            page,
+            limit,
+            totalCount,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPreviousPage: page > 1,
+          },
+        };
+      } catch (error) {
+        console.error('Error in getUserList:', error);
+        throw new Error(`Failed to fetch user list: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
-      
-      if (search) {
-        conditions.push(
-          or(
-            ilike(user.name, `%${search}%`),
-            ilike(user.email, `%${search}%`),
-            ilike(user.college, `%${search}%`),
-            ilike(user.department, `%${search}%`),
-            ilike(user.number, `%${search}%`)
-          )
-        );
-      }
-
-      const whereCondition = conditions.length > 0 ? and(...conditions) : undefined;
-
-      // Get total count for pagination
-      const [totalCountResult] = await ctx.db
-        .select({ count: count() })
-        .from(user)
-        .where(whereCondition);
-
-      const totalCount = totalCountResult?.count ?? 0;
-      const totalPages = Math.ceil(totalCount / limit);
-
-      // Get paginated users
-      const users = await ctx.db
-        .select()
-        .from(user)
-        .where(whereCondition)
-        .orderBy(desc(user.createdAt))
-        .limit(limit)
-        .offset(offset);
-
-      return {
-        users,
-        pagination: {
-          page,
-          limit,
-          totalCount,
-          totalPages,
-          hasNextPage: page < totalPages,
-          hasPreviousPage: page > 1,
-        },
-      };
     }),
 
   getUserForVerification: protectedProcedure
