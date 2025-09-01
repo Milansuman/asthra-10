@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <main className="z-10 relative">
       <section className="grid min-h-screen grid-cols-1 md:grid-cols-3 gap-4 md:gap-0">
-        <div className="col-span-1 flex items-center border border-glass p-8 md:col-span-2">
+        <div className="col-span-1 flex items-center border border- p-8 md:col-span-2">
           <p className="ambit w-full px-4 text-left font-thin text-2xl md:text-5xl">
             Envisioned to explore
             the possibilities of
@@ -20,7 +20,7 @@ export default function Page() {
         </div>
         <div className="col-span-1 h-32 md:hidden" />
 
-        <div className="relative col-span-1 flex items-center justify-center border-l-[0.02rem] border-b-[0.02rem] p-4 bg-glass border-glass">
+        <div className="relative col-span-1 flex items-center justify-center border-l-[0.02rem] border-b-[0.02rem] p-4 bg- border-">
           {/* <Orb
       hoverIntensity={0.5}
       rotateOnHover={true}
@@ -38,7 +38,7 @@ export default function Page() {
 
         <div className="col-span-1 h-48 md:hidden" />
 
-        <div className="col-span-1 flex items-center border border-glass p-8 bg-glass md:col-span-2">
+        <div className="col-span-1 flex items-center border border- p-8 bg- md:col-span-2">
           <p className="ambit text-balance px-4 font-extralight text-lg md:text-xl lg:text-2xl">
             ASTHRA, the national-level technical fest of St. Joseph's College of
             Engineering and Technology, Palai, is a premier inter-college event
@@ -47,7 +47,7 @@ export default function Page() {
             experience for all participants.
           </p>
         </div>
-        <div className="col-span-1 border border-glass hidden md:block" />
+        <div className="col-span-1 border border- hidden md:block" />
 
         <div className="col-span-1 flex items-center justify-center p-8 md:col-span-3">
           <p className="ambit text-center font-thin text-2xl md:text-3xl lg:text-5xl">
@@ -57,7 +57,7 @@ export default function Page() {
       </section>
 
       <section className="grid min-h-screen grid-cols-1 md:grid-cols-3 gap-4 md:gap-0">
-        <div className="col-span-1 flex flex-col items-center justify-center border p-8 md:col-span-2 bg-glass border-glass">
+        <div className="col-span-1 flex flex-col items-center justify-center border p-8 md:col-span-2 bg- border-">
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             VISION
           </p>
@@ -67,7 +67,7 @@ export default function Page() {
         </div>
         <div className="col-span-1 h-24  md:hidden" />
 
-        <div className="col-span-1 flex flex-col items-center justify-center border p-8 md:col-span-1 border-glass">
+        <div className="col-span-1 flex flex-col items-center justify-center border p-8 md:col-span-1 border-">
           <p className="ambit mb-4 text-center font-thin text-xl md:text-2xl">
             MISSION
           </p>
@@ -79,8 +79,8 @@ export default function Page() {
         </div>
         <div className="col-span-1 h-24 md:hidden" />
 
-        <div className="col-span-1 flex flex-col items-center justify-center border border-glass md:col-span-2" />
-        <div className="col-span-1 flex flex-col items-center justify-center border border-glass p-8 bg-glass border-glass md:col-span-1">
+        <div className="col-span-1 flex flex-col items-center justify-center border border- md:col-span-2" />
+        <div className="col-span-1 flex flex-col items-center justify-center border border- p-8 bg- border- md:col-span-1">
           <ul className="ambit flex list-disc flex-col justify-center space-y-4 pl-8 font-thin text-xl md:text-2xl">
             <li>40 events</li>
             <li>10 workshops</li>
@@ -107,7 +107,7 @@ export default function Page() {
         </Plusbox>
 
         <CircularGalleryMade />
-        <Button size={"default"} variant={"glass"} link='/events'>
+        <Button size={"default"}  link='/events'>
           View More
         </Button>
       </section>
@@ -119,7 +119,7 @@ export default function Page() {
             Mark your calendar on <b className="text-bold underline decoration-wavy">6 & 7th March 2025</b>
           </p>
           <LoginButton />
-          <Button size={"thin"} variant={"glass"} link='https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d'>
+          <Button   link='https://whatsapp.com/channel/0029Vb814WN8PgsMKbk1gF0d'>
             Join <WhatsApp /> for live updates
           </Button>
         </div>

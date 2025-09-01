@@ -163,10 +163,10 @@ function SidebarItem({ item }: { item: SidebarItemData }) {
         >
           {item.icon}
           <span>{item.label}</span>
-          <ChevronRight 
+          <ChevronRight
             className={`ml-auto transition-transform duration-200 ${
               isExpanded ? 'rotate-90' : ''
-            }`} 
+            }`}
           />
         </SidebarMenuButton>
         {isExpanded && (
@@ -175,11 +175,11 @@ function SidebarItem({ item }: { item: SidebarItemData }) {
               ?.filter(child => child.link)
               .map((child, index) => (
                 <SidebarMenuSubItem key={index}>
-                  <SidebarMenuSubButton 
-                    asChild 
+                  <SidebarMenuSubButton
+                    asChild
                     isActive={child.link === pathname}
                   >
-                    <Link href={child.link as string}>
+                    <Link href={child.link!}>
                       {child.icon}
                       <span>{child.label}</span>
                     </Link>
@@ -195,7 +195,7 @@ function SidebarItem({ item }: { item: SidebarItemData }) {
   if (!item.link) {
     return (
       <SidebarMenuItem>
-        <SidebarMenuButton 
+        <SidebarMenuButton
           tooltip={item.label}
           isActive={isActive}
           onClick={item.onClick}
@@ -209,8 +209,8 @@ function SidebarItem({ item }: { item: SidebarItemData }) {
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton 
-        asChild 
+      <SidebarMenuButton
+        asChild
         tooltip={item.label}
         isActive={isActive}
       >

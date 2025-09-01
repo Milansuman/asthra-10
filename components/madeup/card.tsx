@@ -56,7 +56,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
   return (
-    <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-black">
+    <Card className="ambit w-full max-w-2xl  border border-gray-100 p-6 text-black">
       <div className="flex flex-col space-y-3">
 
         <div className="flex justify-between items-start">
@@ -448,7 +448,7 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
     </CardHeader>
     <CardContent className="flex flex-col items-center space-y-6">
       <Image
-        src={data.poster ?? '/asthra glass.png'}
+        src={data.poster ?? '/asthra .png'}
         alt="Asthra Logo"
         width={300}
         height={200}

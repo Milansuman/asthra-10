@@ -14,7 +14,7 @@
 
 **Environment Setup**:
 ```bash
-bun install           # Install dependencies 
+bun install           # Install dependencies
 bun run dev          # Start development server
 bun run db:push      # Push schema changes to database
 bun run db:studio    # Open Drizzle Studio for database management
@@ -93,13 +93,13 @@ frontDeskProcedure        // DESK+ roles
 
 **Route Group Structure**:
 - `(main)/` - Public pages with Spline 3D background and main navigation
-- `(dashboard)/` - Admin interface with role-based access and dock navigation  
+- `(dashboard)/` - Admin interface with role-based access and dock navigation
 - `payment/` - Payment flow with different layout
 - API routes in `api/trpc/[trpc]/route.ts` for tRPC handler
 
 **Component Architecture**:
 - `components/madeup/` - Custom project components (Dock, event forms, etc.)
-- `components/ui/` - Shadcn UI components  
+- `components/ui/` - Shadcn UI components
 - `components/magicui/` - Magic UI animation components
 - Use `@/` path alias for all imports
 
@@ -110,7 +110,7 @@ frontDeskProcedure        // DESK+ roles
 - Email templates and sending logic separated
 
 **Styling Conventions**:
-- TailwindCSS v4 with custom cursor variants and glass effect classes
+- TailwindCSS v4 with custom cursor variants and  effect classes
 - Dark theme by default with custom CSS variables
 - `ambit` font class for branding
 - Custom background patterns and 3D Spline integration

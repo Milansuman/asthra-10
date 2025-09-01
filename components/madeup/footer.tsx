@@ -9,7 +9,7 @@ export default function Footer() {
         </div>
         <Plusbox className="relative p-2 border-x border-b border-white/20 border-dashed flex items-center justify-center md:col-start-3 md:row-start-1">
           <img
-            src="/asthra glass.png"
+            src="/asthra .png"
             alt="Asthra Logo"
             width={200}
             height={80}
