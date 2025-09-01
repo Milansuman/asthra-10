@@ -11,7 +11,30 @@ import FluidGlass from '@/components/madeup/FluidGlass';
 
 export default function Page() {
   return (
-    <div className="bg-black w-full min-h-screen relative">
+    <div className="fixed inset-0 bg-black">
+
+      {/* Left vertical navbar */}
+      <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 hidden md:block">
+        <Image
+          src="/assets/side.png"
+          alt="Left navigation"
+          width={30}
+          height={500}
+          className="h-[90vh] w-auto"
+        />
+      </div>
+
+      {/* Right vertical navbar */}
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden md:block">
+        <Image
+          src="/assets/side.png"
+          alt="Right navigation"
+          width={30}
+          height={500}
+          className="h-[90vh] w-auto"
+        />
+      </div>
+
 
       <div className="absolute -top-[17%] md:top-[23%] pointer-events-none -left-[17%] md:-left-[3%] z-40">
         <FluidGlass mobileSize={100} desktopSize={290} />
@@ -21,7 +44,7 @@ export default function Page() {
         <FluidGlass mobileSize={110} desktopSize={300} />
       </div>
 
-      <div className="absolute top-[18%] md:top-[60%] left-[50%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
+      <div className="absolute top-[18%] md:top-[30%] left-[60%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
         <FluidGlass mobileSize={70} desktopSize={90} />
       </div>
 
@@ -79,33 +102,36 @@ export default function Page() {
         </div>
       </nav>
 
-      <main className="z-10 relative w-full md:w-[calc(100%-150px)] min-h-screen overflow-x-hidden mx-auto bg-white">
+      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto h-screen">
         <NoiseTexture />
-        {/* Main ASTHRA section */}
-        <section className="flex flex-col items-center relative min-h-[60vh] px-4">
-          <div className="w-full flex justify-center mt-32 mb-4">
-            <Image
-              src="/asthra.svg"
-              alt="SAR 10.0"
-              width={200}
-              height={100}
-              className="w-auto h-36"
-            />
-          </div>
-          <picture className="w-[90%] md:w-[80%] bottom-0 top-[17%] md:top-[23%]">
-            <source
-              media="(max-width: 768px)"
-              srcSet="/assets/mobile_landing.webp"
-            />
-            <Image
-              src="/assets/final.webp"
-              alt="logo"
-              width={1728}
-              height={1117}
-              style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
-            />
-          </picture>
-        </section>
+        <div className="min-h-full bg-white relative rounded-b-[2rem]">
+
+          {/* Main ASTHRA section */}
+          <section className="flex flex-col items-center relative min-h-[60vh] px-4">
+            <div className="w-full flex justify-center mt-32 mb-10">
+              <Image
+                src="/asthra.svg"
+                alt="SAR 10.0"
+                width={200}
+                height={100}
+                className="w-auto h-36"
+              />
+            </div>
+            <picture className="w-[90%] md:w-[80%] bottom-0 top-[17%] md:top-[23%]">
+              <source
+                media="(max-width: 768px)"
+                srcSet="/assets/mobile_landing.webp"
+              />
+              <Image
+                src="/assets/final.webp"
+                alt="logo"
+                width={1728}
+                height={1117}
+                style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+              />
+            </picture>
+          </section>
+        </div>
 
       </main>
 
