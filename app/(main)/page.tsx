@@ -8,13 +8,15 @@ import { Button } from '@/components/ui/button';
 import WhatsApp from '@/components/icons/whatsapp';
 import { NoiseTexture } from '@/components/noise-texture';
 import FluidGlass from '@/components/madeup/FluidGlass';
+import ImageGrid from '../_components/imageGrid';
+import DepGrid from '../_components/depGrid';
 
 export default function Page() {
   return (
     <div className="fixed inset-0 bg-black">
 
 
-      <div className="absolute -top-[17%] md:top-[30%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
+      <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
         <FluidGlass mobileSize={100} desktopSize={290} />
       </div>
 
@@ -278,6 +280,35 @@ export default function Page() {
                 </div>
               </div>
             </div>
+
+
+          </section>
+
+          <section className="flex flex-col items-center relative min-h-[60vh] px-4">
+            <div className="w-[90%] flex justify-center mt-24 mb-2 ">
+              <Image
+                src="/assets/images_grid.webp"
+                alt="images grid"
+                width={300}
+                height={200}
+                className="w-auto h-36 "
+              />
+            </div>
+            <ImageGrid />
+
+
+          </section>
+          <section className="flex flex-col items-center relative min-h-[60vh] px-4">
+            <div className="w-[90%] flex justify-center mt-24 mb-2 ">
+              <Image
+                src="/assets/departments.webp"
+                alt="images grid"
+                width={300}
+                height={200}
+                className="w-auto h-36 "
+              />
+            </div>
+            <DepGrid />
 
 
           </section>
