@@ -113,7 +113,6 @@ export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote 
           >
             {data.eventType === "ASTHRA_PASS" && "Buy Ticket"}
             {data.eventType === "WORKSHOP" && `Purchase for ₹${data.amount}`}
-            {data.eventType === "ASTHRA_PASS_EVENT" && "Buy Asthra Pass First"}
           </Button>
         </div>
       </div>
@@ -485,7 +484,6 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
       >
         {data.eventType === 'ASTHRA_PASS' && 'Buy Ticket'}
         {data.eventType === 'WORKSHOP' && `Purchase for ₹${data.amount}`}
-        {data.eventType === 'ASTHRA_PASS_EVENT' && 'Buy Asthra Pass First'}
       </Button>
     </CardFooter>
   </Card>

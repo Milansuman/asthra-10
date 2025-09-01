@@ -180,9 +180,9 @@ const DialogParent = ({
     <>
       <DialogHeader>
         <DialogTitle>Search & Add users</DialogTitle>
-        <DialogDescription>
+        {/* <DialogDescription>
           But only works for ASTHRA PASS Events. Not paid events.
-        </DialogDescription>
+        </DialogDescription> */}
       </DialogHeader>
       <ListOfUsers
         eventId={eventId}
@@ -230,10 +230,6 @@ const ListOfUsers = ({
           <div className="flex gap-2 w-full">
             <img src={d.image ?? ""} alt="hi" className="w-4 h-4" />
             {d.name} - {d.email}
-
-            <span className="ms-auto">
-              {d.asthraPass ? "(Asthra Pass)" : ""}
-            </span>
           </div>
         )}
         badgeUI={(d) => (

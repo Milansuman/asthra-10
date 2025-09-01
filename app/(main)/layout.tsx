@@ -12,10 +12,6 @@ const Items: DockItemData[] = [
     label: "Home",
   },
   {
-    link: "/asthra",
-    label: "Asthra Pass",
-  },
-  {
     link: "/events",
     label: "All Events",
   },
