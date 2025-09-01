@@ -101,9 +101,9 @@ export default function Page() {
         </div>
       </nav>
 
-      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto h-screen">
+      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto">
         <NoiseTexture />
-        <div className="min-h-full bg-white relative rounded-b-[2rem]">
+        <div className="h-screen bg-white relative rounded-b-[2rem] overflow-y-auto">
 
           {/* Main ASTHRA section */}
           <section className="flex flex-col items-center relative min-h-[60vh] px-4">
@@ -129,6 +129,68 @@ export default function Page() {
                 style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
               />
             </picture>
+          </section>
+
+          <section className="min-h-screen relative px-1 py-2">
+            <div className="flex flex-col space-y-12 w-full  mx-auto ">
+              {/* About Title */}
+              <div className="w-full">
+                <Image
+                  src="/assets/about.svg"
+                  alt="About ASTHRA"
+                  width={100}
+                  height={500}
+                  className="w-[30%] h-[100vh] object-contain hidden md:block"
+                  priority
+                />
+              </div>
+
+              {/* Content Container */}
+              <div className="flex flex-col space-y-4 absolute left-[8%] w-[90%]">
+                {/* First Row */}
+                <div className="flex flex-col md:flex-row gap-4 items-center">
+                  <div className="flex-1 bg-white/10 rounded-2xl p-4">
+                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
+                  </div>
+                  <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl p-1">
+                    <Image
+                      src="/assets/image_placeholder.webp"
+                      alt="Our Mission"
+                      width={400}
+                      height={100}
+                      className=" h-[55%] w-[83%] object-cover m-auto"
+                    />
+                  </div>
+                </div>
+
+                <Image
+                  src="/assets/grow.svg"
+                  alt="Our Mission"
+                  width={4000}
+                  height={100}
+                  className=" w-full object-cover m-auto hidden md:block"
+                />
+
+                {/* Second Row */}
+                <div className="flex flex-col md:flex-row gap-4 items-center">
+                  <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl p-1 items-center">
+                    <Image
+                      src="/assets/image_placeholder.webp"
+                      alt="Our Mission"
+                      width={400}
+                      height={100}
+                      className="h-[55%] w-[83%] object-cover m-auto"
+                    />
+                  </div>
+                  <div className="flex-1 bg-white/10 rounded-2xl p-4">
+                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields</p>
+                  </div>
+
+                </div>
+              </div>
+
+
+            </div>
           </section>
         </div>
 
