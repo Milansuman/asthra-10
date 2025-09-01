@@ -35,7 +35,7 @@ export default function RootLayout({
     <>
       <div className="fixed top-0 left-0 h-screen w-screen -z-10">
         {/* <video
-            src={'/glass.mp4'}
+            src={'/.mp4'}
             autoPlay={true}
             loop={true}
             muted={true}

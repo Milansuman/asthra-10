@@ -134,7 +134,7 @@ export function EventEditPage({ data, departments }: Props) {
             Events ({filteredEvents.length + 1})
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
+        <div className="flex flex-row gap-2 flex-wrap">
           <AddNewCard onChangeEvent={onChangeEvent} />
           {filteredEvents.map(event => (
             <AsthraCard key={event.id} data={event} onDelete={onDelete} onChangeEvent={onChangeEvent} />

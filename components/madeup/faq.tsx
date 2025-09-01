@@ -72,7 +72,7 @@ export const faqItems: FAQItems = [
 
 export function FAQ() {
     return (
-        <div className="w-full max-w-6xl mx-auto p-8 my-8 bg-glass rounded-2xl border border-glass">
+        <div className="w-full max-w-6xl mx-auto p-8 my-8 bg- rounded-2xl border border-">
             <div className="flex flex-col md:flex-row gap-12 items-start">
                 {/* Left Section */}
                 <div className="flex-1 space-y-4">

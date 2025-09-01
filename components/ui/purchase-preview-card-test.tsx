@@ -35,7 +35,7 @@ export const PurchaseCardCard: FC<PurchaseCardProps> = ({
     </CardHeader>
     <CardContent className="flex flex-col items-center space-y-6">
       <Image
-        src="/asthra glass.png"
+        src="/asthra .png"
         alt="Asthra Logo"
         width={300}
         height={200}

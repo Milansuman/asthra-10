@@ -25,7 +25,7 @@ export const ShareButton = ({ id, shortUrl }: { id?: string, shortUrl?: string }
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Button variant={"glass"} size={"icon"} className="top-0 right-0 cursor-pointer absolute" onClick={handleCopy}>
+                    <Button  size={"icon"} className="top-0 right-0 cursor-pointer absolute" onClick={handleCopy}>
                         {copied ? <CheckCircle className="w-6 h-6" /> : <CopyIcon className="w-6 h-6" />}
                     </Button>
                 </TooltipTrigger>
@@ -50,7 +50,7 @@ export const ShareButtonFunc = ({ func }: { func: () => string }) => {
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Button variant={"glass"} size={"icon"} className="top-0 right-0 cursor-pointer absolute" onClick={handleCopy}>
+                    <Button  size={"icon"} className="top-0 right-0 cursor-pointer absolute" onClick={handleCopy}>
                         {copied ? <CheckCircle className="w-6 h-6" /> : <CopyIcon className="w-6 h-6" />}
                     </Button>
                 </TooltipTrigger>

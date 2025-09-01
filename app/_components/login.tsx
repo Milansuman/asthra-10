@@ -9,7 +9,7 @@ const LoginButton = () => {
 
   if (status === "loading") {
     return (
-      <Button size={"glass"} variant={"glass"}>
+      <Button >
         <ButtonText keyType={"Loading"} />
       </Button>
     );
@@ -17,7 +17,7 @@ const LoginButton = () => {
 
   if (!data) {
     return (
-      <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"} className="bg-black p-3">
+      <Button link={"/api/auth/signin"}   className="bg-black p-3">
         <ButtonText keyType={"Login to Register"} />
       </Button>
     );
@@ -25,14 +25,14 @@ const LoginButton = () => {
 
   if (!valid) {
     return (
-      <Button link={"/profile"} size={"glass"} variant={"glass"}>
+      <Button link={"/profile"}  >
         <ButtonText keyType={"Complete your Profile Data before Registration"} />
       </Button>
     );
   }
 
   return (
-    <Button link={"/events"} size={"glass"} variant={"glass"}>
+    <Button link={"/events"}  >
       <ButtonText keyType={"Register Now"} />
     </Button>
   );

@@ -29,7 +29,7 @@ const CircularGalleryMade: React.FC = () => {
                     ))}
                 </div> :
                 <div className="w-full min-h-[200px] flex items-center justify-center">
-                    <Label variant={"glass"} size={'md'} >No Events Available</Label>
+                    <Label  size={'md'} >No Events Available</Label>
                 </div>}
         </div>
     );

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import Image from 'next/image';
 import type { EventZodType } from '@/lib/validator';
 

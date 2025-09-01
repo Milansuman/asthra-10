@@ -133,7 +133,7 @@ export function EventPage({
                         </SelectContent>
                     </Select>
                 ) : (
-                    <div className="max-w-2/3 h-full rounded-lg flex flex-row gap-2 bg-glass border border-glass overflow-auto scrollbar-none self-center cursor-context-menu">
+                    <div className="max-w-2/3 h-full rounded-lg flex flex-row gap-2 bg- border border- overflow-auto scrollbar-none self-center cursor-context-menu">
                         {categories.map((category) => (
                             <div
                                 key={`${category}.div`}

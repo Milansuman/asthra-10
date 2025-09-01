@@ -56,7 +56,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ data, credits, footerNote }) => {
   return (
-    <Card className="ambit w-full max-w-2xl glass border border-gray-100 p-6 text-black">
+    <Card className="ambit w-full max-w-2xl  border border-gray-100 p-6 text-black">
       <div className="flex flex-col space-y-3">
 
         <div className="flex justify-between items-start">
@@ -134,7 +134,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   return (
-    <Card className="flex flex-col text-black w-full max-w-96 p-6 shadow-lg border border-gray-200">
+    <Card className="flex flex-col text-black w-full min-w-80 max-w-96 p-6 shadow-lg border border-gray-200">
       {/* Header with Image and Title */}
       <CardHeader className="p-0 mb-6">
         {z.string().safeParse(data.poster).success && (
@@ -397,7 +397,7 @@ export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEv
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Card className="flex flex-col text-slate-900 bg-white border-2 border-dashed border-slate-300 shadow-sm hover:shadow-md transition-all duration-200 hover:border-slate-400 cursor-pointer group">
+    <Card className="flex flex-col text-slate-900 bg-white border-2 border-dashed border-slate-300 shadow-sm hover:shadow-md transition-all duration-200 hover:border-slate-400 cursor-pointer group min-w-80">
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
           <CardContent className="flex h-full w-full flex-col justify-center items-center p-8 min-h-[300px]">
@@ -448,7 +448,7 @@ export const PurchaseCardPreview: FC<PurchaseCardPreviewProps> = ({
     </CardHeader>
     <CardContent className="flex flex-col items-center space-y-6">
       <Image
-        src={data.poster ?? '/asthra glass.png'}
+        src={data.poster ?? '/asthra .png'}
         alt="Asthra Logo"
         width={300}
         height={200}
