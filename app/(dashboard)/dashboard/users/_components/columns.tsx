@@ -36,7 +36,7 @@ import QRCode from "react-qr-code";
 
 const ROLE_OPTIONS = [
   'USER',
-  'STUDENT_COORDINATOR', 
+  'STUDENT_COORDINATOR',
   'FACULTY_COORDINATOR',
   'MANAGEMENT',
   'ADMIN',
@@ -65,10 +65,6 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
   {
     header: "Department",
     accessorKey: "department"
-  },
-  {
-    header: "Has AsthraPass?",
-    accessorFn: row => `${row.asthraPass ? "yes" : "no"}`
   },
   {
     header: "Available Credits",
