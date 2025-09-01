@@ -13,39 +13,38 @@ export default function Page() {
   return (
     <div className="fixed inset-0 bg-black">
 
+
+      <div className="absolute -top-[17%] md:top-[30%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
+        <FluidGlass mobileSize={100} desktopSize={290} />
+      </div>
+
+      <div className="absolute top-[10%] md:top-[6%] pointer-events-none -right-[12%] md:-right-[2%] z-40">
+        <FluidGlass mobileSize={110} desktopSize={300} />
+      </div>
+
+      <div className="absolute top-[18%] md:top-[40%] left-[60%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
+        <FluidGlass mobileSize={70} desktopSize={90} />
+      </div>
       {/* Left vertical navbar */}
-      <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 hidden md:block">
+      <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
           src="/assets/side.png"
           alt="Left navigation"
           width={30}
           height={500}
-          className="h-[90vh] w-auto"
+          className="h-[95vh] w-auto"
         />
       </div>
 
       {/* Right vertical navbar */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden md:block">
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
           src="/assets/side.png"
           alt="Right navigation"
           width={30}
           height={500}
-          className="h-[90vh] w-auto"
+          className="h-[95vh] w-auto"
         />
-      </div>
-
-
-      <div className="absolute -top-[17%] md:top-[23%] pointer-events-none -left-[17%] md:-left-[3%] z-40">
-        <FluidGlass mobileSize={100} desktopSize={290} />
-      </div>
-
-      <div className="absolute top-[10%] md:top-[6%] pointer-events-none -right-[12%] md:-right-[5%] z-40">
-        <FluidGlass mobileSize={110} desktopSize={300} />
-      </div>
-
-      <div className="absolute top-[18%] md:top-[30%] left-[60%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
-        <FluidGlass mobileSize={70} desktopSize={90} />
       </div>
 
       <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] h-20 mt-4 bg-transparent flex items-center justify-end md:justify-center  z-[9999]">
@@ -108,7 +107,7 @@ export default function Page() {
 
           {/* Main ASTHRA section */}
           <section className="flex flex-col items-center relative min-h-[60vh] px-4">
-            <div className="w-full flex justify-center mt-32 mb-10">
+            <div className="w-full flex justify-center mt-24 mb-2">
               <Image
                 src="/asthra.svg"
                 alt="SAR 10.0"
