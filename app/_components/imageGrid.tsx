@@ -2,21 +2,24 @@ import React from 'react';
 import Image from 'next/image';
 
 const gridItems = [
-    { id: 1, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-1" }, // Short
-    { id: 2, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" }, // Tall
-    { id: 3, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-1" }, // Short
-    { id: 4, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" }, // Tall
-    { id: 5, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" }, // Tall
-    { id: 6, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" }, // Short
-    { id: 7, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" }, // Tall
-    { id: 8, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-1" }, // Short
-    { id: 9, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-1" }, // Short
-    { id: 10, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" },// Tall
-    { id: 11, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-1" },// Short
-    { id: 12, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" },
-    { id: 13, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-1" },
-    { id: 14, imgSrc: "/assets/image_placeholder.webp", span: "md:row-span-2" },
-    
+    { id: 1, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" }, // Short
+    { id: 2, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" }, // Tall
+    { id: 3, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" }, // Short
+    { id: 4, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" }, // Tall
+    { id: 5, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" }, // Tall
+    { id: 6, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" }, // Short
+    { id: 7, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" }, // Tall
+    { id: 8, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" }, // Short
+    { id: 9, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" }, // Short
+    { id: 10, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" },// Tall
+    { id: 11, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" },// Short
+    { id: 12, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" },
+    { id: 13, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" },
+
+    { id: 14, imgSrc: "/assets/image_placeholder.webp", span: "row-span-2" },
+    { id: 15, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" },
+    { id: 15, imgSrc: "/assets/image_placeholder.webp", span: "row-span-1" },
+
     // Tall
 ];
 
