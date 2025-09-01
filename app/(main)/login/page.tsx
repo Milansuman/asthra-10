@@ -81,7 +81,7 @@ const LoginPage = () => {
                             className="mx-auto"
                         />
                         <CardTitle className="text-4xl font-bold leading-tight tracking-tight glow-text">
-                            Welcome to Asthra 9.0!
+                            Welcome to Asthra 10.0!
                         </CardTitle>
                     </CardHeader>
 
