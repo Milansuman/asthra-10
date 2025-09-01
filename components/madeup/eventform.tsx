@@ -91,6 +91,7 @@ export const EventForm: React.FC<{
     onClose
 }) => {
         const [previewData, setPreviewData] = useState<EventEdit | null>(data);
+        const [uploadedImageUrl, setUploadedImageUrl] = useState<string>(data?.poster || '');
 
         const { mutateAsync: createEvent, isPending } =
             api.event.createEvent.useMutation({
@@ -168,6 +169,13 @@ export const EventForm: React.FC<{
 
             return () => subscription.unsubscribe();
         }, [form]);
+
+        // Update form poster field when uploaded image URL changes
+        useEffect(() => {
+            if (uploadedImageUrl) {
+                form.setValue('poster', uploadedImageUrl);
+            }
+        }, [uploadedImageUrl, form]);
 
         const onSubmit = async (values: EventEdit) => {
             console.log('Form submitted with values:', values);
@@ -348,7 +356,7 @@ export const EventForm: React.FC<{
                                                 <SelectGroup>
                                                     <SelectLabel>Type</SelectLabel>
                                                     {Object.keys(eventType)
-                                                        .filter((e) => e !== 'ASTHRA_PASS')
+                                                        .filter((e) => eventType[e])
                                                         .map((time) => (
                                                             <SelectItem key={time} value={time}>
                                                                 {time}
@@ -603,7 +611,17 @@ export const EventForm: React.FC<{
                             )}
                         />
 
-                        <UploadMediaInline />
+                        <UploadMediaInline
+                            value={uploadedImageUrl}
+                            onChange={(url: string) => {
+                                setUploadedImageUrl(url);
+                                field.onChange(url);
+                            }}
+                            onRemove={() => {
+                                setUploadedImageUrl('');
+                                field.onChange('');
+                            }}
+                        />
                     </div>
 
                     {/* Preview */}

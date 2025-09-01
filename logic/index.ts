@@ -60,8 +60,8 @@ export const endTime = {
 } as const; // + "NA" for other events
 
 export const eventType = {
-  ASTHRA_PASS: true,
-  ASTHRA_PASS_EVENT: true,
+  ASTHRA_PASS: false,
+  ASTHRA_PASS_EVENT: false,
   COMPETITION: true,
   WORKSHOP: true,
 } as const; // + "NA" for other events
