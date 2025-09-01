@@ -71,7 +71,7 @@ const LoginPage = () => {
     return (
         <div className="flex justify-center items-center h-screen ">
             <Plusbox className="p-2 max-w-2xl">
-                <Card className="bg-glass border-glass">
+                <Card className="bg- border-">
                     <CardHeader className="text-center">
                         <Image
                             src={"/asthra.svg"}
@@ -81,7 +81,7 @@ const LoginPage = () => {
                             className="mx-auto"
                         />
                         <CardTitle className="text-4xl font-bold leading-tight tracking-tight glow-text">
-                            Welcome to Asthra 9.0!
+                            Welcome to Asthra 10.0!
                         </CardTitle>
                     </CardHeader>
 
@@ -94,10 +94,10 @@ const LoginPage = () => {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full"
+                            className="w-full text-black"
                         />
                         <Button
-                            variant="glass"
+
                             size="lg"
                             onClick={handleEmailLogin}
                             className="bg-primary/80"
@@ -113,7 +113,7 @@ const LoginPage = () => {
                     </CardContent>
                     <CardFooter className="justify-center border-t relative before:-top-3 before:bg-white before:px-3 before:text-black before:content-['or'] before:absolute">
                         <Button
-                            variant="glass"
+
                             size="lg"
                             onClick={() =>
                                 signIn("google", { callbackUrl: "/profile" })

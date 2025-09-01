@@ -44,7 +44,7 @@ export default function FooterSection() {
 				</Column>
 				<Column align="right">
 					<Link href="https://asthra.sjcetpalai.ac.in">
-						<Img src={`${baseUrl}/images/asthra-glass.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
+						<Img src={`${baseUrl}/images/asthra-.png`} className="w-[120px] h-[50px] m-0 object-cover" alt="Asthra Logo" />
 					</Link>
 				</Column>
 			</Row>

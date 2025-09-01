@@ -44,11 +44,11 @@ function MainProfileContent({
                 <p className="text-2xl sm:text-3xl md:text-4xl font-bold">{sampleUser.name}</p>
                 <p className="text-lg sm:text-xl md:text-2xl break-words">{sampleUser.email}</p>
                 <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
-                    <Button variant={"glass"} size={"sm"}>
+                    <Button  size={"sm"}>
 
                         College: {sampleUser.college}
                     </Button>
-                    <Button variant={"glass"} size={"sm"}>
+                    <Button  size={"sm"}>
                         Department: {sampleUser.department}
                     </Button>
                 </div>
@@ -57,48 +57,48 @@ function MainProfileContent({
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                 <Button
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     400 Credits Remaining
                 </Button>
                 <Button
                     onClick={onEditProfile}
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     Edit Profile
                 </Button>
                 <Button
                     onClick={onViewPass}
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     View Pass
                 </Button>
                 <Button
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     Asthra Pass Unlocked
                 </Button>
                 <Button
                     onClick={onViewRegisteredEvents}
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     View Registered Events
                 </Button>
                 <Button
                     onClick={onShowTransactions}
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     Show Transactions
                 </Button>
                 <Button
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     My Events
                 </Button>
@@ -107,14 +107,14 @@ function MainProfileContent({
             {/* Bottom Buttons */}
             <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                 <Button
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     Generate Certificate
                 </Button>
                 <Button
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     Logout
                 </Button>
@@ -129,8 +129,8 @@ function EditProfileForm({ onBack }: { onBack: () => void }) {
         <div className="w-full">
             <Button
                 onClick={onBack}
-                variant="glass"
-                size="glass"
+
+                size=""
             >
                 &larr;{" "} Back
             </Button>
@@ -165,8 +165,8 @@ function EditProfileForm({ onBack }: { onBack: () => void }) {
                     className="p-2 rounded-md bg-white/80 text-black border-2 border-border"
                 />
                 <Button
-                    variant="glass"
-                    size="glass"
+
+                    size=""
                 >
                     Save
                 </Button>
@@ -181,8 +181,8 @@ function RegisteredEventsList({ onBack }: { onBack: () => void }) {
         <div className="w-full">
             <Button
                 onClick={onBack}
-                variant="glass"
-                size="glass"
+
+                size=""
             >
                 &larr;{" "} Back
             </Button>
@@ -205,8 +205,8 @@ function TransactionsList({ onBack }: { onBack: () => void }) {
         <div className="w-full">
             <Button
                 onClick={onBack}
-                variant="glass"
-                size="glass"
+
+                size=""
             >
                 &larr;{" "} Back
             </Button>
@@ -282,7 +282,7 @@ function ProfileClient({ session, user }: ProfileClientProps) {
 
     return (
         <div className="w-full min-h-screen p-6 grid grid-cols-1 md:grid-cols-2 gap-4 relative ambit">
-            <div className="z-20 max-w-2xl max-h-screen profile container flex flex-col items-start gap-8 border border-glass bg-glass p-8 overflow-y-auto">
+            <div className="z-20 max-w-2xl max-h-screen profile container flex flex-col items-start gap-8 border border- bg- p-8 overflow-y-auto">
                 {content}
             </div>
             <div className="min-w-4xl hidden md:block z-1">

@@ -66,7 +66,7 @@ export function FancyMultiSelect<T extends Framework>({
       onKeyDown={handleKeyDown}
       className="overflow-visible"
     >
-      <div className="group rounded-none bg-glass border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      <div className="group rounded-none bg- border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         <div className="flex flex-wrap gap-1">
           {selected.map((d) => {
             return (
@@ -99,14 +99,14 @@ export function FancyMultiSelect<T extends Framework>({
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
             placeholder={placeholder}
-            className="ml-2 flex-1 bg-transparent outline-none placeholder:text-glass"
+            className="ml-2 flex-1 bg-transparent outline-none placeholder:text-"
           />
         </div>
       </div>
       <div className="relative mt-2">
         <CommandList>
           {open && selectables.length > 0 ? (
-            <div className="absolute top-0 z-10 w-full rounded-none border bg-glass text-glass shadow-md outline-none animate-in">
+            <div className="absolute top-0 z-10 w-full rounded-none border bg- text- shadow-md outline-none animate-in">
               <CommandGroup className="h-full overflow-auto">
                 {selectables.map((d) => {
                   return (

@@ -25,7 +25,7 @@ export const AsthraPaymentButton = () => {
 
     if (status === "unauthenticated") {
         return (
-            <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"}>
+            <Button link={"/api/auth/signin"}  >
                 <ButtonText keyType={"Login to Register"} />
             </Button>
         );
@@ -33,14 +33,14 @@ export const AsthraPaymentButton = () => {
 
     if (!valid) {
         return (
-            <Button link={"/profile"} size={"glass"} variant={"glass"}>
+            <Button link={"/profile"}  >
                 <ButtonText keyType={"Complete your Profile Data before Registration"} />
             </Button>
         );
     }
 
     return (
-        <Button link={"/asthra"} size={"glass"} variant={"glass"}>
+        <Button link={"/asthra"}  >
             <ButtonText keyType={"Buy ASTHRA PASS"} />
         </Button>
     );
@@ -104,14 +104,14 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     const { id, eventType, eventStatus, registrationType, regLimit, regCount, secret } = event
 
     if (id in customEvents) {
-        return (<Button link={customEvents[id as keyof typeof customEvents]} size={"glass"} variant={"glass"}>
+        return (<Button link={customEvents[id as keyof typeof customEvents]}  >
             Register Now
         </Button>)
     }
 
     if (status === "unauthenticated") {
         return (
-            <Button link={"/api/auth/signin"} size={"glass"} variant={"glass"}>
+            <Button link={"/api/auth/signin"}  >
                 <ButtonText keyType={"Login to Register"} />
             </Button>
         );
@@ -119,7 +119,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (!valid) {
         return (
-            <Button link={"/profile"} size={"glass"} variant={"glass"}>
+            <Button link={"/profile"}  >
                 <ButtonText keyType={"Complete your Profile Data before Registration"} />
             </Button>
         );
@@ -131,7 +131,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
         return (<>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button size={"glass"} variant={"glass"}>
+                    <Button  >
                         Show Message for Participants
                     </Button>
                 </DialogTrigger>
@@ -146,7 +146,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
             </Dialog>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button size={"glass"} variant={"glass"}>
+                    <Button  >
                         Open QR <QrCode />
                     </Button>
                 </DialogTrigger>
@@ -171,7 +171,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
                 </DialogContent>
             </Dialog>
 
-            <Button disabled size={"glass"} variant={"glass"}>
+            <Button disabled  >
                 <ButtonText keyType={"Purchase Successfull"} />
             </Button>
         </>
@@ -180,7 +180,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (eventStatus === "cancel") {
         return (
-            <Button disabled size={"glass"} variant={"glass"}>
+            <Button disabled  >
                 <ButtonText keyType={"Registration Closed"} />
             </Button>
         );
@@ -188,7 +188,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (registrationType === "spot") {
         return (
-            <Button disabled size={"glass"} variant={"glass"}>
+            <Button disabled  >
                 <ButtonText keyType={"Only for Spot Registration"} />
             </Button>
         );
@@ -197,7 +197,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (regCount >= regLimit) {
         return (
-            <Button disabled size={"glass"} variant={"glass"}>
+            <Button disabled  >
                 <ButtonText keyType={"Sorry, Sold Out"} />
             </Button>
         );
@@ -205,7 +205,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
 
     if (eventType === "ASTHRA_PASS") {
         return (
-            <Button link={`/payment/init?eventId=${ASTHRA.id}`} size={"glass"} variant={"glass"}>
+            <Button link={`/payment/init?eventId=${ASTHRA.id}`}  >
                 <ButtonText keyType={"Buy ASTHRA PASS"} />
             </Button>
         );
@@ -214,7 +214,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     if (eventType === "ASTHRA_PASS_EVENT") {
         if (!data?.user.asthraPass) {
             return (
-                <Button link={`/event/${ASTHRA.id}`} size={"glass"} variant={"glass"}>
+                <Button link={`/event/${ASTHRA.id}`}  >
                     <ButtonText keyType={"Buy ASTHRA PASS to Unlock"} />
                 </Button>
             );
@@ -223,7 +223,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
         return (
             <Button onClick={() => mutateAsync({
                 id,
-            })} size={"glass"} variant={"glass"}>
+            })}  >
                 {isPending ?
                     <ButtonText keyType={"Loading"} />
                     : isSuccess ? <ButtonText keyType={"Purchase Successfull"} />
@@ -233,7 +233,7 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
     }
 
     return (
-        <Button link={`/payment/init?eventId=${id}`} size={"glass"} variant={"glass"}>
+        <Button link={`/payment/init?eventId=${id}`}  >
             Purchase Ticket
         </Button>
     );

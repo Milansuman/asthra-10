@@ -96,7 +96,7 @@ export function SuggestionsInput({
       />
 
       {isVisible && filteredSuggestions.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-glass border border-neutral-300 max-h-60 overflow-auto">
+        <div className="absolute z-50 w-full mt-1 bg- border border-neutral-300 max-h-60 overflow-auto">
           <div className="py-1">
             {filteredSuggestions.map((suggestion, index) => (
               <button

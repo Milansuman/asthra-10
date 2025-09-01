@@ -65,9 +65,9 @@ export default function ProfilePage() {
           />
           {!user.asthraPass && (
             <Button
-              variant={"glass"}
-              size={"glass"}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]"
+
+
+              className="bg-black p-3 absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]"
               link={`/event/${ASTHRA.id}`}
             >
               <ButtonText keyType={"Buy ASTHRA PASS"} />
@@ -103,20 +103,20 @@ export function ProfilePageCard({ user, editable = false }: { user: UserZodType,
       </CardHeader>
       <CardContent className="py-4 md:py-0">
         <div className="flex-row gap-2 flex-wrap flex">
-          <Button size={"thin"} variant="glass">
+          <Button  >
             {user.role}
           </Button>
-          <Button size={"thin"} variant="glass">
+          <Button  >
             {allDepartments[user.department as keyof typeof allDepartments]}
           </Button>
-          <Button size={"thin"} variant="glass">
+          <Button  >
             {user.year}
           </Button>
-          <Button size={"thin"} variant="glass">
+          <Button  >
             {user.college}
           </Button>
           {user.KTU && (
-            <Button size={"thin"} variant="glass">
+            <Button  >
               {user.KTU}
             </Button>
           )}
@@ -130,7 +130,7 @@ export function ProfilePageCard({ user, editable = false }: { user: UserZodType,
             Before generating certificate, make sure to use your correct name
             & details.
           </AlertDescription>
-          <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
+          <div className="bg--top absolute top-0 left-0 right-0 h-full" />
         </Alert>
       </CardContent>}
       {user.number === null && editable && (
@@ -141,18 +141,18 @@ export function ProfilePageCard({ user, editable = false }: { user: UserZodType,
             <AlertDescription>
               And get instant updates on Asthra.
             </AlertDescription>
-            <div className="bg-glass-top absolute top-0 left-0 right-0 h-full" />
+            <div className="bg--top absolute top-0 left-0 right-0 h-full" />
           </Alert>
         </CardContent>
       )}
       <CardContent className="flex justify-start flex-row flex-wrap gap-4">
         {user.asthraPass && (
           <>
-            <div className="relative bg-glass py-2 px-4 border-glass border">
+            <div className="relative bg- py-2 px-4 border- border">
               <p className="opacity-70 text-sm font-normal">Credits</p>
               {user.asthraCredit}
             </div>
-            <div className="relative bg-glass py-2 px-4 border-glass border">
+            <div className="relative bg- py-2 px-4 border- border">
               <p className="opacity-70 text-sm font-normal">Pass</p>
               ASTHRA
             </div>
@@ -160,7 +160,7 @@ export function ProfilePageCard({ user, editable = false }: { user: UserZodType,
         )}
         <Dialog>
           <DialogTrigger asChild>
-            <Button size={"glass"} variant="glass">
+            <Button  >
               Profile QR <QrCodeIcon />
             </Button>
           </DialogTrigger>
@@ -184,7 +184,7 @@ export function ProfilePageCard({ user, editable = false }: { user: UserZodType,
         {/* {user.asthraPass && (
             <Dialog>
               <DialogTrigger asChild>
-                <Button size={"glass"} variant="glass">
+                <Button  >
                   Show Pass <TicketIcon />
                 </Button>
               </DialogTrigger>
@@ -302,7 +302,7 @@ const ListOfEvents = ({ userName, userId }: { userName: string, userId: string }
                     <TableCell className="text-right">
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size={"thin"} variant="glass">
+                          <Button  >
                             Show Certificate <TicketIcon />
                           </Button>
                         </DialogTrigger>
@@ -333,8 +333,8 @@ const ListOfEvents = ({ userName, userId }: { userName: string, userId: string }
                     <TableCell className="text-right">
                       <Button
                         link={`/event/${event.eventId}`}
-                        size={"thin"}
-                        variant="glass"
+
+
                       >
                         Show Event <ChevronRight />
                       </Button>
