@@ -120,7 +120,7 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                             {event.eventType === "ASTHRA_PASS_EVENT" ? " Required" : ""}
                         </div>
 
-                        {event.eventType === "ASTHRA_PASS" && (
+                        {/* {event.eventType === "ASTHRA_PASS" && (
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
@@ -135,7 +135,7 @@ const EventClient = ({ event, shortUrl }: { event: EventZodType, shortUrl: strin
                                 </Tooltip>
                             </TooltipProvider>
 
-                        )}
+                        )} */}
 
                         {event.eventType !== "ASTHRA_PASS_EVENT" && (<div className='lowercase relative bg- py-2 px-3 border- border'>
                             <p className='opacity-70 text-sm font-normal capitalize'>KTU Activity Points</p>

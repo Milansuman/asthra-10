@@ -58,23 +58,6 @@ export default function ProfilePage() {
 
     <main className="flex flex-col md:flex-row gap-6 justify-start p-6 min-h-screen ambit relative">
       <ProfilePageCard editable user={user} />
-      <div className="flex-[1_auto] flex flex-col gap-6 items-center justify-center relative overflow-hidden">
-        <div className="group">
-          <ModelViewer
-            className={`group-hover:blur-0 transition-all ${user.asthraPass ? "" : "blur"}`}
-          />
-          {!user.asthraPass && (
-            <Button
-
-
-              className="bg-black p-3 absolute top-1/2 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px]"
-              link={`/event/${ASTHRA.id}`}
-            >
-              <ButtonText keyType={"Buy ASTHRA PASS"} />
-            </Button>
-          )}
-        </div>
-      </div>
     </main>
   )
 }
@@ -234,9 +217,6 @@ export function ProfilePageCard({ user, editable = false }: { user: UserZodType,
           <DialogContent className="h-auto">
             <DialogHeader>
               <DialogTitle>Edit your Profile</DialogTitle>
-              <DialogDescription>
-                This is required before purchasing Asthra Pass.
-              </DialogDescription>
             </DialogHeader>
 
             <ProfileEdit />

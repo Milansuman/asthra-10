@@ -38,12 +38,6 @@ export const AsthraPaymentButton = () => {
             </Button>
         );
     }
-
-    return (
-        <Button link={"/asthra"}  >
-            <ButtonText keyType={"Buy ASTHRA PASS"} />
-        </Button>
-    );
 };
 
 import { ASTHRA } from "@/logic";
@@ -203,34 +197,34 @@ export const PaymentButton = ({ event }: { event: EventZodType }) => {
         );
     }
 
-    if (eventType === "ASTHRA_PASS") {
-        return (
-            <Button link={`/payment/init?eventId=${ASTHRA.id}`}  >
-                <ButtonText keyType={"Buy ASTHRA PASS"} />
-            </Button>
-        );
-    }
+    // if (eventType === "ASTHRA_PASS") {
+    //     return (
+    //         <Button link={`/payment/init?eventId=${ASTHRA.id}`}  >
+    //             <ButtonText keyType={"Buy ASTHRA PASS"} />
+    //         </Button>
+    //     );
+    // }
 
-    if (eventType === "ASTHRA_PASS_EVENT") {
-        if (!data?.user.asthraPass) {
-            return (
-                <Button link={`/event/${ASTHRA.id}`}  >
-                    <ButtonText keyType={"Buy ASTHRA PASS to Unlock"} />
-                </Button>
-            );
-        }
+    // if (eventType === "ASTHRA_PASS_EVENT") {
+    //     if (!data?.user.asthraPass) {
+    //         return (
+    //             <Button link={`/event/${ASTHRA.id}`}  >
+    //                 <ButtonText keyType={"Buy ASTHRA PASS to Unlock"} />
+    //             </Button>
+    //         );
+    //     }
 
-        return (
-            <Button onClick={() => mutateAsync({
-                id,
-            })}  >
-                {isPending ?
-                    <ButtonText keyType={"Loading"} />
-                    : isSuccess ? <ButtonText keyType={"Purchase Successfull"} />
-                        : <ButtonText keyType={"Register Now"} />}
-            </Button>
-        );
-    }
+    //     return (
+    //         <Button onClick={() => mutateAsync({
+    //             id,
+    //         })}  >
+    //             {isPending ?
+    //                 <ButtonText keyType={"Loading"} />
+    //                 : isSuccess ? <ButtonText keyType={"Purchase Successfull"} />
+    //                     : <ButtonText keyType={"Register Now"} />}
+    //         </Button>
+    //     );
+    // }
 
     return (
         <Button link={`/payment/init?eventId=${id}`}  >
