@@ -38,10 +38,10 @@ export default async function Page({
           <CardFooter>
             <Button
               link={`https://api.whatsapp.com/send?phone=+919846101882&text=${encodeURIComponent(
-                `Hi Team, 
+                `Hi Team,
                    I recently attempted to book my pass for Asthra 2025, but some error occured. Could you please check this for me at the earliest? I’d love to be a part of the event. Looking forward to your support. Thanks!`
               )}`}
-              variant="glass"
+
             >
               Report Issue
             </Button>
@@ -100,7 +100,7 @@ export default async function Page({
             </div>
           </CardContent>
           <CardFooter>
-            <Button link="/profile" variant="glass">
+            <Button link="/profile" >
               Back to Profile
             </Button>
             <ReportButton data={data} />

@@ -47,11 +47,22 @@ export default function Page() {
   const [open, setOpen] = useState(false)
   const { data: transactions, mutateAsync, error } = api.management.initiateStatic.useMutation({
     onSuccess: () => {
-      toast('Payment Initiated')
+      toast.success('Payment Initiated', {
+        style: {
+          background: '#10b981',
+          color: 'white',
+          border: '1px solid #059669',
+        },
+      })
     },
     onError: (error) => {
       toast.error(`Payment Init Failed - ${error.data?.code}`, {
-        description: error.message
+        description: error.message,
+        style: {
+          background: '#ef4444',
+          color: 'white',
+          border: '1px solid #dc2626',
+        },
       })
     }
   })
@@ -150,7 +161,13 @@ export default function Page() {
 const DialogCard = ({ transaction }: { transaction: TransactionZodType }) => {
   const { isPending, mutateAsync, data } = api.sjcetPay.forceSuccessPurchase.useMutation({
     onSuccess: () => {
-      toast('Payment Success')
+      toast.success('Payment Success', {
+        style: {
+          background: '#10b981',
+          color: 'white',
+          border: '1px solid #059669',
+        },
+      })
     },
     onError: (error) => {
       toast.error(`Payment Failed - ${error.data?.code}`, {

@@ -144,7 +144,7 @@ export function ProfileEdit() {
                 />
               </FormControl>
               <FormMessage />
-              <FormDescription className="text-neutral-200">
+              <FormDescription className="text-neutral-400">
                 Enter your college or school even if it doesn't appear in the suggestions.
               </FormDescription>
             </FormItem>

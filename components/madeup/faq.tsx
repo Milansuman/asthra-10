@@ -10,8 +10,8 @@ type FAQItems = FAQItem[];
 
 export const faqItems: FAQItems = [
     {
-        title: "When is Asthra 9.0?",
-        content: "Asthra 9.0 will be held on March 6th and 7th, 2025, from 9:00 AM to 4:00 PM.",
+        title: "When is Asthra 10.0?",
+        content: "Asthra 10.0 will be held on March 6th and 7th, 2025, from 9:00 AM to 4:00 PM.",
     },
     {
         title: "What is the Asthra Pass?",
@@ -72,7 +72,7 @@ export const faqItems: FAQItems = [
 
 export function FAQ() {
     return (
-        <div className="w-full max-w-6xl mx-auto p-8 my-8 bg-glass rounded-2xl border border-glass">
+        <div className="w-full max-w-6xl mx-auto p-8 my-8 bg- rounded-2xl border border-">
             <div className="flex flex-col md:flex-row gap-12 items-start">
                 {/* Left Section */}
                 <div className="flex-1 space-y-4">

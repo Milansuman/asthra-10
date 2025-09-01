@@ -12,10 +12,6 @@ const Items: DockItemData[] = [
     label: "Home",
   },
   {
-    link: "/asthra",
-    label: "Asthra Pass",
-  },
-  {
     link: "/events",
     label: "All Events",
   },
@@ -35,7 +31,7 @@ export default function RootLayout({
     <>
       <div className="fixed top-0 left-0 h-screen bg-white w-screen -z-10 flex justify-center items-center">
         {/* <video
-            src={'/glass.mp4'}
+            src={'/.mp4'}
             autoPlay={true}
             loop={true}
             muted={true}

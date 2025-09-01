@@ -163,62 +163,79 @@ export function EventPage({
   }
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col sm:flex-row gap-4 p-6 border-b border-slate-200 flex-shrink-0">
-        <Select
-          onValueChange={(value) => handleSelect(value)}
-          defaultValue={filterDepartment}
-        >
-          <SelectTrigger className="w-full sm:w-[280px] bg-white border-slate-300">
-            <SelectValue placeholder="Filter by Department" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Departments</SelectItem>
-            {Object.entries(allDepartments)
-              .map(([dep, full]) => (
-                <SelectItem key={dep} value={dep}>
-                  {full}
-                </SelectItem>
-              ))}
-          </SelectContent>
-        </Select>
+    <div className="w-full min-h-screen p-6 flex flex-col gap-6">
+      {dashboard && (
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Event Management</h1>
+          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+            Manage your events and view participant lists. Click the "Participants" button on any event card to see registered users and manage attendance.
+          </p>
+        </div>
+      )}
 
-        {isMobileDevice() ? (
-          <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
-            <SelectTrigger className="w-full sm:w-[280px] bg-white border-slate-300">
-              <SelectValue placeholder="Filter by Category" />
+      {/* Filters Section */}
+      <div className="w-full max-w-4xl mx-auto space-y-4">
+        {/* Department Filter */}
+        <div className="flex flex-col items-center gap-2">
+          <label className="text-sm font-medium text-gray-700">Filter by Department</label>
+          <Select
+            onValueChange={(value) => handleSelect(value)}
+            defaultValue={filterDepartment}
+          >
+            <SelectTrigger className="w-80">
+              <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
-              {categories.map((category) => (
-                <SelectItem value={category} key={category}>
-                  {category.replaceAll('_', ' ').split(' ').map(word =>
-                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                  ).join(' ')}
-                </SelectItem>
-              ))}
+              <SelectItem value="all">All Departments</SelectItem>
+              {Object.entries(allDepartments)
+                .map(([dep, full]) => (
+                  <SelectItem key={dep} value={dep}>
+                    {full}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
-        ) : (
-          <div className="flex flex-wrap gap-2 flex-1">
-            {categories.map((category) => (
-              <motion.button
-                key={category}
-                onClick={() => handleFilter(category)}
-                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === category
-                  ? 'bg-slate-900 text-white shadow-md'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {category.replaceAll('_', ' ')}
-              </motion.button>
-            ))}
-          </div>
-        )}
+        </div>
+
+        {/* Category Filter */}
+        <div className="flex flex-col items-center gap-2">
+          <label className="text-sm font-medium text-gray-700">Filter by Category</label>
+          {isMobileDevice() ? (
+            <Select onValueChange={(selectedCategory) => handleFilter(selectedCategory)}>
+              <SelectTrigger className="w-80">
+                <SelectValue placeholder="All Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem value={category} key={category}>
+                    {category.replaceAll('_', ' ').split(' ').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                    ).join(' ')}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-2 max-w-4xl">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleFilter(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${filter === category
+                    ? 'bg-primary text-primary-foreground shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  {category.replaceAll('_', ' ')}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="flex-1 overflow-auto p-6">
+      {/* Events Grid */}
+      <div className="w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {events
             .filter(
@@ -233,7 +250,14 @@ export function EventPage({
                 !isUploaded(event)
             )
             .map((event) => (
-              <motion.div layout key={event.id} className="w-full">
+              <motion.div
+                layout
+                key={event.id}
+                className="w-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 {dashboard ? (
                   <EventCard event={event} dashboard={dashboard} />
                 ) : (
@@ -248,6 +272,7 @@ export function EventPage({
     </div>
   );
 }
+
 function EventCard({
   event,
   dashboard,
@@ -277,7 +302,7 @@ function EventCard({
 
           <div className="flex flex-col space-y-2 flex-1">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-slate-600">
+              {/* <span className="text-sm font-medium text-slate-600">
                 {!dashboard
                   ? event.regCount < event.regLimit
                     ? event.eventType === 'ASTHRA_PASS_EVENT'
@@ -287,12 +312,11 @@ function EventCard({
                         : `₹${event.amount}`
                     : 'Sold Out'
                   : `${event.regCount}/${event.regLimit} Registered`}
-              </span>
+              </span> */}
               <span className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">
                 {event.department}
               </span>
             </div>
-
             <p className="text-sm text-slate-600">{getTimeUtils(event.dateTimeStarts)}</p>
           </div>
 
@@ -332,23 +356,29 @@ function EventCard({
                     <LinkIcon className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="max-w-md">
+                <AlertDialogContent className="max-w-md bg-white text-slate-900 border border-slate-200">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Share Event</AlertDialogTitle>
+                    <AlertDialogTitle className="text-xl font-semibold text-slate-900">Share Event</AlertDialogTitle>
                   </AlertDialogHeader>
-                  <div className="flex gap-2">
-                    <div className="flex-1 p-3 border rounded-lg bg-slate-50 text-sm font-mono">
-                      {shortUrl ?? "Loading..."}
+                  <div className="space-y-4">
+                    <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                      <p className="text-sm font-medium text-slate-700 mb-2">Short URL:</p>
+                      <div className="flex gap-2">
+                        <div className="flex-1 p-2 bg-white border border-slate-300 rounded text-sm font-mono text-slate-800">
+                          {shortUrl ?? "Loading..."}
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={async () => {
+                            await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
+                          }}
+                          disabled={!shortUrl}
+                        >
+                          <Copy className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={async () => {
-                        await navigator.clipboard.writeText(shortUrl ?? "https://example.com")
-                      }}
-                    >
-                      <Copy className="w-4 h-4" />
-                    </Button>
                   </div>
                   <AlertDialogFooter>
                     <AlertDialogCancel asChild>
