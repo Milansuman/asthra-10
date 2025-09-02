@@ -143,8 +143,8 @@ export default function Users() {
           )}
         </div>
 
-        <div className="flex-1 overflow-hidden">
-          <div className="h-full overflow-auto">
+        <div className="w-full flex overflow-hidden">
+          <div className="h-full w-full overflow-auto">
             <UsersTable columns={columns} data={users as UserZodType[]} isPending={isPending} />
           </div>
         </div>

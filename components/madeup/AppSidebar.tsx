@@ -54,11 +54,11 @@ const sidebarItems: SidebarItemData[] = [
     icon: <Calendar size={20} />,
     label: "Events",
     children: [
-      {
-        icon: <BarChart3 size={16} />,
-        label: "All Events",
-        link: "/dashboard/events",
-      },
+      // {
+      //   icon: <BarChart3 size={16} />,
+      //   label: "All Events",
+      //   link: "/dashboard/events",
+      // },
       {
         icon: <Edit size={16} />,
         label: "Edit Events",
