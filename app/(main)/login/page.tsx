@@ -97,7 +97,7 @@ const LoginPage = () => {
         <div className="hidden md:flex items-center w-full max-w-6xl">
           {/* Left Logo */}
           <div className="px-6 py-2 bg-transparent border border-black rounded-full font-black tracking-widest text-black">
-            <Image src="/assets/asthra.svg" alt="asthra" width={60} height={10} className="relative" />
+            <Image src="/assets/ASTHRA.svg" alt="asthra" width={60} height={10} className="relative" />
           </div>
 
           {/* Connector Line */}
