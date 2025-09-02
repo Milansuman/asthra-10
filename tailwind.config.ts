@@ -20,6 +20,15 @@ const config = {
 			}
 		},
 		extend: {
+			keyframes: {
+				moveLoop: {
+					"0%, 100%": { transform: "translateX(0)" },
+					"50%": { transform: "translateX(200px)" },
+				},
+			},
+			animation: {
+				moveLoop: "moveLoop 3s ease-in-out infinite",
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

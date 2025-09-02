@@ -23,10 +23,10 @@ export default function Page() {
 
     <div className="fixed inset-0 bg-black">
 
-      <Header/>
+      <Header />
 
 
-      {/* <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
+      <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
         <FluidGlass mobileSize={100} desktopSize={290} />
       </div>
 
@@ -36,7 +36,7 @@ export default function Page() {
 
       <div className="absolute top-[18%] md:top-[40%] left-[60%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
         <FluidGlass mobileSize={70} desktopSize={90} />
-      </div> */}
+      </div>s
       {/* Left vertical navbar */}
       <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
@@ -101,7 +101,7 @@ export default function Page() {
             </div>
           </section>
 
-         <section id='About' className=" relative p-10 h-[100vh] bg-white rounded-[2rem] overflow-hidden ">
+          <section id='About' className=" relative p-10 h-[100vh] bg-white rounded-[2rem] overflow-hidden ">
             <div className="flex flex-col space-y-12 w-full  mx-auto ">
               {/* About Title */}
               <div className="w-full">
