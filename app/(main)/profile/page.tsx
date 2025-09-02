@@ -44,6 +44,7 @@ import { CertificateRender } from "./_components/certificate";
 import { ProfileEdit } from "./_components/edit";
 import FluidGlass from "@/components/madeup/FluidGlass";
 import { NoiseTexture } from "@/components/noise-texture";
+import Header from "./_components/header";
 
 export default function ProfilePage() {
   const { data } = useSession();
@@ -140,60 +141,8 @@ export default function ProfilePage() {
       </div>
 
       {/* Navigation bar */}
-      <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] h-20 mt-4 bg-transparent flex items-center justify-end md:justify-center z-[9999]">
-        <div className="hidden md:flex items-center w-full max-w-6xl">
-          {/* Left Logo */}
-          <div className="px-6 py-2 bg-transparent border border-black rounded-full font-black tracking-widest text-black">
-            <Image src="/assets/asthra.svg" alt="asthra" width={60} height={10} className="relative" />
-          </div>
+      <Header/>
 
-          {/* Connector Line */}
-          <div className="flex items-center -ml-px">
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-          </div>
-
-          {/* Center Nav Links */}
-          <div className="flex gap-12 justify-center px-8 py-3 bg-[#0B91A6] text-white rounded-full -ml-px -mr-px flex-1">
-            <a href="/" className="hover:underline">Home</a>
-            {/* <a href="/events" className="hover:underline">Events</a> */}
-            <a href="/profile" className="hover:underline font-bold">Profile</a>
-            <a href="/dashboard" className="hover:underline">Dashboard</a>
-          </div>
-
-          {/* Connector Line */}
-          <div className="flex items-center -ml-px">
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-          </div>
-
-          {/* User Actions */}
-          <div className="px-6 py-2 bg-black text-white rounded-full font-semibold cursor-pointer -ml-px">
-            Profile
-          </div>
-        </div>
-        <div className="flex md:hidden px-6">
-          <span className="font-extrabold text-2xl text-white">Profile</span>
-        </div>
-      </nav>
       <div className="w-screen h-screen fixed pointer-events-none bg-blend-overlay z-40">
         <NoiseTexture />
       </div>
