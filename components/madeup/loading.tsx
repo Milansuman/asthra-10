@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function AsthraLoader() {
@@ -28,7 +28,7 @@ export function AsthraLoader() {
     fadeOut: { opacity: 0, transition: { duration: 1.2 } }
   };
 
-  const pathVariants = {
+  const pathVariants: Variants = {
     initial: { pathLength: 0, fill: "rgba(255, 255, 255, 0)" },
     stroke: { pathLength: 1, transition: { duration: 1.5, ease: "easeInOut" } },
     fill: {
@@ -50,14 +50,15 @@ export function AsthraLoader() {
           if (animationPhase === "fadeOut") setAnimationComplete(true);
         }}
       >
-        <motion.svg
-          width="360"
-          height="172"
-          viewBox="0 0 391 172"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clip-path="url(#clip0_29_79)">
+      <motion.svg
+        width="360"
+        height="172"
+        viewBox="0 0 391 172"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role={"img"}
+      >
+          <g clipPath="url(#clip0_29_79)">
             <motion.path
               d="M169.413 26.0866C186.155 20.6877 194.671 11.9123 195.5 0.0751953V141.517H192.334V26.0866H169.413Z"
               stroke="white"
