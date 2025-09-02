@@ -28,6 +28,7 @@ import { api } from '@/trpc/vanila';
 import { cache } from '@/server/cache';
 import { getTimeUtils } from '@/logic';
 import MailAPI from './mail';
+import { TRPCError } from '@trpc/server';
 
 export const eventRouter = createTRPCRouter({
   /**
@@ -37,6 +38,13 @@ export const eventRouter = createTRPCRouter({
     .input(eventEditAccessZod.optional())
     .mutation(async ({ ctx, input }) => {
       eventRouteRules(ctx.role);
+
+      if(ctx.role === "STUDENT_COORDINATOR" && input?.eventStatus !== "uploaded"){
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Student coordinators cannot approve events"
+        })
+      }
 
       await ctx.db.insert(eventsTable).values({
         // department: ctx.user.department ?? 'NA',
@@ -60,6 +68,13 @@ export const eventRouter = createTRPCRouter({
     .input(eventEditAccessZod.merge(z.object({ id: z.string() })))
     .mutation(async ({ ctx, input }) => {
       const newInput = input;
+
+      if(ctx.role === "STUDENT_COORDINATOR" && newInput.eventStatus !== "uploaded"){
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Student coordinators cannot approve events"
+        })
+      }
 
       if (ctx.user.role === 'MANAGEMENT') {
         return await ctx.db

@@ -203,7 +203,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
                 </Card>
               </AlertDialogContent>
             </AlertDialog>
-            <AlertDialog onOpenChange={(open) => {
+            {/* <AlertDialog onOpenChange={(open) => {
               if (open && data.name !== null && shortUrl === null) {
                 shortenUrl({
                   name: data.name.replaceAll(" ", "_"),
@@ -252,7 +252,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
                   </AlertDialogCancel>
                 </AlertDialogFooter>
               </AlertDialogContent>
-            </AlertDialog>
+            </AlertDialog> */}
           </div>
 
           <AlertDialog>
