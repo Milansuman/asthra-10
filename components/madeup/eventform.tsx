@@ -48,7 +48,7 @@ import {
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
 import UploadMediaInline from './upload-inline';
-import { TiptapEditor } from './tiptap-editor';
+import { Textarea } from '@/components/ui/textarea';
 
 
 const FormSchema = eventZod
@@ -152,7 +152,7 @@ export const EventForm: React.FC<{
                 dateTimeStarts: new Date(),
                 regLimit: 0,
                 amount: 0,
-                eventStatus: 'pending',
+                eventStatus: 'uploaded',
                 eventType: 'WORKSHOP',
                 department: 'NA',
                 registrationType: 'both',
@@ -271,10 +271,11 @@ export const EventForm: React.FC<{
                                 <FormItem>
                                     <FormLabel className="text-slate-700">Description</FormLabel>
                                     <FormControl>
-                                        <TiptapEditor
+                                        <Textarea
                                             value={field.value ?? ''}
-                                            onChange={field.onChange}
+                                            onChange={(e) => field.onChange(e.target.value)}
                                             placeholder="Enter event description..."
+                                            className="min-h-[120px] resize-vertical"
                                         />
                                     </FormControl>
                                     <FormDescription className="text-slate-600">
@@ -292,10 +293,11 @@ export const EventForm: React.FC<{
                                 <FormItem>
                                     <FormLabel className="text-slate-700">Secret Message</FormLabel>
                                     <FormControl>
-                                        <TiptapEditor
+                                        <Textarea
                                             value={field.value ?? ''}
-                                            onChange={field.onChange}
+                                            onChange={(e) => field.onChange(e.target.value)}
                                             placeholder="Enter secret message for registered users..."
+                                            className="min-h-[120px] resize-vertical"
                                         />
                                     </FormControl>
                                     <FormDescription className="text-slate-600">
@@ -615,17 +617,17 @@ export const EventForm: React.FC<{
                             value={uploadedImageUrl}
                             onChange={(url: string) => {
                                 setUploadedImageUrl(url);
-                                field.onChange(url);
+                                form.setValue('poster', url);
                             }}
                             onRemove={() => {
                                 setUploadedImageUrl('');
-                                field.onChange('');
+                                form.setValue('poster', '');
                             }}
                         />
                     </div>
 
                     {/* Preview */}
-                    {previewData && (
+                    {/*{previewData && (
                         <div className="space-y-4">
                             <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
                                 Preview
@@ -639,7 +641,7 @@ export const EventForm: React.FC<{
                             </div>
                             <AsthraCardPreview key={JSON.stringify(previewData)} data={previewData} />
                         </div>
-                    )}
+                    )}*/}
 
                     {/* Form Actions */}
                     <div className="flex justify-end gap-4 pt-6 border-t border-slate-200">

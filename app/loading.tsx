@@ -7,5 +7,4 @@ const Loading = () => {
         </main>
     );
 }
-
 export default Loading;

@@ -302,7 +302,7 @@ function EventCard({
 
           <div className="flex flex-col space-y-2 flex-1">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-slate-600">
+              {/* <span className="text-sm font-medium text-slate-600">
                 {!dashboard
                   ? event.regCount < event.regLimit
                     ? event.eventType === 'ASTHRA_PASS_EVENT'
@@ -312,7 +312,7 @@ function EventCard({
                         : `₹${event.amount}`
                     : 'Sold Out'
                   : `${event.regCount}/${event.regLimit} Registered`}
-              </span>
+              </span> */}
               <span className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">
                 {event.department}
               </span>

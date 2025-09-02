@@ -59,13 +59,13 @@ export function Overview() {
   const totalTransactions = (asthra?.totalTransactions[0]?.value ?? 0) + (events?.totalTransactions[0]?.value ?? 0);
 
   const overviewCards = [
-    {
-      title: "Total Asthra Pass",
-      value: totalAsthraPass,
-      icon: Users,
-      description: "Students with Asthra Pass",
-      color: "bg-blue-500"
-    },
+    // {
+    //   title: "Total Asthra Pass",
+    //   value: totalAsthraPass,
+    //   icon: Users,
+    //   description: "Students with Asthra Pass",
+    //   color: "bg-blue-500"
+    // },
     {
       title: "Asthra Attendance",
       value: totalAsthraAttended,
@@ -98,7 +98,7 @@ export function Overview() {
       </div>
 
       {/* Overview Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="flex flex-row flex-wrap justify-center gap-2">
         {overviewCards.map((card, index) => (
           <Card key={index} className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <CardContent className="p-8">

@@ -39,7 +39,7 @@ export default function Page() {
     return (
         <div className="container min-h-screen py-8">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold mb-2">Event Attendance Selection</h1>
+                <h1 className="text-3xl font-bold mb-2 text-foreground">Event Attendance Selection</h1>
                 <p className="text-muted-foreground">
                     Choose an event to take attendance for. Select the event where students will be participating.
                 </p>

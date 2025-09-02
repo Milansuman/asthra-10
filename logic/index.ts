@@ -161,5 +161,5 @@ export const ASTHRA = {
   credit: number;
 };
 
-// next year will be 10
-export const currentAsthraCount = 9;
+// next year will be 11
+export const currentAsthraCount = 10;

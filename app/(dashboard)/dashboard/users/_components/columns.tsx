@@ -49,76 +49,86 @@ export const columns: ColumnDef<z.infer<typeof userZod>>[] = [
   {
     header: "Name",
     accessorKey: "name",
+    size: 200,
   },
   {
     header: "Email",
-    accessorKey: "email"
+    accessorKey: "email",
+    size: 250,
   },
   {
     header: "Phone",
-    accessorKey: "number"
+    accessorKey: "number",
+    size: 120,
   },
-  {
-    header: "College",
-    accessorKey: "college"
-  },
+  // {
+  //   header: "College",
+  //   accessorKey: "college",
+  //   size: 200,
+  // },
   {
     header: "Department",
-    accessorKey: "department"
+    accessorKey: "department",
+    size: 150,
   },
-  {
-    header: "Available Credits",
-    cell: ({ row }) => {
-      const { mutate: editAsthraCredits } = api.asthra.editAsthraCredits.useMutation();
-      const [credits, setCredits] = useState(row.original.asthraCredit)
+  // {
+  //   header: "Has AsthraPass?",
+  //   accessorFn: row => `${row.asthraPass ? "yes" : "no"}`
+  // },
+  // {
+  //   header: "Available Credits",
+  //   cell: ({ row }) => {
+  //     const { mutate: editAsthraCredits } = api.asthra.editAsthraCredits.useMutation();
+  //     const [credits, setCredits] = useState(row.original.asthraCredit)
 
-      return (
-        <>
-          {
-            row.original.asthraPass ?
-              <div className="flex flex-row gap-2">
-                <Input defaultValue={credits} type="number" className="min-w-28 text-foreground" onChange={(event) => {
-                  setCredits(Number(event.target.value));
-                }} />
-                <Button variant="outline" className="text-foreground" onClick={() => {
-                  editAsthraCredits({
-                    userId: row.original.id,
-                    credits
-                  }, {
-                    onSuccess: () => {
-                      toast("User credits edited successfully.")
-                    }
-                  })
-                }}>
-                  <Check />
-                </Button>
-              </div> :
-              <p>{row.original.asthraCredit}</p>
-          }
-        </>
-      )
-    }
-  },
-  {
-    header: "Registered Events",
-    cell: ({ row }) => {
-      return (
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline" className="text-foreground">View Events</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>View Registered Events</DialogTitle>
-            </DialogHeader>
-            <ListOfEvents userId={row.original.id} />
-          </DialogContent>
-        </Dialog>
-      )
-    }
-  },
+  //     return (
+  //       <>
+  //         {
+  //           row.original.asthraPass ?
+  //             <div className="flex flex-row gap-2">
+  //               <Input defaultValue={credits} type="number" className="min-w-28 text-foreground" onChange={(event) => {
+  //                 setCredits(Number(event.target.value));
+  //               }} />
+  //               <Button variant="outline" className="text-foreground" onClick={() => {
+  //                 editAsthraCredits({
+  //                   userId: row.original.id,
+  //                   credits
+  //                 }, {
+  //                   onSuccess: () => {
+  //                     toast("User credits edited successfully.")
+  //                   }
+  //                 })
+  //               }}>
+  //                 <Check />
+  //               </Button>
+  //             </div> :
+  //             <p>{row.original.asthraCredit}</p>
+  //         }
+  //       </>
+  //     )
+  //   }
+  // },
+  // {
+  //   header: "Registered Events",
+  //   cell: ({ row }) => {
+  //     return (
+  //       <Dialog>
+  //         <DialogTrigger asChild>
+  //           <Button variant="outline" className="text-foreground">View Events</Button>
+  //         </DialogTrigger>
+  //         <DialogContent>
+  //           <DialogHeader>
+  //             <DialogTitle>View Registered Events</DialogTitle>
+  //           </DialogHeader>
+  //           <ListOfEvents userId={row.original.id} />
+  //         </DialogContent>
+  //       </Dialog>
+  //     )
+  //   }
+  // },
   {
     header: "Role",
+    size: 180,
     cell: ({ row }) => {
       const { mutate: editUser } = api.user.editUserRole.useMutation();
       return (
