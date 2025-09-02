@@ -10,6 +10,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+const NavLinks = [
+  { label: "Home", href: "/" },
+  { label: "Profile", href: "/profile" },
+  { label: "Dashboard", href: "/dashboard" },
+];
+
 
 
 export default function Header() {
@@ -41,9 +47,15 @@ export default function Header() {
 
         {/* Center Nav Links */}
         <div className="flex gap-6 md:gap-8 lg:gap-12 justify-center px-8 py-3 bg-[#0B91A6] text-white rounded-full -ml-px -mr-px flex-1 z-[99999] md:text-sm lg:text-base">
-          <a href="#Home" className="hover:scale-110">Home</a>
-          <a href="#About" className="hover:scale-110">About</a>
-          <a href="#Discover" className="hover:scale-110">Discover</a>
+          {NavLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className="block px-4 py-2 text-white"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
         </div>
 
         {/* <div className="flex items-center -ml-px">
@@ -75,9 +87,15 @@ export default function Header() {
               <DialogTitle className="text-center">Menu</DialogTitle>
               <DialogDescription className="mt-8">
                 <div className="flex flex-col gap-6 items-center justify-center py-3  text-black">
-                  <a href="#Home" className="hover:scale-110">Home</a>
-                  <a href="#About" className="hover:scale-110">About</a>
-                  <a href="#Discover" className="hover:scale-110">Discover</a>
+                  {NavLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className="block px-4 py-2 text-black"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
                 </div>
               </DialogDescription>
             </DialogHeader>
