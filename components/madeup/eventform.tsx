@@ -48,7 +48,7 @@ import {
 import { toast } from 'sonner';
 import { AsthraCardPreview } from './card';
 import UploadMediaInline from './upload-inline';
-import { TiptapEditor } from './tiptap-editor';
+import { Textarea } from '@/components/ui/textarea';
 
 
 const FormSchema = eventZod
@@ -271,10 +271,11 @@ export const EventForm: React.FC<{
                                 <FormItem>
                                     <FormLabel className="text-slate-700">Description</FormLabel>
                                     <FormControl>
-                                        <TiptapEditor
+                                        <Textarea
                                             value={field.value ?? ''}
-                                            onChange={field.onChange}
+                                            onChange={(e) => field.onChange(e.target.value)}
                                             placeholder="Enter event description..."
+                                            className="min-h-[120px] resize-vertical"
                                         />
                                     </FormControl>
                                     <FormDescription className="text-slate-600">
@@ -292,10 +293,11 @@ export const EventForm: React.FC<{
                                 <FormItem>
                                     <FormLabel className="text-slate-700">Secret Message</FormLabel>
                                     <FormControl>
-                                        <TiptapEditor
+                                        <Textarea
                                             value={field.value ?? ''}
-                                            onChange={field.onChange}
+                                            onChange={(e) => field.onChange(e.target.value)}
                                             placeholder="Enter secret message for registered users..."
+                                            className="min-h-[120px] resize-vertical"
                                         />
                                     </FormControl>
                                     <FormDescription className="text-slate-600">
@@ -615,11 +617,11 @@ export const EventForm: React.FC<{
                             value={uploadedImageUrl}
                             onChange={(url: string) => {
                                 setUploadedImageUrl(url);
-                                field.onChange(url);
+                                form.setValue('poster', url);
                             }}
                             onRemove={() => {
                                 setUploadedImageUrl('');
-                                field.onChange('');
+                                form.setValue('poster', '');
                             }}
                         />
                     </div>
