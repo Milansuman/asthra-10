@@ -152,7 +152,7 @@ export const EventForm: React.FC<{
                 dateTimeStarts: new Date(),
                 regLimit: 0,
                 amount: 0,
-                eventStatus: 'pending',
+                eventStatus: 'uploaded',
                 eventType: 'WORKSHOP',
                 department: 'NA',
                 registrationType: 'both',
@@ -625,7 +625,7 @@ export const EventForm: React.FC<{
                     </div>
 
                     {/* Preview */}
-                    {previewData && (
+                    {/*{previewData && (
                         <div className="space-y-4">
                             <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-2">
                                 Preview
@@ -639,7 +639,7 @@ export const EventForm: React.FC<{
                             </div>
                             <AsthraCardPreview key={JSON.stringify(previewData)} data={previewData} />
                         </div>
-                    )}
+                    )}*/}
 
                     {/* Form Actions */}
                     <div className="flex justify-end gap-4 pt-6 border-t border-slate-200">

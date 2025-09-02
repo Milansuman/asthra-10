@@ -66,74 +66,74 @@ const sidebarItems: SidebarItemData[] = [
       },
     ],
   },
-  {
-    icon: <UserCheck size={20} />,
-    label: "Attendance",
-    children: [
-      {
-        icon: <QrCode size={16} />,
-        label: "Universal Scanner",
-        link: "/dashboard/attendence",
-      },
-      {
-        icon: <Camera size={16} />,
-        label: "Asthra Attendance",
-        link: "/dashboard/attendence/asthra",
-      },
-      {
-        icon: <QrCode size={16} />,
-        label: "Event Attendance",
-        link: "/dashboard/attendence/events",
-      },
-    ],
-  },
-  {
-    icon: <Monitor size={20} />,
-    label: "Front Desk",
-    children: [
-      {
-        icon: <Users size={16} />,
-        label: "Participants",
-        link: "/dashboard/desk",
-      },
-      {
-        icon: <QrCode size={16} />,
-        label: "Spot Registration",
-        link: "/dashboard/desk/scan",
-      },
-    ],
-  },
+  // {
+  //   icon: <UserCheck size={20} />,
+  //   label: "Attendance",
+  //   children: [
+  //     {
+  //       icon: <QrCode size={16} />,
+  //       label: "Universal Scanner",
+  //       link: "/dashboard/attendence",
+  //     },
+  //     // {
+  //     //   icon: <Camera size={16} />,
+  //     //   label: "Asthra Attendance",
+  //     //   link: "/dashboard/attendence/asthra",
+  //     // },
+  //     {
+  //       icon: <QrCode size={16} />,
+  //       label: "Event Attendance",
+  //       link: "/dashboard/attendence/events",
+  //     },
+  //   ],
+  // },
+  // {
+  //   icon: <Monitor size={20} />,
+  //   label: "Front Desk",
+  //   children: [
+  //     {
+  //       icon: <Users size={16} />,
+  //       label: "Participants",
+  //       link: "/dashboard/desk",
+  //     },
+  //     {
+  //       icon: <QrCode size={16} />,
+  //       label: "Spot Registration",
+  //       link: "/dashboard/desk/scan",
+  //     },
+  //   ],
+  // },
   {
     icon: <Users size={20} />,
     label: "User Management",
     link: "/dashboard/users",
   },
-  {
-    icon: <CreditCard size={20} />,
-    label: "Payment",
-    children: [
-      {
-        icon: <Settings size={16} />,
-        label: "Payment Resolver",
-        link: "/dashboard/order",
-      },
-      {
-        icon: <Edit size={16} />,
-        label: "Create Order",
-        link: "/dashboard/order/create",
-      },
-    ],
-  },
+  // {
+  //   icon: <CreditCard size={20} />,
+  //   label: "Payment",
+  //   children: [
+  //     {
+  //       icon: <Settings size={16} />,
+  //       label: "Payment Resolver",
+  //       link: "/dashboard/order",
+  //     },
+  //     {
+  //       icon: <Edit size={16} />,
+  //       label: "Create Order",
+  //       link: "/dashboard/order/create",
+  //     },
+  //   ],
+  // },
   {
     icon: <Upload size={20} />,
     label: "Upload Media",
     link: "/dashboard/upload",
   },
-  {
-    icon: <Clock size={20} />,
-    label: "Cron Jobs",
-    link: "/dashboard/cron",
-  },
+  // {
+  //   icon: <Clock size={20} />,
+  //   label: "Cron Jobs",
+  //   link: "/dashboard/cron",
+  // },
 ];
 
 function SidebarItem({ item }: { item: SidebarItemData }) {
@@ -164,9 +164,8 @@ function SidebarItem({ item }: { item: SidebarItemData }) {
           {item.icon}
           <span>{item.label}</span>
           <ChevronRight
-            className={`ml-auto transition-transform duration-200 ${
-              isExpanded ? 'rotate-90' : ''
-            }`}
+            className={`ml-auto transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''
+              }`}
           />
         </SidebarMenuButton>
         {isExpanded && (
