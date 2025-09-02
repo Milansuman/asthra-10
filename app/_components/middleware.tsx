@@ -30,9 +30,9 @@ const Middleware = (props: { children: React.ReactNode }) => {
     }
   }
 
-  if (status === "loading") {
-    return <Loader2 className="w-3 h-3 animate-spin" />;
-  }
+  // if (status === "loading") {
+  //   return <Loader2 className="w-3 h-3 animate-spin" />;
+  // }
 
   return <>{props.children}</>;
 };

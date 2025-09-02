@@ -29,7 +29,7 @@ export default function RootLayout({
 
   return (
     <>
-      <div className="fixed top-0 left-0 h-screen w-screen -z-10">
+      <div className="fixed top-0 left-0 h-screen bg-white w-screen -z-10 flex justify-center items-center">
         {/* <video
             src={'/.mp4'}
             autoPlay={true}
@@ -37,19 +37,14 @@ export default function RootLayout({
             muted={true}
             className="h-full w-full object-cover"
           />*/}
-        {isMobileDevice() ?
-          <div className="relative h-full w-full bg-[url(/spline-backup-dark-mobile.png)] bg-blend-soft-light bg-black/5" /> :
-          <SplineViewer
-            url="https://prod.spline.design/eeFdLAQHPt2utu3p/scene.splinecode"
-            className="relative h-full w-full bg-[url(/spline-backup-dark.png)] bg-black/50"
-          />}
+
       </div>
-      <main className="relative overflow-y-auto h-screen">
-        <AsthraLoader />
+      <main className="relative overflow-y-auto h-screen overflow-x-hidden">
+        {/* <AsthraLoader /> */}
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </main>
-      <Dock items={Items} />
+      {/* <Dock items={Items} /> */}
     </>
   );
 }
