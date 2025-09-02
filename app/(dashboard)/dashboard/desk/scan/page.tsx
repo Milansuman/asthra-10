@@ -46,7 +46,7 @@ export default function Page() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center gap-4 mb-8">
           <Link href="/dashboard/desk">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="text-foreground">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Desk
             </Button>
