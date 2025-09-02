@@ -1,6 +1,6 @@
 export function NoiseTexture() {
     return (
-        <div className="fixed top-0 left-0 w-full h-full z-[-1]">
+        <div className="absolute inset-0 pointer-events-none z-[99] opacity-40">
             <svg
                 viewBox="0 0 250 250"
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image'; // Import the Next.js Image component
+import Image from 'next/image'; 
 
 interface Department {
     backgroundSrc: string;
@@ -24,7 +24,7 @@ const departmentData: Department[] = [
 const GridCell = ({ backgroundSrc, foregroundSrc }: Department) => {
     return (
         <div className="group relative rounded-xl overflow-hidden border border-gray-300 shadow-sm aspect-[4/3]">
-            {/* Background Image using next/image */}
+            
             <Image
                 src={backgroundSrc}
                 alt="Department background"
@@ -32,18 +32,18 @@ const GridCell = ({ backgroundSrc, foregroundSrc }: Department) => {
                 className="object-cover z-10 transition-all duration-300 ease-in-out  group-hover:opacity-60"
             />
 
-            {/* Foreground Image (Logo) using next/image */}
+          
             <div
                 className="absolute inset-0 m-auto w-3/4 h-3/4 z-20 
                    transition-all duration-300 ease-in-out 
                    group-hover:scale-110"
             >
-                {/* Step 2: Place the logo Image inside the new container */}
+               
                 <Image
                     src={foregroundSrc}
                     alt="Department logo"
                     fill
-                    className="object-contain" // Classes are simpler now
+                    className="object-contain"
                 />
             </div>
         </div>

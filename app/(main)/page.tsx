@@ -74,9 +74,9 @@ export default function Page() {
 
           {/* Center Nav Links */}
           <div className="flex gap-12 justify-center px-8 py-3 bg-[#0B91A6] text-white rounded-full -ml-px -mr-px flex-1">
-            <a href="#" className="hover:underline">Home</a>
-            <a href="#" className="hover:underline">About</a>
-            <a href="#" className="hover:underline">Discover</a>
+            <a href="#Home" className="hover:underline">Home</a>
+            <a href="#About" className="hover:underline">About</a>
+            <a href="#Discover" className="hover:underline">Discover</a>
           </div>
 
           {/* Connector Line */}
@@ -104,12 +104,13 @@ export default function Page() {
         </div>
       </nav>
 
-      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto">
+      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto scroll-smooth">
         <NoiseTexture />
-        <div className="h-screen bg-white relative rounded-b-[2rem] overflow-y-auto">
+
+        <div className="h-screen bg-white relative rounded-b-[2rem] overflow-y-auto scrollbar-hide scroll-smooth">
 
           {/* Main ASTHRA section */}
-          <section className="flex flex-col items-center relative min-h-[60vh] px-4">
+          <section id='Home' className="flex flex-col items-center relative min-h-[60vh] px-4 mb-10">
             <div className="w-full flex justify-center mt-24 mb-2">
               <Image
                 src="/asthra.svg"
@@ -134,7 +135,7 @@ export default function Page() {
             </picture>
           </section>
 
-          <section className="min-h-screen relative px-1 py-2">
+          <section id='About' className="min-h-screen relative px-1 py-2 ">
             <div className="flex flex-col space-y-12 w-full  mx-auto ">
               {/* About Title */}
               <div className="w-full">
@@ -276,15 +277,10 @@ export default function Page() {
                       className="h-[55%] w-[75%] object-cover m-auto"
                     />
                   </div>
-
-
                 </div>
               </div>
             </div>
-
-
           </section>
-
           <section className="flex flex-col items-center relative min-h-[60vh] px-4">
             <div className="w-[90%] flex justify-center mt-24 mb-2 ">
               <Image
@@ -296,10 +292,8 @@ export default function Page() {
               />
             </div>
             <ImageGrid />
-
-
           </section>
-          <section className="flex flex-col items-center relative min-h-[60vh] px-4">
+          <section id='Discover' className="flex flex-col items-center relative min-h-[60vh] px-4">
             <div className="w-[90%] flex justify-center mt-24 mb-2 ">
               <Image
                 src="/assets/departments.webp"
@@ -310,18 +304,9 @@ export default function Page() {
               />
             </div>
             <DepGrid />
-
-
           </section>
-
-
-
-
         </div>
-
       </main>
-
-
     </div>
 
   );
