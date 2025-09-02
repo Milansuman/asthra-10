@@ -29,7 +29,7 @@ export default function RootLayout({
 
   return (
     <>
-      <div className="fixed top-0 left-0 h-screen bg-white w-screen -z-10 flex justify-center items-center">
+      <div className="fixed top-0 left-0 h-screen w-screen -z-10 flex justify-center items-center">
         {/* <video
             src={'/.mp4'}
             autoPlay={true}
