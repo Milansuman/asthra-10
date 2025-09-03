@@ -1,4 +1,4 @@
-# Asthra 9 - Technical Fest Management System
+# Asthra 10 - Technical Fest Management System
 
 ## Architecture Overview
 

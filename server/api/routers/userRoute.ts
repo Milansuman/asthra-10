@@ -30,11 +30,11 @@ import { ASTHRA } from '@/logic';
 
 const roleEnumSchema = z.enum([
   'USER',
-  'STUDENT_COORDINATOR', 
+  'STUDENT_COORDINATOR',
   'FACULTY_COORDINATOR',
   'MANAGEMENT',
   'ADMIN',
-  'DESK'
+  'DESK',
 ]);
 
 export const userRouter = createTRPCRouter({
@@ -43,12 +43,14 @@ export const userRouter = createTRPCRouter({
    */
   getUserList: coordinatorProcedure
     .input(
-      z.object({
-        role: roleEnumSchema.optional(),
-        search: z.string().optional(),
-        page: z.number().min(1).default(1),
-        limit: z.number().min(1).max(100).default(10),
-      }).optional()
+      z
+        .object({
+          role: roleEnumSchema.optional(),
+          search: z.string().optional(),
+          page: z.number().min(1).default(1),
+          limit: z.number().min(1).max(100).default(10),
+        })
+        .optional()
     )
     .query(async ({ ctx, input }) => {
       try {
@@ -60,15 +62,15 @@ export const userRouter = createTRPCRouter({
 
         // Build where conditions
         const conditions = [];
-        
+
         if (roleFilter) {
           conditions.push(eq(user.role, roleFilter as any));
         }
-        
+
         if (search) {
           // Log search parameters for debugging
           console.log('Search parameters:', { search, roleFilter });
-          
+
           conditions.push(
             or(
               ilike(user.name, `%${search}%`),
@@ -87,7 +89,8 @@ export const userRouter = createTRPCRouter({
           );
         }
 
-        const whereCondition = conditions.length > 0 ? and(...conditions) : undefined;
+        const whereCondition =
+          conditions.length > 0 ? and(...conditions) : undefined;
 
         // Get total count for pagination
         const [totalCountResult] = await ctx.db
@@ -107,6 +110,13 @@ export const userRouter = createTRPCRouter({
           .limit(limit)
           .offset(offset);
 
+        console.log("Pagination Debug:", {
+          page,
+          totalPages,
+          hasPreviousPage: page > 1 && page <= totalPages,
+          hasNextPage: page < totalPages,
+        });
+
         return {
           users,
           pagination: {
@@ -115,12 +125,14 @@ export const userRouter = createTRPCRouter({
             totalCount,
             totalPages,
             hasNextPage: page < totalPages,
-            hasPreviousPage: page > 1,
+            hasPreviousPage: page > 1 && page <= totalPages,
           },
         };
       } catch (error) {
         console.error('Error in getUserList:', error);
-        throw new Error(`Failed to fetch user list: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Failed to fetch user list: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
     }),
 

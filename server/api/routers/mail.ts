@@ -38,7 +38,7 @@ const Reminder = async (input: Parameters<typeof ReminderTemplate>[0]) => {
       user,
       data,
     }),
-    subject: 'Event Reminder - ASTHRA 9',
+    subject: 'Event Reminder - ASTHRA 10',
     text: `It's time for the event. Don't forget to join us.`,
   });
 
