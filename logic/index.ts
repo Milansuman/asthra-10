@@ -60,8 +60,8 @@ export const endTime = {
 } as const; // + "NA" for other events
 
 export const eventType = {
-  ASTHRA_PASS: true,
-  ASTHRA_PASS_EVENT: true,
+  ASTHRA_PASS: false,
+  ASTHRA_PASS_EVENT: false,
   COMPETITION: true,
   WORKSHOP: true,
 } as const; // + "NA" for other events
@@ -161,5 +161,5 @@ export const ASTHRA = {
   credit: number;
 };
 
-// next year will be 10
-export const currentAsthraCount = 9;
+// next year will be 11
+export const currentAsthraCount = 10;

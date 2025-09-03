@@ -6,7 +6,7 @@ export const TextRotatingAnimation = ({ text }: { text: string[] }) => {
     return (
         <RotatingText
             texts={text}
-            mainClassName="px-2 sm:px-2 text-6xl text-white items-center md:px-5 font-bold flex bg-glass text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
+            mainClassName="px-2 sm:px-2 text-6xl text-black items-center md:px-5 font-bold flex bg- overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-none"
             staggerFrom={"last"}
             initial={{ y: "100%" }}
             animate={{ y: 0 }}

@@ -1,4 +1,5 @@
-import Sidebar from '@/components/madeup/Sidebar';
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import AppSidebar from '@/components/madeup/AppSidebar';
 
 export default function RootLayout({
   children,
@@ -6,13 +7,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-900 flex w-screen overflow-hidden">
-      <Sidebar />
-      <main className="flex-1 flex flex-col min-h-screen overflow-auto">
-        <div className="flex-1 flex flex-col p-6 md:p-8 overflow-auto">
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1 text-black" />
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           {children}
         </div>
-      </main>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

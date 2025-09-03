@@ -1,39 +1,26 @@
 "use client"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Asthra, Workshop } from "./_components/dashboard"
+
+import { Overview } from './_components/dashboard';
 
 function DashboardPage() {
   return (
-    <div className="flex flex-col space-y-6 flex-1">
-      <div className="flex items-center justify-between flex-shrink-0">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Dashboard</h1>
-          <p className="text-slate-600 mt-1">Overview of your technical fest management</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex-1 space-y-6 p-8 pt-24">
+        {/* Header Section */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <p className="text-lg text-gray-600 mt-2">Welcome to your Asthra management dashboard</p>
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          {/* <Button onClick={() => window.print()}>Download</Button> */}
-        </div>
-      </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6 flex-1 flex flex-col">
-        <Tabs defaultValue="asthra" className="flex flex-col h-full">
-          <TabsList className="grid w-full grid-cols-2 bg-slate-100 flex-shrink-0">
-            <TabsTrigger value="asthra" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm sm:text-base">
-              Asthra
-            </TabsTrigger>
-            <TabsTrigger value="events" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm sm:text-base">
-              Competition
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="asthra" className="flex-1 flex flex-col mt-4 sm:mt-6 data-[state=inactive]:hidden">
-            <Asthra />
-          </TabsContent>
-          <TabsContent value="events" className="flex-1 flex flex-col mt-4 sm:mt-6 data-[state=inactive]:hidden">
-            <Workshop />
-          </TabsContent>
-        </Tabs>
+        {/* Overview Cards - Main Content */}
+        <div className="max-w-7xl mx-auto">
+          <Overview />
+        </div>
       </div>
     </div>
-  )
+  );
 }
-export default DashboardPage
+
+export default DashboardPage;

@@ -120,6 +120,7 @@
     "sonner": "^2.0.7",
     "superjson": "^2.2.2",
     "tailwind-merge": "^2.6.0",
+    "tailwind-scrollbar-hide": "^4.0.0",
     "tailwindcss-bg-patterns": "^0.3.0",
     "three": "^0.173.0",
     "timescape": "^0.7.1",
@@ -152,7 +153,6 @@
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-motion": "^1.0.1",
     "typescript": "^5.7.3",
-    "ultracite": "^4.1.16",
-    "wrangler": "^4.32.0"
+    "ultracite": "^4.1.16"
   }
 }

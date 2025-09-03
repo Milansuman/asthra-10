@@ -23,13 +23,13 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
   const uploadMutation = api.upload.uploadImage.useMutation({
     onSuccess: (result) => {
       onChange(result.url);
-      toast.success("Image uploaded successfully!");
+      // toast.success("Image uploaded successfully!");
       setUploading(false);
     },
     onError: (error) => {
-      toast.error("Upload failed", {
-        description: error.message || "Please try again or contact support."
-      });
+      // toast.error("Upload failed", {
+      //   description: error.message || "Please try again or contact support."
+      // });
       setUploading(false);
     },
   });

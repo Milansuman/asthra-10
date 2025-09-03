@@ -154,10 +154,10 @@ function PreCheckOut({ eventId }: { eventId: string }) {
       </CardContent>
       <PDFDialog />
       <CardFooter className="justify-between gap-4 flex-row-reverse">
-        <Button variant={"glass"} size={"glass"} link={paymentLink}>Pay ₹{event.amount} Now</Button>
+        <Button   link={paymentLink}>Pay ₹{event.amount} Now</Button>
         <Dialog>
           <DialogTrigger asChild>
-            <Button disabled={notSpot} variant={"glass"} size={"glass"}>Pay at Venue</Button>
+            <Button disabled={notSpot}  >Pay at Venue</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -177,7 +177,7 @@ function PreCheckOut({ eventId }: { eventId: string }) {
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant={"glass"} size={"glass"}>Close</Button>
+                <Button  >Close</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>

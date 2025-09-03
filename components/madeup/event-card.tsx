@@ -35,10 +35,10 @@ const EventCard: React.FC<EventCardProps> = ({ data }) => {
 				alt={data.name ?? "SJCET Events"}
 				className="w-full rounded-t-md"
 			/>
-			<div className="absolute top-0 left-0 right-0 bottom-0 bg-glass p-4 opacity-0 group-hover:opacity-100 transition-all">
+			<div className="absolute top-0 left-0 right-0 bottom-0 bg- p-4 opacity-0 group-hover:opacity-100 transition-all">
 				<div className="flex flex-col items-center justify-between h-full gap-1 lg:gap-2 py-5">
 					<div className="flex flex-col items-center gap-3 xl:gap-4 mb-[5%] overflow-hidden">
-						<Label variant={'glass'} className="text-sm font-thin text-center">
+						<Label variant={''} className="text-sm font-thin text-center">
 							{data.department === "NA" ? (data.registrationType === "spot" ? "Informal Event" : "General Event") : allDepartments[data.department as AllDepartments]}
 						</Label>
 						<h4 className="mt-[4%]">{data.name}</h4>
@@ -50,7 +50,7 @@ const EventCard: React.FC<EventCardProps> = ({ data }) => {
 						</div>
 					</div>
 					<div className="flex gap-2 flex-wrap flex-row items-center justify-center">
-						{data.eventType !== "ASTHRA_PASS_EVENT" && <Label variant={'glass'} className="text-sm font-thin inline-flex gap-1">KTU Points <CheckCircleIcon size={18} /></Label>}
+						{data.eventType !== "ASTHRA_PASS_EVENT" && <Label variant={''} className="text-sm font-thin inline-flex gap-1">KTU Points <CheckCircleIcon size={18} /></Label>}
 					</div>
 				</div>
 			</div>

@@ -69,7 +69,7 @@ const ErrorCard: React.FC<ErrorCardProps> = ({
     return (
         <div className="flex items-center justify-center h-screen w-screen">
             <Plusbox className="p-2 w-fit">
-                <Card className={`p-2 relative bg-glass ${className}`}>
+                <Card className={`p-2 relative bg- ${className}`}>
                     <CardHeader className="flex items-center justify-center">
                         <CardTitle className="text-xl font-semibold text-center">
                             {error.name}
@@ -78,13 +78,13 @@ const ErrorCard: React.FC<ErrorCardProps> = ({
 
                     <CardContent className="flex flex-col items-center gap-4">
                         <div className="flex sm:flex-col items-center gap-4">
-                            <Label variant="glass" className="text-sm font-thin text-center bg-red-500">
+                            <Label  className="text-sm font-thin text-center bg-red-500">
                                 Error
                             </Label>
                             <div className="text-center">
                                 {error.message}
                             </div>
-                            <div className="text-center text-sm text-white mt-2 p-2 bg-glass rounded-md w-full">
+                            <div className="text-center text-sm text-white mt-2 p-2 bg- rounded-md w-full">
                                 <div className="font-medium mb-2">data:</div>
                                 {renderJsonMessage(data)}
                             </div>
@@ -95,14 +95,14 @@ const ErrorCard: React.FC<ErrorCardProps> = ({
                         <Button
                             variant="outline"
                             onClick={handleReportError}
-                            className="bg-glass hover:bg-gray-200/50"
+                            className="bg- hover:bg-gray-200/50"
                         >
                             Report Error
                         </Button>
                         <Button
                             variant="outline"
                             link="/profile"
-                            className="bg-glass hover:bg-gray-200/50"
+                            className="bg- hover:bg-gray-200/50"
                         >
                             Back to Profile
                         </Button>

@@ -36,13 +36,34 @@ function ParticipantsListPage() {
   const eventId = searchParams.get("eventId");
 
   if (!eventId) {
-    return <div>Invalid Event ID</div>;
+    return (
+      <div className="p-6 flex flex-col gap-4 items-center justify-center min-h-[400px]">
+        <div className="text-center space-y-3">
+          <h2 className="text-2xl font-semibold text-gray-900">Event Participants</h2>
+          <p className="text-gray-600 max-w-md">
+            To view event participants, please select an event from the events list or navigate to this page from an event's details.
+          </p>
+          <div className="flex gap-3 mt-4">
+            <Button link="/dashboard/events" variant="outline">
+              View All Events
+            </Button>
+            <Button link="/dashboard" variant="outline">
+              Go to Dashboard
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const [csvData, setCsvData] = useState("");
-  const { data, isPending, refetch } = api.event.getEventParticipants.useQuery({
+  const { data, isPending, refetch, error } = api.event.getEventParticipants.useQuery({
     id: eventId,
   });
+
+  // Log for debugging
+  console.log('Event ID:', eventId);
+  console.log('Query result:', { data, isPending, error });
 
   // Helper function to properly format CSV fields
   const formatCSVField = (value: any): string => {
@@ -90,7 +111,15 @@ function ParticipantsListPage() {
   }, [isPending, data]);
 
   return (
+
     <div className="p-6 flex flex-col gap-3 overflow-y-auto">
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+          <h3 className="text-red-800 font-medium">Error Loading Participants</h3>
+          <p className="text-red-600 text-sm mt-1">{error.message}</p>
+          <p className="text-red-600 text-sm mt-1">Event ID: {eventId}</p>
+        </div>
+      )}
       <h3>{isPending ? "Loading" : (data?.[0]?.event?.name ?? "Unknown")}</h3>
       <h4>
         Department:{" "}
@@ -152,9 +181,9 @@ const DialogParent = ({
     <>
       <DialogHeader>
         <DialogTitle>Search & Add users</DialogTitle>
-        <DialogDescription>
+        {/* <DialogDescription>
           But only works for ASTHRA PASS Events. Not paid events.
-        </DialogDescription>
+        </DialogDescription> */}
       </DialogHeader>
       <ListOfUsers
         eventId={eventId}
@@ -202,10 +231,6 @@ const ListOfUsers = ({
           <div className="flex gap-2 w-full">
             <img src={d.image ?? ""} alt="hi" className="w-4 h-4" />
             {d.name} - {d.email}
-
-            <span className="ms-auto">
-              {d.asthraPass ? "(Asthra Pass)" : ""}
-            </span>
           </div>
         )}
         badgeUI={(d) => (

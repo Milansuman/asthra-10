@@ -123,11 +123,11 @@ export default async function Page({
           </CardContent>
           <CardFooter className="justify-between">
             <Button
-              link={`/event/${data.event.id}`} variant="glass"
+              link={`/event/${data.event.id}`}
             >
               Show Ticket
             </Button>
-            <Button link={"/profile"} variant="glass">
+            <Button link={"/profile"} >
               Back to Profile
             </Button>
           </CardFooter>

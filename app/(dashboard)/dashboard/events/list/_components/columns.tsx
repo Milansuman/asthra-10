@@ -103,11 +103,6 @@ export const columns: ColumnDef<TableType>[] = [
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="font-medium">Asthra Pass:</span>
-                    <span>{user?.asthraPass ? "Yes" : "No"}</span>
-                  </div>
-
-                  <div className="flex justify-between">
                     <span className="font-medium">Available Credits:</span>
                     <span>{user?.asthraCredit ?? 0}</span>
                   </div>
@@ -151,8 +146,8 @@ export const columns: ColumnDef<TableType>[] = [
   {
     header: "Status",
     cell: ({ row }) => {
-      const [status, setStatus] = useState(
-        row.original.userRegisteredEvent.status || "registered",
+      const [status, setStatus] = useState<string>(
+        (row.original.userRegisteredEvent.status as string) || "registered",
       );
       const { mutate } = api.spot.updateParticipantStatus.useMutation();
 
@@ -178,7 +173,7 @@ export const columns: ColumnDef<TableType>[] = [
         } catch (error) {
           console.error("Failed to update status:", error);
           // Optionally revert the status on error
-          setStatus(row.original.userRegisteredEvent.status || "registered");
+          setStatus((row.original.userRegisteredEvent.status as string) || "registered");
         }
       };
 

@@ -114,6 +114,7 @@ const config = {
     require('@tailwindcss/typography'),
     require('tailwind-corner-smoothing'),
     require('tailwindcss-bg-patterns'),
+	require('tailwind-scrollbar-hide'),
     heroui(),
   ],
 } satisfies Config;

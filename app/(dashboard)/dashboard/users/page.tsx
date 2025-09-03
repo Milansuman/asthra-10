@@ -44,6 +44,17 @@ export default function Users() {
   const users = data?.users ?? [];
   const pagination = data?.pagination;
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Search debug:', {
+      search,
+      debouncedSearch,
+      data,
+      usersCount: users.length,
+      pagination
+    });
+  }, [search, debouncedSearch, data, users, pagination]);
+
   return (
     <div className="flex flex-col space-y-6 flex-1 overflow-hidden">
       <div className="flex items-center justify-between flex-shrink-0">
@@ -59,7 +70,7 @@ export default function Users() {
             <div className="relative flex-1 min-w-0">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
               <Input
-                placeholder="Search users by name, email, college, department, or phone..."
+                placeholder="Search users by name, email, college, department, year, role, KTU, or phone..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="pl-10 bg-white border-slate-300"
@@ -132,8 +143,8 @@ export default function Users() {
           )}
         </div>
 
-        <div className="flex-1 overflow-hidden">
-          <div className="h-full overflow-auto">
+        <div className="w-full flex overflow-hidden">
+          <div className="h-full w-full overflow-auto">
             <UsersTable columns={columns} data={users as UserZodType[]} isPending={isPending} />
           </div>
         </div>

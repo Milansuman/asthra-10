@@ -48,7 +48,7 @@ export default function EventConfirmationEmail({ user, data }: EventConfirmation
           fontStyle="normal"
         />
       </Head>
-      <Preview>ASTHRA 9.0 Reminder</Preview>
+      <Preview>ASTHRA 10.0 Reminder</Preview>
       <Tailwind>
         <Body
           style={{
@@ -73,7 +73,7 @@ export default function EventConfirmationEmail({ user, data }: EventConfirmation
             </Section>
 
             <Heading className="text-[#ffffff] text-5xl font-extrabold text-center mt-16">
-              ASTHRA 9.0
+              ASTHRA 10.0
             </Heading>
 
             <Container className="bg-blue-100 opacity-90 rounded-2xl text-[#1A3A5A] w-[99%] my-6 p-6">
@@ -139,7 +139,7 @@ export default function EventConfirmationEmail({ user, data }: EventConfirmation
               ))}
 
               <Text>If you require any assistance or have any queries, please do not hesitate to contact us.</Text>
-              <Text>Thank you for being a part of Asthra 9.0. We look forward to welcoming you.</Text>
+              <Text>Thank you for being a part of ASTHRA 10.0. We look forward to welcoming you.</Text>
 
               <Text className="my-5">
                 Best regards,

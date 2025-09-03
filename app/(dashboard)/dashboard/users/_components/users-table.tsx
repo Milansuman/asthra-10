@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  ColumnSizingState,
 } from "@tanstack/react-table"
 
 import {
@@ -17,6 +18,7 @@ import {
 } from "@/components/ui/table"
 import { userZod } from "@/lib/validator"
 import { z } from "zod"
+import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<z.infer<typeof userZod>>[]
@@ -29,22 +31,33 @@ export function UsersTable<TData, TValue>({
   data,
   isPending
 }: DataTableProps<TData, TValue>) {
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({})
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    columnResizeMode: "onChange",
+    onColumnSizingChange: setColumnSizing,
+    state: {
+      columnSizing,
+    },
   })
 
   return (
-    <div className="w-full min-w-0">
-      <div className="overflow-x-auto border">
-        <Table className="min-w-max">
+    <div className="w-full">
+      <div className="overflow-x-auto border rounded-md">
+        <Table className="w-full min-w-[1100px]" style={{ width: table.getCenterTotalSize() }}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="whitespace-nowrap">
+                    <TableHead
+                      key={header.id}
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r"
+                      style={{ width: header.getSize() }}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -65,8 +78,14 @@ export function UsersTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="whitespace-nowrap">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <TableCell
+                      key={cell.id}
+                      className="px-4 py-4 text-sm text-gray-900 border-r overflow-hidden"
+                      style={{ width: cell.column.getSize() }}
+                    >
+                      <div className="truncate">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </div>
                     </TableCell>
                   ))}
                 </TableRow>

@@ -21,16 +21,16 @@ const ReportButton: React.FC<{ data: TransactionData }> = ({ data }) => {
     return (
         <Button
             link={`https://api.whatsapp.com/send?phone=+919846101882&text=${encodeURIComponent(
-                `Hi, 
-I recently attempted to book my pass for ${data.transaction.eventName}, but unfortunately, the payment didn’t go through.  
-I’d really appreciate your assistance in resolving this issue. Here are my transaction details:  
+                `Hi,
+I recently attempted to book my pass for ${data.transaction.eventName}, but unfortunately, the payment didn’t go through.
+I’d really appreciate your assistance in resolving this issue. Here are my transaction details:
 ---
 
-📌 Event Name:       ${data.transaction.eventName}  
+📌 Event Name:       ${data.transaction.eventName}
 
-📌 Event ID:           ${data.transaction.eventId}  
+📌 Event ID:           ${data.transaction.eventId}
 
-📌 Transaction ID:  ${data.transaction.id}  
+📌 Transaction ID:  ${data.transaction.id}
 
 📌 Username:         ${data.transaction.userName}
 
@@ -38,12 +38,12 @@ I’d really appreciate your assistance in resolving this issue. Here are my tra
 
 📌 Amount:            ₹${data.transaction.amount}
 
-📌 Order ID:          ${data.transaction.orderId}  
+📌 Order ID:          ${data.transaction.orderId}
 
 ---
 Thanks in advance! `
             )}`}
-            variant="glass"
+
         >
             Report Payment Issue
         </Button>
