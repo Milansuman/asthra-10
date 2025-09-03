@@ -13,6 +13,8 @@ import DepGrid from '../_components/depGrid';
 import Header from '../_components/header';
 import localFont from "next/font/local";
 
+
+
 const dimension = localFont({
   src: "../../public/fonts/fonnts.com-Dimensions_600R.otf",
   variable: "--font-dimension",
@@ -260,6 +262,7 @@ export default function Page() {
               />
             </div>
             <ImageGrid />
+
           </section>
           <section id='Discover' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
             <div className="w-[90%] flex justify-center">
