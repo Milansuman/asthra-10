@@ -28,7 +28,7 @@ export default function Page() {
       <Header />
 
 
-      <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
+      {/* <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
         <FluidGlass mobileSize={100} desktopSize={290} />
       </div>
 
@@ -38,7 +38,7 @@ export default function Page() {
 
       <div className="absolute top-[18%] md:top-[40%] left-[60%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
         <FluidGlass mobileSize={70} desktopSize={90} />
-      </div>
+      </div> */}
       {/* Left vertical navbar */}
       <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
@@ -103,88 +103,95 @@ export default function Page() {
             </div>
           </section>
 
-          <section id='About' className=" relative p-10 h-[100vh] bg-white rounded-[2rem] overflow-hidden ">
-            <div className="flex flex-col space-y-12 w-full  mx-auto ">
-              {/* About Title */}
-              <div className="w-full">
-                <Image
-                  src="/assets/about.svg"
-                  alt="About ASTHRA"
-                  width={100}
-                  height={500}
-                  className="w-[30%] h-[100vh] object-contain hidden md:block"
-                  priority
-                />
-              </div>
-              <Image
-                src="/assets/AboutAsthra.png"
-                alt="Our Mission"
-                width={400}
-                height={100}
-                className="w-[94%] object-cover m-auto block md:hidden"
-              />
+          <div className='w-[100%] mx-auto'>
+            <section id='About' className=" relative p-5 min-h-screen bg-white rounded-[2rem] overflow-hidden ">
 
-              {/* Content Container */}
-              <div className="flex flex-col space-y-4 relative md:absolute md:left-[8%] w-[90%] mx-auto md:mx-0 ">
-                {/* First Row */}
-                <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1 bg-white/10 rounded-2xl p-4">
-                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
-                  </div>
-                  <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl p-1">
-                    <Image
-                      src="/assets/image_placeholder.webp"
-                      alt="Our Mission"
-                      width={400}
-                      height={100}
-                      className=" h-[55%] w-[75%] object-cover m-auto"
-                    />
-                  </div>
+              <div className="flex flex-col space-y-12 w-full  mx-auto ">
+                {/* About Title */}
+                <div className="w-full flex justify-start relative">
+                  <Image
+                    src="/assets/about.svg"
+                    alt="About ASTHRA"
+                    width={100}
+                    height={500}
+                    className="w-[30%] h-[100vh] object-contain hidden md:hidden lg:block sticky top-0"
+                    priority
+                  />
                 </div>
-
                 <Image
-                  src="/assets/grow.svg"
-                  alt="Our Mission"
-                  width={4000}
-                  height={100}
-                  className=" w-full object-cover m-auto hidden md:block"
-                />
-                <Image
-                  src="/assets/mobilegrp.png"
-                  alt="Our Mission"
+                  src="/assets/AboutAsthra.png"
+                  alt="About Asthra"
                   width={400}
                   height={100}
-                  className="w-full object-cover m-auto block md:hidden"
+                  className="w-[94%] object-cover m-auto block md:block lg:hidden"
                 />
 
-                {/* Second Row */}
-                <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl p-1 items-center">
-                    <Image
-                      src="/assets/image_placeholder.webp"
-                      alt="Our Mission"
-                      width={400}
-                      height={100}
-                      className="h-[55%] w-[75%] object-cover m-auto"
-                    />
-                  </div>
-                  <div className="flex-1 bg-white/10 rounded-2xl p-4">
-                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields</p>
+                {/* Content Container */}
+                <div className="flex flex-col space-y-4 relative md:absolute md:left-[8%] w-[95%] mx-auto md:mx-0 ">
+                  {/* First Row */}
+                  <div className="flex flex-col md:flex-row gap-4 items-center">
+                    <div className="flex-1 bg-white/10 rounded-2xl p-4">
+                      <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
+                    </div>
+                    <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl p-1">
+                      <Image
+                        src="/assets/image_placeholder.webp"
+                        alt="Our Mission"
+                        width={400}
+                        height={100}
+                        className=" h-[55%] w-[75%] object-cover m-auto"
+                      />
+                    </div>
                   </div>
 
+                  <Image
+                    src="/assets/grow.svg"
+                    alt="Our Mission"
+                    width={4000}
+                    height={100}
+                    className=" w-full object-cover m-auto hidden md:block"
+                  />
+                  <Image
+                    src="/assets/mobilegrp.png"
+                    alt="Our Mission"
+                    width={400}
+                    height={100}
+                    className="w-full object-cover m-auto block md:hidden"
+                  />
+
+                  {/* Second Row */}
+                  <div className="flex flex-col md:flex-row gap-4 items-center">
+                    <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl p-1 items-center">
+                      <Image
+                        src="/assets/image_placeholder.webp"
+                        alt="Our Mission"
+                        width={400}
+                        height={100}
+                        className="h-[55%] w-[75%] object-cover m-auto"
+                      />
+                    </div>
+                    <div className="flex-1 bg-white/10 rounded-2xl p-4">
+                      <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields</p>
+                    </div>
+
+                  </div>
                 </div>
               </div>
-            </div>
 
+            </section>
+          </div>
+
+          <section id='AboutSJCET' className=" relative p-5 min-h-screen bg-white rounded-[2rem] overflow-hidden ">
             {/* New Section with margin top for spacing */}
-            <div className="flex flex-col space-y-12 w-full mx-auto mt-[5vh] md:mt-[12vh p-10 h-[100vh] bg-white rounded-[2rem] overflow-hidden">
+
+            <div className="flex flex-col space-y-12 w-full mx-auto">
               <div className="w-full flex justify-end relative">
                 <Image
                   src="/assets/sjcet_palai.svg"
                   alt="About sjcet"
                   width={100}
                   height={500}
-                  className="w-[30%] h-[100vh] object-contain hidden md:block sticky top-0"
+                  className="w-[30%] h-[100vh] object-contain hidden md:hidden lg:block sticky top-0"
                   priority
                 />
               </div>
@@ -193,11 +200,11 @@ export default function Page() {
                 alt="aboutsjcetmobile"
                 width={400}
                 height={100}
-                className="w-[94%] object-cover m-auto block md:hidden"
+                className="w-[94%] object-cover m-auto block md:block lg:hidden"
               />
 
               {/* Content Container */}
-              <div className="flex flex-col space-y-4 relative md:absolute md:left-[2%] w-[90%] mx-auto md:mx-0">
+              <div className="flex flex-col space-y-4 relative md:absolute md:left-[2%] w-[95%] mx-auto md:mx-0">
                 {/* First Row */}
                 <div className="flex flex-col md:flex-row gap-4 items-center">
 
@@ -248,6 +255,7 @@ export default function Page() {
                 </div>
               </div>
             </div>
+
           </section>
 
 
@@ -277,8 +285,8 @@ export default function Page() {
             <DepGrid />
           </section>
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
 
   );
 }
