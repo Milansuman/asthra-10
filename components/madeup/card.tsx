@@ -147,7 +147,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
               height="600"
               width="600"
               src={data.poster}
-              alt={`${data.name} poster asthra 8`}
+              alt={`${data.name} poster asthra 10`}
             />
           </div>
         )}
@@ -305,7 +305,7 @@ export const AsthraCardPreview: React.FC<AsthraCardPreviewProps> = ({
           height="600"
           width="600"
           src={data.poster ?? ''}
-          alt={`${data.name} poster asthra 8`}
+          alt={`${data.name} poster asthra 10`}
         />
       )}
     </Card>
@@ -424,7 +424,7 @@ export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEv
               <Plus className="w-8 h-8 text-slate-600 group-hover:text-slate-700" />
             </div>
             <h3 className="text-lg font-semibold text-slate-900 mb-2">Create New Event</h3>
-            <p className="text-sm text-slate-600 text-center">Click to add a new event to Asthra 9</p>
+            <p className="text-sm text-slate-600 text-center">Click to add a new event to Asthra 10</p>
           </CardContent>
         </AlertDialogTrigger>
         <AlertDialogContent className="max-w-4xl max-h-[90vh] p-0 border-none bg-transparent">
@@ -432,7 +432,7 @@ export const AddNewCard: React.FC<{ onChangeEvent: () => void }> = ({ onChangeEv
             <div className="p-6 border-b border-slate-200">
               <AlertDialogTitle className="text-2xl font-bold text-slate-900">Create New Event</AlertDialogTitle>
               <p className="text-slate-600 mt-1">
-                Fill in the details to create a new event for Asthra 9
+                Fill in the details to create a new event for Asthra 10
               </p>
             </div>
             <ScrollArea className="flex-1 p-6">

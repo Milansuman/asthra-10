@@ -11,6 +11,12 @@ import FluidGlass from '@/components/madeup/FluidGlass';
 import ImageGrid from '../_components/imageGrid';
 import DepGrid from '../_components/depGrid';
 import Header from '../_components/header';
+import localFont from "next/font/local";
+
+const dimension = localFont({
+  src: "../../public/fonts/fonnts.com-Dimensions_600R.otf",
+  variable: "--font-dimension",
+});
 
 export default function Page() {
   return (
@@ -20,7 +26,7 @@ export default function Page() {
       <Header />
 
 
-      {/* <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
+      <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
         <FluidGlass mobileSize={100} desktopSize={290} />
       </div>
 
@@ -30,9 +36,9 @@ export default function Page() {
 
       <div className="absolute top-[18%] md:top-[40%] left-[60%] md:left-[60%] pointer-events-none z-40 transform -translate-x-1/2 ">
         <FluidGlass mobileSize={70} desktopSize={90} />
-      </div> */}
+      </div>
       {/* Left vertical navbar */}
-      <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden lg:block">
+      <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
           src="/assets/side.png"
           alt="Left navigation"
@@ -43,7 +49,7 @@ export default function Page() {
       </div>
 
       {/* Right vertical navbar */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 hidden lg:block">
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
           src="/assets/side.png"
           alt="Right navigation"
@@ -62,9 +68,8 @@ export default function Page() {
 
         <div className='flex flex-col gap-10'>
           {/* Main ASTHRA section */}
-          <section id='Home' className="flex flex-col items-center relative h-[100vh] bg-white rounded-b-[2rem] overflow-hidden">
-
-            <div className="w-full flex justify-center mt-24 mb-2">
+          <section id='Home' className="flex flex-col items-center justify-center h-[100vh] bg-white rounded-b-[2rem] overflow-hidden">
+            <div className='flex flex-col items-center justify center md:absolute md:bottom-0 mx-5 md:mx-10'>
               <Image
                 src="/asthra.svg"
                 alt="SAR 10.0"
@@ -72,20 +77,28 @@ export default function Page() {
                 height={100}
                 className="w-auto h-36"
               />
-            </div>
-            <picture className="w-[90%] md:w-[80%] bottom-0 top-[17%] md:top-[23%]">
-              <source
-                media="(max-width: 768px)"
-                srcSet="/assets/mobile_landing.webp"
-              />
               <Image
                 src="/assets/final.webp"
                 alt="logo"
-                width={1728}
-                height={1117}
-                style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+                width={900}
+                height={646.5}
+                className="hidden lg:block"
               />
-            </picture>
+              <Image
+                src="/assets/finallandingmd.webp"
+                alt="logo"
+                width={491.6}
+                height={600}
+                className="hidden lg:hidden md:block"
+              />
+              <Image
+                src="/assets/mobile_landing.webp"
+                alt="logo"
+                width={350}
+                height={621.99}
+                className="block md:hidden"
+              />
+            </div>
           </section>
 
           <section id='About' className=" relative p-10 h-[100vh] bg-white rounded-[2rem] overflow-hidden ">
@@ -234,8 +247,10 @@ export default function Page() {
               </div>
             </div>
           </section>
-          <section className="flex flex-col items-center relative min-h-[60vh] px-4 p-10 h-[100vh] bg-white rounded-[2rem] overflow-hidden">
-            <div className="w-[90%] flex justify-center mt-24 mb-2 ">
+
+
+          <section className="flex flex-col items-center justify-center relative p-10 bg-white rounded-[2rem] overflow-hidden">
+            <div className="w-[90%] flex justify-center ">
               <Image
                 src="/assets/images_grid.webp"
                 alt="images grid"
