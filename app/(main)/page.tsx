@@ -261,8 +261,8 @@ export default function Page() {
             </div>
             <ImageGrid />
           </section>
-          <section id='Discover' className="flex flex-col items-center relative min-h-[60vh] px-4 p-10 h-[100vh] bg-white rounded-[2rem] overflow-hidden">
-            <div className="w-[90%] flex justify-center mt-24 mb-2 ">
+          <section id='Discover' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
+            <div className="w-[90%] flex justify-center">
               <Image
                 src="/assets/departments.webp"
                 alt="images grid"

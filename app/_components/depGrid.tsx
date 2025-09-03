@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image'; 
+import Image from 'next/image';
 
 interface Department {
     backgroundSrc: string;
@@ -18,33 +18,32 @@ const departmentData: Department[] = [
     { backgroundSrc: "/assets/department_bg/mec_bg.webp", foregroundSrc: "/assets/department/MEC.svg" },
     { backgroundSrc: "/assets/department_bg/cc_bg.webp", foregroundSrc: "/assets/department/CC.svg" },
     { backgroundSrc: "/assets/department_bg/cs_bg.webp", foregroundSrc: "/assets/department/cs.svg" },
-    { backgroundSrc: "/assets/department_bg/cs_bg.webp", foregroundSrc: "/assets/department/cs.svg" },
+    // You can add the 12th item back here if you wish
 ];
 
 const GridCell = ({ backgroundSrc, foregroundSrc }: Department) => {
     return (
-        <div className="group relative rounded-xl overflow-hidden border border-gray-300 shadow-sm aspect-[4/3]">
-            
-            <Image
-                src={backgroundSrc}
-                alt="Department background"
-                fill
-                className="object-cover z-10 transition-all duration-300 ease-in-out  group-hover:opacity-60"
-            />
-
-          
-            <div
-                className="absolute inset-0 m-auto w-3/4 h-3/4 z-20 
-                   transition-all duration-300 ease-in-out 
-                   group-hover:scale-110"
-            >
-               
+        // 2. Add responsive width classes to each cell and padding for the gap
+        <div className="w-1/2 md:w-1/4 p-2">
+            <div className="group relative rounded-xl overflow-hidden border border-gray-300 shadow-sm aspect-[4/3]">
                 <Image
-                    src={foregroundSrc}
-                    alt="Department logo"
+                    src={backgroundSrc}
+                    alt="Department background"
                     fill
-                    className="object-contain"
+                    className="object-cover z-10 transition-all duration-300 ease-in-out group-hover:opacity-60"
                 />
+                <div
+                    className="absolute inset-0 m-auto w-3/4 h-3/4 z-20 
+                               transition-all duration-300 ease-in-out 
+                               group-hover:scale-110"
+                >
+                    <Image
+                        src={foregroundSrc}
+                        alt="Department logo"
+                        fill
+                        className="object-contain"
+                    />
+                </div>
             </div>
         </div>
     );
@@ -53,7 +52,8 @@ const GridCell = ({ backgroundSrc, foregroundSrc }: Department) => {
 const DepGrid = () => {
     return (
         <div className="p-6 w-full">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {/* 1. Change the container from 'grid' to 'flex flex-wrap' */}
+            <div className="flex flex-wrap justify-center max-w-5xl mx-auto">
                 {departmentData.map((dept, index) => (
                     <GridCell
                         key={index}
