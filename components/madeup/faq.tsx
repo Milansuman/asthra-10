@@ -11,31 +11,15 @@ type FAQItems = FAQItem[];
 export const faqItems: FAQItems = [
     {
         title: "When is Asthra 10.0?",
-        content: "Asthra 10.0 will be held on March 6th and 7th, 2025, from 9:00 AM to 4:00 PM.",
-    },
-    {
-        title: "What is the Asthra Pass?",
-        content: "The Asthra Pass grants access to exclusive events and exhibitions. Make sure to scan your Asthra Pass to generate certificates for these events. You can purchase the Asthra pass for ₹250 from the website.",
-    },
-    {
-        title: "What is this Credit System? is this KTU points?",
-        content: "NO, that a common limit given to all ASTHRA Pass users, which can be used to register for events. Each event has a different credit value. If your credit limit is exhausted, you have to pay extra for refilling the credits.",
-    },
-    {
-        title: "Im an SJCET Student, Can I purchase the PASS?",
-        content: "NO, ASTHRA is strictly for outside SJCET campus students. But you can participate workshops and view exibitions.",
+        content: "Asthra 10.0 will be held on September 19th and 20th, 2025, from 9:00 AM to 4:00 PM.",
     },
     {
         title: "What about KTU points?",
-        content: "Anyone who registered for ASTHRA PASS will get 40 KTU points. Make sure participate some workshops and competitions to get extra points.",
+        content: "Yes, make sure to participate in some workshops and competitions to get  points.",
     },
     {
         title: "Can I register for any events on the spot?",
         content: "Some events allow spot registration, but availability is not guaranteed. To secure your spot, we recommend registering in advance before the event begins.",
-    },
-    {
-        title: "Is ASTHRA Pass mandatory for Team Events? Everyone in the team should have ASTHRA Pass?",
-        content: "Yes, ASTHRA Pass is mandatory for all participants in team events. Then team leader should update the team name & member details at venue coordinator.",
     },
     {
         title: "Will food and accommodation be provided to the participants?",
@@ -59,15 +43,11 @@ export const faqItems: FAQItems = [
         title: "What should I bring?",
         content: [
             "Institution-issued ID card",
-            "Asthra pass",
             "A valid government-issued ID",
             "Laptops or other internet-enabled devices (if required for your event)",
         ],
     },
-    {
-        title: "Can I transfer my Asthra pass or get a refund?",
-        content: "Asthra passes are non-transferable, and refunds will not be provided.",
-    },
+
 ];
 
 export function FAQ() {
