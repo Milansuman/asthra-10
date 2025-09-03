@@ -110,7 +110,7 @@ export const userRouter = createTRPCRouter({
           .limit(limit)
           .offset(offset);
 
-        console.log("Pagination Debug:", {
+        console.log('Pagination Debug:', {
           page,
           totalPages,
           hasPreviousPage: page > 1 && page <= totalPages,

@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/select";
 
 import { api } from "@/trpc/react";
-import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ChevronRight, Search } from "lucide-react";
 
 export default function Users() {
   const [search, setSearch] = useState("");
@@ -32,69 +32,71 @@ export default function Users() {
     | undefined
   >(undefined);
 
+  // for lazy loading
+  const [items, setItems] = useState<UserZodType[]>([]);
+  const [lastFetchedPage, setLastFetchedPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+
   // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
-      setPage(1); // Reset to first page when searching
     }, 500);
-
     return () => clearTimeout(timer);
   }, [search]);
 
-  const { data, isPending } = api.user.getUserList.useQuery({
-    search: debouncedSearch || undefined,
-    page,
-    limit,
-    role: role || undefined,
-  });
+  // Normalize search before sending
+  const normalizedSearch =
+    debouncedSearch.trim() === "" ? undefined : debouncedSearch;
+
+  const { data, isPending } = api.user.getUserList.useQuery(
+    {
+      search: normalizedSearch,
+      page,
+      limit,
+      role: role || undefined,
+    },
+    { keepPreviousData: true }
+  );
 
   const users = data?.users ?? [];
   const pagination = data?.pagination;
 
-  const handlePageChange = (newPage: number) => {
-    if (
-      newPage >= 1 &&
-      (!pagination?.totalPages || newPage <= pagination.totalPages)
-    ) {
-      console.log("Changing page:", { from: page, to: newPage });
-      setPage(newPage);
+  // Merge results into items for infinite scroll
+  useEffect(() => {
+    if (data && page !== lastFetchedPage) {
+      if (page === 1) {
+        setItems(users);
+      } else {
+        setItems((prev) => [...prev, ...users]);
+      }
+      setLastFetchedPage(page);
+      setHasMore(!!pagination?.hasNextPage);
     }
-  };
+  }, [data, page, users, pagination, lastFetchedPage]);
 
-  // Debug pagination
+  // Reset list when filters/search/limit change
   useEffect(() => {
-    console.log("Debug:", {
-      currentPage: page,
-      paginationData: pagination,
-      userCount: users.length,
-      queryParams: {
-        search: debouncedSearch || undefined,
-        page,
-        limit,
-        role,
-      },
-    });
-  }, [page, pagination, users.length, debouncedSearch, limit, role]);
+    setItems([]);
+    setLastFetchedPage(0);
+    setHasMore(true);
+    setPage(1);
+  }, [normalizedSearch, role, limit]);
 
-  // Debug logging
+  // Lazy load observer
   useEffect(() => {
-    console.log("Pagination state:", {
-      search,
-      debouncedSearch,
-      data,
-      usersCount: users.length,
-      pagination,
+    if (!loaderRef.current) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore && !isPending) {
+        setPage((prev) => prev + 1);
+      }
     });
-  }, [search, debouncedSearch, data, users, pagination]);
-
-  useEffect(() => {
-    console.log("Pagination Debug:", {
-      hasPreviousPage: pagination?.hasPreviousPage,
-      currentPage: page,
-      totalPages: pagination?.totalPages,
-    });
-  }, [pagination, page]);
+    observer.observe(loaderRef.current);
+    return () => {
+      if (loaderRef.current) observer.unobserve(loaderRef.current);
+    };
+  }, [hasMore, isPending]);
 
   return (
     <div className="flex flex-col space-y-6 flex-1 overflow-hidden">
@@ -117,26 +119,37 @@ export default function Users() {
               <Input
                 placeholder="Search users by name, email, college, department, year, role, KTU, or phone..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setSearch(val);
+
+                  if (val.trim() === "") {
+                    // Force clear immediately
+                    setDebouncedSearch("");
+                    setPage(1);
+                    setItems([]);
+                  }
+                }}
                 className="pl-10 bg-white border-slate-300"
               />
             </div>
             <div className="flex gap-2 shrink-0">
               <Select
-                value={role}
+                value={role ?? "all"}
                 onValueChange={(value) => {
                   setRole(
                     value === "all"
                       ? undefined
-                      : value as
-                      | "USER"
-                      | "STUDENT_COORDINATOR"
-                      | "FACULTY_COORDINATOR"
-                      | "MANAGEMENT"
-                      | "ADMIN"
-                      | "DESK"
+                      : (value as
+                        | "USER"
+                        | "STUDENT_COORDINATOR"
+                        | "FACULTY_COORDINATOR"
+                        | "MANAGEMENT"
+                        | "ADMIN"
+                        | "DESK")
                   );
                   setPage(1);
+                  setItems([]);
                 }}
               >
                 <SelectTrigger className="w-48 bg-white border-slate-300">
@@ -161,6 +174,7 @@ export default function Users() {
                 onValueChange={(value) => {
                   setLimit(Number.parseInt(value, 10));
                   setPage(1);
+                  setItems([]);
                 }}
               >
                 <SelectTrigger className="w-24 bg-white border-slate-300">
@@ -175,85 +189,30 @@ export default function Users() {
               </Select>
             </div>
           </div>
-
-          {pagination && pagination.totalCount > 0 && (
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <div>
-                Showing{" "}
-                {((page - 1) * limit) + 1} to{" "}
-                {Math.min(page * limit, pagination.totalCount)} of{" "}
-                {pagination.totalCount} users
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(page - 1)}
-                  disabled={!pagination?.hasPreviousPage}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  Previous
-                </Button>
-                <span className="px-2">
-                  Page {page} of {pagination?.totalPages || 1}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(page + 1)}
-                  disabled={!pagination?.hasNextPage}
-                >
-                  Next
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          )}
         </div>
 
         <div className="w-full flex overflow-hidden">
           <div className="h-full w-full overflow-auto">
-            <UsersTable
-              columns={columns}
-              data={users as UserZodType[]}
-              isPending={isPending}
-            />
+            {items.length === 0 && !isPending ? (
+              <div className="p-6 text-center text-slate-500">
+                No users found. Try adjusting filters or search.
+              </div>
+            ) : (
+              <UsersTable
+                columns={columns}
+                data={items as UserZodType[]}
+                isPending={isPending}
+              />
+            )}
+            {/* Lazy scroll loader */}
+            <div ref={loaderRef} className="h-12 flex items-center justify-center">
+              {isPending && <span className="text-slate-500">Loading...</span>}
+              {!hasMore && items.length > 0 && (
+                <span className="text-slate-400 text-sm">No more users</span>
+              )}
+            </div>
           </div>
         </div>
-
-        {pagination && (
-          <div className="flex items-center justify-between p-6 border-t border-slate-200 text-sm text-slate-600 flex-shrink-0">
-            <div>
-              Showing{" "}
-              {((page - 1) * limit) + 1} to{" "}
-              {Math.min(page * limit, pagination.totalCount)} of{" "}
-              {pagination.totalCount} users
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handlePageChange(page - 1)}
-                disabled={!pagination?.hasPreviousPage}
-              >
-                <ChevronLeft className="h-4 w-4" />
-                Previous
-              </Button>
-              <span className="px-2">
-                Page {page} of {pagination?.totalPages || 1}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handlePageChange(page + 1)}
-                disabled={!pagination?.hasNextPage}
-              >
-                Next
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
