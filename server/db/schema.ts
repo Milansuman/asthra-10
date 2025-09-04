@@ -150,7 +150,7 @@ export const eventsTable = pgTable(
     registrationType: registrationType().default('both').notNull(),
     regLimit: integer().default(Number.POSITIVE_INFINITY).notNull(),
     regCount: integer().default(0).notNull(),
-    redirectUrl: text()
+    redirectUrl: text().default("")
   },
   (event) => ({
     createdByIdIndex: index().on(event.createdById),
