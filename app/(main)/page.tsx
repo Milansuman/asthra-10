@@ -1,3 +1,4 @@
+"use client";
 import Plusbox from '@/components/madeup/box';
 import CircularGalleryMade from '@/components/madeup/circularGalleryMade';
 import { FAQ } from '@/components/madeup/faq';
@@ -7,7 +8,6 @@ import { TextRotatingAnimation } from '@/components/madeup/text-animate';
 import { Button } from '@/components/ui/button';
 import WhatsApp from '@/components/icons/whatsapp';
 import { NoiseTexture } from '@/components/noise-texture';
-import FluidGlass from '@/components/madeup/FluidGlass';
 import ImageGrid from '../_components/imageGrid';
 import DepGrid from '../_components/depGrid';
 import Header from '../_components/header';
@@ -269,7 +269,7 @@ export default function Page() {
                 className="w-auto h-36 "
               />
             </div>
-            <ImageGrid />
+            {/* <ImageGrid /> */}
 
           </section>
           <section id='Discover' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
