@@ -12,7 +12,7 @@ import {
 
 
 
-export default function Header() {
+export default function Header({ backgroundColor }: { backgroundColor: string }) {
   return (
     <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full md:w-[calc(100%-200px)] h-20 mt-0 md:mt-4 bg-transparent flex items-center justify-end md:justify-center  z-[9999] ">
       <div className="hidden md:flex items-center w-full max-w-6xl gap-0 md:gap-4 lg:gap-0">
@@ -40,7 +40,7 @@ export default function Header() {
 
 
         {/* Center Nav Links */}
-        <div className="flex gap-6 md:gap-8 lg:gap-12 justify-center px-8 py-3 bg-[#0B91A6] text-white rounded-full -ml-px -mr-px flex-1 z-[99999] md:text-sm lg:text-base">
+        <div className="flex gap-6 md:gap-8 lg:gap-12 justify-center px-8 py-3  text-white rounded-full -ml-px -mr-px flex-1 z-[99999] md:text-sm lg:text-base" style={{backgroundColor: backgroundColor}}>
           <a href="#Home" className="hover:scale-110">Home</a>
           <a href="#About" className="hover:scale-110">About</a>
           <a href="#Discover" className="hover:scale-110">Discover</a>
