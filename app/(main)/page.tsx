@@ -25,7 +25,7 @@ export default function Page() {
 
     <div className="fixed inset-0 bg-black">
 
-      <Header />
+      <Header backgroundColor={"#0B91A6"} />
 
 
       {/* <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40 ">
