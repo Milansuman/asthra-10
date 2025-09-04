@@ -8,10 +8,13 @@ import { TextRotatingAnimation } from '@/components/madeup/text-animate';
 import { Button } from '@/components/ui/button';
 import WhatsApp from '@/components/icons/whatsapp';
 import { NoiseTexture } from '@/components/noise-texture';
-import ImageGrid from '../_components/imageGrid';
+
 import DepGrid from '../_components/depGrid';
 import Header from '../_components/header';
 import localFont from "next/font/local";
+import dynamic from "next/dynamic";
+
+const ImageGrid = dynamic(() => import("../_components/imageGrid"), { ssr: false });
 
 
 
@@ -269,7 +272,7 @@ export default function Page() {
                 className="w-auto h-36 "
               />
             </div>
-            {/* <ImageGrid /> */}
+            <ImageGrid />
 
           </section>
           <section id='Discover' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
