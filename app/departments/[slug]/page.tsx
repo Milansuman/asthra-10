@@ -6,18 +6,44 @@ import { departmentData } from '@/lib/departmentData';
 import { notFound } from 'next/navigation';
 import localFont from 'next/font/local';
 import Link from 'next/link';
+import { api } from '@/trpc/server';
+import { allDepartments } from '@/logic';
 
 const dimensionFont = localFont({
     src: "../../../public/fonts/fonnts.com-Dimensions_600R.otf",
     variable: "--font-dimension",
 });
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: { slug: string } }) {
 
     const department = departmentData.find(d => d.slug === params.slug);
     if (!department) {
         notFound();
     }
+
+    // Map slug to actual department key from schema
+    const departmentKeyMap: Record<string, string> = {
+        'ad': 'ai',
+        'cs': 'cs',
+        'mba': 'mba',
+        'ca': 'mca',
+        'mca': 'mca',
+        'eee': 'ee',
+        'ece': 'ec',
+        'civil': 'ce',
+        'mech': 'me',
+        'cyber': 'cy',
+        'aiml': 'ct',
+        "general": "NA"
+    };
+
+    const departmentKey = departmentKeyMap[params.slug] || params.slug;
+
+    // Fetch approved events for this department
+    const events = await api.event.getByDepartment({
+        department: departmentKey,
+        limit: 50
+    });
     return (
         <div className="fixed inset-0 bg-black">
             <Header backgroundColor={department.colors.fg} />
@@ -64,24 +90,29 @@ export default function Page({ params }: { params: { slug: string } }) {
                     {/* 1. Grid container for the event posters */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 md:px-8 w-full max-w-7xl">
 
-                        {/* 2. Map over the department's events array */}
-                        {department.events.map((event) => (
-                            
+                        {/* 2. Map over the approved events from database */}
+                        {events.length > 0 ? events.map((event) => (
+
                             <Link
                                 key={event.id}
                                 href={`/departments/${department.slug}/events/${event.id}`}
                             >
                                 <div className="w-full">
                                     <Image
-                                        src="/assets/poster.png"
-                                        alt={event.title}
+                                        src={event.poster || "/assets/poster.png"}
+                                        alt={event.name || "Event"}
+
                                         width={290}
                                         height={386}
                                         className="w-full h-auto rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
                                     />
                                 </div>
                             </Link>
-                        ))}
+                        )) : (
+                            <div className="col-span-full text-center py-12">
+                                <p className="text-lg opacity-70">No approved events available for this department yet.</p>
+                            </div>
+                        )}
                     </div>
                 </section>
             </main>

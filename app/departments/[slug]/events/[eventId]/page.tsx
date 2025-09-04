@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Header from '@/app/_components/header';
 import Image from 'next/image';
 import { NoiseTexture } from '@/components/noise-texture';
+import { api } from '@/trpc/server';
+import Link from 'next/link';
 
 interface EventPageProps {
     params: {
@@ -11,7 +13,7 @@ interface EventPageProps {
     };
 }
 
-export default function EventPage({ params }: EventPageProps) {
+export default async function EventPage({ params }: EventPageProps) {
 
     console.log("this is params:", params);
     // 1. Find the correct department using the first URL parameter
@@ -22,16 +24,21 @@ export default function EventPage({ params }: EventPageProps) {
         notFound();
     }
 
-    // 3. Find the correct event within that department using the second URL parameter
-    const event = department.events.find(e => e.id === params.eventId);
+    // 3. Fetch the specific event from the database
+    const event = await api.event.getSpecific({ id: params.eventId });
 
     // 4. If event not found, show 404
     if (!event) {
         notFound();
     }
-    const eventDate = event.date
-    const eventFee = event.fee
-    const rules = event.rules
+
+    // 5. Check if event is approved
+    if (event.eventStatus !== 'approved') {
+        notFound();
+    }
+
+    const eventDate = new Date(event.dateTimeStarts).toLocaleDateString()
+    const eventFee = event.amount > 0 ? `₹${event.amount}` : 'Free'
     return (
         // We'll theme the entire page with the department's colors
         <div className="fixed inset-0 bg-black">
@@ -78,8 +85,8 @@ export default function EventPage({ params }: EventPageProps) {
                     <div className='max-w-6xl flex flex-wrap mx-auto  justify-center  gap-16 '>
                         <div className="w-full md:w-1/3 flex-shrink-0 flex items-center justify-center mb-0 min-w-[296px]">
                             <Image
-                                src="/assets/poster.png"
-                                alt={event.title}
+                                src={event.poster || "/assets/poster.png"}
+                                alt={event.name || "Event"}
                                 width={290}
                                 height={386}
                                 className="w-full max-w-[290px] h-auto rounded-lg border-2 border-black"
@@ -87,10 +94,11 @@ export default function EventPage({ params }: EventPageProps) {
                             />
                         </div>
                         <div className="flex-1 flex flex-col justify-start md:min-w-[400px]">
-                            <h2 className="event-title font-black text-5xl md:text-7xl mb-2 text-black font-dimension">{event.title}</h2>
+                            <h2 className="event-title text-5xl md:text-7xl mb-2 text-black font-dimension">{event.name}</h2>
                             <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">{event.description}</p>
-                            <div className='flex flex-col md:flex-row justify-between flex-wrap '>
-                                <div className="flex gap-2 justify-center mb-4 md:mb-0 bg-[#F6E7D6] py-2">
+                            <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">Venue: {event.venue}</p>
+                            <div className='flex flex-col md:flex-row justify-between items-center flex-wrap '>
+                                <div className="flex gap-2 justify-center mb-4 md:mb-0  py-2">
                                     <span
                                         className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
                                     >
@@ -99,30 +107,20 @@ export default function EventPage({ params }: EventPageProps) {
                                     <span
                                         className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
                                     >
-                                        Reg Fees : Rs.{eventFee}
+                                        Reg Fees : {eventFee}
                                     </span>
                                 </div>
-                                <button className=" text-white text-xl  font-normal px-10 py-3 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
-                                    REGISTER
-                                </button>
+                                <Link href={event.redirectUrl ?? "#"}>
+                                    <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                        REGISTER
+                                    </button>
+                                </Link>
                             </div>
 
                         </div>
 
                     </div>
-                    <div className="mt-6">
-                        <h3 className="rules-header font-bold text-xl text-black mb-2">Rules:</h3>
-                        <ol className="rules-list list-decimal pl-4 text-black text-xl text-justify">
-                            {Array.isArray(rules)
-                                ? rules.map((rule, idx) => (
-                                    <li key={idx} className="mb-1">{rule}</li>
-                                ))
-                                : typeof rules === 'string' && rules.trim() !== ''
-                                    ? <li className="mb-1">{rules}</li>
-                                    : null
-                            }
-                        </ol>
-                    </div>
+
 
 
                 </section>
