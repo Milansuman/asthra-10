@@ -1,3 +1,4 @@
+"use client";
 import Plusbox from '@/components/madeup/box';
 import CircularGalleryMade from '@/components/madeup/circularGalleryMade';
 import { FAQ } from '@/components/madeup/faq';
@@ -7,11 +8,13 @@ import { TextRotatingAnimation } from '@/components/madeup/text-animate';
 import { Button } from '@/components/ui/button';
 import WhatsApp from '@/components/icons/whatsapp';
 import { NoiseTexture } from '@/components/noise-texture';
-import FluidGlass from '@/components/madeup/FluidGlass';
-import ImageGrid from '../_components/imageGrid';
+
 import DepGrid from '../_components/depGrid';
 import Header from '../_components/header';
 import localFont from "next/font/local";
+import dynamic from "next/dynamic";
+
+const ImageGrid = dynamic(() => import("../_components/imageGrid"), { ssr: false });
 
 
 
