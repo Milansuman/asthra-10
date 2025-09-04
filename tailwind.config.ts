@@ -2,6 +2,7 @@ import { heroui } from '@heroui/theme';
 import type { Config } from 'tailwindcss';
 
 const config = {
+
 	darkMode: ['class'],
 	content: [
 		'./pages/**/*.{ts,tsx}',
@@ -25,9 +26,27 @@ const config = {
 					"0%, 100%": { transform: "translateX(0)" },
 					"50%": { transform: "translateX(200px)" },
 				},
+        'accordion-down': {
+					from: {
+						height: '0'
+					},
+					to: {
+						height: 'var(--radix-accordion-content-height)'
+					}
+				},
+				'accordion-up': {
+					from: {
+						height: 'var(--radix-accordion-content-height)'
+					},
+					to: {
+						height: '0'
+					}
+				}
 			},
 			animation: {
 				moveLoop: "moveLoop 3s ease-in-out infinite",
+        'accordion-down': 'accordion-down 0.2s ease-out',
+				'accordion-up': 'accordion-up 0.2s ease-out'
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -92,28 +111,6 @@ const config = {
 				grab: 'url("/cursor/closed.png") 0 0, grab',
 				grabbing: 'url("/cursor/open.png") 0 0, grabbing'
 			},
-			keyframes: {
-				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
-				},
-				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
-				}
-			},
-			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			},
 			fontFamily: {
         dimension: ["var(--font-dimension)"],
       },
@@ -129,6 +126,7 @@ const config = {
 		require('tailwind-scrollbar-hide'),
 		heroui(),
 	],
+
 } satisfies Config;
 
 export default config;
