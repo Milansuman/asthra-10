@@ -72,6 +72,7 @@ const FormSchema = eventZod
             }),
             regLimit: z.number().nonnegative().default(0),
             amount: z.number().nonnegative().default(0),
+            redirectUrl: z.string().nullable().default(null),
         })
     );
 
@@ -157,6 +158,7 @@ export const EventForm: React.FC<{
                 department: 'NA',
                 registrationType: 'both',
                 dateTimeEnd: null,
+                redirectUrl: null,
             },
         });
 
@@ -302,6 +304,28 @@ export const EventForm: React.FC<{
                                     </FormControl>
                                     <FormDescription className="text-slate-600">
                                         This message will be sent to registered users via email
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="redirectUrl"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-slate-700">Redirect URL(Do not fill this field, this field is for web admins)</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="https://example.com/event-details"
+                                            {...field}
+                                            value={field.value ?? ''}
+                                            className="border-slate-300 focus:border-slate-500"
+                                        />
+                                    </FormControl>
+                                    <FormDescription className="text-slate-600">
+                                        Optional URL to redirect users after registration
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
