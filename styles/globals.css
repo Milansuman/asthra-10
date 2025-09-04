@@ -2,20 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
   @keyframes moveLoopY {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(100px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(100px);
+    }
   }
   .animate-moveLoopY {
     animation: moveLoopY 20s ease-in-out infinite;
   }
   @keyframes moveLoopX {
-    0%, 100% { transform: translateX(0); }
-    50%      { transform: translateX(50px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(50px);
+    }
   }
-  .animate-moveLoopX{
+  .animate-moveLoopX {
     animation: moveLoopX 20s ease-in-out infinite;
   }
 }
@@ -100,8 +109,6 @@
     @apply text-white;
   }
 }
-
-
 
 @layer base {
   * {
