@@ -163,15 +163,15 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
           <p className="flex items-center gap-2">
             <span className="font-medium">Status:</span>
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${data.eventStatus === 'approved' ? 'bg-green-100 text-green-800' :
-              data.eventStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+              data.eventStatus === 'uploaded' ? 'bg-yellow-100 text-yellow-800' :
                 'bg-gray-100 text-gray-800'
               }`}>
-              {data.eventStatus}
+              {data.eventStatus as string}
             </span>
           </p>
           <p className="flex items-center gap-2">
             <span className="font-medium">Type:</span>
-            <span>{data.eventType}</span>
+            <span>{data.eventType as string}</span>
           </p>
         </div>
 
