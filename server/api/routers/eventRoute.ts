@@ -207,6 +207,22 @@ export const eventRouter = createTRPCRouter({
       });
     }),
 
+  getByDepartment: publicProcedure
+    .input(z.object({
+      department: z.string(),
+      limit: z.number().optional()
+    }))
+    .query(({ ctx, input }) => {
+      return ctx.db.query.eventsTable.findMany({
+        where: and(
+          eq(eventsTable.eventStatus, 'approved'),
+          eq(eventsTable.department, input.department as any)
+        ),
+        orderBy: (events, { desc }) => [desc(events.createdAt)],
+        limit: input.limit,
+      });
+    }),
+
   getAll: coordinatorProcedure
     .input(z.number().optional())
     .query(({ ctx, input }) => {
