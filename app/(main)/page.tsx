@@ -110,19 +110,47 @@ export default function Page() {
           <section id='About' className=" relative p-5  bg-white rounded-[2rem] overflow-hidden ">
             <div className="flex flex-col w-full  mx-auto  md:justify-start ">
 
-              <Image
+              {/* <Image
                 src="/assets/abtasthra.webp"
                 alt="About Asthra"
                 width={400}
                 height={100}
                 className="sm:w-[95%] md:w-[75%] md:align-top object-cover m-auto block md:block lg:block"
-              />
+              /> */}
+              <div className="flex flex-col w-full items-center lg:hidden">
+                <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
+                  <Image
+                    src="/assets/circlestop.webp"
+                    alt="arrowdesign"
+                    width={366}
+                    height={9}
+                    className="w-[75%] object-cover mb-4" // Changed from w-[50%] to w-full
+                  />
+                  <h1 className="text-6xl md:text-8xl lg:text-8xl text-center lg:hidden text-[#0B91A6] font-extrabold whitespace-nowrap">
+                    About Asthra
+                  </h1>
+                </div>
+              </div>
 
               {/* Content Container */}
               <div className="flex flex-col gap-4 relative  w-[100%] mx-auto md:mx-0 ">
                 {/* First Row */}
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                   <div className="flex-1  rounded-2xl p-4">
+                    <div className="flex flex-col w-full items-center lg:items-start">
+                      <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
+                        <Image
+                          src="/assets/circlestop.webp"
+                          alt="arrowdesign"
+                          width={366}
+                          height={9}
+                          className="w-[75%] object-cover mb-4 hidden md:hidden lg:block"
+                        />
+                        <h1 className="hidden md:hidden lg:block lg:mb-100 lg:text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                          About Asthra
+                        </h1>
+                      </div>
+                    </div>
                     <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
                   </div>
                   <div className="flex-1  rounded-2xl p-1">
@@ -175,13 +203,29 @@ export default function Page() {
           <section id='AboutSJCET' className=" relative p-5  bg-white rounded-[2rem] overflow-hidden ">
             <div className="flex flex-col w-full  mx-auto  md:justify-start ">
 
-              <Image
+              {/* <Image
                 src="/assets/aboutsjcet.png"
                 alt="About SJCET Mobile"
                 width={400}
                 height={100}
                 className="sm:w-[95%] md:w-[75%] md:align-top object-cover m-auto block md:block lg:block p-2"
-              />
+              /> */}
+
+              <div className="flex flex-col w-full items-center lg:items-end">
+                <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
+                  <Image
+                    src="/assets/circlestop.webp"
+                    alt="arrowdesign"
+                    width={366}
+                    height={9}
+                    className="w-[75%] object-cover lg:hidden " // Changed from w-[50%] to w-full
+                  />
+                  <h1 className="text-6xl md:text-8xl lg:hidden text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                    About SJCET
+                  </h1>
+                </div>
+              </div>
+
 
               {/* Content Container */}
               <div className="flex flex-col gap-4 relative  w-[100%] mx-auto md:mx-0 ">
@@ -198,7 +242,21 @@ export default function Page() {
                     />
                   </div>
                   <div className="flex-1  rounded-2xl p-4">
-                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
+                    <div className="flex flex-col w-full items-center lg:items-end">
+                      <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
+                        <Image
+                          src="/assets/circlestop.webp"
+                          alt="arrowdesign"
+                          width={366}
+                          height={9}
+                          className="w-[75%] object-cover mb-4 hidden md:hidden lg:block"
+                        />
+                        <h1 className="hidden md:hidden lg:block lg:mb-100 lg:text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                          About SJCET
+                        </h1>
+                      </div>
+                    </div>
+                    <p className="text-gray-800 text-justify leading-relaxed "> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
                   </div>
                 </div>
 
@@ -242,20 +300,25 @@ export default function Page() {
 
 
           <section className="flex flex-col items-center justify-center relative p-10 bg-white rounded-[2rem] overflow-hidden">
-            <div className="w-[90%] flex justify-center ">
-              <Image
-                src="/assets/images_grid.webp"
-                alt="images grid"
-                width={300}
-                height={200}
-                className="w-auto h-36 "
-              />
+            <div className="flex flex-col w-full items-center lg:items-center">
+              <div className="flex flex-col items-center  max-w-fit"> {/* New container */}
+                <Image
+                  src="/assets/circlestop.webp"
+                  alt="arrowdesign"
+                  width={366}
+                  height={9}
+                  className="w-[75%] object-cover mb-4 "
+                />
+                <h1 className="block md:block lg:block lg:mb-100 text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                  Images Grid
+                </h1>
+              </div>
             </div>
             <ImageGrid />
 
           </section>
           <section id='Discover' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
-            <div className="w-[90%] flex justify-center">
+            {/* <div className="w-[90%] flex justify-center">
               <Image
                 src="/assets/departments.webp"
                 alt="images grid"
@@ -263,6 +326,20 @@ export default function Page() {
                 height={200}
                 className="w-auto h-36 "
               />
+            </div> */}
+            <div className="flex flex-col w-full items-center lg:items-center">
+              <div className="flex flex-col items-center  max-w-fit"> {/* New container */}
+                <Image
+                  src="/assets/circlestop.webp"
+                  alt="arrowdesign"
+                  width={366}
+                  height={9}
+                  className="w-[75%] object-cover mb-4 "
+                />
+                <h1 className="block md:block lg:block lg:mb-100 text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                  Departments
+                </h1>
+              </div>
             </div>
             <DepGrid />
           </section>
