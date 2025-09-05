@@ -65,7 +65,7 @@ export const departmentData: Department[] = [
   {
     id: 3,
     slug: 'mba',
-    name: 'Business Administration (MBA)',
+    name: 'Master of Business Administration',
     colors: { bg: '#F7F0DA', fg: '#217868' },
     events: [
       { id: 'mba1', title: 'AI Ethics Workshop', description: 'Exploring the ethical implications of modern AI.', date: 'SEP 18',posterSrc:'/assets/poster.png' },
@@ -176,7 +176,7 @@ export const departmentData: Department[] = [
   },
   {
     id: 10,
-    slug: 'me',
+    slug: 'mec',
     name: 'Mechanical Engineering',
     colors: { bg: '#FEFADF', fg: '#BC6C25' },
     events: [
@@ -192,7 +192,7 @@ export const departmentData: Department[] = [
   },
   {
     id: 11,
-    slug: 'cy',
+    slug: 'cc',
     name: 'Cyber Security',
     colors: { bg: '#E1E5D5', fg: '#273617' },
     events: [
@@ -207,7 +207,7 @@ export const departmentData: Department[] = [
     ],
   },
   {
-    id: 1,
+    id: 12,
     slug: 'general',
     name: 'General Events',
     colors: { bg: '#E1E5D5', fg: '#273617' },

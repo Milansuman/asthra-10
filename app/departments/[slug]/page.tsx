@@ -29,10 +29,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
         'ca': 'mca',
         'mca': 'mca',
         'eee': 'ee',
+        'er': 'ecs',
         'ece': 'ec',
         'civil': 'ce',
-        'mech': 'me',
-        'cyber': 'cy',
+        'mec': 'me',
+        'cc': 'cy',
         'aiml': 'ct',
         "general": "NA"
     };
@@ -109,8 +110,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
                                 </div>
                             </Link>
                         )) : (
-                            <div className="col-span-full text-center py-12">
-                                <p className="text-lg opacity-70">No approved events available for this department yet.</p>
+                            <div className="col-span-full text-center py-12 text-black">
+                                <p className="text-lg text-black opacity-70">No approved events available for this department yet.</p>
                             </div>
                         )}
                     </div>
