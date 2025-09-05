@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     },
     twitter: {
       card: 'summary_large_image',
-      title: event.name ?? 'Asthra 8.0',
+      title: event.name ?? 'Asthra 10.0',
       description: event.description ?? '',
       creator: `${department} SJCET, Palai`,
       images: {

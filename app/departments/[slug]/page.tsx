@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import { NoiseTexture } from '@/components/noise-texture';
 import FluidGlass from '@/components/madeup/FluidGlass';
-import Header from '../../_components/header';
+import { NoiseTexture } from '@/components/noise-texture';
 import { departmentData } from '@/lib/departmentData';
-import { notFound } from 'next/navigation';
-import localFont from 'next/font/local';
-import Link from 'next/link';
-import { api } from '@/trpc/server';
 import { allDepartments } from '@/logic';
+import { api } from '@/trpc/server';
+import localFont from 'next/font/local';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import Header from '../../_components/header';
 
 const dimensionFont = localFont({
     src: "../../../public/fonts/fonnts.com-Dimensions_600R.otf",

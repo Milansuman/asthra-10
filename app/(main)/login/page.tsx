@@ -102,17 +102,17 @@ const LoginPage = () => {
 
           {/* Connector Line */}
           <div className="flex items-center -ml-px">
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-8 h-[2px] bg-gray-600"></div>
+            <div className="w-8 h-[2px] bg-gray-600" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-12 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-3 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-3 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-12 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-8 h-[2px] bg-gray-600" />
           </div>
 
           {/* Center Nav Links */}
@@ -124,17 +124,17 @@ const LoginPage = () => {
 
           {/* Connector Line */}
           <div className="flex items-center -ml-px">
-            <div className="w-8 h-[2px] bg-gray-600"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-3 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-12 h-[2px] bg-gray-600 -mx-px"></div>
-            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px"></div>
-            <div className="w-8 h-[2px] bg-gray-600"></div>
+            <div className="w-8 h-[2px] bg-gray-600" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-12 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-3 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-3 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-12 h-[2px] bg-gray-600 -mx-px" />
+            <div className="w-2 h-2 border-2 border-gray-600 rounded-full -mx-px" />
+            <div className="w-8 h-[2px] bg-gray-600" />
           </div>
 
           {/* User Actions */}
