@@ -73,15 +73,17 @@ export default function Header({ backgroundColor }: { backgroundColor: string })
       </div>
       <div className="flex md:hidden">
         <Dialog>
-          <DialogTrigger><Menu className='text-black h-8 w-8 mr-5' /></DialogTrigger>
-          <DialogContent className="rounded-xl">
+          <DialogTrigger>
+            <Menu className='text-black h-8 w-8 mr-5' />
+          </DialogTrigger>
+          <DialogContent className="rounded-xl max-w-sm mx-auto">
             <DialogHeader>
-              <DialogTitle className="text-center">Menu</DialogTitle>
-              <DialogDescription className="mt-8">
-                <div className="flex flex-col gap-6 items-center justify-center py-3  text-black">
-                  <a href="#Home" className="hover:scale-110">Home</a>
-                  <a href="#About" className="hover:scale-110">About</a>
-                  <a href="#Discover" className="hover:scale-110">Discover</a>
+              <DialogTitle className="text-center text-black font-semibold">Menu</DialogTitle>
+              <DialogDescription className="mt-6">
+                <div className="flex flex-col gap-2 items-stretch py-3">
+                  <a href="#Home" className="block px-4 py-3 text-white bg-[#0B91A6] rounded-full text-center hover:bg-[#0A7A8A] transition-colors hover:scale-110">Home</a>
+                  <a href="#About" className="block px-4 py-3 text-white bg-[#0B91A6] rounded-full text-center hover:bg-[#0A7A8A] transition-colors hover:scale-110">About</a>
+                  <a href="#Discover" className="block px-4 py-3 text-white bg-[#0B91A6] rounded-full text-center hover:bg-[#0A7A8A] transition-colors hover:scale-110">Discover</a>
                 </div>
               </DialogDescription>
             </DialogHeader>
