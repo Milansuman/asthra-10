@@ -65,6 +65,7 @@ export const eventTypeEnum = pgEnum('eventTypeEnum', [
   'ASTHRA_PASS_EVENT',
   'WORKSHOP',
   'COMPETITION',
+  'EXHIBITION'
 ]);
 
 export const transactionsTable = pgTable(
