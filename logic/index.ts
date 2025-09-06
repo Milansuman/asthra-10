@@ -64,6 +64,7 @@ export const eventType = {
   ASTHRA_PASS_EVENT: false,
   COMPETITION: true,
   WORKSHOP: true,
+  EXHIBITION: true
 } as const; // + "NA" for other events
 
 export const registrationTypeEnum: { [k in string]: string } = {
