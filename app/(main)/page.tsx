@@ -151,7 +151,7 @@ export default function Page() {
                         </h1>
                       </div>
                     </div>
-                    <p className="text-gray-800 text-justify font-Montserrat leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
+                    <p className="text-gray-800 text-justify font-Montserrat leading-relaxed">Asthra, the national-level tech fest of SJCET Palai, has stood as a symbol of innovation, creativity, and excellence for the past decade. Since its inception, Asthra has provided a dynamic platform where students, innovators, and technophiles across India come together to ideate, compete, and showcase their talents.</p>
                   </div>
                   <div className="flex-1  rounded-2xl p-1">
                     <Image
@@ -191,7 +191,7 @@ export default function Page() {
                     />
                   </div>
                   <div className="flex-1  rounded-2xl p-4">
-                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields</p>
+                    <p className="text-gray-800 text-justify leading-relaxed">This year marks the 10th edition of Asthra, featuring an exciting lineup of 70+ technical competitions, hands-on workshops and cultural experiences. Participants from engineering colleges across India come together to showcase their talents, compete in various technical and non-technical events, and engage in innovative activities. Asthra 10.0 aims for the participants to not only engage in competitive events but also immerse themselves in learning, networking, and collaborative exploration.</p>
                   </div>
 
                 </div>
@@ -256,7 +256,7 @@ export default function Page() {
                         </h1>
                       </div>
                     </div>
-                    <p className="text-gray-800 text-justify leading-relaxed "> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
+                    <p className="text-gray-800 text-justify leading-relaxed ">St. Joseph’s College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a leading institution focused on academic and professional excellence. Accredited by the NBA for multiple B.Tech programs, rated ‘A’ by NAAC, and ISO certified, SJCET is recognized as one of Kerala’s respected technical education centres.</p>
                   </div>
                 </div>
 
@@ -279,7 +279,7 @@ export default function Page() {
                 {/* Second Row */}
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                   <div className="flex-1  rounded-2xl p-4">
-                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields</p>
+                    <p className="text-gray-800 text-justify leading-relaxed">The college is known for its commitment to discipline, eco-friendly practices, and innovative teaching methods. Equipped with state-of-the-art infrastructure, advanced laboratories, and a dedicated faculty, SJCET ensures that its students are prepared for the challenges of a dynamic global landscape. With a strong placement cell and numerous skill development initiatives, the institution has consistently nurtured talent and secured rewarding careers for its graduates. The successful organization of ASTHRA over the past decade is a reflection of SJCET’s vibrant academic ecosystem.</p>
                   </div>
                   <div className="flex-1   rounded-2xl p-1 items-center">
                     <Image
