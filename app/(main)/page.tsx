@@ -126,7 +126,7 @@ export default function Page() {
                     height={9}
                     className="w-[75%] object-cover mb-4" // Changed from w-[50%] to w-full
                   />
-                  <h1 className="text-6xl md:text-8xl lg:text-8xl text-center lg:hidden text-[#0B91A6] font-extrabold whitespace-nowrap">
+                  <h1 className="text-8xl md:text-9xl lg:text-9xl text-center lg:hidden text-[#0B91A6] font-dimension whitespace-nowrap">
                     About Asthra
                   </h1>
                 </div>
@@ -138,7 +138,7 @@ export default function Page() {
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                   <div className="flex-1  rounded-2xl p-4">
                     <div className="flex flex-col w-full items-center lg:items-start">
-                      <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
+                      <div className="flex flex-col items-center lg:items-center max-w-fit"> {/* New container */}
                         <Image
                           src="/assets/circlestop.webp"
                           alt="arrowdesign"
@@ -146,12 +146,12 @@ export default function Page() {
                           height={9}
                           className="w-[75%] object-cover mb-4 hidden md:hidden lg:block"
                         />
-                        <h1 className="hidden md:hidden lg:block lg:mb-100 lg:text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                        <h1 className="hidden md:hidden lg:block lg:mb-100 lg:text-9xl text-center lg:text-left text-[#0B91A6] font-dimension whitespace-nowrap">
                           About Asthra
                         </h1>
                       </div>
                     </div>
-                    <p className="text-gray-800 text-justify leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
+                    <p className="text-gray-800 text-justify font-Montserrat leading-relaxed"> St. Joseph's College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust, is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs, NAAC A-grade recognition, and ISO certifications, it ensures academic excellence and holistic development. The college emphasizes discipline, eco-friendliness, and innovative teaching methods, supported by state-of-the-art facilities. With a stellar placement record, the college prepares students for successful careers in various fields.</p>
                   </div>
                   <div className="flex-1  rounded-2xl p-1">
                     <Image
@@ -220,7 +220,7 @@ export default function Page() {
                     height={9}
                     className="w-[75%] object-cover lg:hidden " // Changed from w-[50%] to w-full
                   />
-                  <h1 className="text-6xl md:text-8xl lg:hidden text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                  <h1 className="text-8xl md:text-9xl lg:hidden text-center lg:text-left text-[#0B91A6] font-dimension  whitespace-nowrap">
                     About SJCET
                   </h1>
                 </div>
@@ -243,7 +243,7 @@ export default function Page() {
                   </div>
                   <div className="flex-1  rounded-2xl p-4">
                     <div className="flex flex-col w-full items-center lg:items-end">
-                      <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
+                      <div className="flex flex-col items-center lg:items-center max-w-fit"> {/* New container */}
                         <Image
                           src="/assets/circlestop.webp"
                           alt="arrowdesign"
@@ -251,7 +251,7 @@ export default function Page() {
                           height={9}
                           className="w-[75%] object-cover mb-4 hidden md:hidden lg:block"
                         />
-                        <h1 className="hidden md:hidden lg:block lg:mb-100 lg:text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                        <h1 className="hidden md:hidden lg:block lg:mb-100 lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6] whitespace-nowrap">
                           About SJCET
                         </h1>
                       </div>
@@ -309,7 +309,7 @@ export default function Page() {
                   height={9}
                   className="w-[75%] object-cover mb-4 "
                 />
-                <h1 className="block md:block lg:block lg:mb-100 text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                <h1 className="block md:block lg:block lg:mb-100 text-8xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6]  whitespace-nowrap">
                   Images Grid
                 </h1>
               </div>
@@ -336,7 +336,7 @@ export default function Page() {
                   height={9}
                   className="w-[75%] object-cover mb-4 "
                 />
-                <h1 className="block md:block lg:block lg:mb-100 text-7xl text-center lg:text-left text-[#0B91A6] font-extrabold whitespace-nowrap">
+                <h1 className="block md:block lg:block lg:mb-100 text-8xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6] whitespace-nowrap">
                   Departments
                 </h1>
               </div>
