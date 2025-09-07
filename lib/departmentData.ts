@@ -81,7 +81,7 @@ export const departmentData: Department[] = [
   {
     id: 4,
     slug: 'ca',
-    name: 'Computer Applications',
+    name: 'Computer Science (Artificial Intelligence)',
     colors: { bg: '#FFFFEC', fg: '#9767A8' },
     events: [
       { id: 'ca1', title: 'AI Ethics Workshop', description: 'Exploring the ethical implications of modern AI.', date: 'SEP 18',posterSrc:'/assets/poster.png' },
