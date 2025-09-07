@@ -65,8 +65,8 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
     setUploadProgress(0);
 
     try {
-      // For small files (< 10MB), use simple upload
-      if (file.size < 10 * 1024 * 1024) {
+      // For small files (< 5MB), use simple upload
+      if (file.size < CHUNK_SIZE) {
         const reader = new FileReader();
         reader.onload = () => {
           const dataUrl = reader.result as string;
@@ -278,7 +278,7 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
         <p>• Supported formats: JPG, PNG, GIF, WebP</p>
         <p>• Maximum file size: 50MB</p>
         <p>• Recommended size: 1200x800px or 3:2 aspect ratio</p>
-        <p>• Files over 10MB will use multipart upload for better reliability</p>
+        <p>• Files over 5MB will use multipart upload for better reliability</p>
       </div>
     </div>
   );
