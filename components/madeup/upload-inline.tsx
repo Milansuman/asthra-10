@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Upload, X, Check, Copy, FileImage } from 'lucide-react';
 import { api } from '@/trpc/react';
+import { compressImageToDataUrl, getOptimalCompressionSettings, type CompressionOptions } from '@/lib/image-compression';
 
 type UploadMediaInlineProps = {
   value?: string;
@@ -16,11 +17,13 @@ type UploadMediaInlineProps = {
 };
 
 const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB chunks
+const COMPRESSION_THRESHOLD = 2 * 1024 * 1024; // 2MB - compress files larger than this
 
 const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, onRemove }) => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [compressionStatus, setCompressionStatus] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const initiateUploadMutation = api.upload.initiateMultipartUpload.useMutation();
@@ -33,10 +36,12 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
       onChange(result.url);
       setUploading(false);
       setUploadProgress(0);
+      setCompressionStatus('');
     },
     onError: (error) => {
       setUploading(false);
       setUploadProgress(0);
+      setCompressionStatus('');
     },
   });
 
@@ -63,35 +68,53 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
 
     setUploading(true);
     setUploadProgress(0);
+    setCompressionStatus('');
 
     try {
-      // For small files (< 5MB), use simple upload
-      if (file.size < CHUNK_SIZE) {
+      let dataUrl: string;
+      let isCompressed = false;
+
+      // Check if file needs compression
+      if (file.size > COMPRESSION_THRESHOLD) {
+        setCompressionStatus('Compressing image...');
+
+        // Get optimal compression settings based on file size
+        const compressionOptions = getOptimalCompressionSettings(file.size);
+
+        // Override format based on original file type to maintain transparency for PNGs
+        compressionOptions.outputFormat = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+
+        const { dataUrl: compressedDataUrl, compressionRatio } = await compressImageToDataUrl(file, compressionOptions);
+        dataUrl = compressedDataUrl;
+        isCompressed = true;
+
+        const savedSize = Math.round(file.size * compressionRatio / 1024);
+        setCompressionStatus(`Compressed (saved ${savedSize}KB)`);
+        toast.success(`Image compressed - saved ${savedSize}KB (${Math.round(compressionRatio * 100)}% reduction)`);
+      } else {
+        // For small files, convert to base64 without compression
         const reader = new FileReader();
-        reader.onload = () => {
-          const dataUrl = reader.result as string;
-          uploadSmallImageMutation.mutate({
-            dataUrl,
-            bucketName: 'posters'
-          });
-        };
-        reader.onerror = () => {
-          toast.error("Failed to read file");
-          setUploading(false);
-          setUploadProgress(0);
-        };
-        reader.readAsDataURL(file);
-        return;
+        dataUrl = await new Promise<string>((resolve, reject) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error('Failed to read file'));
+          reader.readAsDataURL(file);
+        });
       }
 
-      // For large files, use multipart upload
-      await handleMultipartUpload(file);
+      // Upload the image (compressed or original)
+      uploadSmallImageMutation.mutate({
+        dataUrl,
+        bucketName: 'assets',
+        isCompressed
+      });
+
     } catch (error) {
       toast.error("Upload failed", {
-        description: "An error occurred while processing the file."
+        description: error instanceof Error ? error.message : "An error occurred while processing the file."
       });
       setUploading(false);
       setUploadProgress(0);
+      setCompressionStatus('');
     }
   };
 
@@ -105,7 +128,7 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
       const initResponse = await initiateUploadMutation.mutateAsync({
         fileName: file.name,
         contentType: file.type,
-        bucketName: 'posters'
+        bucketName: 'assets'
       });
 
       uploadId = initResponse.uploadId;
@@ -264,7 +287,7 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
         {uploading ? (
           <>
             <div className="w-4 h-4 mr-2 border-2 border-current border-t-transparent animate-spin rounded-full" />
-            {uploadProgress > 0 ? `Uploading... ${Math.round(uploadProgress)}%` : 'Uploading...'}
+            {compressionStatus || (uploadProgress > 0 ? `Uploading... ${Math.round(uploadProgress)}%` : 'Uploading...')}
           </>
         ) : (
           <>
@@ -278,7 +301,8 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
         <p>• Supported formats: JPG, PNG, GIF, WebP</p>
         <p>• Maximum file size: 50MB</p>
         <p>• Recommended size: 1200x800px or 3:2 aspect ratio</p>
-        <p>• Files over 5MB will use multipart upload for better reliability</p>
+        <p>• Images over 2MB will be automatically compressed</p>
+        <p>• Compression maintains quality while reducing file size</p>
       </div>
     </div>
   );

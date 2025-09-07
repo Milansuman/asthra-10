@@ -5,7 +5,8 @@ import {
   initiateMultipartUpload, 
   uploadPart, 
   completeMultipartUpload, 
-  abortMultipartUpload 
+  abortMultipartUpload,
+  uploadCompressedImage
 } from '@/server/storage';
 
 export const uploadRouter = createTRPCRouter({
@@ -14,10 +15,17 @@ export const uploadRouter = createTRPCRouter({
       z.object({
         dataUrl: z.string(),
         bucketName: z.string().default('assets'),
+        isCompressed: z.boolean().default(false),
       })
     )
     .mutation(async ({ input }) => {
-      const result = await uploadBase64Image(input.dataUrl, "assets");
+      let result;
+      
+      if (input.isCompressed) {
+        result = await uploadCompressedImage(input.dataUrl, "assets");
+      } else {
+        result = await uploadBase64Image(input.dataUrl, "assets");
+      }
       
       if (!result) {
         throw new Error('Failed to upload image');
@@ -39,7 +47,7 @@ export const uploadRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input }) => {
-      return await initiateMultipartUpload(input.fileName, input.contentType,"assets");
+      return await initiateMultipartUpload(input.fileName, input.contentType, "assets");
     }),
 
   uploadPart: protectedProcedure
