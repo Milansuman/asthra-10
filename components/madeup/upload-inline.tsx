@@ -154,7 +154,7 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
       onChange(completeResponse.url);
       setUploading(false);
       setUploadProgress(0);
-      toast.success("Large file uploaded successfully!");
+      toast.success("File uploaded successfully!");
 
     } catch (error) {
       // Abort multipart upload on error
