@@ -15,22 +15,28 @@ type UploadMediaInlineProps = {
   onRemove?: () => void;
 };
 
+const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB chunks
+
 const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, onRemove }) => {
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const uploadMutation = api.upload.uploadImage.useMutation({
+  const initiateUploadMutation = api.upload.initiateMultipartUpload.useMutation();
+  const uploadPartMutation = api.upload.uploadPart.useMutation();
+  const completeUploadMutation = api.upload.completeMultipartUpload.useMutation();
+  const abortUploadMutation = api.upload.abortMultipartUpload.useMutation();
+
+  const uploadSmallImageMutation = api.upload.uploadImage.useMutation({
     onSuccess: (result) => {
       onChange(result.url);
-      // toast.success("Image uploaded successfully!");
       setUploading(false);
+      setUploadProgress(0);
     },
     onError: (error) => {
-      // toast.error("Upload failed", {
-      //   description: error.message || "Please try again or contact support."
-      // });
       setUploading(false);
+      setUploadProgress(0);
     },
   });
 
@@ -56,27 +62,120 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
     }
 
     setUploading(true);
+    setUploadProgress(0);
 
     try {
-      // Convert file to base64
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataUrl = reader.result as string;
-        uploadMutation.mutate({
-          dataUrl,
-          bucketName: 'posters'
-        });
-      };
-      reader.onerror = () => {
-        toast.error("Failed to read file");
-        setUploading(false);
-      };
-      reader.readAsDataURL(file);
+      // For small files (< 10MB), use simple upload
+      if (file.size < 10 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = reader.result as string;
+          uploadSmallImageMutation.mutate({
+            dataUrl,
+            bucketName: 'posters'
+          });
+        };
+        reader.onerror = () => {
+          toast.error("Failed to read file");
+          setUploading(false);
+          setUploadProgress(0);
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // For large files, use multipart upload
+      await handleMultipartUpload(file);
     } catch (error) {
       toast.error("Upload failed", {
         description: "An error occurred while processing the file."
       });
       setUploading(false);
+      setUploadProgress(0);
+    }
+  };
+
+  const handleMultipartUpload = async (file: File) => {
+    let uploadId: string | undefined;
+    let key: string | undefined;
+    let bucket: string | undefined;
+
+    try {
+      // Initiate multipart upload
+      const initResponse = await initiateUploadMutation.mutateAsync({
+        fileName: file.name,
+        contentType: file.type,
+        bucketName: 'posters'
+      });
+
+      uploadId = initResponse.uploadId;
+      key = initResponse.key;
+      bucket = initResponse.bucket;
+
+      // Calculate number of parts
+      const totalParts = Math.ceil(file.size / CHUNK_SIZE);
+      const parts: Array<{ ETag: string; PartNumber: number }> = [];
+
+      // Upload parts
+      for (let partNumber = 1; partNumber <= totalParts; partNumber++) {
+        const start = (partNumber - 1) * CHUNK_SIZE;
+        const end = Math.min(start + CHUNK_SIZE, file.size);
+        const chunk = file.slice(start, end);
+
+        // Convert chunk to base64
+        const chunkBuffer = await chunk.arrayBuffer();
+        const base64Chunk = Buffer.from(chunkBuffer).toString('base64');
+
+        const partResponse = await uploadPartMutation.mutateAsync({
+          bucket,
+          key,
+          uploadId,
+          partNumber,
+          data: base64Chunk
+        });
+
+        parts.push({
+          ETag: partResponse.ETag,
+          PartNumber: partNumber
+        });
+
+        // Update progress
+        setUploadProgress((partNumber / totalParts) * 100);
+      }
+
+      // Complete multipart upload
+      const completeResponse = await completeUploadMutation.mutateAsync({
+        bucket,
+        key,
+        uploadId,
+        parts
+      });
+
+      onChange(completeResponse.url);
+      setUploading(false);
+      setUploadProgress(0);
+      toast.success("Large file uploaded successfully!");
+
+    } catch (error) {
+      // Abort multipart upload on error
+      if (uploadId && key && bucket) {
+        try {
+          await abortUploadMutation.mutateAsync({
+            bucket,
+            key,
+            uploadId
+          });
+        } catch (abortError) {
+          console.error("Failed to abort multipart upload:", abortError);
+        }
+      }
+
+      toast.error("Upload failed", {
+        description: error instanceof Error ? error.message : "Please try again or contact support."
+      });
+      setUploading(false);
+      setUploadProgress(0);
+      throw error;
     }
   };
 
@@ -165,7 +264,7 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
         {uploading ? (
           <>
             <div className="w-4 h-4 mr-2 border-2 border-current border-t-transparent animate-spin rounded-full" />
-            Uploading...
+            {uploadProgress > 0 ? `Uploading... ${Math.round(uploadProgress)}%` : 'Uploading...'}
           </>
         ) : (
           <>
@@ -179,9 +278,9 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
         <p>• Supported formats: JPG, PNG, GIF, WebP</p>
         <p>• Maximum file size: 50MB</p>
         <p>• Recommended size: 1200x800px or 3:2 aspect ratio</p>
+        <p>• Files over 10MB will use multipart upload for better reliability</p>
       </div>
     </div>
   );
 };
-
 export default UploadMediaInline;
