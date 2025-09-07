@@ -26,15 +26,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
         'ad': 'ai',
         'cs': 'cs',
         'mba': 'mba',
-        'ca': 'mca',
         'mca': 'mca',
+        'ca': 'ct',
         'eee': 'ee',
         'er': 'ecs',
         'ece': 'ec',
         'civil': 'ce',
         'mec': 'me',
         'cc': 'cy',
-        'aiml': 'ct',
         "general": "NA"
     };
 
