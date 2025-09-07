@@ -93,6 +93,59 @@ export async function uploadBase64Image(dataUrl: string, bucketName: string = "a
   }
 }
 
+// Function to handle compressed image uploads
+export async function uploadCompressedImage(dataUrl: string, bucketName: string = "assets") {
+  try {
+    // Parse the data URL to extract MIME type and base64 content
+    const matches = dataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+
+    if (!matches || matches.length !== 3) {
+      return null
+    }
+
+    const mimeType = matches[1];
+    const base64Data = matches[2];
+
+    if(!mimeType || !base64Data){
+      throw new Error("invalid data url");
+    }
+
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    // Create a hash from the content itself
+    const hash = crypto.createHash("sha256").update(buffer).digest("hex");
+    const extension = mimeType.split('/')[1] || 'jpg';
+    const hashedFileName = `compressed_${hash}.${extension}`;
+
+    // Set up the S3 upload parameters with metadata indicating compression
+    const uploadParams = {
+      Bucket: bucketName,
+      Key: hashedFileName,
+      Body: buffer,
+      ContentType: mimeType,
+      Metadata: {
+        'compression': 'client-compressed',
+        'original-format': mimeType
+      }
+    };
+
+    // Upload the file to S3
+    const command = new PutObjectCommand(uploadParams);
+    await s3Client.send(command);
+
+    const url = `${process.env.S3_PUBLIC_URL}/${hashedFileName}`;
+    console.log(`Compressed image uploaded successfully: ${url}`);
+    return {
+      url,
+      hash,
+      mimeType
+    };
+  } catch (error) {
+    console.error("Error uploading compressed image:", error);
+    return null;
+  }
+}
+
 // Multipart upload functions
 export async function initiateMultipartUpload(fileName: string, contentType: string, bucketName: string = "assets") {
   try {
