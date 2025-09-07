@@ -46,11 +46,11 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
       return;
     }
 
-    // Validate file size (8MB max)
-    const maxSize = 8 * 1024 * 1024; // 8MB in bytes
+    // Validate file size (50MB max)
+    const maxSize = 50 * 1024 * 1024; // 50MB in bytes
     if (file.size > maxSize) {
       toast.error("File too large", {
-        description: "Please select an image smaller than 8MB."
+        description: "Please select an image smaller than 50MB."
       });
       return;
     }
@@ -177,7 +177,7 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
 
       <div className="text-xs text-slate-500">
         <p>• Supported formats: JPG, PNG, GIF, WebP</p>
-        <p>• Maximum file size: 8MB</p>
+        <p>• Maximum file size: 50MB</p>
         <p>• Recommended size: 1200x800px or 3:2 aspect ratio</p>
       </div>
     </div>
