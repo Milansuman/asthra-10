@@ -22,7 +22,7 @@ export default function Header({ backgroundColor }: { backgroundColor: string })
       <div className="hidden md:flex items-center w-full max-w-6xl gap-0 md:gap-4 lg:gap-0">
         {/* Left Logo */}
         <div className="w-[230px] min-w-[136px] flex items-center justify-center py-2 bg-white border border-black rounded-full font-black tracking-widest text-black">
-          <Image src="/asthratext.svg" alt="asthra" width={85.65} height={27.26} className="min-w-[85px] min-h-[27px]" />
+          <h1 className="font-dimension text-5xl min-w-[85px] min-h-[27px]">ASTHRA</h1>
         </div>
 
         {/* Connector Line */}
