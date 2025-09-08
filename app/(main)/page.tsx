@@ -84,21 +84,21 @@ export default function Page() {
                 alt="logo"
                 width={900}
                 height={646.5}
-                className="hidden lg:block w-[95vh] min-w-[600px]"
+                className="hidden md:block w-[95vh] min-w-[600px]"
               />
-              <Image
+              {/* <Image
                 src="/assets/finallandingmd.webp"
                 alt="logo"
                 width={491.6}
                 height={600}
                 className="hidden lg:hidden md:block"
-              />
+              /> */}
               <Image
                 src="/assets/mobile_landing.webp"
                 alt="logo"
                 width={350}
                 height={621.99}
-                className="block md:hidden w-[90vw] max-w-[410px]"
+                className="block md:hidden w-[90vw] max-w-[400px]"
               />
             </div>
           </section>
