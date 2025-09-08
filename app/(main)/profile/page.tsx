@@ -45,63 +45,15 @@ import { ProfileEdit } from "./_components/edit";
 import FluidGlass from "@/components/madeup/FluidGlass";
 import { NoiseTexture } from "@/components/noise-texture";
 import Header from "./_components/header";
+import { redirect } from "next/navigation";
 
 export default function ProfilePage() {
-  const { data } = useSession();
+  const { data, status } = useSession();
 
-  if (!data || !data.user) {
-    return (
-      <div className="fixed inset-0 bg-black">
-        {/* Decorative glass elements */}
-        {/* <div className="absolute -top-[17%] md:top-[20%] pointer-events-none -left-[17%] md:-left-[3%] z-40">
-          <FluidGlass mobileSize={100} desktopSize={290} />
-        </div>
+  if (status === "loading") return <></>;
 
-        <div className="absolute top-[10%] md:top-[6%] pointer-events-none -right-[12%] md:-right-[2%] z-40">
-          <FluidGlass mobileSize={110} desktopSize={300} />
-        </div> */}
+  if (!data || !data.user) redirect("/login");
 
-        {/* Side navigation bars */}
-        <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
-          <Image
-            src="/assets/side.png"
-            alt="Left navigation"
-            width={30}
-            height={500}
-            className="h-[95vh] w-auto"
-          />
-        </div>
-
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
-          <Image
-            src="/assets/side.png"
-            alt="Right navigation"
-            width={30}
-            height={500}
-            className="h-[95vh] w-auto"
-          />
-        </div>
-
-        {/* Navigation bar */}
-        <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] h-20 mt-4 bg-transparent flex items-center justify-center z-[9999]">
-          <div className="flex items-center">
-            <div className="px-6 py-2 bg-transparent border border-gray-600 rounded-full font-black tracking-widest">
-              <Image src="/assets/asthra.svg" alt="asthra" width={60} height={10} className="relative" />
-            </div>
-          </div>
-        </nav>
-
-        <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto">
-          <NoiseTexture />
-          <div className="h-screen bg-white relative rounded-b-[2rem] overflow-y-auto scrollbar-hide">
-            <div className="flex flex-col justify-center items-center h-full p-6">
-              <LoginButton />
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
   const user = data.user as UserZodType;
 
   return (
@@ -141,7 +93,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Navigation bar */}
-      <Header/>
+      <Header backgroundColor={"#0B91A6"} />
 
       <div className="w-screen h-screen fixed pointer-events-none bg-blend-overlay z-40">
         <NoiseTexture />

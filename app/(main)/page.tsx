@@ -13,6 +13,7 @@ import DepGrid from '../_components/depGrid';
 import Header from '../_components/header';
 import localFont from "next/font/local";
 import dynamic from "next/dynamic";
+import ComprehensiveFooter from '@/components/madeup/footer-new';
 
 const ImageGrid = dynamic(() => import("../_components/imageGrid"), { ssr: false });
 
@@ -339,6 +340,10 @@ export default function Page() {
               </div>
             </div>
             <DepGrid />
+          </section>
+
+          <section id='Events' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-t-[2rem] overflow-hidden">
+            <ComprehensiveFooter />
           </section>
         </div>
       </main >
