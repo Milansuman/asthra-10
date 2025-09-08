@@ -76,14 +76,14 @@ export default function ComprehensiveFooter() {
                         </div>
 
                         {/* Registration Helpline */}
-                        <div>
+                        {/* <div>
                             <h4 className="text-base font-semibold mb-4">Registration HelpLine</h4>
                             <div className="space-y-2 text-sm text-black">
-                                <p>Tomin Joy - 9400836474</p>
-                                <p>Reenphy George - 9074539693</p>
-                                <p>Rajat Sandeep - 9846101882</p>
+                                <p></p>
+                                <p></p>
+                                <p></p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Right Section - Asthra Logo & Faculty */}
