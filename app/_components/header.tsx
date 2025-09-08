@@ -7,14 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
 } from "@/components/ui/dialog";
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-
+import { Suspense, useEffect, useState } from "react";
 
 export default function Header({ backgroundColor }: { backgroundColor: string }) {
   const router = useRouter();
@@ -24,7 +22,7 @@ export default function Header({ backgroundColor }: { backgroundColor: string })
     <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full md:w-[calc(100%-200px)] h-20 mt-0 md:mt-4 bg-transparent flex items-center justify-end md:justify-center  z-[9999] ">
       <div className="hidden md:flex items-center w-full max-w-6xl gap-0 md:gap-4 lg:gap-0">
         {/* Left Logo */}
-        <div className="w-[230px] min-w-[136px] flex items-center justify-center py-2 bg-white border border-black rounded-full  tracking-widest text-black">
+        <div className="w-[230px] min-w-[136px] flex items-center justify-center bg-white border border-black rounded-full  tracking-widest text-black">
           <h1 className="font-dimension text-5xl min-w-[85px] min-h-[27px]">ASTHRA</h1>
         </div>
 
@@ -68,11 +66,10 @@ export default function Header({ backgroundColor }: { backgroundColor: string })
               </div> */}
         <Image src="/assets/navbarline.webp" alt="asthra" width={246.5} height={10} className="min-w-[100px] h-auto hidden lg:block" />
 
+        <div className="w-[230px] min-w-[136px] flex items-center justify-center bg-black border border-black rounded-full  tracking-widest text-white">
+          <h1 className="font-dimension text-5xl min-w-[85px] min-h-[27px]">ASTHRA</h1>
+        </div>
 
-        {/* Sign In */}
-        <button type='button' className='bg-black text-white font-semibold py-3 rounded-full w-[230px] min-w-[100px]' onClick={() => router.push("/login")}>
-          Register
-        </button>
       </div>
       <div className="flex md:hidden">
         <Dialog open={menuOpen} onOpenChange={() => setMenuOpen(!menuOpen)}>
@@ -84,10 +81,14 @@ export default function Header({ backgroundColor }: { backgroundColor: string })
               <DialogTitle className="text-center font-dimension text-5xl tracking-[1px] text-[#0B91A6]">MENU</DialogTitle>
               <DialogDescription className="mt-6">
                 <div className="flex flex-col gap-2 items-center py-3">
-                  <a href="#Home" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Home</a>
-                  <a href="#About" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">About</a>
-                  <a href="#Events" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Events</a>
-                  <a className="block mt-4 px-4 py-3 text-white bg-black rounded-full text-center text-xl font-bold w-[80%] ">Register</a>
+                  <Link href="#Home" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Home</Link>
+                  <Link href="#About" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">About</Link>
+                  <Link href="#Events" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Events</Link>
+                  {/* <button type='button' className='mt-4 px-4 py-3 bg-black text-white rounded-full text-center text-xl font-bold w-[80%]' onClick={() => router.push("/login")}>
+                    <Suspense fallback={<div>👻</div>}>
+                      <RegisterButton />
+                    </Suspense>
+                  </button> */}
                 </div>
               </DialogDescription>
             </DialogHeader>
