@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function ComprehensiveFooter() {
     return (
-        <footer className="w-full bg-black text-white">
+        <footer className="w-full  text-black">
             <div className="max-w-7xl mx-auto px-6 py-12">
                 {/* Main Footer Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
@@ -11,27 +11,19 @@ export default function ComprehensiveFooter() {
                     {/* Left Section - College Info */}
                     <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                         <div className="mb-6">
-                            <h3 className="text-lg font-semibold mb-2 tracking-wide">
+                            <h3 className="text-4xl font-dimension mb-2 tracking-wide">
                                 ST. JOSEPH'S<br />
                                 COLLEGE OF ENGINEERING<br />
                                 AND TECHNOLOGY,<br />
                                 PALAI
                             </h3>
-                            <p className="text-gray-300 text-sm leading-relaxed">
+                            <p className="text-black text-sm leading-relaxed">
                                 St Joseph's College of Engineering and Technology,<br />
                                 Palai, Choondacherry P.O, Palai, Kottayam 686 579, Kerala, India.
                             </p>
                         </div>
 
-                        {/* Student Coordinators */}
-                        <div className="mb-8">
-                            <h4 className="text-base font-semibold mb-4">Student Coordinators</h4>
-                            <div className="space-y-2 text-sm text-gray-300">
-                                <p>Ajil pavithran - +919747781189</p>
-                                <p>Jesvin C Jess - +918590396453</p>
-                                <p>Shalon Mary Michael - +918589809771</p>
-                            </div>
-                        </div>
+
                     </div>
 
                     {/* Center Section - Registration & Social */}
@@ -42,7 +34,7 @@ export default function ComprehensiveFooter() {
                                 href="https://instagram.com/asthra_sjcet"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+                                className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
                                 aria-label="Instagram"
                             >
                                 <Instagram className="w-6 h-6" />
@@ -51,7 +43,7 @@ export default function ComprehensiveFooter() {
                                 href="https://www.youtube.com/@sjcetpalai/videos"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+                                className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
                                 aria-label="YouTube"
                             >
                                 <Youtube className="w-6 h-6" />
@@ -60,7 +52,7 @@ export default function ComprehensiveFooter() {
                                 href="https://www.facebook.com/asthra.sjcet/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+                                className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
                                 aria-label="Facebook"
                             >
                                 <Facebook className="w-6 h-6" />
@@ -69,7 +61,7 @@ export default function ComprehensiveFooter() {
                                 href="https://github.com/AsthraSJCET/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+                                className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
                                 aria-label="GitHub"
                             >
                                 <Github className="w-6 h-6" />
@@ -78,7 +70,7 @@ export default function ComprehensiveFooter() {
 
                         {/* Made with Love */}
                         <div className="mb-8">
-                            <p className="text-gray-300 text-sm">
+                            <p className="text-black text-sm">
                                 Made with <span className="text-red-500">♥</span> by team asthra
                             </p>
                         </div>
@@ -86,7 +78,7 @@ export default function ComprehensiveFooter() {
                         {/* Registration Helpline */}
                         <div>
                             <h4 className="text-base font-semibold mb-4">Registration HelpLine</h4>
-                            <div className="space-y-2 text-sm text-gray-300">
+                            <div className="space-y-2 text-sm text-black">
                                 <p>Tomin Joy - 9400836474</p>
                                 <p>Reenphy George - 9074539693</p>
                                 <p>Rajat Sandeep - 9846101882</p>
@@ -95,32 +87,23 @@ export default function ComprehensiveFooter() {
                     </div>
 
                     {/* Right Section - Asthra Logo & Faculty */}
-                    <div className="flex flex-col items-center lg:items-end text-center lg:text-right">
+                    <div className="flex flex-col items-center lg:items-end text-center lg:text-right ">
                         {/* Asthra Logo */}
-                        <div className="mb-8">
+                        <div className="mb-8 h-full w-full">
                             <img
                                 src="/asthra.svg"
                                 alt="Asthra 10.0"
                                 width={200}
                                 height={120}
-                                className="object-contain"
+                                className="w-full"
                             />
-                            <div className="text-center mt-4">
-                                <h4 className="text-lg font-bold">10.0</h4>
-                                <p className="text-gray-300 text-sm max-w-xs">
-                                    Envisioned to explore the possibilities of tomorrow
-                                </p>
+                            <div>
+                                <h2 className="italic">Envisioned to explore the possibilities of tomorrow</h2>
                             </div>
+
                         </div>
 
-                        {/* Faculty Coordinators */}
-                        <div>
-                            <h4 className="text-base font-semibold mb-4">Faculty Coordinators</h4>
-                            <div className="space-y-2 text-sm text-gray-300">
-                                <p>Dr. Nidhish M Nidhiry - +919447227844</p>
-                                <p>Dr. Arun P - +91 98958 52842</p>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
