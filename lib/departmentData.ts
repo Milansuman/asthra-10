@@ -183,7 +183,7 @@ export const departmentData: Department[] = [
     id: 12,
     slug: 'general',
     name: 'General Events',
-    colors: { bg: '#E1E5D5', fg: '#273617' },
+    colors: { bg: '#FFFFFF', fg: '#0B91A6' },
     events: [
       { id: 'general1', title: 'AI Ethics Workshop', description:`St. Joseph’s College of Engineering and Technology, Palai, established by the Diocesan Technical Education Trust,
                                 is a premier institution offering quality technical education. With NBA accreditation for five B.Tech programs,

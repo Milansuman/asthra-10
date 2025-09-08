@@ -81,7 +81,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     style={{ background: department.colors.bg }}
                 >
                     <h1
-                        className={`max-w-xl text-7xl md:text-8xl  mb-8 text-center px-4 break-words ${dimensionFont.className}`}
+                        className={`max-w-3xl text-7xl md:text-8xl  mb-8 text-center px-4 break-words ${dimensionFont.className}`}
                         style={{ color: department.colors.fg }}
                     >
                         {department.name}
