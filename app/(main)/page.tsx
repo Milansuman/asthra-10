@@ -67,14 +67,11 @@ export default function Page() {
       <NoiseTexture />
 
 
-      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto scroll-smooth">
-
-
-
+      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto scrollbar-hide scroll-smooth">
         <div className='flex flex-col gap-10'>
           {/* Main ASTHRA section */}
-          <section id='Home' className="flex flex-col items-center justify-center h-[100vh] bg-white rounded-b-[2rem] overflow-hidden">
-            <div className='flex flex-col items-center justify center md:absolute md:bottom-0 mx-5 md:mx-10'>
+          <section id='Home' className="flex flex-col items-center justify-end h-[100vh] bg-white rounded-b-[2rem] overflow-hidden">
+            <div className='flex flex-col items-center md:absolute md:bottom-0 mx-5 md:mx-10'>
               <Image
                 src="/asthra.svg"
                 alt="SAR 10.0"
@@ -87,7 +84,7 @@ export default function Page() {
                 alt="logo"
                 width={900}
                 height={646.5}
-                className="hidden lg:block"
+                className="hidden lg:block w-[95vh] min-w-[600px]"
               />
               <Image
                 src="/assets/finallandingmd.webp"
@@ -126,7 +123,7 @@ export default function Page() {
                     height={9}
                     className="w-[75%] object-cover mb-4" // Changed from w-[50%] to w-full
                   />
-                  <h1 className="text-8xl md:text-9xl lg:text-9xl text-center lg:hidden text-[#0B91A6] font-dimension whitespace-nowrap">
+                  <h1 className="text-7xl md:text-9xl lg:text-9xl text-center lg:hidden text-[#0B91A6] font-dimension whitespace-nowrap">
                     About Asthra
                   </h1>
                 </div>
@@ -220,7 +217,7 @@ export default function Page() {
                     height={9}
                     className="w-[75%] object-cover lg:hidden " // Changed from w-[50%] to w-full
                   />
-                  <h1 className="text-8xl md:text-9xl lg:hidden text-center lg:text-left text-[#0B91A6] font-dimension  whitespace-nowrap">
+                  <h1 className="text-7xl md:text-9xl lg:hidden text-center lg:text-left text-[#0B91A6] font-dimension  whitespace-nowrap">
                     About SJCET
                   </h1>
                 </div>
@@ -309,7 +306,7 @@ export default function Page() {
                   height={9}
                   className="w-[75%] object-cover mb-4 "
                 />
-                <h1 className="block md:block lg:block lg:mb-100 text-8xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6]  whitespace-nowrap">
+                <h1 className="block md:block lg:block lg:mb-100 text-7xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6]  whitespace-nowrap">
                   Images Grid
                 </h1>
               </div>
@@ -317,7 +314,7 @@ export default function Page() {
             <ImageGrid />
 
           </section>
-          <section id='Discover' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
+          <section id='Events' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
             {/* <div className="w-[90%] flex justify-center">
               <Image
                 src="/assets/departments.webp"
@@ -336,8 +333,8 @@ export default function Page() {
                   height={9}
                   className="w-[75%] object-cover mb-4 "
                 />
-                <h1 className="block md:block lg:block lg:mb-100 text-8xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6] whitespace-nowrap">
-                  Departments
+                <h1 className="block md:block lg:block lg:mb-100 text-7xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6] leading-[63px] max-w-md md:max-w-none">
+                  Department Events
                 </h1>
               </div>
             </div>
