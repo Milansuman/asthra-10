@@ -152,11 +152,11 @@ export default function Page() {
                   </div>
                   <div className="flex-1  rounded-2xl p-1">
                     <Image
-                      src="/assets/image_placeholder.webp"
+                      src="/assets/grid/img4.webp"
                       alt="Our Mission"
                       width={400}
                       height={100}
-                      className=" h-[55%] w-[90%] object-cover m-auto"
+                      className=" h-[55%] w-[90%] object-cover m-auto rounded-2xl"
                     />
                   </div>
                 </div>
@@ -178,13 +178,13 @@ export default function Page() {
 
                 {/* Second Row */}
                 <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1   rounded-2xl p-1 items-center">
+                  <div className="flex-1  rounded-2xl p-1 items-center">
                     <Image
-                      src="/assets/image_placeholder.webp"
+                      src="/assets/grid/img8.webp"
                       alt="Our Mission"
                       width={400}
                       height={100}
-                      className="h-[55%] w-[90%] object-cover m-auto"
+                      className="h-[55%] w-[90%] object-cover m-auto rounded-2xl"
                     />
                   </div>
                   <div className="flex-1  rounded-2xl p-4">
@@ -229,13 +229,13 @@ export default function Page() {
                 {/* First Row */}
                 <div className="flex flex-col md:flex-row gap-4 items-center">
 
-                  <div className="flex-1  rounded-2xl p-1">
+                  <div className="flex-1 w-full rounded-2xl p-1 items-center">
                     <Image
-                      src="/assets/image_placeholder.webp"
+                      src="/assets/grid/img11.webp"
                       alt="Our Mission"
                       width={400}
                       height={100}
-                      className=" h-[55%] w-[90%] object-cover m-auto"
+                      className=" h-[55%] w-[80%] object-fill m-auto rounded-2xl"
                     />
                   </div>
                   <div className="flex-1  rounded-2xl p-4">
@@ -278,13 +278,13 @@ export default function Page() {
                   <div className="flex-1  rounded-2xl p-4">
                     <p className="text-gray-800 text-justify leading-relaxed">The college is known for its commitment to discipline, eco-friendly practices, and innovative teaching methods. Equipped with state-of-the-art infrastructure, advanced laboratories, and a dedicated faculty, SJCET ensures that its students are prepared for the challenges of a dynamic global landscape. With a strong placement cell and numerous skill development initiatives, the institution has consistently nurtured talent and secured rewarding careers for its graduates. The successful organization of ASTHRA over the past decade is a reflection of SJCET’s vibrant academic ecosystem.</p>
                   </div>
-                  <div className="flex-1   rounded-2xl p-1 items-center">
+                  <div className="flex-1  w-full h-auto rounded-2xl p-1 items-center">
                     <Image
-                      src="/assets/image_placeholder.webp"
+                      src="/assets/grid/img12.webp"
                       alt="Our Mission"
                       width={400}
                       height={100}
-                      className="h-[55%] w-[90%] object-cover m-auto"
+                      className="h-[55%] w-[90%] object-fill m-auto rounded-2xl"
                     />
                   </div>
 
