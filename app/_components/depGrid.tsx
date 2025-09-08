@@ -22,6 +22,7 @@ const depData: Dep[] = [
     { slug: 'mec', backgroundSrc: "/assets/department_bg/mec_bg.webp", foregroundSrc: "/assets/department/MEC.svg" },
     { slug: 'cc', backgroundSrc: "/assets/department_bg/cc_bg.webp", foregroundSrc: "/assets/department/CC.svg" },
     { slug: 'cs', backgroundSrc: "/assets/department_bg/cs_bg.webp", foregroundSrc: "/assets/department/cs.svg" },
+    { slug: 'general', backgroundSrc: "/assets/department_bg/cs_bg.webp", foregroundSrc: "/assets/department/cs.svg" },
 ];
 
 const GridCell = ({ backgroundSrc, foregroundSrc }: Omit<Dep, 'slug'>) => {
