@@ -98,7 +98,7 @@ export default function Page() {
                 alt="logo"
                 width={350}
                 height={621.99}
-                className="block md:hidden"
+                className="block md:hidden w-[90vw] max-w-[410px]"
               />
             </div>
           </section>
