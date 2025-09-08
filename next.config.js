@@ -31,6 +31,9 @@ const config = {
   typedRoutes: true,
   experimental: {
     reactCompiler: true,
+    serverActions: {
+      bodySizeLimit: "10mb"
+    }
   },
   images: {
     formats: ['image/avif', 'image/webp'],

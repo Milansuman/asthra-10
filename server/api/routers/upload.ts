@@ -1,6 +1,13 @@
 import { z } from 'zod';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
-import { uploadBase64Image } from '@/server/storage';
+import { 
+  uploadBase64Image, 
+  initiateMultipartUpload, 
+  uploadPart, 
+  completeMultipartUpload, 
+  abortMultipartUpload,
+  uploadCompressedImage
+} from '@/server/storage';
 
 export const uploadRouter = createTRPCRouter({
   uploadImage: protectedProcedure
@@ -8,10 +15,17 @@ export const uploadRouter = createTRPCRouter({
       z.object({
         dataUrl: z.string(),
         bucketName: z.string().default('assets'),
+        isCompressed: z.boolean().default(false),
       })
     )
     .mutation(async ({ input }) => {
-      const result = await uploadBase64Image(input.dataUrl, "assets");
+      let result;
+      
+      if (input.isCompressed) {
+        result = await uploadCompressedImage(input.dataUrl, "assets");
+      } else {
+        result = await uploadBase64Image(input.dataUrl, "assets");
+      }
       
       if (!result) {
         throw new Error('Failed to upload image');
@@ -24,17 +38,59 @@ export const uploadRouter = createTRPCRouter({
       };
     }),
 
-  uploadFile: protectedProcedure
+  initiateMultipartUpload: protectedProcedure
     .input(
       z.object({
-        file: z.instanceof(File),
-        bucketName: z.string().default('posters'),
+        fileName: z.string(),
+        contentType: z.string(),
+        bucketName: z.string().default('assets'),
       })
     )
     .mutation(async ({ input }) => {
-      // Note: This would need to be handled differently in tRPC
-      // as File objects don't serialize well over the network
-      // We'll primarily use the base64 upload for images
-      throw new Error('Direct file upload not implemented. Use uploadImage with base64 data.');
+      return await initiateMultipartUpload(input.fileName, input.contentType, "assets");
+    }),
+
+  uploadPart: protectedProcedure
+    .input(
+      z.object({
+        bucket: z.string(),
+        key: z.string(),
+        uploadId: z.string(),
+        partNumber: z.number(),
+        data: z.string(), // base64 encoded part data
+      })
+    )
+    .mutation(async ({ input }) => {
+      const buffer = Buffer.from(input.data, 'base64');
+      return await uploadPart("assets", input.key, input.uploadId, input.partNumber, buffer);
+    }),
+
+  completeMultipartUpload: protectedProcedure
+    .input(
+      z.object({
+        bucket: z.string(),
+        key: z.string(),
+        uploadId: z.string(),
+        parts: z.array(z.object({
+          ETag: z.string(),
+          PartNumber: z.number(),
+        })),
+      })
+    )
+    .mutation(async ({ input }) => {
+      return await completeMultipartUpload("assets", input.key, input.uploadId, input.parts);
+    }),
+
+  abortMultipartUpload: protectedProcedure
+    .input(
+      z.object({
+        bucket: z.string(),
+        key: z.string(),
+        uploadId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      await abortMultipartUpload("assets", input.key, input.uploadId);
+      return { success: true };
     }),
 });
