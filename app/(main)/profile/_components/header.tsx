@@ -7,29 +7,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from 'react'
+import { Suspense, useEffect, useState } from "react";
 
-const NavLinks = [
-  { label: "Home", href: "/" },
-  { label: "Profile", href: "/profile" },
-  { label: "Dashboard", href: "/dashboard" },
-];
-
-
-
-export default function Header() {
+export default function Header({ backgroundColor }: { backgroundColor: string }) {
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full md:w-[calc(100%-200px)] h-20 mt-0 md:mt-4 bg-transparent flex items-center justify-end md:justify-center  z-[9999] ">
       <div className="hidden md:flex items-center w-full max-w-6xl gap-0 md:gap-4 lg:gap-0">
         {/* Left Logo */}
-        <div className="w-[230px] min-w-[136px] flex items-center justify-center py-2 bg-white border border-black rounded-full font-black tracking-widest text-black">
-          <Image src="/asthratext.svg" alt="asthra" width={85.65} height={27.26} className="min-w-[85px] min-h-[27px]" />
+        <div className="w-[230px] min-w-[136px] flex items-center justify-center bg-white border border-black rounded-full  tracking-widest text-black">
+          <h1 className="font-dimension text-5xl min-w-[85px] min-h-[27px]">ASTHRA</h1>
         </div>
 
         {/* Connector Line */}
@@ -51,16 +45,10 @@ export default function Header() {
 
 
         {/* Center Nav Links */}
-        <div className="flex gap-6 md:gap-8 lg:gap-12 justify-center px-8 py-3 bg-[#0B91A6] text-white rounded-full -ml-px -mr-px flex-1 z-[99999] md:text-sm lg:text-base">
-          {NavLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="block px-4 py-2 text-white"
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="flex gap-6 md:gap-8 lg:gap-12 justify-center px-8 py-3  text-white rounded-full -ml-px -mr-px flex-1 z-[99999] md:text-sm lg:text-base" style={{ backgroundColor: backgroundColor }}>
+          <Link href="/" className="hover:scale-110">Home</Link>
+          <Link href="/profile" className="hover:scale-110">Profile</Link>
+          <Link href="/dashboard" className="hover:scale-110">Dashboard</Link>
         </div>
 
         {/* <div className="flex items-center -ml-px">
@@ -78,31 +66,29 @@ export default function Header() {
               </div> */}
         <Image src="/assets/navbarline.webp" alt="asthra" width={246.5} height={10} className="min-w-[100px] h-auto hidden lg:block" />
 
+        <div className="w-[230px] min-w-[136px] flex items-center justify-center bg-black border border-black rounded-full  tracking-widest text-white">
+          <h1 className="font-dimension text-5xl min-w-[85px] min-h-[27px]">ASTHRA</h1>
+        </div>
 
-        {/* Sign In */}
-        <button type='button' className='bg-black text-white font-semibold py-3 rounded-full w-[230px] min-w-[100px]' onClick={() => router.push("/login")}>
-          Sign In
-        </button>
       </div>
       <div className="flex md:hidden">
-        <Dialog>
+        <Dialog open={menuOpen} onOpenChange={() => setMenuOpen(!menuOpen)}>
           <DialogTrigger>
             <Menu className='text-black h-8 w-8 mr-5' />
           </DialogTrigger>
           <DialogContent className="rounded-xl max-w-sm mx-auto">
             <DialogHeader>
-              <DialogTitle className="text-center text-black font-semibold">Menu</DialogTitle>
+              <DialogTitle className="text-center font-dimension text-5xl tracking-[1px] text-[#0B91A6]">MENU</DialogTitle>
               <DialogDescription className="mt-6">
-                <div className="flex flex-col gap-2 items-stretch py-3">
-                  {NavLinks.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      className="block px-4 py-3 text-white bg-[#0B91A6] rounded-full text-center hover:bg-[#0A7A8A] transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  ))}
+                <div className="flex flex-col gap-2 items-center py-3">
+                  <Link href="/" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Home</Link>
+                  <Link href="/profile" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Profile</Link>
+                  <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Dashboard</Link>
+                  {/* <button type='button' className='mt-4 px-4 py-3 bg-black text-white rounded-full text-center text-xl font-bold w-[80%]' onClick={() => router.push("/login")}>
+                    <Suspense fallback={<div>👻</div>}>
+                      <RegisterButton />
+                    </Suspense>
+                  </button> */}
                 </div>
               </DialogDescription>
             </DialogHeader>
