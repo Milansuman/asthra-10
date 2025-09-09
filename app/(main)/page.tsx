@@ -296,25 +296,6 @@ export default function Page() {
 
           </section>
 
-
-          <section className="flex flex-col items-center justify-center relative p-10 bg-white rounded-[2rem] overflow-hidden">
-            <div className="flex flex-col w-full items-center lg:items-center">
-              <div className="flex flex-col items-center  max-w-fit"> {/* New container */}
-                <Image
-                  src="/assets/circlestop.webp"
-                  alt="arrowdesign"
-                  width={366}
-                  height={9}
-                  className="w-[75%] object-cover mb-4 "
-                />
-                <h1 className="block md:block lg:block lg:mb-100 text-7xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6]  whitespace-nowrap">
-                  Images Grid
-                </h1>
-              </div>
-            </div>
-            <ImageGrid />
-
-          </section>
           <section id='Events' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
             {/* <div className="w-[90%] flex justify-center">
               <Image
@@ -340,6 +321,25 @@ export default function Page() {
               </div>
             </div>
             <DepGrid />
+          </section>
+
+          <section className="flex flex-col items-center justify-center relative p-10 bg-white rounded-[2rem] overflow-hidden">
+            <div className="flex flex-col w-full items-center lg:items-center">
+              <div className="flex flex-col items-center  max-w-fit"> {/* New container */}
+                <Image
+                  src="/assets/circlestop.webp"
+                  alt="arrowdesign"
+                  width={366}
+                  height={9}
+                  className="w-[75%] object-cover mb-4 "
+                />
+                <h1 className="block md:block lg:block lg:mb-100 text-7xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6]  whitespace-nowrap">
+                  Images Grid
+                </h1>
+              </div>
+            </div>
+            <ImageGrid />
+
           </section>
 
           <section id='Events' className="flex flex-col items-center relative md:h-[70vh]  px-4 p-10  bg-white rounded-t-[2rem] overflow-hidden">
