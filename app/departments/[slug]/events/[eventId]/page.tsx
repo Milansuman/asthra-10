@@ -111,7 +111,7 @@ export default async function EventPage({ params }: EventPageProps) {
                                     </span>
                                 </div>
                                 {
-                                    event.eventType !== "EXHIBITION" ?
+                                    event.eventType == "EXHIBITION" ?
                                         <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
                                             EXHIBITION
                                         </button>
