@@ -110,11 +110,18 @@ export default async function EventPage({ params }: EventPageProps) {
                                         Reg Fees : {eventFee}
                                     </span>
                                 </div>
-                                <Link href={event.redirectUrl ?? "#"}>
-                                    <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
-                                        REGISTER
-                                    </button>
-                                </Link>
+                                {
+                                    event.eventType !== "EXHIBITION" ?
+                                        <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                            EXHIBITION
+                                        </button>
+                                        :
+                                        <Link href={event.redirectUrl ?? "#"}>
+                                            <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                                REGISTER
+                                            </button>
+                                        </Link>
+                                }
                             </div>
 
                         </div>
