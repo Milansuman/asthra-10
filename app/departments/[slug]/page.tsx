@@ -73,7 +73,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
             <NoiseTexture />
 
-            <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto scrollbar-hide scroll-smooth">
+            <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[90%] mx-auto scrollbar-hide scroll-smooth">
                 {/* This div is no longer needed, we'll have sections be the direct children */}
                 <section
                     id='Home'
