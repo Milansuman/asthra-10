@@ -151,7 +151,7 @@ export default function Page() {
                     </div>
                     <p className="text-gray-800 text-justify font-Montserrat leading-relaxed">Asthra, the national-level tech fest of SJCET Palai, has stood as a symbol of innovation, creativity, and excellence for the past decade. Since its inception, Asthra has provided a dynamic platform where students, innovators, and technophiles across India come together to ideate, compete, and showcase their talents.</p>
                   </div>
-                  <div className="flex-1  rounded-2xl p-1">
+                  <div className="flex-1  rounded-2xl p-1 w-full">
                     <Image
                       src="/assets/grid/img4.webp"
                       alt="Our Mission"
@@ -179,7 +179,7 @@ export default function Page() {
 
                 {/* Second Row */}
                 <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1  rounded-2xl p-1 items-center">
+                  <div className="flex-1  rounded-2xl p-1 items-center w-full">
                     <Image
                       src="/assets/grid/img8.webp"
                       alt="Our Mission"
@@ -236,7 +236,7 @@ export default function Page() {
                       alt="Our Mission"
                       width={400}
                       height={100}
-                      className=" h-[55%] w-[80%] object-fill m-auto rounded-2xl"
+                      className=" h-auto w-[90%] object-fill m-auto rounded-2xl"
                     />
                   </div>
                   <div className="flex-1  rounded-2xl p-4">
@@ -285,7 +285,7 @@ export default function Page() {
                       alt="Our Mission"
                       width={400}
                       height={100}
-                      className="h-[55%] w-[90%] object-fill m-auto rounded-2xl"
+                      className="h-auto w-[90%] object-fill m-auto rounded-2xl"
                     />
                   </div>
 
@@ -342,7 +342,7 @@ export default function Page() {
             <DepGrid />
           </section>
 
-          <section id='Events' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-t-[2rem] overflow-hidden">
+          <section id='Events' className="flex flex-col items-center relative md:h-[70vh]  px-4 p-10  bg-white rounded-t-[2rem] overflow-hidden">
             <ComprehensiveFooter />
           </section>
         </div>
