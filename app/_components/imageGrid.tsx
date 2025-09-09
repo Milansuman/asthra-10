@@ -6,18 +6,19 @@ import { Masonry } from 'masonic';
 
 // --- Your Image Data ---
 const imageData = [
-    { id: 1, src: "/assets/image_placeholder.webp", width: 800, height: 1200, alt: "placeholder image." },
-    { id: 2, src: "/assets/image_placeholder.webp", width: 1000, height: 800, alt: "placeholder image." },
-    { id: 3, src: "/assets/image_placeholder.webp", width: 800, height: 800, alt: "placeholder image." },
-    { id: 4, src: "/assets/image_placeholder.webp", width: 800, height: 1100, alt: "placeholder image." },
-    { id: 5, src: "/assets/image_placeholder.webp", width: 1200, height: 800, alt: "placeholder image." },
-    { id: 6, src: "/assets/image_placeholder.webp", width: 800, height: 1000, alt: "placeholder image." },
-    { id: 7, src: "/assets/image_placeholder.webp", width: 1000, height: 700, alt: "placeholder image." },
-    { id: 8, src: "/assets/image_placeholder.webp", width: 800, height: 900, alt: "placeholder image." },
-    { id: 9, src: "/assets/image_placeholder.webp", width: 900, height: 900, alt: "placeholder image." },
-    { id: 10, src: "/assets/image_placeholder.webp", width: 700, height: 1000, alt: "placeholder image." },
-    { id: 11, src: "/assets/image_placeholder.webp", width: 1100, height: 800, alt: "placeholder image." },
-    { id: 12, src: "/assets/image_placeholder.webp", width: 800, height: 1200, alt: "placeholder image." },
+    { id: 1, src: "/assets/grid/img1.webp", width: 800, height: 1200, alt: "image1" },
+    { id: 2, src: "/assets/grid/img2.webp", width: 1000, height: 800, alt: "image2" },
+
+    { id: 4, src: "/assets/grid/img4.webp", width: 800, height: 1100, alt: "image4" },
+    { id: 5, src: "/assets/grid/img5.webp", width: 1200, height: 800, alt: "image5" },
+    { id: 6, src: "/assets/grid/img6.webp", width: 800, height: 1000, alt: "image6" },
+    { id: 7, src: "/assets/grid/img7.webp", width: 1000, height: 700, alt: "image7" },
+    { id: 8, src: "/assets/grid/img8.webp", width: 800, height: 900, alt: "image8" },
+
+    { id: 9, src: "/assets/grid/img9.webp", width: 700, height: 1000, alt: "image9" },
+    { id: 10, src: "/assets/grid/img10.webp", width: 1100, height: 800, alt: "image10" },
+    { id: 11, src: "/assets/grid/img11.webp", width: 800, height: 1200, alt: "image11" },
+    { id: 11, src: "/assets/grid/img12.webp", width: 800, height: 1200, alt: "image12" },
 ];
 
 // masonic requires a component to render each item.

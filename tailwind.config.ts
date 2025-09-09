@@ -101,15 +101,6 @@ const config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      cursor: {
-        default: 'url("/cursor/small.png") 0 0, default',
-        pointer: 'url("/cursor/point.png") 0 0, pointer',
-        clicked: 'url("/cursor/clicked.png") 0 0, pointer',
-        'not-allowed': 'url("/cursor/red.png") 0 0, not-allowed',
-        text: 'url("/cursor/text.png") 0 0, text',
-        grab: 'url("/cursor/closed.png") 0 0, grab',
-        grabbing: 'url("/cursor/open.png") 0 0, grabbing',
-      },
       fontFamily: {
         dimension: ['var(--font-dimension)'],
         montserrat: ['var(--font-montserrat)'],
