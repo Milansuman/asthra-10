@@ -70,15 +70,15 @@ export default async function EventPage({ params }: EventPageProps) {
 
             <NoiseTexture />
 
-            <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto scrollbar-hide scroll-smooth">
+            <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[90%] mx-auto scrollbar-hide scroll-smooth">
                 {/* This div is no longer needed, we'll have sections be the direct children */}
                 <section
                     id='Home'
-                    className="container flex flex-col items-center justify-center min-h-screen pt-24 md:pt-32 pb-16 md:rounded-[2rem] overflow-hidden "
+                    className="flex flex-col items-center justify-center min-h-screen pt-24 md:pt-32 pb-16 md:rounded-[2rem] overflow-hidden "
                     style={{ background: department.colors.bg }}
                 >
                     <h1
-                        className={`max-w-xl text-7xl md:text-8xl  mb-8 text-center px-4 break-words font-dimension`}
+                        className={`max-w-3xl text-7xl md:text-8xl  mb-8 text-center px-4 break-words font-dimension`}
                         style={{ color: department.colors.fg }}
                     >
                         {department.name}
@@ -96,7 +96,7 @@ export default async function EventPage({ params }: EventPageProps) {
                         </div>
                         <div className="flex-1 flex flex-col justify-start md:min-w-[400px]">
                             <h2 className="event-title text-5xl md:text-7xl mb-2 text-black font-dimension">{event.name}</h2>
-                            <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">{event.description}</p>
+                            <p className="event-desc text-xl md:text-lg text-black text-justify mb-4 whitespace-pre-line">{event.description}</p>
                             <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">Venue: {event.venue}</p>
                             <div className='flex flex-col md:flex-row justify-between items-center flex-wrap '>
                                 <div className="flex gap-2 justify-center mb-4 md:mb-0  py-2">
@@ -111,11 +111,18 @@ export default async function EventPage({ params }: EventPageProps) {
                                         Reg Fees : {eventFee}
                                     </span>
                                 </div>
-                                <Link href={event.redirectUrl ?? "#" as any}>
-                                    <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
-                                        REGISTER
-                                    </button>
-                                </Link>
+                                {
+                                    event.eventType == "EXHIBITION" ?
+                                        <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                            EXHIBITION
+                                        </button>
+                                        :
+                                        <Link href={event.redirectUrl ?? "#"}>
+                                            <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                                REGISTER
+                                            </button>
+                                        </Link>
+                                }
                             </div>
 
                         </div>

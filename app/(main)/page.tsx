@@ -69,7 +69,7 @@ export default function Page() {
       <NoiseTexture />
 
 
-      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[calc(100%-150px)] mx-auto scrollbar-hide scroll-smooth">
+      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[90%] mx-auto scroll-smooth">
         <div className='flex flex-col gap-10'>
           {/* Main ASTHRA section */}
           <section id='Home' className="flex flex-col items-center justify-end h-[100vh] bg-white rounded-b-[2rem] overflow-hidden">
