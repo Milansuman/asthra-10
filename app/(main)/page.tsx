@@ -164,8 +164,8 @@ export default function Page() {
                 </div>
 
                 <Image
-                  src={cdn("/assets/grow.svg")}
-                  alt="Our Mission"
+                  src={cdn("/assets/horizontal_line.svg")}
+                  alt="Our Circles"
                   width={4000}
                   height={100}
                   className=" w-full object-cover m-auto hidden md:block"
@@ -345,6 +345,7 @@ export default function Page() {
 
           <section id='Events' className="flex flex-col items-center relative md:h-[70vh]  px-4 p-10  bg-white rounded-t-[2rem] overflow-hidden">
             <ComprehensiveFooter />
+            <p className='text-white'>01101110 01100101 01110010 01100100</p>
           </section>
         </div>
       </main >
