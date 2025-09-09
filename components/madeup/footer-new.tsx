@@ -69,7 +69,7 @@ export default function ComprehensiveFooter() {
                         </div>
 
                         {/* Made with Love */}
-                        <div className="mb-8">
+                        <div className="mb-2 md:mb-8">
                             <p className="text-black text-sm">
                                 Made with <span className="text-red-500">♥</span> by team asthra
                             </p>
@@ -89,7 +89,7 @@ export default function ComprehensiveFooter() {
                     {/* Right Section - Asthra Logo & Faculty */}
                     <div className="flex flex-col items-center lg:items-end text-center lg:text-right ">
                         {/* Asthra Logo */}
-                        <div className="mb-8 h-full w-full">
+                        <div className="md:mb-8 mb-3 h-full w-full text-center">
                             <img
                                 src="/asthra.svg"
                                 alt="Asthra 10.0"

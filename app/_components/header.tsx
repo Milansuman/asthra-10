@@ -78,7 +78,7 @@ export default function Header({ backgroundColor }: { backgroundColor: string })
           </DialogTrigger>
           <DialogContent className="rounded-xl max-w-sm mx-auto">
             <DialogHeader>
-              <DialogTitle className="text-center font-dimension text-5xl tracking-[1px] text-[#0B91A6]">MENU</DialogTitle>
+              <DialogTitle className="text-center font-dimension text-5xl tracking-[2px] text-[#0B91A6]">MENU</DialogTitle>
               <DialogDescription className="mt-6">
                 <div className="flex flex-col gap-2 items-center py-3">
                   <Link href="#Home" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Home</Link>
