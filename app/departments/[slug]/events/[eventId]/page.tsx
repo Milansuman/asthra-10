@@ -73,7 +73,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 {/* This div is no longer needed, we'll have sections be the direct children */}
                 <section
                     id='Home'
-                    className="container flex flex-col items-center justify-center min-h-screen pt-24 md:pt-32 pb-16 md:rounded-[2rem] overflow-hidden "
+                    className="flex flex-col items-center justify-center min-h-screen pt-24 md:pt-32 pb-16 md:rounded-[2rem] overflow-hidden "
                     style={{ background: department.colors.bg }}
                 >
                     <h1
