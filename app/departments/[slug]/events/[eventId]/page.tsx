@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { NoiseTexture } from '@/components/noise-texture';
 import { api } from '@/trpc/server';
 import Link from 'next/link';
+import { cdn } from '@/lib/cdn';
 
 interface EventPageProps {
     params: {
@@ -47,7 +48,7 @@ export default async function EventPage({ params }: EventPageProps) {
             {/* Left vertical navbar */}
             <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
                 <Image
-                    src="/assets/side_lines.svg"
+                    src={cdn("/assets/side_lines.svg")}
                     alt="Left navigation"
                     width={30}
                     height={500}
@@ -59,7 +60,7 @@ export default async function EventPage({ params }: EventPageProps) {
             {/* Right vertical navbar */}
             <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
                 <Image
-                    src="/assets/side_lines.svg"
+                    src={cdn("/assets/side_lines.svg")}
                     alt="Right navigation"
                     width={30}
                     height={500}
@@ -85,7 +86,7 @@ export default async function EventPage({ params }: EventPageProps) {
                     <div className='max-w-6xl flex flex-wrap mx-auto  justify-center  gap-16 '>
                         <div className="w-full md:w-1/3 flex-shrink-0 flex items-center justify-center mb-0 min-w-[296px]">
                             <Image
-                                src={event.poster || "/assets/poster.png"}
+                                src={event.poster || cdn("/assets/poster.png")}
                                 alt={event.name || "Event"}
                                 width={290}
                                 height={386}
@@ -110,7 +111,7 @@ export default async function EventPage({ params }: EventPageProps) {
                                         Reg Fees : {eventFee}
                                     </span>
                                 </div>
-                                <Link href={event.redirectUrl ?? "#"}>
+                                <Link href={event.redirectUrl ?? "#" as any}>
                                     <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
                                         REGISTER
                                     </button>
