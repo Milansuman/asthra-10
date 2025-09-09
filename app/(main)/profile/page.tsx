@@ -46,6 +46,7 @@ import FluidGlass from "@/components/madeup/FluidGlass";
 import { NoiseTexture } from "@/components/noise-texture";
 import Header from "./_components/header";
 import { redirect } from "next/navigation";
+import { cdn } from "@/lib/cdn";
 
 export default function ProfilePage() {
   const { data, status } = useSession();
@@ -74,7 +75,7 @@ export default function ProfilePage() {
       {/* Side navigation bars */}
       <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
-          src="/assets/side.png"
+          src={cdn("/assets/side.png")}
           alt="Left navigation"
           width={30}
           height={500}
@@ -84,7 +85,7 @@ export default function ProfilePage() {
 
       <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
-          src="/assets/side.png"
+          src={cdn("/assets/side.png")}
           alt="Right navigation"
           width={30}
           height={500}
@@ -107,7 +108,7 @@ export default function ProfilePage() {
           <section className="flex flex-col items-center relative min-h-[40vh] px-4 pt-24">
             <div className="w-full flex justify-center mb-8">
               <Image
-                src="/asthra.svg"
+                src={cdn("/asthra.svg")}
                 alt="ASTHRA Profile"
                 width={150}
                 height={80}

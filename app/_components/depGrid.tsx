@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link'; // 1. Import the Link component
+import { cdn } from '@/lib/cdn';
 
 // Define the shape of the data
 interface Dep {
@@ -11,18 +12,18 @@ interface Dep {
 
 // 3. Added the 'slug' property to your existing data array
 const depData: Dep[] = [
-    { slug: 'ad', backgroundSrc: "/assets/department_bg/ad_bg.webp", foregroundSrc: "/assets/department/AD.svg" },
-    { slug: 'mba', backgroundSrc: "/assets/department_bg/mba_bg.webp", foregroundSrc: "/assets/department/MBA.svg" },
-    { slug: 'ca', backgroundSrc: "/assets/department_bg/ca_bg.webp", foregroundSrc: "/assets/department/CA.svg" },
-    { slug: 'mca', backgroundSrc: "/assets/department_bg/mca_bg.webp", foregroundSrc: "/assets/department/MCA.svg" },
-    { slug: 'ece', backgroundSrc: "/assets/department_bg/ece_bg.webp", foregroundSrc: "/assets/department/ECE.svg" },
-    { slug: 'er', backgroundSrc: "/assets/department_bg/er_bg.webp", foregroundSrc: "/assets/department/ER.svg" },
-    { slug: 'eee', backgroundSrc: "/assets/department_bg/eee_bg.webp", foregroundSrc: "/assets/department/EEE.svg" },
-    { slug: 'civil', backgroundSrc: "/assets/department_bg/civil_bg.webp", foregroundSrc: "/assets/department/CIVIL.svg" },
-    { slug: 'mec', backgroundSrc: "/assets/department_bg/mec_bg.webp", foregroundSrc: "/assets/department/MEC.svg" },
-    { slug: 'cc', backgroundSrc: "/assets/department_bg/cc_bg.webp", foregroundSrc: "/assets/department/CC.svg" },
-    { slug: 'cs', backgroundSrc: "/assets/department_bg/cs_bg.webp", foregroundSrc: "/assets/department/cs.svg" },
-    { slug: 'general', backgroundSrc: "/assets/department_bg/gen_bg.webp", foregroundSrc: "/assets/department/GEN.svg" },
+    { slug: 'ad', backgroundSrc: cdn("/assets/department_bg/ad_bg.webp"), foregroundSrc: cdn("/assets/department/AD.svg") },
+    { slug: 'mba', backgroundSrc: cdn("/assets/department_bg/mba_bg.webp"), foregroundSrc: cdn("/assets/department/MBA.svg") },
+    { slug: 'ca', backgroundSrc: cdn("/assets/department_bg/ca_bg.webp"), foregroundSrc: cdn("/assets/department/CA.svg") },
+    { slug: 'mca', backgroundSrc: cdn("/assets/department_bg/mca_bg.webp"), foregroundSrc: cdn("/assets/department/MCA.svg") },
+    { slug: 'ece', backgroundSrc: cdn("/assets/department_bg/ece_bg.webp"), foregroundSrc: cdn("/assets/department/ECE.svg") },
+    { slug: 'er', backgroundSrc: cdn("/assets/department_bg/er_bg.webp"), foregroundSrc: cdn("/assets/department/ER.svg") },
+    { slug: 'eee', backgroundSrc: cdn("/assets/department_bg/eee_bg.webp"), foregroundSrc: cdn("/assets/department/EEE.svg") },
+    { slug: 'civil', backgroundSrc: cdn("/assets/department_bg/civil_bg.webp"), foregroundSrc: cdn("/assets/department/CIVIL.svg") },
+    { slug: 'mec', backgroundSrc: cdn("/assets/department_bg/mec_bg.webp"), foregroundSrc: cdn("/assets/department/MEC.svg") },
+    { slug: 'cc', backgroundSrc: cdn("/assets/department_bg/cc_bg.webp"), foregroundSrc: cdn("/assets/department/CC.svg") },
+    { slug: 'cs', backgroundSrc: cdn("/assets/department_bg/cs_bg.webp"), foregroundSrc: cdn("/assets/department/cs.svg") },
+    { slug: 'general', backgroundSrc: cdn("/assets/department_bg/gen_bg.webp"), foregroundSrc: cdn("/assets/department/GEN.svg") },
 ];
 
 const GridCell = ({ backgroundSrc, foregroundSrc }: Omit<Dep, 'slug'>) => {

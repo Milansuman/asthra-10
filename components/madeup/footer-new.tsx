@@ -1,3 +1,4 @@
+import { cdn } from "@/lib/cdn";
 import { Instagram, Youtube, Facebook, Github } from "lucide-react";
 import Image from "next/image";
 
@@ -91,7 +92,7 @@ export default function ComprehensiveFooter() {
                         {/* Asthra Logo */}
                         <div className="md:mb-8 mb-3 h-full w-full text-center">
                             <img
-                                src="/asthra.svg"
+                                src={cdn("/asthra.svg")}
                                 alt="Asthra 10.0"
                                 width={200}
                                 height={120}
