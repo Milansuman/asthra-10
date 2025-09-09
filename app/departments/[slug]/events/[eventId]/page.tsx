@@ -95,7 +95,7 @@ export default async function EventPage({ params }: EventPageProps) {
                         </div>
                         <div className="flex-1 flex flex-col justify-start md:min-w-[400px]">
                             <h2 className="event-title text-5xl md:text-7xl mb-2 text-black font-dimension">{event.name}</h2>
-                            <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">{event.description}</p>
+                            <p className="event-desc text-xl md:text-lg text-black text-justify mb-4 whitespace-pre-line">{event.description}</p>
                             <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">Venue: {event.venue}</p>
                             <div className='flex flex-col md:flex-row justify-between items-center flex-wrap '>
                                 <div className="flex gap-2 justify-center mb-4 md:mb-0  py-2">
