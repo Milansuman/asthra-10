@@ -40,6 +40,22 @@ import { Markdown } from '@/app/_components/md';
 import { ASTHRA, AsthraStartsAt, getTimeUtils } from '@/logic';
 import { toast } from 'sonner';
 
+const departmentKeyMap: Record<string, string> = {
+  'ai': 'ad',
+  'cs': 'cs',
+  'mba': 'mba',
+  'mca': 'mca',
+  'ct': 'ca',
+  'ee': 'eee',
+  'ecs': 'er',
+  'ec': 'ece',
+  'ce': 'civil',
+  'me': 'mec',
+  'cy': 'cc',
+  "NA": "general"
+};
+
+
 interface AsthraCardProps {
   data: z.infer<typeof eventZod>;
   onDelete: (id: string) => void;
@@ -203,11 +219,11 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
                 </Card>
               </AlertDialogContent>
             </AlertDialog>
-            {/* <AlertDialog onOpenChange={(open) => {
+            <AlertDialog onOpenChange={(open) => {
               if (open && data.name !== null && shortUrl === null) {
                 shortenUrl({
                   name: data.name.replaceAll(" ", "_"),
-                  url: `https://asthra.sjcetpalai.ac.in/event/${data.id}`
+                  url: `https://asthra.sjcet.in/departments/${departmentKeyMap[data.department]}/events/${data.id}`
                 }, {
                   onSuccess(data) {
                     if (data instanceof TRPCError) return;
@@ -252,7 +268,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
                   </AlertDialogCancel>
                 </AlertDialogFooter>
               </AlertDialogContent>
-            </AlertDialog> */}
+            </AlertDialog>
           </div>
 
           <AlertDialog>

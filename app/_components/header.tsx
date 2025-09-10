@@ -82,9 +82,9 @@ export default function Header({ backgroundColor }: { backgroundColor: string })
               <DialogTitle className="text-center font-dimension text-5xl tracking-[2px] text-[#0B91A6]">MENU</DialogTitle>
               <DialogDescription className="mt-6">
                 <div className="flex flex-col gap-2 items-center py-3">
-                  <Link href="#Home" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Home</Link>
-                  <Link href="#About" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">About</Link>
-                  <Link href="#Events" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Events</Link>
+                  <Link href="/#Home" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Home</Link>
+                  <Link href="/#About" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">About</Link>
+                  <Link href="/#Events" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-black text-center text-2xl font-bold">Events</Link>
                   {/* <button type='button' className='mt-4 px-4 py-3 bg-black text-white rounded-full text-center text-xl font-bold w-[80%]' onClick={() => router.push("/login")}>
                     <Suspense fallback={<div>👻</div>}>
                       <RegisterButton />
