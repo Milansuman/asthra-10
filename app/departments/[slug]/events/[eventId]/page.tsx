@@ -85,7 +85,7 @@ export default async function EventPage({ params }: EventPageProps) {
                     </h1>
                     <div className='max-w-6xl flex flex-wrap mx-auto  justify-center  gap-16 '>
                         <div className="w-full md:w-1/3 flex-shrink-0 flex items-center justify-center mb-0 min-w-[296px]">
-                            <Image
+                            <img
                                 src={event.poster || cdn("/assets/poster.png")}
                                 alt={event.name || "Event"}
                                 width={290}

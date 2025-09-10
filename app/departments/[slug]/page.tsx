@@ -99,7 +99,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                                 href={`/departments/${department.slug}/events/${event.id}`}
                             >
                                 <div className="w-full">
-                                    <Image
+                                    <img
                                         src={event.poster || cdn("/assets/poster.png")}
                                         alt={event.name || "Event"}
 
