@@ -154,7 +154,7 @@ export const AsthraCard: FC<AsthraCardProps> = ({ data, onDelete, onChangeEvent 
       <CardHeader className="p-0 mb-6">
         {z.string().safeParse(data.poster).success && (
           <div className="relative mb-4">
-            <Image
+            <img
               className="w-full h-48 object-cover object-center rounded-lg"
               height="600"
               width="600"
