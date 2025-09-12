@@ -109,7 +109,7 @@ export default async function EventPage({ params }: EventPageProps) {
                                     <span
                                         className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
                                     >
-                                        End Date : {event.dateTimeEnd}
+                                        {event.dateTimeEnd}
                                     </span>
                                     <span
                                         className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
