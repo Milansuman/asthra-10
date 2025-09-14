@@ -1,10 +1,11 @@
-import { departmentData } from '@/lib/departmentData';
-import { notFound } from 'next/navigation';
 import Header from '@/app/_components/header';
-import Image from 'next/image';
 import { NoiseTexture } from '@/components/noise-texture';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { departmentData } from '@/lib/departmentData';
 import { api } from '@/trpc/server';
+import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 interface EventPageProps {
     params: {
@@ -12,6 +13,26 @@ interface EventPageProps {
         eventId: string;
     };
 }
+
+interface FAQItem {
+    title: string;
+    content: string | string[]; // Allow content to be a string or array of strings
+}
+
+type FAQItems = FAQItem[];
+
+export const faqItems: FAQItems = [
+    {
+        title: "How do I register for an event by myself?",
+        content:
+            "To register individually, simply fill out the registration form on MakeMyPass, complete the ticket payment, and you’ll instantly receive your event ticket in your email.",
+    },
+    {
+        title: "How do I register for an event as a team?",
+        content:
+            "For team registration, start by filling out the form on MakeMyPass and proceed with the ticket payment. Before checkout, click the **'Add Team Member'** button to include your teammates. Once completed, tickets for all members will be generated and sent via email.",
+    },
+];
 
 export default async function EventPage({ params }: EventPageProps) {
 
@@ -77,7 +98,7 @@ export default async function EventPage({ params }: EventPageProps) {
                     style={{ background: department.colors.bg }}
                 >
                     <h1
-                        className={`max-w-3xl text-7xl md:text-8xl  mb-8 text-center px-4 break-words font-dimension`}
+                        className={'max-w-3xl text-7xl md:text-8xl  mb-8 text-center px-4 break-words font-dimension'}
                         style={{ color: department.colors.fg }}
                     >
                         {department.name}
@@ -93,10 +114,11 @@ export default async function EventPage({ params }: EventPageProps) {
                                 style={{ minWidth: '296px' }} // fallback for inline style if needed
                             />
                         </div>
-                        <div className="flex-1 flex flex-col justify-start md:min-w-[400px]">
+                        <div className="flex-1 flex flex-col justify-start md:min-w-[400px] px-5">
                             <h2 className="event-title text-5xl md:text-7xl mb-2 text-black font-dimension">{event.name}</h2>
                             <p className="event-desc text-xl md:text-lg text-black text-justify mb-4 whitespace-pre-line">{event.description}</p>
                             <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">Venue: {event.venue}</p>
+                            <p className='text-red-700'>*If you've already registered/paid for this event, please check your email for the ticket.</p>
                             <div className='flex flex-col md:flex-row justify-between items-center flex-wrap '>
                                 <div className="flex gap-2 justify-center mb-4 md:mb-0  py-2">
                                     <span
@@ -107,29 +129,57 @@ export default async function EventPage({ params }: EventPageProps) {
                                     <span
                                         className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
                                     >
+                                        {event.dateTimeEnd}
+                                    </span>
+                                    <span
+                                        className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
+                                    >
                                         Reg Fees : {eventFee}
                                     </span>
                                 </div>
                                 {
-                                    event.eventType == "EXHIBITION" ?
-                                        <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                    event.eventType === "EXHIBITION" ?
+                                        <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
                                             EXHIBITION
                                         </button>
                                         :
                                         <Link href={event.redirectUrl ?? "#"}>
-                                            <button className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                            <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
                                                 REGISTER
                                             </button>
                                         </Link>
                                 }
                             </div>
-
                         </div>
-
                     </div>
-
-
-
+                    <h1
+                        className={'max-w-3xl text-7xl md:text-8xl  my-8 text-center px-4 break-words font-dimension'}
+                        style={{ color: department.colors.fg }}
+                    >
+                        FAQ
+                    </h1>
+                    <div className='w-full flex justify-center'>
+                        <div className="flex-1 w-full max-w-2xl">
+                            <Accordion type="single" collapsible className="p-2 text-black ambit max-w-2xl">
+                                {faqItems.map((faq, index) => (
+                                    <AccordionItem key={index} value={`item-${index}`}>
+                                        <AccordionTrigger className="text-black ambit">{faq.title}</AccordionTrigger>
+                                        <AccordionContent className="text-black ambit">
+                                            {Array.isArray(faq.content) ? (
+                                                <ul className="text-black list-disc pl-5 space-y-2">
+                                                    {faq.content.map((item, idx) => (
+                                                        <li key={idx}>{item}</li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                faq.content
+                                            )}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </div>
+                    </div>
                 </section>
             </main>
         </div>
