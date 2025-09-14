@@ -1,3 +1,4 @@
+import { cdn } from "@/lib/cdn";
 import { Instagram, Youtube, Facebook, Github } from "lucide-react";
 import Image from "next/image";
 
@@ -6,7 +7,7 @@ export default function ComprehensiveFooter() {
         <footer className="w-full  text-black">
             <div className="max-w-7xl mx-auto px-6 py-12">
                 {/* Main Footer Content */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-6">
 
                     {/* Left Section - College Info */}
                     <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -76,14 +77,25 @@ export default function ComprehensiveFooter() {
                         </div>
 
                         {/* Registration Helpline */}
-                        {/* <div>
-                            <h4 className="text-base font-semibold mb-4">Registration HelpLine</h4>
+                        <div className="mb-6">
+                            <h4 className="text-base font-semibold mb-4">Student Coordinators</h4>
                             <div className="space-y-2 text-sm text-black">
-                                <p></p>
-                                <p></p>
+                                <p>Ajaykrishnan B : +91 8590284832
+                                </p>
+                                <p>Annu Jaison : +91 6282271359</p>
                                 <p></p>
                             </div>
-                        </div> */}
+                        </div>
+                        <div>
+                            <h4 className="text-base font-semibold mb-4">Faculty Coordinators</h4>
+                            <div className="space-y-2 text-sm text-black">
+                                <p>Dr.Anuja George : +91 7356110541
+                                </p>
+                                <p>Prof.Ashly Thomas : +91 9446803437
+                                </p>
+                                <p>Prof.Manish Jose : +91 9447764273</p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Right Section - Asthra Logo & Faculty */}
@@ -91,7 +103,7 @@ export default function ComprehensiveFooter() {
                         {/* Asthra Logo */}
                         <div className="md:mb-8 mb-3 h-full w-full text-center">
                             <img
-                                src="/asthra.svg"
+                                src={cdn("/asthra.svg")}
                                 alt="Asthra 10.0"
                                 width={200}
                                 height={120}
@@ -108,7 +120,7 @@ export default function ComprehensiveFooter() {
                 </div>
 
                 {/* Bottom Border Line */}
-                <div className="border-t border-gray-700 pt-8">
+                <div className="border-t border-gray-700 pt-3">
                     <div className="text-center">
                         <p className="text-gray-400 text-sm">
                             © 2025 Asthra 10.0, SJCET Palai. All rights reserved.

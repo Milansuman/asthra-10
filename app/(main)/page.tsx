@@ -14,6 +14,7 @@ import Header from '../_components/header';
 import localFont from "next/font/local";
 import dynamic from "next/dynamic";
 import ComprehensiveFooter from '@/components/madeup/footer-new';
+import { cdn } from '@/lib/cdn';
 
 const ImageGrid = dynamic(() => import("../_components/imageGrid"), { ssr: false });
 
@@ -46,7 +47,7 @@ export default function Page() {
       {/* Left vertical navbar */}
       <div className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
-          src="/assets/side.png"
+          src={cdn("/assets/side.png")}
           alt="Left navigation"
           width={30}
           height={500}
@@ -57,7 +58,7 @@ export default function Page() {
       {/* Right vertical navbar */}
       <div className="fixed right-6 top-1/2 -translate-y-1/2 z-30 hidden md:block">
         <Image
-          src="/assets/side.png"
+          src={cdn("/assets/side.png")}
           alt="Right navigation"
           width={30}
           height={500}
@@ -68,34 +69,34 @@ export default function Page() {
       <NoiseTexture />
 
 
-      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[90%] mx-auto scroll-smooth">
+      <main className="z-10 absolute top-0 right-0 left-0 bottom-0 overflow-y-auto w-full md:w-[90%] mx-auto scrollbar-hide scroll-smooth">
         <div className='flex flex-col gap-10'>
           {/* Main ASTHRA section */}
           <section id='Home' className="flex flex-col items-center justify-end h-[100vh] bg-white rounded-b-[2rem] overflow-hidden">
             <div className='flex flex-col items-center md:absolute md:bottom-0 mx-5 md:mx-10'>
               <Image
-                src="/asthra.svg"
+                src={cdn("/asthra.svg")}
                 alt="SAR 10.0"
                 width={200}
                 height={100}
                 className="w-auto h-36"
               />
               <Image
-                src="/assets/final.webp"
+                src={cdn("/assets/final.webp")}
                 alt="logo"
                 width={900}
                 height={646.5}
                 className="hidden md:block w-[95vh] min-w-[600px]"
               />
               {/* <Image
-                src="/assets/finallandingmd.webp"
+                src={cdn("/assets/finallandingmd.webp")}
                 alt="logo"
                 width={491.6}
                 height={600}
                 className="hidden lg:hidden md:block"
               /> */}
               <Image
-                src="/assets/mobile_landing.webp"
+                src={cdn("/assets/mobile_landing.webp")}
                 alt="logo"
                 width={350}
                 height={621.99}
@@ -109,7 +110,7 @@ export default function Page() {
             <div className="flex flex-col w-full  mx-auto  md:justify-start ">
 
               {/* <Image
-                src="/assets/abtasthra.webp"
+                src={cdn("/assets/abtasthra.webp")}
                 alt="About Asthra"
                 width={400}
                 height={100}
@@ -118,7 +119,7 @@ export default function Page() {
               <div className="flex flex-col w-full items-center lg:hidden">
                 <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
                   <Image
-                    src="/assets/circlestop.webp"
+                    src={cdn("/assets/circlestop.webp")}
                     alt="arrowdesign"
                     width={366}
                     height={9}
@@ -138,7 +139,7 @@ export default function Page() {
                     <div className="flex flex-col w-full items-center lg:items-start">
                       <div className="flex flex-col items-center lg:items-center max-w-fit"> {/* New container */}
                         <Image
-                          src="/assets/circlestop.webp"
+                          src={cdn("/assets/circlestop.webp")}
                           alt="arrowdesign"
                           width={366}
                           height={9}
@@ -153,7 +154,7 @@ export default function Page() {
                   </div>
                   <div className="flex-1  rounded-2xl p-1 w-full">
                     <Image
-                      src="/assets/grid/img4.webp"
+                      src={cdn("/assets/grid/img4.webp")}
                       alt="Our Mission"
                       width={400}
                       height={100}
@@ -163,14 +164,14 @@ export default function Page() {
                 </div>
 
                 <Image
-                  src="/assets/grow.svg"
-                  alt="Our Mission"
+                  src={cdn("/assets/horizontal_line.svg")}
+                  alt="Our Circles"
                   width={4000}
                   height={100}
                   className=" w-full object-cover m-auto hidden md:block"
                 />
                 <Image
-                  src="/assets/mobilegrp.png"
+                  src={cdn("/assets/mobilegrp.png")}
                   alt="Our Mission"
                   width={400}
                   height={100}
@@ -181,7 +182,7 @@ export default function Page() {
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                   <div className="flex-1  rounded-2xl p-1 items-center w-full">
                     <Image
-                      src="/assets/grid/img8.webp"
+                      src={cdn("/assets/grid/img8.webp")}
                       alt="Our Mission"
                       width={400}
                       height={100}
@@ -202,7 +203,7 @@ export default function Page() {
             <div className="flex flex-col w-full  mx-auto  md:justify-start ">
 
               {/* <Image
-                src="/assets/aboutsjcet.png"
+                src={cdn("/assets/aboutsjcet.png")}
                 alt="About SJCET Mobile"
                 width={400}
                 height={100}
@@ -212,7 +213,7 @@ export default function Page() {
               <div className="flex flex-col w-full items-center lg:items-end">
                 <div className="flex flex-col items-center lg:items-start max-w-fit"> {/* New container */}
                   <Image
-                    src="/assets/circlestop.webp"
+                    src={cdn("/assets/circlestop.webp")}
                     alt="arrowdesign"
                     width={366}
                     height={9}
@@ -232,7 +233,7 @@ export default function Page() {
 
                   <div className="flex-1 w-full rounded-2xl p-1 items-center">
                     <Image
-                      src="/assets/grid/img11.webp"
+                      src={cdn("/assets/grid/img11.webp")}
                       alt="Our Mission"
                       width={400}
                       height={100}
@@ -243,7 +244,7 @@ export default function Page() {
                     <div className="flex flex-col w-full items-center lg:items-end">
                       <div className="flex flex-col items-center lg:items-center max-w-fit"> {/* New container */}
                         <Image
-                          src="/assets/circlestop.webp"
+                          src={cdn("/assets/circlestop.webp")}
                           alt="arrowdesign"
                           width={366}
                           height={9}
@@ -259,7 +260,7 @@ export default function Page() {
                 </div>
 
                 <Image
-                  src="/assets/horizontal_line.svg"
+                  src={cdn("/assets/horizontal_line.svg")}
                   alt="arrowdesign"
                   width={4000}
                   height={100}
@@ -267,7 +268,7 @@ export default function Page() {
                 />
 
                 <Image
-                  src="/assets/mobilegrp.png"
+                  src={cdn("/assets/mobilegrp.png")}
                   alt="Our Mission"
                   width={400}
                   height={100}
@@ -281,7 +282,7 @@ export default function Page() {
                   </div>
                   <div className="flex-1  w-full h-auto rounded-2xl p-1 items-center">
                     <Image
-                      src="/assets/grid/img12.webp"
+                      src={cdn("/assets/grid/img12.webp")}
                       alt="Our Mission"
                       width={400}
                       height={100}
@@ -296,29 +297,10 @@ export default function Page() {
 
           </section>
 
-
-          <section className="flex flex-col items-center justify-center relative p-10 bg-white rounded-[2rem] overflow-hidden">
-            <div className="flex flex-col w-full items-center lg:items-center">
-              <div className="flex flex-col items-center  max-w-fit"> {/* New container */}
-                <Image
-                  src="/assets/circlestop.webp"
-                  alt="arrowdesign"
-                  width={366}
-                  height={9}
-                  className="w-[75%] object-cover mb-4 "
-                />
-                <h1 className="block md:block lg:block lg:mb-100 text-7xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6]  whitespace-nowrap">
-                  Images Grid
-                </h1>
-              </div>
-            </div>
-            <ImageGrid />
-
-          </section>
           <section id='Events' className="flex flex-col items-center relative  px-4 p-10  bg-white rounded-[2rem] overflow-hidden">
             {/* <div className="w-[90%] flex justify-center">
               <Image
-                src="/assets/departments.webp"
+                src={cdn("/assets/departments.webp")}
                 alt="images grid"
                 width={300}
                 height={200}
@@ -328,7 +310,7 @@ export default function Page() {
             <div className="flex flex-col w-full items-center lg:items-center">
               <div className="flex flex-col items-center  max-w-fit"> {/* New container */}
                 <Image
-                  src="/assets/circlestop.webp"
+                  src={cdn("/assets/circlestop.webp")}
                   alt="arrowdesign"
                   width={366}
                   height={9}
@@ -342,8 +324,28 @@ export default function Page() {
             <DepGrid />
           </section>
 
-          <section id='Events' className="flex flex-col items-center relative md:h-[70vh]  px-4 p-10  bg-white rounded-t-[2rem] overflow-hidden">
+          <section className="flex flex-col items-center justify-center relative p-10 bg-white rounded-[2rem] overflow-hidden">
+            <div className="flex flex-col w-full items-center lg:items-center">
+              <div className="flex flex-col items-center  max-w-fit"> {/* New container */}
+                <Image
+                  src={cdn("/assets/circlestop.webp")}
+                  alt="arrowdesign"
+                  width={366}
+                  height={9}
+                  className="w-[75%] object-cover mb-4 "
+                />
+                <h1 className="block md:block lg:block lg:mb-100 text-7xl md:text-9xl lg:text-9xl text-center lg:text-left font-dimension text-[#0B91A6]  whitespace-nowrap">
+                  Images Grid
+                </h1>
+              </div>
+            </div>
+            <ImageGrid />
+
+          </section>
+
+          <section id='Events' className="flex flex-col items-center relative lg:h-[75vh]  px-4 pt-10  bg-white rounded-t-[2rem] overflow-hidden">
             <ComprehensiveFooter />
+            <p className='text-white'>01101110 01100101 01110010 01100100</p>
           </section>
         </div>
       </main >
