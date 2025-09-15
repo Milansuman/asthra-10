@@ -33,6 +33,8 @@ export function EventEditPage({ data, departments }: Props) {
   const [department, setDepartment] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [dayFilter, setDayFilter] = useState('all');
+  const [timeFilter, setTimeFilter] = useState('all');
 
   const onDelete = (id: string) => {
     deleteEventMutation.mutate({ id }, {
@@ -69,9 +71,28 @@ export function EventEditPage({ data, departments }: Props) {
     return event.eventStatus === statusFilter;
   };
 
+  const matchesDayFilter = (event: z.infer<typeof eventZod>) => {
+    if (dayFilter === 'all') return true;
+    if (dayFilter === 'day1') {
+      return event.dateTimeStarts >= new Date("2025-09-19T00:00:00.000Z") && event.dateTimeStarts <= new Date("2025-09-19T23:59:59.999Z");
+    } else if (dayFilter === 'day2') {
+      return event.dateTimeStarts >= new Date("2025-09-20T00:00:00.000Z") && event.dateTimeStarts <= new Date("2025-09-20T23:59:59.999Z");
+    }
+    return false;
+  };
+
+  const matchesTimeFilter = (event: z.infer<typeof eventZod>) => {
+    if (timeFilter === 'all') return true;
+    if (timeFilter === 'morning') {
+      return event.dateTimeStarts.getHours() >= 9 && event.dateTimeStarts.getHours() < 13;
+    } else if (timeFilter === 'afternoon') {
+      return event.dateTimeStarts.getHours() >= 13 && event.dateTimeStarts.getHours() < 17;
+    } return false;
+  };
+
   // Filter the events based on department, search query, and status
   const filteredEvents = localData.filter(
-    (event) => isDepartment(event) && matchesSearchQuery(event) && matchesStatusFilter(event)
+    (event) => isDepartment(event) && matchesSearchQuery(event) && matchesStatusFilter(event) && matchesDayFilter(event) && matchesTimeFilter(event)
   );
 
   return (
@@ -124,6 +145,39 @@ export function EventEditPage({ data, departments }: Props) {
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="cancelled">Cancelled</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {/* day filter*/}
+        <Select
+          onValueChange={(value) => setDayFilter(value)}
+          defaultValue="all"
+        >
+          <SelectTrigger className="w-fit text-center">
+            <SelectValue placeholder="Day" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Days</SelectItem>
+            <SelectItem value="day1">DAY 1</SelectItem>
+            <SelectItem value="day2">DAY 2</SelectItem>
+
+          </SelectContent>
+        </Select>
+
+        {/* time filter*/}
+        <Select
+          onValueChange={(value) => setTimeFilter(value)}
+          defaultValue="all"
+        >
+          <SelectTrigger className="w-fit text-center">
+            <SelectValue placeholder="Time slot" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Times</SelectItem>
+            <SelectItem value="morning">Morning (9am - 1pm)</SelectItem>
+            <SelectItem value="afternoon">Afternoon (1pm - 5pm)</SelectItem>
+
+
           </SelectContent>
         </Select>
       </div>
