@@ -221,7 +221,7 @@ const UploadMediaInline: React.FC<UploadMediaInlineProps> = ({ value, onChange, 
         <Card className="p-4 bg-slate-50 border border-slate-200">
           <div className="flex items-start gap-4">
             <div className="relative">
-              <Image
+              <img
                 src={value}
                 alt="Event poster preview"
                 width={120}
