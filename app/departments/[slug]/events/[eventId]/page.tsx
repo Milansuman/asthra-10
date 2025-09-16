@@ -1,12 +1,16 @@
+'use client';
+
 import Header from '@/app/_components/header';
 import { NoiseTexture } from '@/components/noise-texture';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { departmentData } from '@/lib/departmentData';
-import { api } from '@/trpc/server';
+import { api } from '@/trpc/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cdn } from '@/lib/cdn';
 import { notFound } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 interface EventPageProps {
     params: {
@@ -35,7 +39,8 @@ export const faqItems: FAQItems = [
     },
 ];
 
-export default async function EventPage({ params }: EventPageProps) {
+export default function EventPage({ params }: EventPageProps) {
+    const [showSjcetDialog, setShowSjcetDialog] = useState(false);
 
     console.log("this is params:", params);
     // 1. Find the correct department using the first URL parameter
@@ -47,16 +52,26 @@ export default async function EventPage({ params }: EventPageProps) {
     }
 
     // 3. Fetch the specific event from the database
-    const event = await api.event.getSpecific({ id: params.eventId });
+    const { data: event, isLoading, error } = api.event.getSpecific.useQuery({ id: params.eventId });
 
     // 4. If event not found, show 404
-    if (!event) {
+    if (error || (!isLoading && !event)) {
         notFound();
     }
 
     // 5. Check if event is approved
-    if (event.eventStatus !== 'approved') {
+    if (event && event.eventStatus !== 'approved') {
         notFound();
+    }
+
+    // Show loading state
+    if (isLoading) {
+        return <div className="flex items-center justify-center min-h-screen bg-black text-white">Loading...</div>;
+    }
+
+    // If no event data, return null (will be handled by notFound above)
+    if (!event) {
+        return null;
     }
 
     const eventDate = new Date(event.dateTimeStarts).toLocaleDateString()
@@ -143,12 +158,30 @@ export default async function EventPage({ params }: EventPageProps) {
                                         <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
                                             EXHIBITION
                                         </button>
-                                        :
-                                        <Link href={event.redirectUrl ?? "#"}>
-                                            <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                        : event.eventType === "COMPETITION" ?
+                                            <button
+                                                type='button'
+                                                className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none"
+                                                style={{ backgroundColor: department.colors.fg }}
+                                                onClick={() => setShowSjcetDialog(true)}
+                                            >
                                                 REGISTER
                                             </button>
-                                        </Link>
+                                            :
+                                            event.redirectUrl ? (
+                                                <button
+                                                    type='button'
+                                                    className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none"
+                                                    style={{ backgroundColor: department.colors.fg }}
+                                                    onClick={() => window.open(event.redirectUrl!, '_blank')}
+                                                >
+                                                    REGISTER
+                                                </button>
+                                            ) : (
+                                                <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none opacity-50 cursor-not-allowed" style={{ backgroundColor: department.colors.fg }}>
+                                                    REGISTER
+                                                </button>
+                                            )
                                 }
                             </div>
                         </div>
@@ -183,6 +216,48 @@ export default async function EventPage({ params }: EventPageProps) {
                     </div>
                 </section>
             </main>
+
+            {/* SJCET Student Warning Dialog */}
+            <Dialog open={showSjcetDialog} onOpenChange={setShowSjcetDialog}>
+                <DialogContent className="max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="text-center text-xl font-semibold text-red-600">
+                            Registration Notice
+                        </DialogTitle>
+                        <DialogDescription className="text-center text-base text-gray-700 mt-4">
+                            If you are a SJCET student, you are not allowed to register for this event.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="flex flex-col gap-3 mt-6">
+                        <DialogClose asChild>
+                            <button
+                                className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                            >
+                                Cancel
+                            </button>
+                        </DialogClose>
+                        <DialogClose asChild>
+                            {event.redirectUrl ? (
+                                <button
+                                    className="w-full px-6 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
+                                    style={{ backgroundColor: department.colors.fg }}
+                                    onClick={() => window.open(event.redirectUrl!, '_blank')}
+                                >
+                                    Continue to Register
+                                </button>
+                            ) : (
+                                <button
+                                    className="w-full px-6 py-2 text-white rounded-lg opacity-50 cursor-not-allowed"
+                                    style={{ backgroundColor: department.colors.fg }}
+                                    disabled
+                                >
+                                    No Registration URL
+                                </button>
+                            )}
+                        </DialogClose>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
