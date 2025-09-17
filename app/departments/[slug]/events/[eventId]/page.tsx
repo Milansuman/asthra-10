@@ -121,7 +121,7 @@ export default function EventPage({ params }: EventPageProps) {
                     >
                         {department.name}
                     </h1>
-                    <div className='max-w-6xl flex flex-wrap mx-auto  justify-center  gap-16 '>
+                    <div className='max-w-6xl flex flex-wrap items-start mx-auto  justify-center  gap-16 '>
                         <div className="w-full md:w-1/3 flex-shrink-0 flex items-center justify-center mb-0 min-w-[296px]">
                             <img
                                 src={event.poster || cdn("/assets/poster.png")}
