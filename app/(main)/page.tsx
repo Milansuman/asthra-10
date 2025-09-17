@@ -81,7 +81,7 @@ export default function Page() {
                 height={100}
                 className="w-auto h-36"
               />
-              <Image
+              <img
                 src={cdn("/assets/final.webp")}
                 alt="logo"
                 width={900}
@@ -95,7 +95,7 @@ export default function Page() {
                 height={600}
                 className="hidden lg:hidden md:block"
               /> */}
-              <Image
+              <img
                 src={cdn("/assets/mobile_landing.webp")}
                 alt="logo"
                 width={350}
