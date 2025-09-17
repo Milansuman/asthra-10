@@ -343,7 +343,7 @@ export default function Page() {
 
           </section>
 
-          <section id='Events' className="flex flex-col items-center relative lg:h-[85vh]  px-4 pt-10  bg-white rounded-t-[2rem] overflow-hidden">
+          <section id='Events' className="flex flex-col items-center relative lg:h-[70vh]  px-4 pt-10  bg-white rounded-t-[2rem] overflow-hidden">
             <ComprehensiveFooter />
             <p className='text-white'>01101110 01100101 01110010 01100100</p>
           </section>
