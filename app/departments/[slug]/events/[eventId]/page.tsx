@@ -73,8 +73,10 @@ export default function EventPage({ params }: EventPageProps) {
     if (!event) {
         return null;
     }
+    const eventDate = new Date(event.dateTimeStarts).toLocaleDateString();
+    const eventTime = new Date(event.dateTimeStarts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    const eventDate = new Date(event.dateTimeStarts).toLocaleDateString()
+
     const eventFee = event.amount > 0 ? `₹${event.amount}` : 'Free'
     return (
         // We'll theme the entire page with the department's colors
@@ -135,12 +137,17 @@ export default function EventPage({ params }: EventPageProps) {
                             <p className="event-desc text-xl md:text-lg text-black text-justify mb-4 whitespace-pre-line">{event.description}</p>
                             <p className="event-desc text-xl md:text-lg text-black text-justify mb-4">Venue: {event.venue}</p>
                             <p className='text-red-700'>*If you've already registered/paid for this event, please check your email for the ticket.</p>
-                            <div className='flex flex-col md:flex-row justify-between items-center flex-wrap '>
-                                <div className="flex gap-2 justify-center mb-4 md:mb-0  py-2">
+                            <div className='flex flex-col md:flex-row justify-between items-center  flex-wrap '>
+                                <div className="flex flex-wrap gap-2 justify-center mb-4 md:mb-0  py-2">
                                     <span
                                         className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
                                     >
                                         Date : {eventDate}
+                                    </span>
+                                    <span
+                                        className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
+                                    >
+                                        {eventTime}
                                     </span>
                                     <span
                                         className="px-7 py-2 md:py-3 rounded-full border-2 border-[#2D2926] bg-transparent text-[#2D2926] text-base font-semibold text-center shadow-[inset_0_2px_4px_#e4d4c2]"
@@ -153,36 +160,38 @@ export default function EventPage({ params }: EventPageProps) {
                                         Reg Fees : {eventFee}
                                     </span>
                                 </div>
-                                {
-                                    event.eventType === "EXHIBITION" ?
-                                        <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
-                                            EXHIBITION
-                                        </button>
-                                        : event.eventType === "COMPETITION" && department.name != "General Events" ?
-                                            <button
-                                                type='button'
-                                                className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none"
-                                                style={{ backgroundColor: department.colors.fg }}
-                                                onClick={() => setShowSjcetDialog(true)}
-                                            >
-                                                REGISTER
+                                <div className="flex flex-row justify-center w-full mt-3">
+                                    {
+                                        event.eventType === "EXHIBITION" ?
+                                            <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none" style={{ backgroundColor: department.colors.fg }}>
+                                                EXHIBITION
                                             </button>
-                                            :
-                                            event.redirectUrl ? (
+                                            : event.eventType === "COMPETITION" && department.name != "General Events" ?
                                                 <button
                                                     type='button'
                                                     className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none"
                                                     style={{ backgroundColor: department.colors.fg }}
-                                                    onClick={() => window.open(event.redirectUrl!, '_blank')}
+                                                    onClick={() => setShowSjcetDialog(true)}
                                                 >
                                                     REGISTER
                                                 </button>
-                                            ) : (
-                                                <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none opacity-50 cursor-not-allowed" style={{ backgroundColor: department.colors.fg }}>
-                                                    REGISTER
-                                                </button>
-                                            )
-                                }
+                                                :
+                                                event.redirectUrl ? (
+                                                    <button
+                                                        type='button'
+                                                        className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none"
+                                                        style={{ backgroundColor: department.colors.fg }}
+                                                        onClick={() => window.open(event.redirectUrl!, '_blank')}
+                                                    >
+                                                        REGISTER
+                                                    </button>
+                                                ) : (
+                                                    <button type='button' className=" text-white text-xl  font-normal px-7 py-2 rounded-full tracking-normal shadow-none border-none outline-none opacity-50 cursor-not-allowed" style={{ backgroundColor: department.colors.fg }}>
+                                                        REGISTER
+                                                    </button>
+                                                )
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
