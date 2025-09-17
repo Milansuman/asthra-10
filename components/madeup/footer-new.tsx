@@ -96,6 +96,16 @@ export default function ComprehensiveFooter() {
                                 <p>Prof.Manish Jose : +91 9447764273</p>
                             </div>
                         </div>
+                        <div> <br />
+                            <h4 className="text-base font-semibold mb-4">Technical Support</h4>
+                            <div className="space-y-2 text-sm text-black">
+                                <p>Milan Suman : +91 8921964884
+                                </p>
+                                <p>Shaun M R : +91 9778175123
+                                </p>
+                                <p>Abhijith S : +91 7306289673</p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Right Section - Asthra Logo & Faculty */}
