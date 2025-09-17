@@ -1,23 +1,22 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link'; // 1. Import the Link component
+import Link from 'next/link';
 import { cdn } from '@/lib/cdn';
 
 // Define the shape of the data
 interface Dep {
-    slug: string; // 2. Added a 'slug' for linking
+    slug: string;
     backgroundSrc: string;
     foregroundSrc: string;
 }
 
-// 3. Added the 'slug' property to your existing data array
 const depData: Dep[] = [
     { slug: 'ad', backgroundSrc: cdn("/assets/department_bg/ad_bg.webp"), foregroundSrc: cdn("/assets/department/AD.svg") },
     { slug: 'mba', backgroundSrc: cdn("/assets/department_bg/mba_bg.webp"), foregroundSrc: cdn("/assets/department/MBA.svg") },
     { slug: 'ca', backgroundSrc: cdn("/assets/department_bg/ca_bg.webp"), foregroundSrc: cdn("/assets/department/CA.svg") },
     { slug: 'mca', backgroundSrc: cdn("/assets/department_bg/mca_bg.webp"), foregroundSrc: cdn("/assets/department/MCA.svg") },
+   
+    { slug: 'mca', backgroundSrc: cdn("/assets/department_bg/mca_bg.webp"), foregroundSrc: cdn("/assets/department/MCA.svg") },
     { slug: 'ece', backgroundSrc: cdn("/assets/department_bg/ece_bg.webp"), foregroundSrc: cdn("/assets/department/ECE.svg") },
-    { slug: 'er', backgroundSrc: cdn("/assets/department_bg/er_bg.webp"), foregroundSrc: cdn("/assets/department/ER.svg") },
     { slug: 'eee', backgroundSrc: cdn("/assets/department_bg/eee_bg.webp"), foregroundSrc: cdn("/assets/department/EEE.svg") },
     { slug: 'civil', backgroundSrc: cdn("/assets/department_bg/civil_bg.webp"), foregroundSrc: cdn("/assets/department/CIVIL.svg") },
     { slug: 'mec', backgroundSrc: cdn("/assets/department_bg/mec_bg.webp"), foregroundSrc: cdn("/assets/department/MEC.svg") },
@@ -29,22 +28,16 @@ const depData: Dep[] = [
 const GridCell = ({ backgroundSrc, foregroundSrc }: Omit<Dep, 'slug'>) => {
     return (
         <div className="group relative rounded-xl overflow-hidden border border-gray-300 shadow-sm aspect-[4/3]">
-            <Image
+            <img
                 src={backgroundSrc}
-                alt="Dep background"
-                fill
-                className="object-cover z-10 transition-all duration-300 ease-in-out group-hover:opacity-60"
+                alt="Department background"
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-300 ease-in-out group-hover:opacity-60"
             />
-            <div
-                className="absolute inset-0 m-auto w-3/4 h-3/4 z-20 
-                           transition-all duration-300 ease-in-out 
-                           group-hover:scale-110"
-            >
-                <Image
+            <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out group-hover:scale-110">
+                <img
                     src={foregroundSrc}
-                    alt="Dep logo"
-                    fill
-                    className="object-contain"
+                    alt="Department logo"
+                    className="w-3/4 h-3/4 object-contain"
                 />
             </div>
         </div>
