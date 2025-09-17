@@ -14,8 +14,8 @@ const depData: Dep[] = [
     { slug: 'mba', backgroundSrc: cdn("/assets/department_bg/mba_bg.webp"), foregroundSrc: cdn("/assets/department/MBA.svg") },
     { slug: 'ca', backgroundSrc: cdn("/assets/department_bg/ca_bg.webp"), foregroundSrc: cdn("/assets/department/CA.svg") },
     { slug: 'mca', backgroundSrc: cdn("/assets/department_bg/mca_bg.webp"), foregroundSrc: cdn("/assets/department/MCA.svg") },
-   
-    { slug: 'mca', backgroundSrc: cdn("/assets/department_bg/mca_bg.webp"), foregroundSrc: cdn("/assets/department/MCA.svg") },
+
+    { slug: 'er', backgroundSrc: cdn("/assets/department_bg/er_bg.webp"), foregroundSrc: cdn("/assets/department/ER.svg") },
     { slug: 'ece', backgroundSrc: cdn("/assets/department_bg/ece_bg.webp"), foregroundSrc: cdn("/assets/department/ECE.svg") },
     { slug: 'eee', backgroundSrc: cdn("/assets/department_bg/eee_bg.webp"), foregroundSrc: cdn("/assets/department/EEE.svg") },
     { slug: 'civil', backgroundSrc: cdn("/assets/department_bg/civil_bg.webp"), foregroundSrc: cdn("/assets/department/CIVIL.svg") },
