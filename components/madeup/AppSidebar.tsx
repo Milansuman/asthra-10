@@ -18,6 +18,7 @@ import {
   Home,
   Camera,
   Clock,
+  KeyRound
 } from "lucide-react";
 
 import {
@@ -134,6 +135,12 @@ const sidebarItems: SidebarItemData[] = [
   //   label: "Cron Jobs",
   //   link: "/dashboard/cron",
   // },
+
+  {
+    icon: <KeyRound size={20} />,
+    label: "Event Password",
+    link: "/dashboard/eventPass",
+  },
 ];
 
 function SidebarItem({ item }: { item: SidebarItemData }) {

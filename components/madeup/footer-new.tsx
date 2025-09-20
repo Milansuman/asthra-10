@@ -76,24 +76,59 @@ export default function ComprehensiveFooter() {
                             </p>
                         </div>
 
-                        {/* Registration Helpline */}
-                        <div className="mb-6">
-                            <h4 className="text-base font-semibold mb-4">Student Coordinators</h4>
-                            <div className="space-y-2 text-sm text-black">
-                                <p>Ajaykrishnan B : +91 8590284832
-                                </p>
-                                <p>Annu Jaison : +91 6282271359</p>
-                                <p></p>
+                        {/* Coordinators Section */}
+                        <div className="flex flex-col lg:flex-row lg:gap-8 lg:justify-center w-full">
+                            {/* Student Coordinators */}
+                            <div className="mb-6 lg:mb-0 lg:min-w-0 lg:flex-1">
+                                <h4 className="text-base font-semibold mb-4 text-center lg:text-left">Student Coordinators</h4>
+                                <div className="space-y-3 text-sm text-black">
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Ajaykrishnan B</p>
+                                        <p className="whitespace-nowrap">+91 8590284832</p>
+                                    </div>
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Annu Jaison</p>
+                                        <p className="whitespace-nowrap">+91 6282271359</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <h4 className="text-base font-semibold mb-4">Faculty Coordinators</h4>
-                            <div className="space-y-2 text-sm text-black">
-                                <p>Dr.Anuja George : +91 7356110541
-                                </p>
-                                <p>Prof.Ashly Thomas : +91 9446803437
-                                </p>
-                                <p>Prof.Manish Jose : +91 9447764273</p>
+
+                            {/* Faculty Coordinators */}
+                            <div className="mb-6 lg:mb-0 lg:min-w-0 lg:flex-1">
+                                <h4 className="text-base font-semibold mb-4 text-center lg:text-left">Faculty Coordinators</h4>
+                                <div className="space-y-3 text-sm text-black">
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Dr. Anuja George</p>
+                                        <p className="whitespace-nowrap">+91 7356110541</p>
+                                    </div>
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Prof. Ashly Thomas</p>
+                                        <p className="whitespace-nowrap">+91 9446803437</p>
+                                    </div>
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Prof. Manish Jose</p>
+                                        <p className="whitespace-nowrap">+91 9447764273</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Technical Support */}
+                            <div className="mb-6 lg:mb-0 lg:min-w-0 lg:flex-1">
+                                <h4 className="text-base font-semibold mb-4 text-center lg:text-left">Technical Support</h4>
+                                <div className="space-y-3 text-sm text-black">
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Milan Suman</p>
+                                        <p className="whitespace-nowrap">+91 8921964884</p>
+                                    </div>
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Shaun M R</p>
+                                        <p className="whitespace-nowrap">+91 9778175123</p>
+                                    </div>
+                                    <div className="text-center lg:text-left">
+                                        <p className="font-medium">Abhijith S</p>
+                                        <p className="whitespace-nowrap">+91 7306289673</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
