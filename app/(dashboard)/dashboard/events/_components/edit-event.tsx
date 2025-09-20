@@ -74,9 +74,9 @@ export function EventEditPage({ data, departments }: Props) {
   const matchesDayFilter = (event: z.infer<typeof eventZod>) => {
     if (dayFilter === 'all') return true;
     if (dayFilter === 'day1') {
-      return event.dateTimeStarts >= new Date("2025-09-19T00:00:00.000Z") && event.dateTimeStarts <= new Date("2025-09-19T23:59:59.999Z");
+      return event.dateTimeStarts >= new Date("2025-09-19T00:00:00.000Z") && event.dateTimeStarts <= new Date("2025-09-19T23:59:59.999Z") && event.dateTimeEnd !== "2 FULL DAYS";
     } else if (dayFilter === 'day2') {
-      return event.dateTimeStarts >= new Date("2025-09-20T00:00:00.000Z") && event.dateTimeStarts <= new Date("2025-09-20T23:59:59.999Z");
+      return (event.dateTimeStarts >= new Date("2025-09-19T00:00:00.000Z") && event.dateTimeEnd === "2 FULL DAYS") || event.dateTimeStarts >= new Date("2025-09-20T00:00:00.000Z");
     }
     return false;
   };
